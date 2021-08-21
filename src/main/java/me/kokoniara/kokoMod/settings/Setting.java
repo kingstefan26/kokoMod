@@ -2,6 +2,8 @@ package me.kokoniara.kokoMod.settings;
 
 import java.util.ArrayList;
 
+import me.kokoniara.kokoMod.config.configObject;
+import me.kokoniara.kokoMod.kokoMod;
 import me.kokoniara.kokoMod.module.Module;
 
 /**
@@ -11,11 +13,13 @@ import me.kokoniara.kokoMod.module.Module;
  *
  *  @author HeroCode
  */
+
 public class Setting {
-	
+
+
 	private String name;
 	private Module parent;
-	private String mode;
+	private settingType mode;
 	
 	private String sval;
 	private ArrayList<String> options;
@@ -33,14 +37,14 @@ public class Setting {
 		this.parent = parent;
 		this.sval = sval;
 		this.options = options;
-		this.mode = "Combo";
+		this.mode = settingType.COMBO;
 	}
 	
 	public Setting(String name, Module parent, boolean bval){
 		this.name = name;
 		this.parent = parent;
 		this.bval = bval;
-		this.mode = "Check";
+		this.mode = settingType.CHECK;
 	}
 	
 	public Setting(String name, Module parent, double dval, double min, double max, boolean onlyint){
@@ -50,12 +54,15 @@ public class Setting {
 		this.min = min;
 		this.max = max;
 		this.onlyint = onlyint;
-		this.mode = "Slider";
+		this.mode = settingType.SLIDER;
 	}
 	
 	public String getName(){
+
 		return name;
 	}
+
+	public settingType getMode(){ return mode;}
 	
 	public Module getParentMod(){
 		return parent;
@@ -78,6 +85,7 @@ public class Setting {
 	}
 	
 	public void setValBoolean(boolean in){
+
 		this.bval = in;
 	}
 	
@@ -101,15 +109,27 @@ public class Setting {
 	}
 	
 	public boolean isCombo(){
-		return this.mode.equalsIgnoreCase("Combo") ? true : false;
+		if(this.mode == settingType.COMBO){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public boolean isCheck(){
-		return this.mode.equalsIgnoreCase("Check") ? true : false;
+		if(this.mode == settingType.CHECK){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public boolean isSlider(){
-		return this.mode.equalsIgnoreCase("Slider") ? true : false;
+		if(this.mode == settingType.SLIDER){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public boolean onlyInt(){

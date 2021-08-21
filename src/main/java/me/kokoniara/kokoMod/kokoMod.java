@@ -1,5 +1,6 @@
 package me.kokoniara.kokoMod;
 
+import me.kokoniara.kokoMod.config.configMenager;
 import org.lwjgl.input.Keyboard;
 
 import me.kokoniara.kokoMod.clickgui.ClickGui;
@@ -17,6 +18,8 @@ public class kokoMod
     public ModuleManager moduleManager;
     public SettingsManager settingsManager;
     public ClickGui clickGui;
+    public configMenager configMenagerINSTANCE;
+
     
     public void init() {
         

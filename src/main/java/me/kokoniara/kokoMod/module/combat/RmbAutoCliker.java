@@ -24,7 +24,7 @@ public class RmbAutoCliker extends Module {
     private double max;
 
     public RmbAutoCliker() {
-        super("RmbAutoClicker", "Automatically clicks when you hold down right click", Category.COMBAT);
+        super("RmbAutoClicker", "Automatically clicks when you hold down right click", Category.COMBAT, true, "rmb autoclicker enabled", "rmb autoclicker disabled");
 
         kokoMod.instance.settingsManager.rSetting(new Setting("RbmMinCPS", this, 8, 1, 20, false));
         kokoMod.instance.settingsManager.rSetting(new Setting("RbmMaxCPS", this, 12, 1, 20, false));
@@ -50,8 +50,8 @@ public class RmbAutoCliker extends Module {
     }
 
     private void updateVals() {
-        min = kokoMod.instance.settingsManager.getSettingByName(this, "RbmMinCPS").getValDouble();
-        max = kokoMod.instance.settingsManager.getSettingByName(this, "RbmMaxCPS").getValDouble();
+        min = kokoMod.instance.settingsManager.getSettingByName("RbmMinCPS").getValDouble();
+        max = kokoMod.instance.settingsManager.getSettingByName("RbmMaxCPS").getValDouble();
 
         if (min >= max) {
             max = min + 1;
@@ -65,12 +65,6 @@ public class RmbAutoCliker extends Module {
     public void onEnable() {
         super.onEnable();
         updateVals();
-        sendChatMessage.sendClientMessage(" rmb autoclicker enabled", true);
     }
 
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        sendChatMessage.sendClientMessage(" rmb autoclicker disabled", true);
-    }
 }

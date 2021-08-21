@@ -1,6 +1,6 @@
 package me.kokoniara.kokoMod.module.render;
 
-import me.kokoniara.kokoMod.util.renderEsp;
+import me.kokoniara.kokoMod.util.renderUtil.renderEsp;
 import me.kokoniara.kokoMod.module.Category;
 import me.kokoniara.kokoMod.module.Module;
 import net.minecraft.client.Minecraft;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class BatEsp extends Module {
 
     public BatEsp(){
-        super("BatEsp", "shows location of bats", Category.RENDER);
+        super("BatEsp", "shows location of bats", Category.RENDER, true, "enabled batEsp", "disabled batEsp");
     }
 
     @SubscribeEvent

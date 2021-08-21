@@ -24,7 +24,7 @@ public class LmbAutoCliker extends Module {
 	private double max;
 
 	public LmbAutoCliker() {
-		super("LmbAutoClicker", "Automatically clicks when you hold down left click", Category.COMBAT);
+		super("LmbAutoClicker", "Automatically clicks when you hold down left click", Category.COMBAT, true, "lmb autoclicker enabled", "lmb autoclicker disabled");
 
 		kokoMod.instance.settingsManager.rSetting(new Setting("LbmMinCPS", this, 8, 1, 20, false));
 		kokoMod.instance.settingsManager.rSetting(new Setting("LbmMaxCPS", this, 12, 1, 20, false));
@@ -50,8 +50,8 @@ public class LmbAutoCliker extends Module {
 	}
 
 	private void updateVals() {
-		min = kokoMod.instance.settingsManager.getSettingByName(this, "LbmMinCPS").getValDouble();
-		max = kokoMod.instance.settingsManager.getSettingByName(this, "LbmMaxCPS").getValDouble();
+		min = kokoMod.instance.settingsManager.getSettingByName("LbmMinCPS").getValDouble();
+		max = kokoMod.instance.settingsManager.getSettingByName("LbmMaxCPS").getValDouble();
 
 		if (min >= max) {
 			max = min + 1;
@@ -65,12 +65,6 @@ public class LmbAutoCliker extends Module {
 	public void onEnable() {
 		super.onEnable();
 		updateVals();
-		sendChatMessage.sendClientMessage(" lmb autoclicker enabled", true);
 	}
 
-	@Override
-	public void onDisable() {
-		super.onDisable();
-		sendChatMessage.sendClientMessage(" lmb autoclicker disabled", true);
-	}
 }

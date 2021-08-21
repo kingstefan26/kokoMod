@@ -1,5 +1,6 @@
 package me.kokoniara.kokoMod.clickgui.component.components.sub;
 
+import me.kokoniara.kokoMod.kokoMod;
 import org.lwjgl.opengl.GL11;
 
 import me.kokoniara.kokoMod.clickgui.component.Component;
@@ -53,7 +54,7 @@ public class Checkbox extends Component {
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
 		if(isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-			this.op.setValBoolean(!op.getValBoolean());;
+			this.op.setValBoolean(!op.getValBoolean());
 		}
 	}
 	

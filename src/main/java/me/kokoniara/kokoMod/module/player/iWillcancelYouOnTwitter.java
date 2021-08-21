@@ -12,9 +12,8 @@ public class iWillcancelYouOnTwitter extends Module {
     private long lastSpam;
     private double speed;
     public iWillcancelYouOnTwitter(){
-        super("twitterWhiteGirls", "white twitter girls are the downfal on sociaty", Category.PLAYER);
-        kokoMod.instance.settingsManager.rSetting(new Setting("cancel speed", this, 12, 1, 20, false));
-
+        super("twitterWhiteGirls", "white twitter girls are the downfall on society", Category.PLAYER, true, " iwillcancelyou enabled", " iwillcancelyou disabled");
+        kokoMod.instance.settingsManager.rSetting(new Setting("cancel speed", this, 12, 1, 20, true));
     }
 
     @SubscribeEvent
@@ -22,20 +21,15 @@ public class iWillcancelYouOnTwitter extends Module {
         if(System.currentTimeMillis() - lastSpam > speed * 100){
             sendChatMessage.sendClientMessage("ur canceled !", false);
             lastSpam = System.currentTimeMillis();
+
         }
     }
 
     @Override
     public void onEnable(){
         super.onEnable();
-        speed = kokoMod.instance.settingsManager.getSettingByName(this, "cancel speed").getValDouble();
+        speed = kokoMod.instance.settingsManager.getSettingByName("cancel speed").getValDouble();
         lastSpam = System.currentTimeMillis();
-        sendChatMessage.sendClientMessage("iwillcancelyou enabled", true);
     }
 
-    @Override
-    public void onDisable(){
-        super.onDisable();
-        sendChatMessage.sendClientMessage("iwillcancelyou disabled", true);
-    }
 }

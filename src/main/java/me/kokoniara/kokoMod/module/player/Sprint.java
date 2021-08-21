@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class Sprint extends Module {
 
 	public Sprint() {
-		super("Sprint", "Always holds down the sprint key", Category.MOVEMENT);
+		super("Sprint", "Always holds down the sprint key", Category.MOVEMENT, true, " toggleSprint enabled", " toggleSprint disabled");
 	}
 	
 	@SubscribeEvent

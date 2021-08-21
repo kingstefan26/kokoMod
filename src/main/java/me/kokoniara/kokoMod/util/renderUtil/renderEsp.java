@@ -1,4 +1,4 @@
-package me.kokoniara.kokoMod.util;
+package me.kokoniara.kokoMod.util.renderUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -132,6 +132,19 @@ public class renderEsp {
 
         //255, 252, 0
         GL11.glColor3f(1F, 1F, 0F);  // change color an set alpha
+
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+
+        GL11.glVertex3d(posA.xCoord, posA.yCoord, posA.zCoord);
+        GL11.glVertex3d(posB.xCoord, posB.yCoord, posB.zCoord);
+
+        GL11.glEnd();
+    }
+
+    private static void drawLineWithGL(Vec3 posA, Vec3 posB, float red,float green,float blue,float alpha){
+
+        //255, 252, 0
+        GL11.glColor4f(red, green, blue, alpha);  // change color an set alpha
 
         GL11.glBegin(GL11.GL_LINE_STRIP);
 
