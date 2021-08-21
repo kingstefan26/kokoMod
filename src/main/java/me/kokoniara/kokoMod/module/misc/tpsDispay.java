@@ -1,19 +1,16 @@
 package me.kokoniara.kokoMod.module.misc;
 
-import me.kokoniara.kokoMod.kokoMod;
 import me.kokoniara.kokoMod.module.Category;
 import me.kokoniara.kokoMod.module.Module;
-import me.kokoniara.kokoMod.renderEngine.modules.drawCenterString;
-import me.kokoniara.kokoMod.renderEngine.renderEngine;
+import me.kokoniara.kokoMod.util.renderUtil.drawCenterString;
 import me.kokoniara.kokoMod.util.sendChatMessage;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class tpsDispay extends Module {
     private long lastTick;
     private long tps = 0;
-    private drawCenterString drawCenterString = new drawCenterString();
+    private drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
 
     public tpsDispay() {
         super("tpsMeter", "displays the tsp", Category.MISC, true, " enabled tps display", " disabled tps display");
@@ -38,7 +35,7 @@ public class tpsDispay extends Module {
             //sendChatMessage.sendClientMessage("server tick is late for: " + tps + " miliseconds", false);
         }
         if(System.currentTimeMillis() - this.lastTick >= 1000){
-            drawCenterString.GuiNotif(mc, "the server stopped responding sad");
+            drawCenterStringOBJ.GuiNotif(mc, "the server stopped responding sad");
 
         }
     }

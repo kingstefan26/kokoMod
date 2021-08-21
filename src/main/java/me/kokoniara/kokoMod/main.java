@@ -1,6 +1,6 @@
 package me.kokoniara.kokoMod;
 
-import me.kokoniara.kokoMod.util.updateWidowTitle;
+import me.kokoniara.kokoMod.util.renderUtil.updateWidowTitle;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;

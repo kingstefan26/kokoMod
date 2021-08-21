@@ -1,11 +1,9 @@
 package me.kokoniara.kokoMod.module.misc;
 
-import me.kokoniara.kokoMod.renderEngine.modules.drawCenterString;
+import me.kokoniara.kokoMod.util.renderUtil.drawCenterString;
 import me.kokoniara.kokoMod.module.Category;
 import me.kokoniara.kokoMod.module.Module;
 import me.kokoniara.kokoMod.util.sendChatMessage;
-
-import net.minecraft.client.Minecraft;
 
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -18,10 +16,9 @@ public class farmReadycane extends Module {
     public farmReadycane(){
         super("farmReady", "gets you ready to farm cane", Category.MISC, true, "farmReady-cane enabled", "farmReady-cane disabled");
     }
-    private Minecraft client = Minecraft.getMinecraft();
     public boolean toggled;
 
-    drawCenterString notifier = new drawCenterString();
+    private drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
     private long temptime;
 
 
@@ -37,28 +34,28 @@ public class farmReadycane extends Module {
         }
 
             if(System.currentTimeMillis() - temptime < 7 * 1000){
-                notifier.GuiNotif(client, "farm helper will lock your head postion on the right angle");
+                drawCenterStringOBJ.GuiNotif(mc, "farm helper will lock your head postion on the right angle");
             }
 
             if(!headlockCondition){
                 //updatePitchAndYaw();
-                playerYaw = Math.round(client.thePlayer.rotationYaw);
-                playerPitch = Math.round(client.thePlayer.rotationPitch);
+                playerYaw = Math.round(mc.thePlayer.rotationYaw);
+                playerPitch = Math.round(mc.thePlayer.rotationPitch);
                 boolean temp = playerYaw % 45 == 0 && playerPitch == 0;
                 headlockCondition = temp;
                 //headlockCondition = checkHeadCondition(playerPitch, playerYaw);
             }else{
                 Mouse.getDX();
                 Mouse.getDY();
-                client.mouseHelper.deltaX = client.mouseHelper.deltaY = 0;
+                mc.mouseHelper.deltaX = mc.mouseHelper.deltaY = 0;
             }
 
     }
 
     private void updatePitchAndYaw(){
         //gets the player yaw and pitch
-        playerYaw = Math.round(client.thePlayer.rotationYaw);
-        playerPitch = Math.round(client.thePlayer.rotationPitch);
+        playerYaw = Math.round(mc.thePlayer.rotationYaw);
+        playerPitch = Math.round(mc.thePlayer.rotationPitch);
     }
 
     private boolean checkHeadCondition(int playerPitch, int playerYaw){

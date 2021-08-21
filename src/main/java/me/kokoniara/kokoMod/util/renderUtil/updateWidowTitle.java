@@ -1,4 +1,4 @@
-package me.kokoniara.kokoMod.util;
+package me.kokoniara.kokoMod.util.renderUtil;
 
 import org.lwjgl.opengl.Display;
 

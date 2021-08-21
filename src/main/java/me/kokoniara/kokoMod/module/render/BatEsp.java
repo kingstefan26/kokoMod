@@ -1,6 +1,6 @@
 package me.kokoniara.kokoMod.module.render;
 
-import me.kokoniara.kokoMod.renderEngine.modules.renderEsp;
+import me.kokoniara.kokoMod.util.renderUtil.renderEsp;
 import me.kokoniara.kokoMod.module.Category;
 import me.kokoniara.kokoMod.module.Module;
 import net.minecraft.client.Minecraft;

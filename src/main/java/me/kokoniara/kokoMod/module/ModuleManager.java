@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import me.kokoniara.kokoMod.module.combat.LmbAutoCliker;
 import me.kokoniara.kokoMod.module.misc.amiTimedOut;
-import me.kokoniara.kokoMod.module.misc.caneMacro;
+import me.kokoniara.kokoMod.module.misc.macos.caneMacro;
 import me.kokoniara.kokoMod.module.misc.farmReadycane;
 import me.kokoniara.kokoMod.module.combat.RmbAutoCliker;
 import me.kokoniara.kokoMod.module.misc.tpsDispay;

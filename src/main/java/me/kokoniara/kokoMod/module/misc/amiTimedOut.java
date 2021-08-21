@@ -18,7 +18,4 @@ public class amiTimedOut extends Module {
         sendChatMessage.sendClientMessage("serverPing: " + serverPing, false);
     }
 
-
-
-
 }

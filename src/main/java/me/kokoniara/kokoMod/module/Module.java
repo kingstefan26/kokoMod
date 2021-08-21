@@ -1,21 +1,13 @@
 package me.kokoniara.kokoMod.module;
 
-import me.kokoniara.kokoMod.config.configObject;
-import me.kokoniara.kokoMod.kokoMod;
 import me.kokoniara.kokoMod.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.ConfigCategory;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-
-import static me.kokoniara.kokoMod.main.config;
 
 import java.util.UUID;
 
-import static me.kokoniara.kokoMod.config.confgValueType.KEYBIND;
 
 public class Module {
 	final String uuid = UUID.randomUUID().toString().replace("-", "");
@@ -31,8 +23,8 @@ public class Module {
 	private boolean toggled;
 	public boolean visible = true;
 	private boolean keybindEnabled = false;
-//	private Property keybindProp;
 	private KeyBinding fmlkeybindObject;
+
 
 
 	public Module(String name, String description, Category category,boolean keybindEnabled, String enableMessage, String disableMessage) {
@@ -46,16 +38,6 @@ public class Module {
 		if(keybindEnabled){
 			this.fmlkeybindObject = new KeyBinding(this.description, key, "kokoMod");
 			ClientRegistry.registerKeyBinding(this.fmlkeybindObject);
-//			try{
-//				config.load();
-//				keybindProp = config.get(Configuration.CATEGORY_GENERAL,
-//						this.name + "-keybind",
-//						0);
-//				this.key = keybindProp.getInt();
-//				config.save();
-//			}catch(Exception e){
-//				e.printStackTrace();
-//			}
 		}
 		this.category = category;
 		this.toggled = false;
@@ -85,13 +67,14 @@ public class Module {
 		}
 		return this.key;
 	}
+	public KeyBinding getKeyBindingObj() {
+		return this.fmlkeybindObject;
+	}
 
 	public void setKey(int key) {
 		this.key = key;
 		if(keybindEnabled){
 			this.fmlkeybindObject.setKeyCode(key);
-			//config.getCategory(Configuration.CATEGORY_GENERAL).get(this.name + "-keybind").set(key);
-			//config.save();
 		}
 	}
 
