@@ -1,6 +1,7 @@
 package me.kokoniara.kokoMod;
 
 import me.kokoniara.kokoMod.config.configMenager;
+import me.kokoniara.kokoMod.util.teleportListener;
 import org.lwjgl.input.Keyboard;
 
 import me.kokoniara.kokoMod.clickgui.ClickGui;
@@ -18,6 +19,7 @@ public class kokoMod
     public ModuleManager moduleManager;
     public SettingsManager settingsManager;
     public ClickGui clickGui;
+    teleportListener teleportListenerOBJ;
     public configMenager configMenagerINSTANCE;
 
     
@@ -26,6 +28,7 @@ public class kokoMod
     	settingsManager = new SettingsManager();
     	moduleManager = new ModuleManager();
     	clickGui = new ClickGui();
+    	teleportListenerOBJ = teleportListener.getTeleportListner();
     }
     
     @SubscribeEvent
