@@ -86,6 +86,7 @@ public class caneMacro extends Module {
             Mouse.getDX();
             Mouse.getDY();
             mc.mouseHelper.deltaX = mc.mouseHelper.deltaY = 0;
+            Mouse.setGrabbed(false);
             keyboardLocker.lockKeyboard();
 
 
@@ -134,22 +135,27 @@ public class caneMacro extends Module {
 //                    }
 //
 //                }
+                if(!playerTeleported){
+                    macroStages t = nextWalkStage(macroWalkStage, playerSpeed);
+                    if(t != null) {
+                        macroWalkStage = t;
+                    }
+                }
                 if(playerTeleported){
                     playerTeleported = false;
                     macroWalkStage = RIGHT;
-                }else{
-                    macroWalkStage = nextWalkStage(macroWalkStage, playerSpeed);
                 }
 
             }
 
             macroWalk(macroWalkStage);
+
         }
 
     }
 
     private macroStages nextWalkStage(macroStages currentWalkStage, double PlayerSpeed) {
-        macroStages temp = DEFAULT;
+        macroStages temp = null;
         if(PlayerSpeed <= 0.1F){
             //rules to what happen if the player stopped moving
             switch (currentWalkStage){
@@ -227,8 +233,10 @@ public class caneMacro extends Module {
 
     @SubscribeEvent
     public void onPlayerTeleportEvent(playerTeleported event) {
-        sendChatMessage.sendClientMessage(" teleport detected, changing walk stage to right!", true);
-        playerTeleported = true;
+        if(ismacroingReady){
+            sendChatMessage.sendClientMessage(" teleport detected, changing walk stage to right!", true);
+            playerTeleported = true;
+        }
     }
 
     /*
