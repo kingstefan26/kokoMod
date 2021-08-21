@@ -2,13 +2,16 @@ package me.kokoniara.kokoMod.module.misc.macos;
 
 import me.kokoniara.kokoMod.module.Category;
 import me.kokoniara.kokoMod.module.Module;
-import me.kokoniara.kokoMod.module.misc.macos.macroStages;
+import me.kokoniara.kokoMod.util.playerTeleported;
 import me.kokoniara.kokoMod.util.renderUtil.drawCenterString;
 import me.kokoniara.kokoMod.util.KeyboardLocker;
 import me.kokoniara.kokoMod.util.sendChatMessage;
+import me.kokoniara.kokoMod.util.teleportListener;
+
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.KeyBinding;
+
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -17,12 +20,14 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import static me.kokoniara.kokoMod.module.misc.macos.macroStages.RIGHT;
+import static me.kokoniara.kokoMod.module.misc.macos.macroStages.*;
 
 public class caneMacro extends Module {
 
     private drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
-    KeyboardLocker keyboardLocker = KeyboardLocker.getKeyboardLocker();
+
+    private KeyboardLocker keyboardLocker = KeyboardLocker.getKeyboardLocker();
+
 
     private EntityPlayerSP player;
 
@@ -30,12 +35,12 @@ public class caneMacro extends Module {
     private macroStages macroWalkStage = macroStages.DEFAULT;
     private macroStages lastmacroWalkStage = macroWalkStage.DEFAULT;
 
-
+    private boolean playerTeleported;
     private long playerSpeedCheckTimer;
     private int playerYaw;
     private int playerPitch;
     private double playerSpeed;
-    private long distanceWalked;
+    private double distanceWalked;
 
     public caneMacro(){
         super("cane macro", "macros cane!", Category.MISC, true," cane macro enabed"," cane macro disabled");
@@ -44,6 +49,7 @@ public class caneMacro extends Module {
     @SubscribeEvent
     public void onClientTick(TickEvent.RenderTickEvent event) {
         if( mc == null || mc.theWorld == null || mc.thePlayer == null ) return;
+
 
         /*
         prevents you form using the mod without a keybind
@@ -58,15 +64,11 @@ public class caneMacro extends Module {
 
         //get player speed to see if we reached the end of the farm already
         playerSpeed = player.getDistance(player.lastTickPosX, player.lastTickPosY, player.lastTickPosZ);
-        //add that speed to see how much distance we walked so far
-        distanceWalked = distanceWalked + (long)playerSpeed;
 
         //that runs if we just stared the module, checks if we can start moving and breaking
         if(!ismacroingReady){
             //notify the user what we want them to do
             drawCenterStringOBJ.GuiNotif(mc, "macro will start when you lock your head postion on the right angle");
-
-
 
             //update player pitch and yaw with up to date info
             playerYaw = Math.round(mc.thePlayer.rotationYaw);
@@ -85,6 +87,8 @@ public class caneMacro extends Module {
             Mouse.getDY();
             mc.mouseHelper.deltaX = mc.mouseHelper.deltaY = 0;
             keyboardLocker.lockKeyboard();
+
+
 
             //checks if we just started
             if(macroWalkStage == macroStages.HOLD){
@@ -116,38 +120,48 @@ public class caneMacro extends Module {
                 //reset the timer
                 this.playerSpeedCheckTimer = System.currentTimeMillis();
 
-                //if player is not moving
-                if(playerSpeed <= 0.1F){
-
-                    //rules to what happen if the player stopped moving
-                    switch (macroWalkStage){
-                        case RIGHT: //if player was moving right now we move down
-                            macroWalkStage = macroStages.BOTTOM;
-                            break;
-                        case BOTTOM: //if player was moving down now we move right
-                            macroWalkStage = RIGHT;
-                            break;
-                    }
-
+//                //if player is not moving
+//                if(playerSpeed <= 0.1F){
+//
+//                    //rules to what happen if the player stopped moving
+//                    switch (macroWalkStage){
+//                        case RIGHT: //if player was moving right now we move down
+//                            macroWalkStage = macroStages.BOTTOM;
+//                            break;
+//                        case BOTTOM: //if player was moving down now we move right
+//                            macroWalkStage = RIGHT;
+//                            break;
+//                    }
+//
+//                }
+                if(playerTeleported){
+                    playerTeleported = false;
+                    macroWalkStage = RIGHT;
+                }else{
+                    macroWalkStage = nextWalkStage(macroWalkStage, playerSpeed);
                 }
 
-
             }
-
-
-////            executes the move motions as key presses
-//            if(macroWalkStage == macroStages.RIGHT){
-//                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
-//                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
-//            }
-//            if(macroWalkStage == macroStages.BOTTOM){
-//                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
-//                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
-//            }
 
             macroWalk(macroWalkStage);
         }
 
+    }
+
+    private macroStages nextWalkStage(macroStages currentWalkStage, double PlayerSpeed) {
+        macroStages temp = DEFAULT;
+        if(PlayerSpeed <= 0.1F){
+            //rules to what happen if the player stopped moving
+            switch (currentWalkStage){
+                case RIGHT: //if player was moving right now we move down
+                    temp = macroStages.BOTTOM;
+                    break;
+                case BOTTOM: //if player was moving down now we move right
+                    temp = macroStages.RIGHT;
+                    break;
+            }
+        }
+        return temp;
     }
 
     /*
@@ -182,7 +196,6 @@ public class caneMacro extends Module {
          }
     }
 
-
     @Override
     public void onEnable() {
         super.onEnable();
@@ -199,6 +212,7 @@ public class caneMacro extends Module {
         reset every variable & unpress every key on disable
          */
         ismacroingReady = false;
+        distanceWalked = 0;
         macroWalkStage = macroStages.DEFAULT;
         playerYaw = 0;
         playerPitch = 0;
@@ -209,6 +223,12 @@ public class caneMacro extends Module {
 
         //unlocks the keyboard
         keyboardLocker.unlockKeyboard();
+    }
+
+    @SubscribeEvent
+    public void onPlayerTeleportEvent(playerTeleported event) {
+        sendChatMessage.sendClientMessage(" teleport detected, changing walk stage to right!", true);
+        playerTeleported = true;
     }
 
     /*
