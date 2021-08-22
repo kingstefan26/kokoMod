@@ -1,4 +1,4 @@
-package me.kokoniara.kokoMod.util;
+package me.kokoniara.kokoMod.util.someStolenBs;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;

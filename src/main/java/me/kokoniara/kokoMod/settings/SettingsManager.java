@@ -67,6 +67,18 @@ public class SettingsManager {
 		return null;
 	}
 
+	public Setting getSettingByName(String name, Module mod){
+		for(Setting set : getSettings()){
+			if(set.getParentMod().equals(mod)){
+				if(set.getName().equalsIgnoreCase(name)){
+					return set;
+				}
+			}
+		}
+		System.err.println("[Tutorial] Error Setting NOT found: '" + name +"'!");
+		return null;
+	}
+
 
 
 }

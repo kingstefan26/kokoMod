@@ -1,5 +1,6 @@
 package me.kokoniara.kokoMod.util;
 
+import me.kokoniara.kokoMod.util.forgeEventClasses.playerTeleported;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;

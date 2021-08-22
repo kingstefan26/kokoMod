@@ -63,6 +63,7 @@ public class Setting {
 	}
 
 	public settingType getMode(){ return mode;}
+
 	
 	public Module getParentMod(){
 		return parent;
@@ -94,6 +95,10 @@ public class Setting {
 			this.dval = (int)dval;
 		}
 		return this.dval;
+	}
+
+	public int getValInt(){
+		return (int)dval;
 	}
 
 	public void setValDouble(double in){

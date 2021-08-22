@@ -1,4 +1,4 @@
-package me.kokoniara.kokoMod.util;
+package me.kokoniara.kokoMod.util.forgeEventClasses;
 
 import net.minecraftforge.fml.common.eventhandler.Event;
 

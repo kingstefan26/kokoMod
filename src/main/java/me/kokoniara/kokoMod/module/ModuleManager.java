@@ -7,6 +7,7 @@ import me.kokoniara.kokoMod.module.misc.amiTimedOut;
 import me.kokoniara.kokoMod.module.misc.macos.caneMacro;
 import me.kokoniara.kokoMod.module.misc.farmReadycane;
 import me.kokoniara.kokoMod.module.combat.RmbAutoCliker;
+import me.kokoniara.kokoMod.module.misc.macos.wartMacro;
 import me.kokoniara.kokoMod.module.misc.tpsDispay;
 import me.kokoniara.kokoMod.module.player.Sprint;
 import me.kokoniara.kokoMod.module.player.iWillcancelYouOnTwitter;
@@ -32,6 +33,7 @@ public class ModuleManager {
 		this.modules.add(new tpsDispay());
 		this.modules.add(new amiTimedOut());
 		this.modules.add(new caneMacro());
+		this.modules.add(new wartMacro());
 	}
 	
 	public Module getModule(String name) {
