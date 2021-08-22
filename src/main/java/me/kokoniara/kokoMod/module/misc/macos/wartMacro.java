@@ -97,7 +97,7 @@ public class wartMacro extends Module {
             Mouse.getDX();
             Mouse.getDY();
             mc.mouseHelper.deltaX = mc.mouseHelper.deltaY = 0;
-
+            mc.displayGuiScreen(null);
 
 
 

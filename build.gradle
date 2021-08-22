@@ -19,7 +19,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "0.5.3.01"
+version = "0.5.3.02"
 group= "me.kokoniara.kokoMod"
 archivesBaseName = "kokoMod"
 

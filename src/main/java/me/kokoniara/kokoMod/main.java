@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @Mod(modid = main.MODID, version = main.VERSION)
 public class main {
     public static final String MODID = "kokoMod";
-    public static final String VERSION = "0.5.3.01";
+    public static final String VERSION = "0.5.3.02";
 
 
     public static Configuration config;
