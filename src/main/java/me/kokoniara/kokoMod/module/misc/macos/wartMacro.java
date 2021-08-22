@@ -97,7 +97,7 @@ public class wartMacro extends Module {
             Mouse.getDX();
             Mouse.getDY();
             mc.mouseHelper.deltaX = mc.mouseHelper.deltaY = 0;
-            Mouse.setGrabbed(false);
+
 
 
 
@@ -215,6 +215,8 @@ public class wartMacro extends Module {
         this.wantedYaw = kokoMod.instance.settingsManager.getSettingByName("yaw", this).getValInt();
         //reset the timer on enable
         this.playerSpeedCheckTimer = System.currentTimeMillis();
+        Mouse.setGrabbed(false);
+        mc.displayGuiScreen(null);
     }
 
     @Override
@@ -237,7 +239,8 @@ public class wartMacro extends Module {
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
-
+        mc.displayInGameMenu();
+        Mouse.setGrabbed(true);
     }
 
     @SubscribeEvent
