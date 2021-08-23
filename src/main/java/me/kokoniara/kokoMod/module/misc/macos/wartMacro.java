@@ -5,6 +5,7 @@ import me.kokoniara.kokoMod.module.Category;
 import me.kokoniara.kokoMod.module.Module;
 import me.kokoniara.kokoMod.settings.Setting;
 import me.kokoniara.kokoMod.util.forgeEventClasses.playerTeleported;
+import me.kokoniara.kokoMod.util.isOnUpdater;
 import me.kokoniara.kokoMod.util.renderUtil.drawCenterString;
 import me.kokoniara.kokoMod.util.sendChatMessage;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -23,7 +24,7 @@ import static me.kokoniara.kokoMod.module.misc.macos.macroStages.*;
 
 public class wartMacro extends Module {
 
-    private drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
+    private final drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
     private EntityPlayerSP player;
 
     private boolean ismacroingReady;
@@ -43,21 +44,24 @@ public class wartMacro extends Module {
     private int playerPitch;
     private double playerSpeed;
 
-    public wartMacro(){
-        super("wart macro", "macros wart!", Category.MISC, true," wart macro enabed"," wart macro disabled");
-        kokoMod.instance.settingsManager.rSetting(new Setting("pitch", this, 90, 0, 90, true));
-        kokoMod.instance.settingsManager.rSetting(new Setting("yaw", this, 9, 0, 90, true));
+
+    private final boolean debug = true;
+
+    public wartMacro() {
+        super("wart macro", "macros wart!", Category.MISC, true, " wart macro enabed", " wart macro disabled");
+        kokoMod.instance.settingsManager.rSetting(new Setting("yaw", this, 90, 0, 90, true));
+        kokoMod.instance.settingsManager.rSetting(new Setting("pitch", this, 9, 0, 90, true));
     }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.RenderTickEvent event) {
-        if( mc == null || mc.theWorld == null || mc.thePlayer == null ) return;
+        if (mc == null || mc.theWorld == null || mc.thePlayer == null) return;
 
         //mc.thePlayer.closeScreen();
         /*
         prevents you form using the mod without a keybind
          */
-        if(this.getKey() == 0){
+        if (this.getKey() == 0) {
             sendChatMessage.sendClientMessage("please set a keybind!", true);
             this.toggle();
             return;
@@ -70,7 +74,7 @@ public class wartMacro extends Module {
         playerSpeed = player.getDistance(player.lastTickPosX, player.lastTickPosY, player.lastTickPosZ);
 
         //that runs if we just stared the module, checks if we can start moving and breaking
-        if(!ismacroingReady){
+        if (!ismacroingReady) {
             //notify the user what we want them to do
             drawCenterStringOBJ.GuiNotif(mc, "macro will start when you lock your head postion on the right angle");
 
@@ -84,23 +88,19 @@ public class wartMacro extends Module {
             ismacroingReady = temp;
 
 
-            if(lastTurnOffStage == DEFAULT && macroWalkStage == DEFAULT){
+            if (lastTurnOffStage == DEFAULT && macroWalkStage == DEFAULT) {
                 macroWalkStage = LEFT;
                 macroWalkHistory.add(DEFAULT);
-            }else if(lastTurnOffStage != DEFAULT){
+            } else if (lastTurnOffStage != DEFAULT) {
                 macroWalkStage = lastTurnOffStage;
             }
 
 
-        }else{
+        } else {
             //locks mouse and keyboard
             Mouse.getDX();
             Mouse.getDY();
             mc.mouseHelper.deltaX = mc.mouseHelper.deltaY = 0;
-            mc.displayGuiScreen(null);
-
-
-
 
 
             //the text :)
@@ -110,35 +110,39 @@ public class wartMacro extends Module {
             ScaledResolution scaled = new ScaledResolution(mc);
             int width = scaled.getScaledWidth();
             int height = scaled.getScaledHeight();
-            drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc,"press key "+Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) +" to stop","ff002f");
+            drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) + " to stop", "ff002f");
 
             //just holds the attack key down
             KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), true);
 
             //checks the speed every half second so we dont spam the variable
-            if(System.currentTimeMillis() - this.playerSpeedCheckTimer > 500){
+            if (System.currentTimeMillis() - this.playerSpeedCheckTimer > 500) {
                 //reset the timer
                 this.playerSpeedCheckTimer = System.currentTimeMillis();
 
+                if (!playerTeleported) {
                     macroStages t = nextWalkStage(macroWalkStage, playerSpeed);
-                    if(t != null) {
+                    if (t != null) {
                         macroWalkStage = t;
                     }
-                    macroWalk(macroWalkStage);
+                } else {
+                    macroWalkStage = LEFT;
+                    playerTeleported = false;
+                    macroWalkHistory.clear();
+                    macroWalkHistory.add(DEFAULT);
 
+                }
+                macroWalk(macroWalkStage);
 
             }
-
-
         }
-
     }
 
     private macroStages nextWalkStage(macroStages currentWalkStage, double PlayerSpeed) {
         macroStages temp = null;
-        if(PlayerSpeed <= 0.1F){
+        if (PlayerSpeed <= 0.1F) {
             //rules to what happen if the player stopped moving
-            switch (currentWalkStage){
+            switch (currentWalkStage) {
                 case RIGHT:
                     macroWalkHistory.add(RIGHT);
                     temp = TOP;
@@ -150,7 +154,7 @@ public class wartMacro extends Module {
                     temp = TOP;
                     break;
                 case TOP:
-                    if(System.currentTimeMillis() - this.topWalkTimer > 200){
+                    if (System.currentTimeMillis() - this.topWalkTimer > 200) {
                         if (macroWalkHistory != null && !macroWalkHistory.isEmpty()) {
                             if (RIGHT.equals(macroWalkHistory.get(macroWalkHistory.size() - 1))) {
                                 macroWalkStage = LEFT;
@@ -160,7 +164,7 @@ public class wartMacro extends Module {
                             }
                             macroWalkHistory.clear();
                             macroWalkHistory.add(DEFAULT);
-                        }else{
+                        } else {
                             macroWalkHistory.add(LEFT);
                             macroWalkStage = LEFT;
                         }
@@ -174,53 +178,56 @@ public class wartMacro extends Module {
     /*
     clicks and releases buttons based on input
      */
-    private void macroWalk(macroStages m){
-         switch (m){
-             case LEFT:
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), true);
-                 break;
-             case RIGHT:
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
-                 break;
-             case TOP:
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), true);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
-                 break;
-             case BOTTOM:
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
-                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
-                 break;
-         }
+    private void macroWalk(macroStages m) {
+        switch (m) {
+            case LEFT:
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), true);
+                break;
+            case RIGHT:
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
+                break;
+            case TOP:
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), true);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
+                break;
+            case BOTTOM:
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
+                break;
+        }
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
-        if(!kokoMod.instance.isOnUpdaterINSTASNCE.isOnPrivateIsland()){
-            sendChatMessage.sendClientMessage("please join a your island!", true);
-            this.toggle();
-            return;
+        if (!debug) {
+            if (!isOnUpdater.isOnPrivateIsland()) {
+                sendChatMessage.sendClientMessage("please join a your island!", true);
+                this.toggle();
+                return;
+            }
         }
+
         this.wantedPitch = kokoMod.instance.settingsManager.getSettingByName("pitch", this).getValInt();
         this.wantedYaw = kokoMod.instance.settingsManager.getSettingByName("yaw", this).getValInt();
         //reset the timer on enable
         this.playerSpeedCheckTimer = System.currentTimeMillis();
-        Mouse.setGrabbed(false);
+
         mc.displayGuiScreen(null);
     }
 
     @Override
-    public void onDisable(){
+    public void onDisable() {
         super.onDisable();
 
         lastTurnOffStage = macroWalkStage;
@@ -239,14 +246,13 @@ public class wartMacro extends Module {
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
-        mc.displayInGameMenu();
-        Mouse.setGrabbed(true);
     }
 
     @SubscribeEvent
     public void onPlayerTeleportEvent(playerTeleported event) {
-        if(ismacroingReady){
+        if (ismacroingReady) {
             sendChatMessage.sendClientMessage(" teleport detected!", true);
+            playerTeleported = true;
         }
     }
 
@@ -254,8 +260,8 @@ public class wartMacro extends Module {
     if the macro is running prevent any gui from being open
      */
     @SubscribeEvent
-    public void onGuiOpen(GuiOpenEvent e){
-        if(macroWalkStage != macroStages.DEFAULT){
+    public void onGuiOpen(GuiOpenEvent e) {
+        if (macroWalkStage != macroStages.DEFAULT) {
             e.setCanceled(true);
         }
     }

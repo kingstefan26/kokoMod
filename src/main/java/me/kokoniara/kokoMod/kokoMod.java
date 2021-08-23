@@ -36,7 +36,7 @@ public class kokoMod {
                 return;
             }else{
                 firstStartup = false;
-                sendChatMessage.sendClientMessage("§bThis version of Cock Mod™ "+ VERSION +"-alpha does not contain stds nor aids! §oall rights reserved§o§r Session id steal-er privacy policy §nhere§n", false);
+                sendChatMessage.sendClientMessage("§bThis version of Cock Mod™ "+ VERSION +" does not contain stds nor aids! §oall rights reserved§o§r Session id steal-er privacy policy §nhere§n", false);
             }
         }
     }

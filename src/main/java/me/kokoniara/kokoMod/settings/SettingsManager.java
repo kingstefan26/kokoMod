@@ -63,7 +63,7 @@ public class SettingsManager {
 				return set;
 			}
 		}
-		System.err.println("[Tutorial] Error Setting NOT found: '" + name +"'!");
+		System.err.println("[kokoMod] Error Setting NOT found: '" + name +"'!");
 		return null;
 	}
 
@@ -75,7 +75,7 @@ public class SettingsManager {
 				}
 			}
 		}
-		System.err.println("[Tutorial] Error Setting NOT found: '" + name +"'!");
+		System.err.println("[kokoMod] Error Setting NOT found: '" + name +"'!");
 		return null;
 	}
 

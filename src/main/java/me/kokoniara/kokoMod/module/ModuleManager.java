@@ -29,9 +29,9 @@ public class ModuleManager {
 		this.modules.add(new RmbAutoCliker());
 		this.modules.add(new Sprint());
 		this.modules.add(new BatEsp());
-		this.modules.add(new farmReadycane());
-		this.modules.add(new tpsDispay());
-		this.modules.add(new amiTimedOut());
+		//this.modules.add(new farmReadycane());
+		//this.modules.add(new tpsDispay());
+		//this.modules.add(new amiTimedOut());
 		this.modules.add(new caneMacro());
 		this.modules.add(new wartMacro());
 	}
