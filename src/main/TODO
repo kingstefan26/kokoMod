@@ -1,4 +1,6 @@
 TODO:
-    1:call ass
-    4:sober up!
-    2:save to config
+    1:make a world aware macro
+     -make path finding
+     -make rendering along the path find
+     -block frequency in x y z box
+     -finish tha rest

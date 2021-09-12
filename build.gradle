@@ -2,7 +2,6 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url = "https://repo.spongepowered.org/maven" }
-        //jcenter()
         maven {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
@@ -19,7 +18,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "0.2.0-APLHA"
+version = "0.2.7-APLHA"
 group= "me.kokoniara.kokoMod"
 archivesBaseName = "kokoMod"
 
@@ -33,8 +32,6 @@ minecraft {
     makeObfSourceJar = false
 }
 
-
-dependencies {}
 
 processResources
 {

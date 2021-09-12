@@ -1,0 +1,157 @@
+-- LOT OF WORK THINGS
+ getting blocks in a specific area (don't know how to do that)
+ pathfinding (also clueless)
+ move based on the crop (hard code all positions/ angels & modify the pathfind to every crop aka. PAINNNN)
+
+ON_ENABLE:
+  if CONTEXT_REGISTRY is null
+    get CONTEXT_REGISTRY
+  if !CONTEXT_REGISTRY.isEmpty:
+    -display CONTEXT_REGISTRY and ask "pick past farming context"
+       get picked CONTEXT uuid from CONTEXT_REGISTRY
+       LOAD_JOB(CONTEXT_TO_JOB(CONTEXT_REGISTRY.getCONTEXTbyUuid), 0)
+    -"create new farming context"
+       CONTEXT_CREATOR
+  else:
+    call CONTEXT_CREATOR
+
+
+FARM_LAYER_WIZARD_MANUAL:
+ create island wide virtual square that is 5 blocks down and up relative to the player
+ //LOT OF WORK
+ somehow get blocks in that square
+ make a guess on the the farm dimensions draw a square of the box
+   ask if guess is correct
+     if yes continue
+     if wrong player can manually change
+ discard all crop blocks
+ draw the bounding box
+ get block frequency
+ figure out the building block
+ get user position and ask if that is the start position
+   if not ask again
+   if correct
+     search for a tp pad in bounding box
+       tp_pad_location is null
+         please place a tp pad in the farm
+         return to ON_ENABLE
+     return the FARM_LAYER object
+
+
+
+FARM_LAYER_WIZARD_AUTO(JOB):
+ get JOB farm_bounding_box
+   move the box down in y
+   //LOT OF WORK
+   somehow get blocks in that square
+   make a guess on the the farm_bounding_box
+     if guess y = 0
+       return null & "cloud not find a farm layer ABORT"
+     if guess is wrong try again
+     if guess correct
+       discard all crop blocks
+       get block frequency
+       figure out the building block
+       get last job position multiply by the y multiplier
+       search for a tp pad
+       new uuid
+       return the FARM_LAYER object
+
+
+
+FARM_LAYER:
+ bounding box, block frequency, tp pad location, uuid, building block, starting position, crop type
+
+CONTEXT:
+ FARM_LAYER [], creation time, uuid, name, crop type
+
+JOB:
+ tp_pad_location, farm_bounding_box, start_position, desired_speed, parent_context_uuid
+
+CONTEXT_REGISTRY:
+ array of CONTEXT
+ //LOT OF WORK
+ saves/reads from file on creation or access
+ isEmpty()
+ getAllContexts()
+ getters of CONTEXT with specific uuid
+ setters of CONTEXT with specific uuid
+
+
+JOB_EXECUTE_QUEUE:
+ a place for a JOB object
+ isEmpty()
+ reset()
+ hold()
+ unhold()
+ if hold is true get returns null
+ setJOB()
+ getJOB()
+
+
+CONTEXT_CREATOR:
+ get a name from user
+ new context(FARM_LAYER_WIZARD_MANUAL(), current time, new uuid, name)
+ add new CONTEXT to CONTEXT_REGISTRY
+ return
+
+CONTEXT_TO_JOB(CONTEXT, FARM_LAYER index):
+ return new JOB(CONTEXT.FARM_LAYER[FARM_LAYER INDEX].tp_pad_location, CONTEXT.FARM_LAYER[FARM_LAYER INDEX].farm_bounding_box,
+  CONTEXT.FARM_LAYER[FARM_LAYER INDEX].start_location, CONTEXT.desired_speed, CONTEXT.uuid)
+
+LOAD_JOB(job):
+  JOB_EXECUTE_QUEUE.setJOB(job)
+
+UPDATE_JOB(last job):
+ check PARENT_CONTEXT_ENTRY_GET/SET if current player location is in one of FARM_LAYERs
+   if no
+     call FARM_LAYER_WIZARD_AUTO with last job
+     save the FARM_LAYER output to PARENT_CONTEXT_ENTRY_GET/SET and call itself recursively
+   if yes
+     get the matching FARM_LAYER INDEX from PARENT_CONTEXT_ENTRY_GET/SET
+     call CONTEXT_TO_JOB with PARENT_CONTEXT_ENTRY_GET/SET and matching FARM_LAYER INDEX
+     call LOAD_JOB with the output
+
+
+WORKER:
+if JOB_EXECUTE_QUEUE.isHOLD
+  if is not on hypixel
+    try logging back in
+  if is not on skyblock
+    try getting into Skyblock
+  if is not on private island
+    try getting into private island
+
+on player disconeced / switched worlds
+ JOB_EXECUTE_QUEUE.hold
+
+on joined private island:
+  JOB_EXECUTE_QUEUE.unhold
+
+on player teleport:
+   job = JOB_EXECUTE_QUEUE.getJOB
+   JOB_EXECUTE_QUEUE.resetJOB
+   UPDATE_JOB(job)
+
+on tick:
+  if !JOB_EXECUTE_QUEUE.isEmpty || !JOB_EXECUTE_QUEUE.isHOLD:
+    if player speed = desired_speed
+      replace JOB_EXECUTE_QUEUE without desired_speed
+    else
+      "wrong speed!" return;
+    if player location = start_location
+      replace JOB_EXECUTE_QUEUE without start_location
+    else
+      "get on starting position!" return;
+
+    if JOB_EXECUTE_QUEUE.start_location = JOB_EXECUTE_QUEUE.desired_speed = null
+      pathfind to current  tp_pad_location inside the JOB_EXECUTE_QUEUE.getJOB
+      //LOT OF WORK
+      position the mouse facing the crop
+      move along the path find while breaking
+      movements and pitch/yaw are based on job crop type
+      //LOT OF WORK
+      free cam
+      //LOT OF WORK
+      display pathfind
+      //LOT OF WORK
