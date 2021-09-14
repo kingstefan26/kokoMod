@@ -2,8 +2,8 @@ package io.github.kingstefan26.kokomod.core.clickgui.component.components.sub;
 
 import io.github.kingstefan26.kokomod.core.clickgui.component.Component;
 import io.github.kingstefan26.kokomod.core.clickgui.component.components.Button;
-import io.github.kingstefan26.kokomod.module.moduleUtil.module.Module;
-import io.github.kingstefan26.kokomod.module.moduleUtil.settings.Setting;
+import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.setting.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;

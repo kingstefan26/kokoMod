@@ -51,13 +51,13 @@ dependencies {
 }
 
 mixin {
-    add sourceSets.main, "io.github.kingstefan26.kokomod.mixins.${modid}.refmap.json"
+    add sourceSets.main, "io.github.kingstefan26.kokomod.core.mixins.${modid}.refmap.json"
 }
 
 jar {
     manifest.attributes(
             'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-            'MixinConfigs': "io.github.kingstefan26.kokomod.mixins.${modid}.json",
+            'MixinConfigs': "io.github.kingstefan26.kokomod.core.mixins.${modid}.json",
             'FMLCorePluginContainsFMLMod': true,
             "ForceLoadAsMod": true
     )

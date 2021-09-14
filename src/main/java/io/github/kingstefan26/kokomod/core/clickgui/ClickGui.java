@@ -2,7 +2,7 @@ package io.github.kingstefan26.kokomod.core.clickgui;
 
 import io.github.kingstefan26.kokomod.core.clickgui.component.Component;
 import io.github.kingstefan26.kokomod.core.clickgui.component.Frame;
-import io.github.kingstefan26.kokomod.module.moduleUtil.module.Category;
+import io.github.kingstefan26.kokomod.core.module.Category;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;

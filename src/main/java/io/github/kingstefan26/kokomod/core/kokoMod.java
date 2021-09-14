@@ -1,10 +1,10 @@
 package io.github.kingstefan26.kokomod.core;
 
 import io.github.kingstefan26.kokomod.core.clickgui.ClickGui;
-import io.github.kingstefan26.kokomod.module.moduleUtil.config.configMenager;
-import io.github.kingstefan26.kokomod.module.moduleUtil.module.Module;
-import io.github.kingstefan26.kokomod.module.moduleUtil.module.ModuleManager;
-import io.github.kingstefan26.kokomod.module.moduleUtil.settings.SettingsManager;
+import io.github.kingstefan26.kokomod.core.config.configMenager;
+import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.ModuleManager;
+import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
 import io.github.kingstefan26.kokomod.util.SBinfo.isOnUpdater;
 import io.github.kingstefan26.kokomod.util.sendChatMessage;
 import io.github.kingstefan26.kokomod.util.teleportListener;

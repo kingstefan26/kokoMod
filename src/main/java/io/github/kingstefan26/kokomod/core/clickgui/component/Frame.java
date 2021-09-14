@@ -2,9 +2,9 @@ package io.github.kingstefan26.kokomod.core.clickgui.component;
 
 import io.github.kingstefan26.kokomod.core.clickgui.ClickGui;
 import io.github.kingstefan26.kokomod.core.clickgui.component.components.Button;
-import io.github.kingstefan26.kokomod.module.moduleUtil.module.Category;
-import io.github.kingstefan26.kokomod.module.moduleUtil.module.Module;
-import io.github.kingstefan26.kokomod.module.moduleUtil.module.ModuleManager;
+import io.github.kingstefan26.kokomod.core.module.Category;
+import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.ModuleManager;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;

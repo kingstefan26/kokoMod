@@ -1,5 +1,5 @@
 {
-  "package": "io.github.kingstefan26.kokomod.mixins",
+  "package": "io.github.kingstefan26.kokomod.core.mixins",
   "refmap": "mixins.kokomod.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
