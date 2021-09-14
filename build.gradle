@@ -1,6 +1,5 @@
 buildscript {
     repositories {
-        jcenter()
         maven {
             name 'JitPack'
             url 'https://jitpack.io'
@@ -17,7 +16,7 @@ buildscript {
 
 
 apply plugin: 'java'
-apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
 
@@ -25,9 +24,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 group = 'io.github.kingstefan26'
-version = 'kokoMod-0.2.8-APLHA'
+version = '0.2.8-ALPHA'
 String modid = "kokomod"
-String mixinClassifier = "dep"
+//String mixinClassifier = "dep"
 compileJava.options.encoding = 'UTF-8'
 
 minecraft {
@@ -67,7 +66,6 @@ shadowJar {
     dependencies {
         include(dependency('org.spongepowered:mixin:0.7.11-SNAPSHOT'))
         include(dependency('org.apache.commons:commons-lang3'))
-
     }
 
     relocate 'com.fasterxml.jackson', 'neu.com.fasterxml.jackson'
@@ -78,7 +76,7 @@ shadowJar {
     exclude 'dummyThing'
     exclude 'LICENSE.txt'
 
-    classifier = mixinClassifier
+//    classifier = mixinClassifier
 }
 
 reobf {
