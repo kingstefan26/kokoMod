@@ -1,29 +1,34 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven { url = "https://repo.spongepowered.org/maven" }
+        jcenter()
         maven {
-            name = "forge"
-            url = "https://files.minecraftforge.net/maven"
+            name 'JitPack'
+            url 'https://jitpack.io'
         }
-
+        maven { url = "https://maven.minecraftforge.net/" }
+        maven { url = "https://repo.spongepowered.org/maven" }
     }
     dependencies {
-//        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
-//            changing = true
-//        }
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath "com.github.asbyth:ForgeGradle:6f53277"
+        classpath 'com.github.LxGaming:MixinGradle:d75e32e'//0.6-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "0.2.7-APLHA"
-group= "me.kokoniara.kokoMod"
-archivesBaseName = "kokoMod"
+apply plugin: 'java'
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'com.github.johnrengelman.shadow'
 
-sourceCompatibility = targetCompatibility = 1.8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
+group = 'io.github.kingstefan26'
+version = 'kokoMod-0.2.8-APLHA'
+String modid = "kokomod"
+String mixinClassifier = "dep"
+compileJava.options.encoding = 'UTF-8'
 
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
@@ -32,18 +37,89 @@ minecraft {
     makeObfSourceJar = false
 }
 
-
-processResources
-{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spongepowered.org/maven/' }
+    flatDir {
+        dirs 'deps'
     }
 }
+
+dependencies {
+    compile('org.spongepowered:mixin:0.7.11-SNAPSHOT')
+    annotationProcessor('org.spongepowered:mixin:0.7.11-SNAPSHOT')
+}
+
+mixin {
+    add sourceSets.main, "io.github.kingstefan26.kokomod.mixins.${modid}.refmap.json"
+}
+
+jar {
+    manifest.attributes(
+            'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+            'MixinConfigs': "io.github.kingstefan26.kokomod.mixins.${modid}.json",
+            'FMLCorePluginContainsFMLMod': true,
+            "ForceLoadAsMod": true
+    )
+}
+
+shadowJar {
+    dependencies {
+        include(dependency('org.spongepowered:mixin:0.7.11-SNAPSHOT'))
+
+        include(dependency('commons-io:commons-io'))
+        include(dependency('org.apache.commons:commons-lang3'))
+        include(dependency('com.fasterxml.jackson.core:jackson-databind:2.10.2'))
+        include(dependency('com.fasterxml.jackson.core:jackson-annotations:2.10.2'))
+        include(dependency('com.fasterxml.jackson.core:jackson-core:2.10.2'))
+
+        include(dependency('info.bliki.wiki:bliki-core:3.1.0'))
+        include(dependency('org.slf4j:slf4j-api:1.7.18'))
+        include(dependency('org.luaj:luaj-jse:3.0.1'))
+    }
+
+    relocate 'com.fasterxml.jackson', 'neu.com.fasterxml.jackson'
+    relocate 'org.eclipse', 'neu.org.eclipse'
+    relocate 'org.slf4j', 'neu.org.slf4j'
+
+    exclude 'module-info.class'
+    exclude 'dummyThing'
+    exclude 'LICENSE.txt'
+
+    classifier = mixinClassifier
+}
+
+reobf {
+    shadowJar {
+        mappingType = 'SEARGE'
+    }
+}
+
+build.dependsOn(shadowJar)
+runClient.dependsOn(build)
+
+processResources
+        {
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
+
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+                expand 'version':project.version, 'mcversion':project.minecraft.version
+            }
+
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+
+            rename '(.+_at.cfg)', 'META-INF/$1'
+        }
+
+task moveResources {
+    doLast {
+        ant.move file: "${buildDir}/resources/main",
+                todir: "${buildDir}/classes/java"
+    }
+}
+moveResources.dependsOn processResources
+classes.dependsOn moveResources
