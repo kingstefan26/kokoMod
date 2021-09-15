@@ -5,7 +5,7 @@ import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.macroStages;
-import io.github.kingstefan26.kokomod.util.SBinfo.isOnUpdater;
+import io.github.kingstefan26.kokomod.module.util.SBinfo;
 import io.github.kingstefan26.kokomod.util.forgeEventClasses.playerTeleportEvent;
 import io.github.kingstefan26.kokomod.util.renderUtil.drawCenterString;
 import io.github.kingstefan26.kokomod.util.sendChatMessage;
@@ -178,7 +178,7 @@ public class wartMacro extends Module {
             return;
         }
         if (!debug) {
-            if (!isOnUpdater.isOnPrivateIsland()) {
+            if (!SBinfo.isOnPrivateIsland()) {
                 sendChatMessage.sendClientMessage("please join a your island!", true);
                 this.setToggled(false);
                 return;

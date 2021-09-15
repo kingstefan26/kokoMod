@@ -6,7 +6,7 @@ import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
-import io.github.kingstefan26.kokomod.util.SBinfo.isOnUpdater;
+import io.github.kingstefan26.kokomod.module.util.SBinfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -127,7 +127,7 @@ public class lastLeftOff extends Module {
 	public void onRenderLast(RenderWorldLastEvent event) {
 		if (LastLeftOff == null) return;
 		if (!main.debug) {
-			if (!isOnUpdater.getisOnUpdater().isOnPrivateIsland()) return;
+			if (!SBinfo.isOnPrivateIsland()) return;
 		}
 
 

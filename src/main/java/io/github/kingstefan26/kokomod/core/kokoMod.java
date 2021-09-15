@@ -4,7 +4,6 @@ import io.github.kingstefan26.kokomod.core.clickgui.ClickGui;
 import io.github.kingstefan26.kokomod.core.config.configMenager;
 import io.github.kingstefan26.kokomod.core.module.ModuleManager;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
-import io.github.kingstefan26.kokomod.util.SBinfo.isOnUpdater;
 import io.github.kingstefan26.kokomod.util.sendChatMessage;
 import io.github.kingstefan26.kokomod.util.teleportListener;
 import net.minecraft.client.Minecraft;
@@ -49,6 +48,5 @@ public class kokoMod {
 	    ModuleManager.ModuleManager = ModuleManager.getModuleManager();
 	    ClickGui.ClickGui = ClickGui.getClickGui();
 	    teleportListener.teleportListener = teleportListener.getTeleportListner();
-	    isOnUpdater.isOnUpdater = isOnUpdater.getisOnUpdater();
     }
 }

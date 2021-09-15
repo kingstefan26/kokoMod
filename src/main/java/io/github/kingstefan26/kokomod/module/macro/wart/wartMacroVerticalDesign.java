@@ -10,7 +10,6 @@ import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastLef
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastleftoffObject;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.macroMenu;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.macroStages;
-import io.github.kingstefan26.kokomod.util.SBinfo.isOnUpdater;
 import io.github.kingstefan26.kokomod.util.forgeEventClasses.playerFallEvent;
 import io.github.kingstefan26.kokomod.util.forgeEventClasses.playerTeleportEvent;
 import io.github.kingstefan26.kokomod.util.renderUtil.drawCenterString;
@@ -24,6 +23,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import static io.github.kingstefan26.kokomod.module.util.SBinfo.SBinfo;
 
 public class wartMacroVerticalDesign extends Module {
 	public static wartMacroVerticalDesign wartMacroVerticalDesign;
@@ -192,7 +193,7 @@ public class wartMacroVerticalDesign extends Module {
 			return;
 		}
 		if (!main.debug) {
-			if (!isOnUpdater.isOnPrivateIsland()) {
+			if (!SBinfo.isOnPrivateIsland()) {
 				sendChatMessage.sendClientMessage("please join a your island!", true);
 				this.setToggled(false);
 				return;
