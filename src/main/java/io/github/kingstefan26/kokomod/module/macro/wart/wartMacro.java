@@ -49,6 +49,7 @@ public class wartMacro extends Module {
         super("wart macro", "macros wart!", Category.MACRO, true);
         SettingsManager.getSettingsManager().rSetting(new Setting("yaw", this, 90, 0, 90, true));
         SettingsManager.getSettingsManager().rSetting(new Setting("pitch", this, 9, 0, 90, true));
+
     }
 
     @SubscribeEvent

@@ -24,7 +24,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import static io.github.kingstefan26.kokomod.module.util.SBinfo.SBinfo;
 
 public class wartMacroVerticalDesign extends Module {
 	public static wartMacroVerticalDesign wartMacroVerticalDesign;
@@ -41,6 +40,7 @@ public class wartMacroVerticalDesign extends Module {
 	private int wantedPitch;
 	private int wantedYaw;
 	private boolean perfectHeadRotation;
+	private boolean experimentalGui;
 
 	private macroStages macroWalkStage = macroStages.RIGHT;
 
@@ -64,6 +64,7 @@ public class wartMacroVerticalDesign extends Module {
 		SettingsManager.getSettingsManager().rSetting(new Setting("yaw", this, 90, 1, 90, true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("pitch", this, 9, 0, 90, true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("perfect head rotation", this, true));
+		SettingsManager.getSettingsManager().rSetting(new Setting("experimental gui", this, false));
 	}
 
 	@SubscribeEvent
@@ -112,8 +113,10 @@ public class wartMacroVerticalDesign extends Module {
 				mc.thePlayer.rotationYaw = wantedYaw;
 				mc.thePlayer.rotationPitch = wantedPitch;
 			}
-			guiCloseGrace = false;
-			mc.displayGuiScreen(macroMenu);
+			if(experimentalGui){
+				guiCloseGrace = false;
+				mc.displayGuiScreen(macroMenu);
+			}
 		}
 	}
 
@@ -132,9 +135,15 @@ public class wartMacroVerticalDesign extends Module {
 		drawCenterStringOBJ.GuiNotif(mc, "macroing ur life away!");
 
 		//show the release message
-		drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc,
-				"press key esc or tha button to stop",
-				"ff002f");
+		if(experimentalGui){
+			drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc,
+					"press key esc or tha button to stop",
+					"ff002f");
+		}else{
+			drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc, "press key "
+					+ Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) +
+					" to stop", "ff002f");
+		}
 
 
 		//checks the speed every half second so we don't spam the variable
@@ -169,7 +178,6 @@ public class wartMacroVerticalDesign extends Module {
 			return;
 		}
 
-
 		switch (m) {
 			case LEFT:
 				KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
@@ -193,7 +201,7 @@ public class wartMacroVerticalDesign extends Module {
 			return;
 		}
 		if (!main.debug) {
-			if (!SBinfo.isOnPrivateIsland()) {
+			if (!io.github.kingstefan26.kokomod.module.util.SBinfo.isOnPrivateIsland()) {
 				sendChatMessage.sendClientMessage("please join a your island!", true);
 				this.setToggled(false);
 				return;
@@ -206,16 +214,20 @@ public class wartMacroVerticalDesign extends Module {
 		}
 
 		fallCounter = 0;
-		this.wantedPitch = SettingsManager.getSettingsManager().getSettingByName("pitch", this).getValInt();
-		this.wantedYaw = SettingsManager.getSettingsManager().getSettingByName("yaw", this).getValInt();
-		this.perfectHeadRotation = SettingsManager.getSettingsManager().getSettingByName("perfect head rotation", this).getValBoolean();
+		wantedPitch = SettingsManager.getSettingsManager().getSettingByName("pitch", this).getValInt();
+		wantedYaw = SettingsManager.getSettingsManager().getSettingByName("yaw", this).getValInt();
+		experimentalGui = SettingsManager.getSettingsManager().getSettingByName("experimental gui", this).getValBoolean();
+		perfectHeadRotation = SettingsManager.getSettingsManager().getSettingByName("perfect head rotation", this).getValBoolean();
 		//reset the timer on enable
 		this.playerSpeedCheckTimer = System.currentTimeMillis();
 		this.YSpeedTimer = System.currentTimeMillis();
 
-		if(this.macroMenu == null) macroMenu = new macroMenu(this);
+		if(experimentalGui){
+			if(this.macroMenu == null) macroMenu = new macroMenu(this);
 
-		guiCloseGrace = true;
+			guiCloseGrace = true;
+		}
+
 		mc.displayGuiScreen(null);
 		sendChatMessage.sendClientMessage("enabled wart macro", true);
 
@@ -271,8 +283,12 @@ public class wartMacroVerticalDesign extends Module {
 	 */
 	@SubscribeEvent
 	public void onGuiOpen(GuiOpenEvent e) {
-		if (!(e.gui instanceof io.github.kingstefan26.kokomod.module.macro.macroUtil.macroMenu) && !guiCloseGrace) {
-			this.toggle();
+		if(experimentalGui){
+			if (!(e.gui instanceof io.github.kingstefan26.kokomod.module.macro.macroUtil.macroMenu) && !guiCloseGrace) {
+				this.toggle();
+			}
+		}else{
+			e.setCanceled(true);
 		}
 	}
 

@@ -20,6 +20,7 @@ public class kokoMod {
     	return instance;
     }
 
+
     public boolean firstStartup = true;
 
     @SubscribeEvent
