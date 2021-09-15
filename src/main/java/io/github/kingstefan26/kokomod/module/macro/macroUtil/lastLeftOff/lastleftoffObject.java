@@ -4,30 +4,31 @@ import io.github.kingstefan26.kokomod.module.macro.macroUtil.cropType;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.macroStages;
 
 public class lastleftoffObject {
-	int x;
-	int y;
-	int z;
+	float x;
+	float y;
+	float z;
+	long time;
 	macroStages lastStage;
 	cropType type;
-	String comment;
-	public lastleftoffObject(int x,int y,int z,cropType type, macroStages macroStage){
+	public lastleftoffObject(float x,float y,float z,cropType type, macroStages macroStage){
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.type = type;
 		this.lastStage = macroStage;
 	}
-	public lastleftoffObject(int x,int y,int z,cropType type, String comment){
+	public lastleftoffObject(float x,float y,float z,cropType type, macroStages macroStage, long time){
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.time = time;
 		this.type = type;
-		this.comment = comment;
+		this.lastStage = macroStage;
 	}
-	public int getX() {return this.x;}
-	public int getY() {return this.y;}
-	public int getZ() {return this.z;}
+	public float getX() {return this.x;}
+	public float getY() {return this.y;}
+	public float getZ() {return this.z;}
+	public long getTime() {return this.time;}
 	public cropType getCropType() {return this.type;}
-	public String getComment(){return this.comment;}
 	public macroStages getMacroStage(){return this.lastStage;}
 }

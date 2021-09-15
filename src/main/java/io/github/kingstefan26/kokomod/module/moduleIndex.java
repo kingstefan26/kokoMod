@@ -51,7 +51,7 @@ public class moduleIndex {
         productionModuleIndex.add(new wartMacro());
         productionModuleIndex.add(new wartMacronoTppad());
         productionModuleIndex.add(wartMacroVerticalDesign.getwartMacroVerticalDesign());
-        productionModuleIndex.add(new lastLeftOff());
+        productionModuleIndex.add(lastLeftOff.getLastLeftOff());
 
         utilModuleIndex.add(SBinfo.getSBinfo());
         utilModuleIndex.add(teleportListener.getTeleportListner());

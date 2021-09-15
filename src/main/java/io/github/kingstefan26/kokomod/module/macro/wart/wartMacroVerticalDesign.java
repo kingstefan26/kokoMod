@@ -256,8 +256,8 @@ public class wartMacroVerticalDesign extends Module {
 		KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
 		KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
 		KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
-		lastLeftOff.registerLastLeftOff(new lastleftoffObject( (int)mc.thePlayer.posX , (int)mc.thePlayer.posY ,(int)mc.thePlayer.posZ ,
-		cropType.WART, macroWalkStage));
+		lastLeftOff.getLastLeftOff().registerLastLeftOff(new lastleftoffObject( (float)mc.thePlayer.posX , (float) mc.thePlayer.posY ,(float)mc.thePlayer.posZ ,
+		cropType.WART, macroWalkStage, System.currentTimeMillis()));
 	}
 
 	@SubscribeEvent

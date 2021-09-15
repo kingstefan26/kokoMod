@@ -1,12 +1,17 @@
 package io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff;
 
+import io.github.kingstefan26.kokomod.core.config.configObject;
 import io.github.kingstefan26.kokomod.main;
 import io.github.kingstefan26.kokomod.core.config.confgValueType;
 import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
+import io.github.kingstefan26.kokomod.module.macro.macroUtil.cropType;
+import io.github.kingstefan26.kokomod.module.macro.macroUtil.macroStages;
 import io.github.kingstefan26.kokomod.module.util.SBinfo;
+import io.github.kingstefan26.kokomod.util.CalendarUtils;
+import io.github.kingstefan26.kokomod.util.renderUtil.hehe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -22,18 +27,71 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
+import static io.github.kingstefan26.kokomod.core.config.configMenager.configMenager;
+
 
 public class lastLeftOff extends Module {
 	public static lastleftoffObject LastLeftOff;
+	public static lastLeftOff LastLeftOffinstance;
 
-	public lastLeftOff() {
+	public static lastLeftOff getLastLeftOff(){
+		if(LastLeftOffinstance == null) LastLeftOffinstance = new lastLeftOff();
+		return LastLeftOffinstance;
+	}
+
+	configObject x;
+	configObject y;
+	configObject z;
+	configObject croptype;
+	configObject macrostage;
+	configObject time;
+
+	private lastLeftOff() {
 		super("lastLeftOff", "shows where you last left a macro in current session", Category.MISC);
 		SettingsManager.getSettingsManager().rSetting(new Setting("PERSISTENCE", this, confgValueType.PERSISTENT));
 		if (SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()) this.toggle();
+
+		x = new configObject("x", this.getName(), 0.0F);
+		y = new configObject("y", this.getName(), 0.5F);
+		z = new configObject("z", this.getName(), 0.5F);
+		croptype= new configObject("cropType", this.getName(), "DEFAULT");
+		macrostage= new configObject("macrostage", this.getName(), "DEFAULT");
+		time = new configObject("z", this.getName(), 0.5F);
+
+		if(x.getDoubleValue() != 0.0F){
+			if(time.getDoubleValue() != 0.5F){
+				lastleftoffObject temp = new lastleftoffObject(
+						(float)x.getDoubleValue(),
+						(float)y.getDoubleValue(),
+						(float)z.getDoubleValue(),
+						cropType.valueOf(croptype.getStringValue()),
+						macroStages.valueOf(macrostage.getStringValue()),
+						(long)time.getDoubleValue());
+				registerLastLeftOff(temp);
+			}else{
+				lastleftoffObject temp2 = new lastleftoffObject(
+						(float)x.getDoubleValue(),
+						(float)y.getDoubleValue(),
+						(float)z.getDoubleValue(),
+						cropType.valueOf(croptype.getStringValue()),
+						macroStages.valueOf(macrostage.getStringValue()));
+				registerLastLeftOff(temp2);
+			}
+
+		}
 	}
 
-	public static void registerLastLeftOff(lastleftoffObject in) {
+	public void registerLastLeftOff(lastleftoffObject in) {
 		LastLeftOff = in;
+		x.setDoubleValue(in.x);
+		y.setDoubleValue(in.y);
+		z.setDoubleValue(in.z);
+		croptype.setStringValue(in.getCropType().toString());
+		macrostage.setStringValue(in.getMacroStage().toString());
+		if(in.time != 0){
+			time.setDoubleValue(in.time);
+		}
+		//float x,float y,float z,cropType type, macroStages macroStage, long time
 	}
 
 	public static lastleftoffObject getLastleftoffObject(){return LastLeftOff;}
@@ -137,18 +195,45 @@ public class lastLeftOff extends Module {
 		double viewerZ = viewer.lastTickPosZ + (viewer.posZ - viewer.lastTickPosZ) * event.partialTicks;
 
 		int rgb;
+		int textrgb;
 		switch(lastLeftOff.LastLeftOff.getCropType()){
 			case WART:
 				rgb = 0xa02427;
+				textrgb = 0x3b0c0d;
 				break;
 			case CANE:
 				rgb = 0x51a42f;
+				textrgb = 0x1a360f;
 				break;
 			case DEFAULT:
 				rgb = 0xa839ce;
+				textrgb = 0x41184f;
 				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + lastLeftOff.LastLeftOff.getCropType());
+		}
+
+		GlStateManager.disableDepth();
+		GlStateManager.disableCull();
+		GlStateManager.disableTexture2D();
+
+		//stolen from nue :)
+		float xx = LastLeftOff.getX() -(float) viewerX;
+		float yy = LastLeftOff.getY() -(float) viewerY;
+		float zz = LastLeftOff.getZ() - (float)viewerZ;
+
+		float distSq = xx*xx+ yy*yy + zz*zz;
+
+		if(LastLeftOff.getTime() != 0){
+			if(distSq > 4*4){
+				hehe.drawTextAtWorld(CalendarUtils.ConvertMilliSecondsToFormattedDate(LastLeftOff.getTime()),
+						LastLeftOff.getX() + 0.5F,
+						LastLeftOff.getY() + 1,
+						LastLeftOff.getZ() + 0.5F,
+						rgb, 3F,
+						true, true, event.partialTicks);
+			}
+
 		}
 
 
@@ -158,17 +243,19 @@ public class lastLeftOff extends Module {
 
 		AxisAlignedBB bb = new AxisAlignedBB(x, y, z, x + 1, y + 1, z + 1);
 
-		GlStateManager.disableDepth();
-		GlStateManager.disableCull();
-		GlStateManager.disableTexture2D();
-		drawFilledBoundingBox(bb, 1f,rgb);
+//		GlStateManager.disableDepth();
 
-		renderBeaconBeam(x, y, z, rgb, 1.0f, event.partialTicks);
+		if(distSq < 4*4){
+			drawFilledBoundingBox(bb, 1f,textrgb);
+		}
+
+
+		//renderBeaconBeam(x, y, z, textrgb, 1.0f, event.partialTicks);
 
 
 		GlStateManager.disableLighting();
-		GlStateManager.enableTexture2D();
 		GlStateManager.enableDepth();
+		GlStateManager.enableTexture2D();
 	}
 
 	public static void drawFilledBoundingBox(AxisAlignedBB p_181561_0_, float alpha, int rgb) {

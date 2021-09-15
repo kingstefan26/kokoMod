@@ -71,7 +71,7 @@ boolean firstTime = false;
     public void onEnable() {
         super.onEnable();
         sendChatMessage.sendClientMessage("bye reaload!!!", true);
-        lastLeftOff.registerLastLeftOff(new lastleftoffObject(10, 10, 10, cropType.WART, macroStages.DEFAULT));
+        lastLeftOff.getLastLeftOff().registerLastLeftOff(new lastleftoffObject(10, 10, 10, cropType.WART, macroStages.DEFAULT));
         mc.displayGuiScreen(new newergui());
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), true);
 
