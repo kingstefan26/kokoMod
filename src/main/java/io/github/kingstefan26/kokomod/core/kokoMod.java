@@ -5,7 +5,6 @@ import io.github.kingstefan26.kokomod.core.config.configMenager;
 import io.github.kingstefan26.kokomod.core.module.ModuleManager;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
 import io.github.kingstefan26.kokomod.util.sendChatMessage;
-import io.github.kingstefan26.kokomod.util.teleportListener;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -47,6 +46,5 @@ public class kokoMod {
 	    SettingsManager.SettingsManager = SettingsManager.getSettingsManager();
 	    ModuleManager.ModuleManager = ModuleManager.getModuleManager();
 	    ClickGui.ClickGui = ClickGui.getClickGui();
-	    teleportListener.teleportListener = teleportListener.getTeleportListner();
     }
 }

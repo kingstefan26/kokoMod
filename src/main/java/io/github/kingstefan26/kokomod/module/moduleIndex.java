@@ -17,6 +17,7 @@ import io.github.kingstefan26.kokomod.module.render.BatEsp;
 import io.github.kingstefan26.kokomod.module.render.ClickGUI;
 import io.github.kingstefan26.kokomod.module.render.HUD;
 import io.github.kingstefan26.kokomod.module.util.SBinfo;
+import io.github.kingstefan26.kokomod.module.util.teleportListener;
 
 import java.util.ArrayList;
 
@@ -53,6 +54,7 @@ public class moduleIndex {
         productionModuleIndex.add(new lastLeftOff());
 
         utilModuleIndex.add(SBinfo.getSBinfo());
+        utilModuleIndex.add(teleportListener.getTeleportListner());
 
         moduleArray.addAll(productionModuleIndex);
 
