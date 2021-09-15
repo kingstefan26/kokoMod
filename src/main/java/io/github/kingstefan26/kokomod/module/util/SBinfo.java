@@ -1,8 +1,10 @@
 package io.github.kingstefan26.kokomod.module.util;
 
 import io.github.kingstefan26.kokomod.core.module.blueprints.UtilModule;
+import io.github.kingstefan26.kokomod.main;
 import io.github.kingstefan26.kokomod.util.forgeEventClasses.*;
 import io.github.kingstefan26.kokomod.util.handelers.ScoreboardHandler;
+import io.github.kingstefan26.kokomod.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,25 +37,31 @@ public class SBinfo extends UtilModule {
 
         if (temp0 && !inSkyblock) {
             MinecraftForge.EVENT_BUS.post(new joinedSkyblockEvent());
+            if(main.debug) sendChatMessage.sendClientDebugMessage("joined Skyblock");
             inSkyblock = true;
         } else if (!temp0 && inSkyblock) {
             inSkyblock = false;
+            if(main.debug) sendChatMessage.sendClientDebugMessage("left Skyblock");
             MinecraftForge.EVENT_BUS.post(new leftSkyblockEvent());
         }
 
         if (temp1 && !inDungeons) {
             MinecraftForge.EVENT_BUS.post(new joinedDungeonEvent());
+            if(main.debug) sendChatMessage.sendClientDebugMessage("joined dungeons");
             inDungeons = true;
         } else if (!temp1 && inDungeons) {
             inDungeons = false;
+            if(main.debug) sendChatMessage.sendClientDebugMessage("left Dungeons");
             MinecraftForge.EVENT_BUS.post(new leftDungeonEvent());
         }
 
         if (temp2 && !inPrivateIsland) {
             MinecraftForge.EVENT_BUS.post(new joinedPrivateIslandEvent());
+            if(main.debug) sendChatMessage.sendClientDebugMessage("joined players private island");
             inPrivateIsland = true;
         } else if (!temp2 && inPrivateIsland) {
             inPrivateIsland = false;
+            if(main.debug) sendChatMessage.sendClientDebugMessage("left players private island");
             MinecraftForge.EVENT_BUS.post(new leftPrivateIslandEvent());
         }
     }
