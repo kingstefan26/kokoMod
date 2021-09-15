@@ -4,6 +4,7 @@ import io.github.kingstefan26.kokomod.core.config.confgValueType;
 import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.Module;
 import io.github.kingstefan26.kokomod.core.module.ModuleManager;
+import io.github.kingstefan26.kokomod.core.moduleIndex;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
 import net.minecraft.client.Minecraft;
@@ -49,7 +50,7 @@ public class HUD extends Module {
 		}
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 		int y = 2;
-		for (Module mod : ModuleManager.getModuleManager().getModuleList()) {
+		for (Module mod : moduleIndex.getmoduleIndex().getAllModules()) {
 			if (!mod.getName().equalsIgnoreCase("HUD") && mod.isToggled() && mod.visible) {
 				FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 				fr.drawString(mod.getName(), sr.getScaledWidth() - fr.getStringWidth(mod.getName()) - 1, y, rgb, true);

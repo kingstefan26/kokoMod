@@ -1,19 +1,11 @@
 package io.github.kingstefan26.kokomod.core.module;
 
-import io.github.kingstefan26.kokomod.module.combat.LmbAutoCliker;
-import io.github.kingstefan26.kokomod.module.combat.RmbAutoCliker;
-import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastLeftOff;
-import io.github.kingstefan26.kokomod.module.macro.sugarCane.caneMacro;
-import io.github.kingstefan26.kokomod.module.macro.wart.wartMacro;
-import io.github.kingstefan26.kokomod.module.macro.wart.wartMacroVerticalDesign;
-import io.github.kingstefan26.kokomod.module.macro.wart.wartMacronoTppad;
-import io.github.kingstefan26.kokomod.module.misc.amiTimedOut;
-import io.github.kingstefan26.kokomod.module.misc.test.test;
-import io.github.kingstefan26.kokomod.module.player.Sprint;
-import io.github.kingstefan26.kokomod.module.player.iWillcancelYouOnTwitter;
-import io.github.kingstefan26.kokomod.module.render.BatEsp;
-import io.github.kingstefan26.kokomod.module.render.ClickGUI;
-import io.github.kingstefan26.kokomod.module.render.HUD;
+import io.github.kingstefan26.kokomod.core.moduleIndex;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 
@@ -28,29 +20,16 @@ public class ModuleManager {
 		return ModuleManager;
 	}
 
-	public ArrayList<Module> modules;
+
 	
 	public ModuleManager() {
-		modules = new ArrayList<Module>();
-
-		this.modules.add(new ClickGUI());
-		this.modules.add(new iWillcancelYouOnTwitter());
-		this.modules.add(new HUD());
-		this.modules.add(new LmbAutoCliker());
-		this.modules.add(new RmbAutoCliker());
-		this.modules.add(new Sprint());
-		this.modules.add(new BatEsp());
-		this.modules.add(new amiTimedOut());
-		this.modules.add(new caneMacro());
-		this.modules.add(new wartMacro());
-		this.modules.add(new wartMacronoTppad());
-		this.modules.add(wartMacroVerticalDesign.getwartMacroVerticalDesign());
-		this.modules.add(new lastLeftOff());
-		if(debug) this.modules.add(new test());
+		moduleIndex.instance = moduleIndex.getmoduleIndex();
+		if(debug) moduleIndex.getmoduleIndex().loadDebugModules();
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
 	public Module getModule(String name) {
-		for (Module m : this.modules) {
+		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
 			if (m.getName().equalsIgnoreCase(name)) {
 				return m;
 			}
@@ -59,16 +38,37 @@ public class ModuleManager {
 	}
 	
 	public ArrayList<Module> getModuleList() {
-		return this.modules;
+		return moduleIndex.getmoduleIndex().getAllModules();
 	}
 	
 	public ArrayList<Module> getModulesInCategory(Category c) {
-		ArrayList<Module> mods = new ArrayList<Module>();
-		for (Module m : this.modules) {
+		ArrayList<Module> mods = new ArrayList<>();
+		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
 			if (m.getCategory() == c) {
 				mods.add(m);
 			}
 		}
+
 		return mods;
+	}
+
+	@SubscribeEvent
+	public void key(InputEvent.KeyInputEvent e) {
+		if (Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
+			return;
+		try {
+			if (Keyboard.isCreated()) {
+				if (Keyboard.getEventKeyState()) {
+					int keyCode = Keyboard.getEventKey();
+					if (keyCode <= 0)
+						return;
+					for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
+						if (m.getKey() == keyCode) {
+							m.toggle();
+						}
+					}
+				}
+			}
+		} catch (Exception q) { q.printStackTrace(); }
 	}
 }

@@ -54,24 +54,4 @@ public class kokoMod {
 	    teleportListener.teleportListener = teleportListener.getTeleportListner();
 	    isOnUpdater.isOnUpdater = isOnUpdater.getisOnUpdater();
     }
-    
-    @SubscribeEvent
-    public void key(KeyInputEvent e) {
-    	if (Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
-    		return; 
-    	try {
-             if (Keyboard.isCreated()) {
-                 if (Keyboard.getEventKeyState()) {
-                     int keyCode = Keyboard.getEventKey();
-                     if (keyCode <= 0)
-                    	 return;
-                     for (Module m : ModuleManager.getModuleManager().modules) {
-                    	 if (m.getKey() == keyCode) {
-                    		 m.toggle();
-                    	 }
-                     }
-                 }
-             }
-         } catch (Exception q) { q.printStackTrace(); }
-    }
 }
