@@ -15,7 +15,6 @@ public class main {
     @EventHandler
     public static void Init(FMLPreInitializationEvent event) {
         updateWidowTitle.updateTitle("Kokoclient V69.420");
-        kokoMod.instance = kokoMod.getkokoMod();
-        kokoMod.instance.init();
+        kokoMod.getkokoMod().init();
     }
 }
