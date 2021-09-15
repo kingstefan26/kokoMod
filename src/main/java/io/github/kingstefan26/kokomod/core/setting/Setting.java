@@ -3,7 +3,7 @@ package io.github.kingstefan26.kokomod.core.setting;
 import io.github.kingstefan26.kokomod.core.config.confgValueType;
 import io.github.kingstefan26.kokomod.core.config.configMenager;
 import io.github.kingstefan26.kokomod.core.config.configObject;
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,6 @@
 package io.github.kingstefan26.kokomod.core.module;
 
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.module.moduleIndex;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;

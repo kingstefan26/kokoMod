@@ -3,7 +3,7 @@ package io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff;
 import io.github.kingstefan26.kokomod.main;
 import io.github.kingstefan26.kokomod.core.config.confgValueType;
 import io.github.kingstefan26.kokomod.core.module.Category;
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
 import io.github.kingstefan26.kokomod.util.SBinfo.isOnUpdater;

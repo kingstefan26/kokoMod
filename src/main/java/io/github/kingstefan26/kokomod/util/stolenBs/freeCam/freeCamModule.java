@@ -1,7 +1,7 @@
 package io.github.kingstefan26.kokomod.util.stolenBs.freeCam;
 
 import io.github.kingstefan26.kokomod.core.module.Category;
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;

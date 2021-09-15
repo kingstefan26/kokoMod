@@ -1,6 +1,6 @@
 package io.github.kingstefan26.kokomod.core.setting;
 
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 
 import java.util.ArrayList;
 

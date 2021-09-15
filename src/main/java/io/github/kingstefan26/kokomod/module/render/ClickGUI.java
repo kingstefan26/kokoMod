@@ -2,7 +2,7 @@ package io.github.kingstefan26.kokomod.module.render;
 
 import io.github.kingstefan26.kokomod.core.clickgui.ClickGui;
 import io.github.kingstefan26.kokomod.core.module.Category;
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import org.lwjgl.input.Keyboard;
 
 

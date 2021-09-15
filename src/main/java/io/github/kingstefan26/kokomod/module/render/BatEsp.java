@@ -1,7 +1,7 @@
 package io.github.kingstefan26.kokomod.module.render;
 
 import io.github.kingstefan26.kokomod.core.module.Category;
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.util.renderUtil.renderEsp;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;

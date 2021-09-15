@@ -1,6 +1,7 @@
 package io.github.kingstefan26.kokomod.module;
 
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.UtilModule;
 import io.github.kingstefan26.kokomod.module.combat.LmbAutoCliker;
 import io.github.kingstefan26.kokomod.module.combat.RmbAutoCliker;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastLeftOff;
@@ -15,6 +16,7 @@ import io.github.kingstefan26.kokomod.module.player.iWillcancelYouOnTwitter;
 import io.github.kingstefan26.kokomod.module.render.BatEsp;
 import io.github.kingstefan26.kokomod.module.render.ClickGUI;
 import io.github.kingstefan26.kokomod.module.render.HUD;
+import io.github.kingstefan26.kokomod.module.util.SBinfo;
 
 import java.util.ArrayList;
 
@@ -27,12 +29,14 @@ public class moduleIndex {
     }
 
     private final ArrayList<Module> productionModuleIndex;
-    private ArrayList<Module> debugModuleIndex;
+    private final ArrayList<UtilModule> utilModuleIndex;
+    private ArrayList<Module> debugModuleIndex = new ArrayList<>();
     private final ArrayList<Module> moduleArray;
 
     private moduleIndex() {
         productionModuleIndex = new ArrayList<>();
         moduleArray = new ArrayList<>();
+        utilModuleIndex = new ArrayList<>();
 
         productionModuleIndex.add(new ClickGUI());
         productionModuleIndex.add(new iWillcancelYouOnTwitter());
@@ -47,6 +51,9 @@ public class moduleIndex {
         productionModuleIndex.add(new wartMacronoTppad());
         productionModuleIndex.add(wartMacroVerticalDesign.getwartMacroVerticalDesign());
         productionModuleIndex.add(new lastLeftOff());
+
+        utilModuleIndex.add(SBinfo.getSBinfo());
+
         moduleArray.addAll(productionModuleIndex);
 
     }
@@ -86,6 +93,10 @@ public class moduleIndex {
 
     public ArrayList<Module> getDebugModules(){
         return this.debugModuleIndex;
+    }
+
+    public ArrayList<UtilModule> getUtillModules(){
+        return this.utilModuleIndex;
     }
 
 }

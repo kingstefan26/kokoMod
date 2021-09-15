@@ -1,7 +1,7 @@
 package io.github.kingstefan26.kokomod.module.misc;
 
 import io.github.kingstefan26.kokomod.core.module.Category;
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.util.forgeEventClasses.keepAlivePacketEvent;
 import io.github.kingstefan26.kokomod.util.sendChatMessage;
 import net.minecraft.client.network.NetHandlerPlayClient;

@@ -5,7 +5,7 @@ import io.github.kingstefan26.kokomod.core.clickgui.component.Component;
 import io.github.kingstefan26.kokomod.core.clickgui.component.Frame;
 import io.github.kingstefan26.kokomod.core.clickgui.component.components.sub.Checkbox;
 import io.github.kingstefan26.kokomod.core.clickgui.component.components.sub.*;
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
 import net.minecraft.client.Minecraft;

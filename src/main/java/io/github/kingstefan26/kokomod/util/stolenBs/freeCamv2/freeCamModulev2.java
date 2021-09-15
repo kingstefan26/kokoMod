@@ -1,7 +1,7 @@
 package io.github.kingstefan26.kokomod.util.stolenBs.freeCamv2;
 
 import io.github.kingstefan26.kokomod.core.module.Category;
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import net.minecraft.client.Minecraft;
 
 public class freeCamModulev2 extends Module {

@@ -1,7 +1,7 @@
 package io.github.kingstefan26.kokomod.module.macro.sugarCane;
 
 import io.github.kingstefan26.kokomod.core.module.Category;
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.macroStages;
 import io.github.kingstefan26.kokomod.util.forgeEventClasses.playerTeleportEvent;
 import io.github.kingstefan26.kokomod.util.renderUtil.drawCenterString;

@@ -1,5 +1,6 @@
-package io.github.kingstefan26.kokomod.core.module;
+package io.github.kingstefan26.kokomod.core.module.blueprints;
 
+import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;

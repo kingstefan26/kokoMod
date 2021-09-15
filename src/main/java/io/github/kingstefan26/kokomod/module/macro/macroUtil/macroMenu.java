@@ -1,6 +1,6 @@
 package io.github.kingstefan26.kokomod.module.macro.macroUtil;
 
-import io.github.kingstefan26.kokomod.core.module.Module;
+import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
