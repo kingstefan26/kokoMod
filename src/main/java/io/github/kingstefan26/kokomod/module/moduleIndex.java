@@ -28,7 +28,7 @@ public class moduleIndex {
 
     private final ArrayList<Module> productionModuleIndex;
     private ArrayList<Module> debugModuleIndex;
-    private ArrayList<Module> moduleArray;
+    private final ArrayList<Module> moduleArray;
 
     private moduleIndex() {
         productionModuleIndex = new ArrayList<>();
@@ -57,6 +57,23 @@ public class moduleIndex {
         debugModuleIndex.add(new test());
 
         moduleArray.addAll(debugModuleIndex);
+    }
+
+    public void unloadDebugModules() {
+        for(Module m : moduleArray){
+            for(Module a : debugModuleIndex){
+                if(m.equals(a)){
+                    moduleArray.remove(m);
+                }
+            }
+        }
+
+        for(Module a : debugModuleIndex){
+            a.setToggled(false);
+            Module refrence = debugModuleIndex.get(debugModuleIndex.indexOf(a));
+            refrence = null;
+        }
+        debugModuleIndex = null;
     }
 
     public ArrayList<Module> getAllModules(){
