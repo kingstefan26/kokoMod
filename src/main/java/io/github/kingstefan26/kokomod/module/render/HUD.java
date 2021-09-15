@@ -3,8 +3,7 @@ package io.github.kingstefan26.kokomod.module.render;
 import io.github.kingstefan26.kokomod.core.config.confgValueType;
 import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.Module;
-import io.github.kingstefan26.kokomod.core.module.ModuleManager;
-import io.github.kingstefan26.kokomod.core.moduleIndex;
+import io.github.kingstefan26.kokomod.module.moduleIndex;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
 import net.minecraft.client.Minecraft;
@@ -45,7 +44,7 @@ public class HUD extends Module {
 	
 	@SubscribeEvent
 	public void onRender(RenderGameOverlayEvent egoe) {
-		if (!egoe.type.equals(egoe.type.CROSSHAIRS)) {
+		if (!egoe.type.equals(RenderGameOverlayEvent.ElementType.CROSSHAIRS)) {
 			return;
 		}
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());

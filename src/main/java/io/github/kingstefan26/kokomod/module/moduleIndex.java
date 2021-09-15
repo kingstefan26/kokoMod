@@ -1,4 +1,4 @@
-package io.github.kingstefan26.kokomod.core;
+package io.github.kingstefan26.kokomod.module;
 
 import io.github.kingstefan26.kokomod.core.module.Module;
 import io.github.kingstefan26.kokomod.module.combat.LmbAutoCliker;
