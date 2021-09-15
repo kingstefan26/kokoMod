@@ -30,4 +30,13 @@ public class sendChatMessage {
             Minecraft.getMinecraft().thePlayer.addChatMessage(event.message);
         }
     }
+
+    public static synchronized void sendClientMessage(ChatComponentText message) {
+        ClientChatReceivedEvent event = new ClientChatReceivedEvent((byte) 1, message);
+
+        MinecraftForge.EVENT_BUS.post(event);
+        if (!event.isCanceled()) {
+            Minecraft.getMinecraft().thePlayer.addChatMessage(event.message);
+        }
+    }
 }
