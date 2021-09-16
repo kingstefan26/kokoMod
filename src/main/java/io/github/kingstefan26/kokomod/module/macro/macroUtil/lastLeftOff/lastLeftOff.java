@@ -56,7 +56,7 @@ public class lastLeftOff extends Module {
 		z = new configObject("z", this.getName(), 0.5F);
 		croptype= new configObject("cropType", this.getName(), "DEFAULT");
 		macrostage= new configObject("macrostage", this.getName(), "DEFAULT");
-		time = new configObject("z", this.getName(), 0.5F);
+		time = new configObject("time", this.getName(), 0.5F);
 
 		if(x.getDoubleValue() != 0.0F){
 			if(time.getDoubleValue() != 0.5F){
