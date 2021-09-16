@@ -4,11 +4,13 @@ import io.github.kingstefan26.kokomod.core.clickgui.ClickGui;
 import io.github.kingstefan26.kokomod.core.config.configMenager;
 import io.github.kingstefan26.kokomod.core.module.ModuleManager;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
+import io.github.kingstefan26.kokomod.util.handelers.PacketHandler;
 import io.github.kingstefan26.kokomod.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 import static io.github.kingstefan26.kokomod.main.VERSION;
 
@@ -40,6 +42,12 @@ public class kokoMod {
 	        }
         }
     }
+
+	@SubscribeEvent
+	public void onServerConnect(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+		event.manager.channel().pipeline().addBefore("packet_handler", "kingstefan26_packet_handler", new PacketHandler());
+		System.out.println("Added packet handler to channel pipeline.");
+	}
 
     public void init() {
     	MinecraftForge.EVENT_BUS.register(this);

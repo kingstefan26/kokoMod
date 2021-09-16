@@ -9,7 +9,7 @@ import io.github.kingstefan26.kokomod.module.macro.sugarCane.caneMacro;
 import io.github.kingstefan26.kokomod.module.macro.wart.wartMacro;
 import io.github.kingstefan26.kokomod.module.macro.wart.wartMacroVerticalDesign;
 import io.github.kingstefan26.kokomod.module.macro.wart.wartMacronoTppad;
-import io.github.kingstefan26.kokomod.module.misc.amiTimedOut;
+import io.github.kingstefan26.kokomod.module.misc.amiTimedOut.amiTimedOut;
 import io.github.kingstefan26.kokomod.module.misc.test.test;
 import io.github.kingstefan26.kokomod.module.player.Sprint;
 import io.github.kingstefan26.kokomod.module.player.iWillcancelYouOnTwitter;

@@ -1,7 +1,7 @@
 package io.github.kingstefan26.kokomod.util.listeners;
 
 
-import io.github.kingstefan26.kokomod.util.forgeEventClasses.keepAlivePacketEvent;
+import io.github.kingstefan26.kokomod.util.forgeEventClasses.receivedKeepAlivePacketEvent;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.Packet;
@@ -15,7 +15,7 @@ public class packetListener extends ChannelDuplexHandler {
 		System.out.println(packet);
 
 		if (packet instanceof C00PacketKeepAlive) {
-			MinecraftForge.EVENT_BUS.post(new keepAlivePacketEvent());
+			MinecraftForge.EVENT_BUS.post(new receivedKeepAlivePacketEvent());
 		}
 		super.channelRead(ctx, packet);
 	}
