@@ -95,6 +95,7 @@ public class test extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
+        Display d = new Display(300, 300);
 //        sendChatMessage.sendClientMessage("bye reaload!!!", true);
 //        lastLeftOff.getLastLeftOff().registerLastLeftOff(new lastleftoffObject(10, 10, 10, cropType.WART, macroStages.DEFAULT));
 //        mc.displayGuiScreen(new newergui());

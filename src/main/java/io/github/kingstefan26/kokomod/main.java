@@ -17,6 +17,9 @@ public class main {
 
     @EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
+        if(debug){
+            System.getProperty("devauth.enabled","true");
+        }
         for(CommandBase c : commandIndex.getCommandIndex().getCommands()){
             ClientCommandHandler.instance.registerCommand(c);
         }

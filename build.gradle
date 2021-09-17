@@ -6,9 +6,10 @@ buildscript {
         }
         maven { url = "https://maven.minecraftforge.net/" }
         maven { url = "https://repo.spongepowered.org/maven" }
+        maven { url = "https://repo.sk1er.club/repository/maven-public"}
     }
     dependencies {
-        classpath "com.github.asbyth:ForgeGradle:6f53277"
+        classpath 'com.github.asbyth:ForgeGradle:6f53277'
         classpath 'com.github.LxGaming:MixinGradle:d75e32e'//0.6-SNAPSHOT'
         classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
     }

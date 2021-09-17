@@ -18,9 +18,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
@@ -28,6 +26,7 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 
 import static io.github.kingstefan26.kokomod.core.config.configMenager.configMenager;
+import static io.github.kingstefan26.kokomod.util.renderUtil.draw3Dline.draw3DLine;
 
 
 public class lastLeftOff extends Module {
@@ -237,6 +236,7 @@ public class lastLeftOff extends Module {
 		}
 
 
+
 		double x = LastLeftOff.getX() - viewerX;
 		double y = LastLeftOff.getY() - viewerY;
 		double z = LastLeftOff.getZ() - viewerZ;
@@ -247,6 +247,27 @@ public class lastLeftOff extends Module {
 
 		if(distSq < 4*4){
 			drawFilledBoundingBox(bb, 1f,textrgb);
+		}else{
+//			//line one
+//			Vec3 pos1;
+//			Vec3 pos2;
+//			pos1 = new Vec3(viewerX,viewerY,viewerZ);
+//			pos2 = new Vec3(LastLeftOff.getX(),viewerY,LastLeftOff.getZ());
+//
+//			//line two
+//			Vec3 pos3;
+//			Vec3 pos4;
+//			pos3 = new Vec3(LastLeftOff.getX(),viewerY,LastLeftOff.getZ());
+//			pos4 = new Vec3(LastLeftOff.getX(),LastLeftOff.getY(),LastLeftOff.getZ());
+//
+//			draw3DLine(pos1,pos2, rgb, 5, false, event.partialTicks);
+//
+//			draw3DLine(pos1,pos2, rgb, 5, false, event.partialTicks);
+			Vec3 pos3;
+			Vec3 pos4;
+			pos3 = new Vec3(LastLeftOff.getX(),LastLeftOff.getY(),LastLeftOff.getZ());
+			pos4 = new Vec3(viewerX,viewerY + 1,viewerZ);
+			draw3DLine(pos3,pos4, rgb, 5, false, event.partialTicks);
 		}
 
 
@@ -264,6 +285,8 @@ public class lastLeftOff extends Module {
 		GlStateManager.enableBlend();
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		GlStateManager.disableTexture2D();
+//		GL11.glEnable(GL11.GL_DEPTH_TEST);
+//		GlStateManager.depthMask(true);
 
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
