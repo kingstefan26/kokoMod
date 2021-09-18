@@ -27,8 +27,6 @@ targetCompatibility = 1.8
 group = 'io.github.kingstefan26'
 version = '0.2.8-ALPHA'
 String modid = "kokomod"
-//String mixinClassifier = "dep"
-compileJava.options.encoding = 'UTF-8'
 
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
@@ -57,28 +55,22 @@ mixin {
 jar {
     manifest.attributes(
             'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+            'ModSide': 'CLIENT',
+            'ForceLoadAsMod': true,
             'MixinConfigs': "io.github.kingstefan26.kokomod.core.mixins.${modid}.json",
             'FMLCorePluginContainsFMLMod': true,
-            "ForceLoadAsMod": true
     )
 }
 
 shadowJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     dependencies {
         include(dependency('org.spongepowered:mixin:0.7.11-SNAPSHOT'))
         include(dependency('org.apache.commons:commons-lang3'))
     }
-
-    relocate 'com.fasterxml.jackson', 'neu.com.fasterxml.jackson'
-    relocate 'org.eclipse', 'neu.org.eclipse'
-    relocate 'org.slf4j', 'neu.org.slf4j'
-
-    exclude 'module-info.class'
-    exclude 'dummyThing'
-    exclude 'LICENSE.txt'
-
-//    classifier = mixinClassifier
 }
+
+reobfJar.dependsOn tasks.shadowJar
 
 reobf {
     shadowJar {
