@@ -19,7 +19,6 @@ public class Module {
 	private int key;
 
 
-
 	private Category category;
 	private boolean toggled;
 	public boolean visible = true;

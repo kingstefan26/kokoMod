@@ -1,11 +1,7 @@
-package io.github.kingstefan26.kokomod.module.misc.test;
+package io.github.kingstefan26.kokomod.module.debug.test;
 import java.awt.*;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import javax.swing.*;
 

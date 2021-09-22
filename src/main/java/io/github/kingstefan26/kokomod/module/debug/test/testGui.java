@@ -1,4 +1,4 @@
-package io.github.kingstefan26.kokomod.module.misc.test;
+package io.github.kingstefan26.kokomod.module.debug.test;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

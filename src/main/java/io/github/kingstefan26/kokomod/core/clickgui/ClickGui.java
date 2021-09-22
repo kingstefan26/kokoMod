@@ -3,10 +3,13 @@ package io.github.kingstefan26.kokomod.core.clickgui;
 import io.github.kingstefan26.kokomod.core.clickgui.component.Component;
 import io.github.kingstefan26.kokomod.core.clickgui.component.Frame;
 import io.github.kingstefan26.kokomod.core.module.Category;
+import io.github.kingstefan26.kokomod.main;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static io.github.kingstefan26.kokomod.core.module.Category.*;
 
 public class ClickGui extends GuiScreen {
 
@@ -17,12 +20,18 @@ public class ClickGui extends GuiScreen {
 	}
 
 	public static ArrayList<Frame> frames;
-	public static int color = -1;
+	public static int color = 0x2e2e2e;
 	
 	public ClickGui() {
-		this.frames = new ArrayList<Frame>();
-		int frameX = 5;
+		frames = new ArrayList<>();
+		int frameX = 0;
 		for(Category category : Category.values()) {
+			if(category == UtilModule){
+				return;
+			}
+			if(category == DEBUG && !main.debug){
+				return;
+			}
 			Frame frame = new Frame(category);
 			frame.setX(frameX);
 			frames.add(frame);

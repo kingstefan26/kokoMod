@@ -1,19 +1,10 @@
-package io.github.kingstefan26.kokomod.module.misc.test;
+package io.github.kingstefan26.kokomod.module.debug.test;
 
 import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
-import io.github.kingstefan26.kokomod.core.setting.Setting;
-import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
 import io.github.kingstefan26.kokomod.main;
-import io.github.kingstefan26.kokomod.module.macro.macroUtil.cropType;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastLeftOff;
-import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastleftoffObject;
-import io.github.kingstefan26.kokomod.module.macro.macroUtil.macroStages;
 import io.github.kingstefan26.kokomod.util.renderUtil.hehe;
-import io.github.kingstefan26.kokomod.util.sendChatMessage;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.init.Items;
-import net.minecraft.stats.Achievement;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -26,7 +17,7 @@ import static io.github.kingstefan26.kokomod.util.renderUtil.draw3Dline.draw3DLi
 public class test extends Module {
 
     public test() {
-        super("test", "test", Category.MISC, true, " hello test", " rip test");
+        super("test", "test", Category.DEBUG, true, " hello test", " rip test");
 //        SettingsManager.getSettingsManager().rSetting(new Setting("interpolate steps", this, 10, 1, 60, true));
 //        SettingsManager.getSettingsManager().rSetting(new Setting("wanted Yaw", this, 90, 1, 90, false));
 //        SettingsManager.getSettingsManager().rSetting(new Setting("wanted Pitch", this, 1, 1, 90, false));
