@@ -38,8 +38,8 @@ public class drawCenterString extends Gui {
         drawCenteredString(mc.fontRendererObj, text, width / 2, (height / 2) + 4, Integer.parseInt(hexcolor, 16));
     }
 
-    public void drawStringWereeverIWant(Minecraft mc, String text, String hexcolor, int x, int z) {
-        drawString(mc.fontRendererObj, text, x, z, Integer.parseInt(hexcolor, 16));
+    public void drawStringWereeverIWant(Minecraft mc, String text, int hexcolor, int x, int z) {
+        drawString(mc.fontRendererObj, text, x, z, hexcolor);
     }
 
 }
