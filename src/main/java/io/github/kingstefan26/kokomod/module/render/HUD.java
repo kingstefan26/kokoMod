@@ -45,7 +45,7 @@ public class HUD extends Module {
 	
 	@SubscribeEvent
 	public void onRender(RenderGameOverlayEvent e) {
-		if (!e.type.equals(RenderGameOverlayEvent.ElementType.CROSSHAIRS)) {
+		if (!e.type.equals(RenderGameOverlayEvent.ElementType.CROSSHAIRS)|| !this.isToggled()) {
 			return;
 		}
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
