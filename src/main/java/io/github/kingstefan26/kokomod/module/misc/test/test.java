@@ -4,6 +4,7 @@ import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
+import io.github.kingstefan26.kokomod.main;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.cropType;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastLeftOff;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastleftoffObject;
@@ -11,6 +12,8 @@ import io.github.kingstefan26.kokomod.module.macro.macroUtil.macroStages;
 import io.github.kingstefan26.kokomod.util.renderUtil.hehe;
 import io.github.kingstefan26.kokomod.util.sendChatMessage;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.init.Items;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -21,6 +24,7 @@ import static io.github.kingstefan26.kokomod.util.renderUtil.draw3Dline.draw3DLi
 
 
 public class test extends Module {
+
     public test() {
         super("test", "test", Category.MISC, true, " hello test", " rip test");
 //        SettingsManager.getSettingsManager().rSetting(new Setting("interpolate steps", this, 10, 1, 60, true));
@@ -66,6 +70,42 @@ public class test extends Module {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent e ){
         if(mc.thePlayer == null) return;
+//        float yaw = Minecraft.getMinecraft().thePlayer.rotationYawHead;
+//        yaw %= 360;
+//        if(yaw < 0) yaw += 360;
+//        if(yaw > 180) yaw -= 360;
+
+
+
+        //    final GuiScreen b = new GuiScreen() {
+//        @Override
+//        public void drawScreen(int par1, int par2, float par3) {
+//            super.drawScreen(par1, par2, par3);
+//            for (int i = 0; i < GuiScreenText.length; ++i) {
+//                drawCenteredString(fontRendererObj, GuiScreenText[i], width / 2, height / 3 + 12 * i, 0xFFFFFFFF);
+//            }
+//        }
+//
+//        @Override
+//        public void initGui() {
+//            super.initGui();
+//            //this.buttonList.clear();
+//            //this.buttonList.add(new GuiButton(0, width / 2 - 50, height - 50, 100,20, "close"));
+//        }
+//
+//        @Override
+//        protected void actionPerformed(GuiButton button) throws IOException {
+//            //FMLCommonHandler.instance().exitJava(-1,true);
+//        }
+//
+//        @Override
+//        public boolean doesGuiPauseGame() {
+//            return false;
+//        }
+//    };
+
+
+
 //        EntityPlayerSP ab = mc.thePlayer;
 //        ab.rotationYaw = wantedYaw;
 //        ab.rotationPitch = wantedPitch;
@@ -96,8 +136,11 @@ public class test extends Module {
     public void onEnable() {
         super.onEnable();
 
+        mc.guiAchievement.displayAchievement(main.cockbone);
 
-        Display d = new Display();
+
+
+        //Display d = new Display();
 
 //        sendChatMessage.sendClientMessage("bye reaload!!!", true);
 //        lastLeftOff.getLastLeftOff().registerLastLeftOff(new lastleftoffObject(10, 10, 10, cropType.WART, macroStages.DEFAULT));
