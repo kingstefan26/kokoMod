@@ -21,7 +21,7 @@ public class kokomodTransformer implements IClassTransformer {
     private static final String DRAW_WORLD_BAGKGROUND_METHOD = "drawWorldBackground";
     private static final String DRAW_WORLD_BAGKGROUND_METHOD_OBF = "func_146270_b";
     
-    private static final String BLUR_MAIN_CLASS = "io/github/kingstefan26/kokomod/module/render/blurClickGui";
+    private static final String BULR_MODULE = "io/github/kingstefan26/kokomod/module/render/blurClickGui";
     private static final String COLOR_HOOK_METHOD_NAME = "getBackgroundColor";
     private static final String COLOR_HOOK_METHOD_DESC = "(Z)I";
 
@@ -40,7 +40,7 @@ public class kokomodTransformer implements IClassTransformer {
                         AbstractInsnNode next = m.instructions.get(i);
                         if (next.getOpcode() == Opcodes.LDC) {
                             System.out.println("Modifying GUI background darkness... ");
-                            AbstractInsnNode colorHook = new MethodInsnNode(Opcodes.INVOKESTATIC, BLUR_MAIN_CLASS, COLOR_HOOK_METHOD_NAME, COLOR_HOOK_METHOD_DESC, false);
+                            AbstractInsnNode colorHook = new MethodInsnNode(Opcodes.INVOKESTATIC, BULR_MODULE, COLOR_HOOK_METHOD_NAME, COLOR_HOOK_METHOD_DESC, false);
                             AbstractInsnNode colorHook2 = colorHook.clone(null);
 
                             // Replace LDC with hooks
