@@ -1,5 +1,6 @@
 package io.github.kingstefan26.kokomod.module.render;
 
+import com.google.common.base.Throwables;
 import io.github.kingstefan26.kokomod.core.config.confgValueType;
 import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
@@ -10,8 +11,20 @@ import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.shader.Shader;
+import net.minecraft.client.shader.ShaderGroup;
+import net.minecraft.client.shader.ShaderUniform;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 public class HUD extends Module {
 

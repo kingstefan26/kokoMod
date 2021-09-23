@@ -48,17 +48,17 @@ dependencies {
     annotationProcessor('org.spongepowered:mixin:0.7.11-SNAPSHOT')
 }
 
-mixin {
-    add sourceSets.main, "io.github.kingstefan26.kokomod.core.mixins.${modid}.refmap.json"
-}
+//mixin {
+//    add sourceSets.main, "io.github.kingstefan26.kokomod.core.mixins.${modid}.refmap.json"
+//}
 
 jar {
     manifest.attributes(
             'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
             'ModSide': 'CLIENT',
             'ForceLoadAsMod': true,
-            'MixinConfigs': "io.github.kingstefan26.kokomod.core.mixins.${modid}.json",
-            'FMLCorePluginContainsFMLMod': true,
+            //'MixinConfigs': "io.github.kingstefan26.kokomod.core.mixins.${modid}.json",
+            'FMLCorePluginContainsFMLMod': true
     )
 }
 
@@ -68,6 +68,9 @@ shadowJar {
         include(dependency('org.spongepowered:mixin:0.7.11-SNAPSHOT'))
         include(dependency('org.apache.commons:commons-lang3'))
     }
+    manifest.attributes(
+            "FMLCorePlugin": "io.github.kingstefan26.kokomod.kokomodPlugin"
+    )
 }
 
 reobfJar.dependsOn tasks.shadowJar

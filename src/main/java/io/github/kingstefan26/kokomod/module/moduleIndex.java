@@ -20,8 +20,11 @@ import io.github.kingstefan26.kokomod.module.render.ClickGUI;
 import io.github.kingstefan26.kokomod.module.render.HUD;
 import io.github.kingstefan26.kokomod.module.util.SBinfo;
 import io.github.kingstefan26.kokomod.module.util.teleportListener;
+import io.github.kingstefan26.kokomod.module.render.blurClickGui;
 
 import java.util.ArrayList;
+
+import static io.github.kingstefan26.kokomod.module.render.blurClickGui.blurClickGui_;
 
 
 public class moduleIndex {
@@ -55,6 +58,7 @@ public class moduleIndex {
         productionModuleIndex.add(wartMacroVerticalDesign.getwartMacroVerticalDesign());
         productionModuleIndex.add(lastLeftOff.getLastLeftOff());
         productionModuleIndex.add(new stolenFarmOverlay());
+        productionModuleIndex.add(blurClickGui.getBlurClickGui());
 
         utilModuleIndex.add(SBinfo.getSBinfo());
         utilModuleIndex.add(teleportListener.getTeleportListner());
