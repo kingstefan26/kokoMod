@@ -1,7 +1,10 @@
 package io.github.kingstefan26.kokomod.module.debug;
 
+import io.github.kingstefan26.kokomod.core.config.confgValueType;
 import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
+import io.github.kingstefan26.kokomod.core.setting.Setting;
+import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +16,15 @@ import org.lwjgl.opengl.GL11;
 public class testTracer extends Module {
     public testTracer() {
         super("test tracer", "yazz", Category.DEBUG);
+        SettingsManager.getSettingsManager().rSetting(new Setting("boxes", this, true));
+    }
+
+    boolean a;
+
+    @Override
+    public void onEnable(){
+        super.onEnable();
+        a = SettingsManager.getSettingsManager().getSettingByName("boxes", this).getValBoolean();
     }
 
     @SubscribeEvent
@@ -21,7 +33,9 @@ public class testTracer extends Module {
             //drawTracerLine(event.partialTicks);
             for (EntityPlayer ed : mc.theWorld.playerEntities) {
                 drawTracer(event.partialTicks, ed, Minecraft.getMinecraft().getRenderViewEntity());
-                drawBoundingBox(event.partialTicks, ed, Minecraft.getMinecraft().getRenderViewEntity());
+                if(a){
+                    drawBoundingBox(event.partialTicks, ed, Minecraft.getMinecraft().getRenderViewEntity());
+                }
             }
         }
 

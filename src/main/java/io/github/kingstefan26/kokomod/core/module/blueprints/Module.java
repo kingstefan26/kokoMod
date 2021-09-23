@@ -1,5 +1,6 @@
 package io.github.kingstefan26.kokomod.core.module.blueprints;
 
+import io.github.kingstefan26.kokomod.core.config.configObject;
 import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
@@ -14,14 +15,17 @@ public class Module {
 	final String uuid = UUID.randomUUID().toString().replace("-", "");
 
 	protected static Minecraft mc = Minecraft.getMinecraft();
-	
-	private String name, description, enableMessage, disableMessage;
+
+	private final String name;
+	private final Category category;
+
+	private String description, enableMessage, disableMessage;
 	private int key;
 
 
-	private Category category;
 	private boolean toggled;
-	public boolean visible = true;
+	private boolean visible;
+	configObject visibleConfigObject;
 	private boolean keybindEnabled = false;
 	private boolean enabledisableMessage;
 	private KeyBinding fmlkeybindObject;
@@ -42,7 +46,8 @@ public class Module {
 		}
 		this.category = category;
 		this.toggled = false;
-
+		visibleConfigObject = new configObject("visibility", this.name, true);
+		visible = visibleConfigObject.getBooleanValue();
 	}
 
 	public Module(String name, String description, Category category,boolean keybindEnabled) {
@@ -59,7 +64,8 @@ public class Module {
 		}
 		this.category = category;
 		this.toggled = false;
-
+		visibleConfigObject = new configObject("visibility", this.name, true);
+		visible = visibleConfigObject.getBooleanValue();
 	}
 
 	public Module(String name, String description, Category category) {
@@ -69,6 +75,8 @@ public class Module {
 		this.key = key;
 		this.category = category;
 		this.toggled = false;
+		visibleConfigObject = new configObject("visibility", this.name, true);
+		visible = visibleConfigObject.getBooleanValue();
 	}
 
 	public String getDescription() {
@@ -128,6 +136,27 @@ public class Module {
 	public void onDisable() {
 		MinecraftForge.EVENT_BUS.unregister(this);
 		if(this.enabledisableMessage) sendChatMessage.sendClientMessage(this.disableMessage, true);
+	}
+
+	public void setInvisible(){
+		this.visible = false;
+		visibleConfigObject.setBooleanValue(false);
+	}
+	public void setVisible(){
+		this.visible = true;
+		visibleConfigObject.setBooleanValue(true);
+	}
+	public boolean getVisibility(){
+		return this.visible;
+	}
+	public void toggleVisibility(){
+		if(this.visible){
+			this.visible = false;
+			visibleConfigObject.setBooleanValue(false);
+		}else {
+			this.visible = true;
+			visibleConfigObject.setBooleanValue(true);
+		}
 	}
 	
 	public String getName() {

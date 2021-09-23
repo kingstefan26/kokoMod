@@ -36,6 +36,12 @@ public class Setting {
 
 	private configObject settingConfigObject;
 
+	/**
+	 *
+	 * @param name
+	 * @param parent
+	 * @param type
+	 */
 	public Setting(String name, Module parent, confgValueType type){
 		this.name = name;
 		this.parent = parent;
@@ -46,8 +52,14 @@ public class Setting {
 
 		this.mode = settingType.CHECK;
 	}
-	
 
+	/**
+	 *
+	 * @param name
+	 * @param parent
+	 * @param sval
+	 * @param options
+	 */
 	public Setting(String name, Module parent, String sval, ArrayList<String> options){
 		this.name = name;
 		this.parent = parent;
@@ -59,7 +71,13 @@ public class Setting {
 		configMenager.getConfigManager().createConfigObject(new configObject(name, parent.getName(), "default"));
 		settingConfigObject = configMenager.getConfigManager().getConfigObjectByNameAndTypeAndParent(name, parent.getName(), type);
 	}
-	
+
+	/**
+	 *
+	 * @param name
+	 * @param parent
+	 * @param bval
+	 */
 	public Setting(String name, Module parent, boolean bval){
 		this.name = name;
 		this.parent = parent;
@@ -70,7 +88,16 @@ public class Setting {
 		configMenager.getConfigManager().createConfigObject(new configObject(name, parent.getName(), false));
 		settingConfigObject = configMenager.getConfigManager().getConfigObjectByNameAndTypeAndParent(name, parent.getName(), type);
 	}
-	
+
+	/**
+	 *
+	 * @param name
+	 * @param parent
+	 * @param dval
+	 * @param min
+	 * @param max
+	 * @param onlyint
+	 */
 	public Setting(String name, Module parent, double dval, double min, double max, boolean onlyint){
 		this.name = name;
 		this.parent = parent;

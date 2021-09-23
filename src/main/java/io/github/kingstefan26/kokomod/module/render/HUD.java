@@ -64,7 +64,7 @@ public class HUD extends Module {
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 		int y = 2;
 		for (Module mod : moduleIndex.getmoduleIndex().getAllModules()) {
-			if (!mod.getName().equalsIgnoreCase("HUD") && mod.isToggled() && mod.visible) {
+			if (!mod.getName().equalsIgnoreCase("HUD") && mod.isToggled() && mod.getVisibility()) {
 				FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 				fr.drawString(mod.getName(), sr.getScaledWidth() - fr.getStringWidth(mod.getName()) - 1, y, rgb, true);
 				y += fr.FONT_HEIGHT;
