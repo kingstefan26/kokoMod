@@ -1,5 +1,6 @@
 package io.github.kingstefan26.kokomod.core.module.blueprints;
 
+import io.github.kingstefan26.kokomod.core.clickgui.ClickGui;
 import io.github.kingstefan26.kokomod.core.config.configObject;
 import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.util.sendChatMessage;
@@ -11,7 +12,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import java.util.UUID;
 
 
-public class Module {
+public class Module implements moduleCallables{
 	final String uuid = UUID.randomUUID().toString().replace("-", "");
 
 	protected static Minecraft mc = Minecraft.getMinecraft();
@@ -22,7 +23,7 @@ public class Module {
 	private String description, enableMessage, disableMessage;
 	private int key;
 
-
+	public boolean closed;
 	private boolean toggled;
 	private boolean visible;
 	configObject visibleConfigObject;
@@ -38,7 +39,6 @@ public class Module {
 		this.disableMessage = disableMessage;
 		this.description = description;
 		this.enabledisableMessage = true;
-		this.key = key;
 		this.keybindEnabled = keybindEnabled;
 		if(keybindEnabled){
 			this.fmlkeybindObject = new KeyBinding(this.description, key, "kokoMod");
@@ -53,10 +53,7 @@ public class Module {
 	public Module(String name, String description, Category category,boolean keybindEnabled) {
 		super();
 		this.name = name;
-		this.enableMessage = enableMessage;
-		this.disableMessage = disableMessage;
 		this.description = description;
-		this.key = key;
 		this.keybindEnabled = keybindEnabled;
 		if(keybindEnabled){
 			this.fmlkeybindObject = new KeyBinding(this.description, key, "kokoMod");
@@ -72,11 +69,11 @@ public class Module {
 		super();
 		this.name = name;
 		this.description = description;
-		this.key = key;
 		this.category = category;
 		this.toggled = false;
 		visibleConfigObject = new configObject("visibility", this.name, true);
 		visible = visibleConfigObject.getBooleanValue();
+
 	}
 
 	public String getDescription() {
@@ -88,6 +85,7 @@ public class Module {
 	}
 
 	public int getKey() {
+		if(closed) return 0;
 		if(keybindEnabled){
 			this.key = this.fmlkeybindObject.getKeyCode();
 		}
@@ -109,6 +107,7 @@ public class Module {
 	}
 
 	public void setToggled(boolean toggled) {
+		if(closed) return;
 		this.toggled = toggled;
 		
 		if (this.toggled) {
@@ -119,6 +118,7 @@ public class Module {
 	}
 	
 	public void toggle() {
+		if(closed) return;
 		this.toggled = !this.toggled;
 		
 		if (this.toggled) {
@@ -129,6 +129,7 @@ public class Module {
 	}
 	
 	public void onEnable() {
+		if(closed) return;
 		MinecraftForge.EVENT_BUS.register(this);
 		if(this.enabledisableMessage) sendChatMessage.sendClientMessage(this.enableMessage, true);
 	}
@@ -165,5 +166,36 @@ public class Module {
 	
 	public Category getCategory() {
 		return this.category;
+	}
+
+	@Override
+	public void init() {
+		ClickGui.getClickGui().registerComponent(this);
+	}
+
+	@Override
+	public void onTick() {
+
+	}
+
+	@Override
+	public void onWorldRender() {
+
+	}
+
+	@Override
+	public void onPlayerFall() {
+
+	}
+
+	@Override
+	public void onPlayerTeleport() {
+
+	}
+
+	@Override
+	public void close() {
+		this.onDisable();
+		this.closed = true;
 	}
 }

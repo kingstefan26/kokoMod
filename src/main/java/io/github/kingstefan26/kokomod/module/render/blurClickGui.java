@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class blurClickGui extends Module {
@@ -27,10 +28,15 @@ public class blurClickGui extends Module {
         return blurClickGui_;
     }
 
+    ArrayList<String> alowedGuiClasses = new ArrayList<>();
+
     public blurClickGui(){
         super("blurClickGui", "adds nice blur to click gui", Category.RENDER);
         SettingsManager.getSettingsManager().rSetting(new Setting("PERSISTENCE", this, confgValueType.PERSISTENT));
         if(SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()) this.toggle();
+        alowedGuiClasses.add("io.github.kingstefan26.kokomod.core.clickgui.ClickGui");
+        alowedGuiClasses.add("io.github.kingstefan26.kokomod.module.debug.test.newergui");
+        this.init();
     }
 
     @Override
@@ -55,7 +61,8 @@ public class blurClickGui extends Module {
         if (Minecraft.getMinecraft().theWorld != null) {
             EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
             //boolean excluded = event.gui == null || ArrayUtils.contains(blurExclusions, event.gui.getClass().getName());
-            boolean excluded = event.gui == null || ! event.gui.getClass().getName().equals("io.github.kingstefan26.kokomod.core.clickgui.ClickGui");
+            boolean excluded = event.gui == null || ! alowedGuiClasses.contains(event.gui.getClass().getName());
+            //io.github.kingstefan26.kokomod.module.debug.test.newergui
             if (!er.isShaderActive() && !excluded) {
                 er.loadShader(new ResourceLocation("shaders/post/fade_in_blur.json"));
                 start = System.currentTimeMillis();

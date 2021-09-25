@@ -49,7 +49,7 @@ public class wartMacro extends Module {
         super("wart macro", "macros wart!", Category.MACRO, true);
         SettingsManager.getSettingsManager().rSetting(new Setting("yaw", this, 90, 0, 90, true));
         SettingsManager.getSettingsManager().rSetting(new Setting("pitch", this, 9, 0, 90, true));
-
+        this.init();
     }
 
     @SubscribeEvent
@@ -71,9 +71,8 @@ public class wartMacro extends Module {
             playerPitch = Math.round(mc.thePlayer.rotationPitch);
 
             //if the yaw if at a 45o angle and pitch is 0, so we can start macroing
-            boolean temp = playerYaw % wantedYaw == 0 && playerPitch == wantedPitch;
 
-            ismacroingReady = temp;
+            ismacroingReady = playerYaw % wantedYaw == 0 && playerPitch == wantedPitch;
 
         }
         if (ismacroingReady) {

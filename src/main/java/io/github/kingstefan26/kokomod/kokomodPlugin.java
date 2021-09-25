@@ -1,8 +1,8 @@
 package io.github.kingstefan26.kokomod;
 
-import java.util.Map;
-
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+
+import java.util.Map;
 
 @IFMLLoadingPlugin.SortingIndex(Integer.MAX_VALUE)
 public class kokomodPlugin implements IFMLLoadingPlugin {

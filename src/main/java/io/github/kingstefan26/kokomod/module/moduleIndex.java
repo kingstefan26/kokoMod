@@ -2,22 +2,17 @@ package io.github.kingstefan26.kokomod.module;
 
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.core.module.blueprints.UtilModule;
+
 import io.github.kingstefan26.kokomod.module.combat.LmbAutoCliker;
 import io.github.kingstefan26.kokomod.module.combat.RmbAutoCliker;
 import io.github.kingstefan26.kokomod.module.debug.testTracer;
-import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastLeftOff;
-import io.github.kingstefan26.kokomod.module.macro.sugarCane.caneMacro;
-import io.github.kingstefan26.kokomod.module.macro.wart.wartMacro;
-import io.github.kingstefan26.kokomod.module.macro.wart.wartMacroVerticalDesign;
-import io.github.kingstefan26.kokomod.module.macro.wart.wartMacronoTppad;
-import io.github.kingstefan26.kokomod.module.misc.amiTimedOut.amiTimedOut;
-import io.github.kingstefan26.kokomod.module.misc.stolenFarmOverlay;
+
+
 import io.github.kingstefan26.kokomod.module.debug.test.test;
-import io.github.kingstefan26.kokomod.module.player.Sprint;
-import io.github.kingstefan26.kokomod.module.player.iWillcancelYouOnTwitter;
-import io.github.kingstefan26.kokomod.module.render.BatEsp;
-import io.github.kingstefan26.kokomod.module.render.ClickGUI;
-import io.github.kingstefan26.kokomod.module.render.HUD;
+
+
+import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastLeftOff;
+import io.github.kingstefan26.kokomod.module.macro.wart.wartMacroVerticalDesign;
 import io.github.kingstefan26.kokomod.module.util.SBinfo;
 import io.github.kingstefan26.kokomod.module.util.teleportListener;
 import io.github.kingstefan26.kokomod.module.render.blurClickGui;
@@ -44,20 +39,9 @@ public class moduleIndex {
         moduleArray = new ArrayList<>();
         utilModuleIndex = new ArrayList<>();
 
-        productionModuleIndex.add(new ClickGUI());
-        productionModuleIndex.add(new iWillcancelYouOnTwitter());
-        productionModuleIndex.add(new HUD());
-        productionModuleIndex.add(new LmbAutoCliker());
-        productionModuleIndex.add(new RmbAutoCliker());
-        productionModuleIndex.add(new Sprint());
-        productionModuleIndex.add(new BatEsp());
-        productionModuleIndex.add(new amiTimedOut());
-        productionModuleIndex.add(new caneMacro());
-        productionModuleIndex.add(new wartMacro());
-        productionModuleIndex.add(new wartMacronoTppad());
+
         productionModuleIndex.add(wartMacroVerticalDesign.getwartMacroVerticalDesign());
         productionModuleIndex.add(lastLeftOff.getLastLeftOff());
-        productionModuleIndex.add(new stolenFarmOverlay());
         productionModuleIndex.add(blurClickGui.getBlurClickGui());
 
         utilModuleIndex.add(SBinfo.getSBinfo());
@@ -71,7 +55,7 @@ public class moduleIndex {
         debugModuleIndex = new ArrayList<>();
 
         debugModuleIndex.add(new test());
-        debugModuleIndex.add(new testTracer());
+        debugModuleIndex.add(testTracer.gettesttracer());
 
         moduleArray.addAll(debugModuleIndex);
     }
@@ -90,6 +74,7 @@ public class moduleIndex {
             Module refrence = debugModuleIndex.get(debugModuleIndex.indexOf(a));
             refrence = null;
         }
+        testTracer.unload();
         debugModuleIndex = null;
     }
 

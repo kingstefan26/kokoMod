@@ -13,6 +13,7 @@ public class amiTimedOut extends Module {
 
 	public amiTimedOut() {
 		super("am i Timed out?", "shows warnings based on your network status", Category.MISC, true, "amitimedout enabled", "amitimedout diasabled");
+		this.init();
 	}
 
 	@SubscribeEvent

@@ -14,6 +14,7 @@ public class tpsDispay extends Module {
 
     public tpsDispay() {
         super("tpsMeter", "displays the tsp", Category.MISC, true, " enabled tps display", " disabled tps display");
+        this.init();
     }
 
     @SubscribeEvent

@@ -5,6 +5,7 @@ import io.github.kingstefan26.kokomod.core.config.confgValueType;
 import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.core.module.blueprints.UtilModule;
+import io.github.kingstefan26.kokomod.core.module.moduleRegistery;
 import io.github.kingstefan26.kokomod.module.moduleIndex;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
@@ -38,7 +39,7 @@ public class HUD extends Module {
 		SettingsManager.getSettingsManager().rSetting(new Setting("B",this, 255, 0, 255,true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("PERSISTENCE", this, confgValueType.PERSISTENT));
 		if(SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()) this.toggle();
-
+		this.init();
 	}
 
 	private void updateVals(){
@@ -58,12 +59,20 @@ public class HUD extends Module {
 	
 	@SubscribeEvent
 	public void onRender(RenderGameOverlayEvent e) {
+		if(this.closed) return;
 		if (!e.type.equals(RenderGameOverlayEvent.ElementType.CROSSHAIRS)|| !this.isToggled()) {
 			return;
 		}
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 		int y = 2;
 		for (Module mod : moduleIndex.getmoduleIndex().getAllModules()) {
+			if (!mod.getName().equalsIgnoreCase("HUD") && mod.isToggled() && mod.getVisibility()) {
+				FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+				fr.drawString(mod.getName(), sr.getScaledWidth() - fr.getStringWidth(mod.getName()) - 1, y, rgb, true);
+				y += fr.FONT_HEIGHT;
+			}
+		}
+		for (Module mod : moduleRegistery.getModuleRegistery().loadedModules) {
 			if (!mod.getName().equalsIgnoreCase("HUD") && mod.isToggled() && mod.getVisibility()) {
 				FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 				fr.drawString(mod.getName(), sr.getScaledWidth() - fr.getStringWidth(mod.getName()) - 1, y, rgb, true);

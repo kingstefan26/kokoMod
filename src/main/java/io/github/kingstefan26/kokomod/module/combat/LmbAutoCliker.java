@@ -27,6 +27,7 @@ public class LmbAutoCliker extends Module {
 
 		SettingsManager.getSettingsManager().rSetting(new Setting("LbmMinCPS", this, 8, 1, 20, false));
 		SettingsManager.getSettingsManager().rSetting(new Setting("LbmMaxCPS", this, 12, 1, 20, false));
+		this.init();
 	}
 
 	@SubscribeEvent

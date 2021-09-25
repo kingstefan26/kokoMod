@@ -13,6 +13,7 @@ public class farmReadycane extends Module {
 
     public farmReadycane(){
         super("farmReady", "gets you ready to farm cane", Category.MISC, true, "farmReady-cane enabled", "farmReady-cane disabled");
+        this.init();
     }
     public boolean toggled;
 
@@ -39,8 +40,7 @@ public class farmReadycane extends Module {
                 //updatePitchAndYaw();
                 playerYaw = Math.round(mc.thePlayer.rotationYaw);
                 playerPitch = Math.round(mc.thePlayer.rotationPitch);
-                boolean temp = playerYaw % 45 == 0 && playerPitch == 0;
-                headlockCondition = temp;
+                headlockCondition = playerYaw % 45 == 0 && playerPitch == 0;
                 //headlockCondition = checkHeadCondition(playerPitch, playerYaw);
             }else{
                 Mouse.getDX();
@@ -57,8 +57,7 @@ public class farmReadycane extends Module {
     }
 
     private boolean checkHeadCondition(int playerPitch, int playerYaw){
-        boolean temp = playerYaw % 45 == 0 && playerPitch == 0;
-        return temp;
+        return playerYaw % 45 == 0 && playerPitch == 0;
     }
 
     @Override

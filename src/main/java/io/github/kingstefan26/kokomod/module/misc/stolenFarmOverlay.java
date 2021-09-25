@@ -5,35 +5,18 @@ import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
 import io.github.kingstefan26.kokomod.core.setting.SettingsManager;
-import io.github.kingstefan26.kokomod.main;
 import io.github.kingstefan26.kokomod.module.util.SBinfo;
-import io.github.kingstefan26.kokomod.util.renderUtil.drawCenterString;
-import io.github.kingstefan26.kokomod.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL14;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL14;
-import org.lwjgl.util.vector.Vector2f;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-
 import java.util.LinkedList;
-import java.util.List;
 
 public class stolenFarmOverlay extends Module {
 
@@ -43,6 +26,7 @@ public class stolenFarmOverlay extends Module {
         if(SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()){
             this.toggle();
         }
+        this.init();
     }
 
     ArrayList<Float> avrageValueStorecps = new ArrayList<>();

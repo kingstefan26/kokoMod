@@ -4,7 +4,9 @@ import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.main;
 import io.github.kingstefan26.kokomod.module.macro.macroUtil.lastLeftOff.lastLeftOff;
+import io.github.kingstefan26.kokomod.util.CustomFont;
 import io.github.kingstefan26.kokomod.util.renderUtil.hehe;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -21,6 +23,8 @@ public class test extends Module {
 //        SettingsManager.getSettingsManager().rSetting(new Setting("interpolate steps", this, 10, 1, 60, true));
 //        SettingsManager.getSettingsManager().rSetting(new Setting("wanted Yaw", this, 90, 1, 90, false));
 //        SettingsManager.getSettingsManager().rSetting(new Setting("wanted Pitch", this, 1, 1, 90, false));
+
+        this.init();
     }
 //    boolean firstTime = false;
 //    long interpolateTimer;
@@ -54,6 +58,7 @@ public class test extends Module {
         draw3DLine(pos1,pos2, 0x47a8ed, 5, false, e.partialTicks);
 
         draw3DLine(pos3,pos4, 0x47a8ed, 5, false, e.partialTicks);
+
 
 
     }
@@ -135,7 +140,8 @@ public class test extends Module {
 
 //        sendChatMessage.sendClientMessage("bye reaload!!!", true);
 //        lastLeftOff.getLastLeftOff().registerLastLeftOff(new lastleftoffObject(10, 10, 10, cropType.WART, macroStages.DEFAULT));
-//        mc.displayGuiScreen(new newergui());
+        newergui n = new newergui();
+        mc.displayGuiScreen(n);
 //        KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), true);
 
 //        firstTime = true;

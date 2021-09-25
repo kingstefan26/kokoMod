@@ -1,10 +1,10 @@
 package io.github.kingstefan26.kokomod.core.clickgui.component.components.sub;
 
+import io.github.kingstefan26.kokomod.core.clickgui.ClickGui;
 import io.github.kingstefan26.kokomod.core.clickgui.component.Component;
 import io.github.kingstefan26.kokomod.core.clickgui.component.components.Button;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;
 
@@ -37,11 +37,21 @@ public class ModeButton extends Component {
 	
 	@Override
 	public void renderComponent() {
-		Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (parent.parent.getWidth() * 1), parent.parent.getY() + offset + 12, this.hovered ? 0xFF222222 : 0xFF111111);
+		Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (parent.parent.getWidth()), parent.parent.getY() + offset + 12, this.hovered ? 0xFF222222 : 0xFF111111);
 		Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
 		GL11.glPushMatrix();
 		GL11.glScalef(0.5f,0.5f, 0.5f);
-		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Mode: " + set.getValString(), (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
+//		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(
+//				"Mode: " + set.getValString(),
+//				(parent.parent.getX() + 7) * 2,
+//				(parent.parent.getY() + offset + 2) * 2 + 5,
+//				-1);
+		ClickGui.getClickGui().customFont.drawStringS(
+				ClickGui.getClickGui(),
+				"Mode: " + set.getValString(),
+				(parent.parent.getX() * 2 + 7) * 2,
+				(parent.parent.getY() * 2 + offset + 2) * 2 + 5,
+				-1);
 		GL11.glPopMatrix();
 	}
 	
@@ -67,9 +77,6 @@ public class ModeButton extends Component {
 	}
 	
 	public boolean isMouseOnButton(int x, int y) {
-		if(x > this.x && x < this.x + 88 && y > this.y && y < this.y + 12) {
-			return true;
-		}
-		return false;
+		return x > this.x && x < this.x + 88 && y > this.y && y < this.y + 12;
 	}
 }

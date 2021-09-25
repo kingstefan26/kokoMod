@@ -78,6 +78,7 @@ public class lastLeftOff extends Module {
 			}
 
 		}
+		this.init();
 	}
 
 	public void registerLastLeftOff(lastleftoffObject in) {

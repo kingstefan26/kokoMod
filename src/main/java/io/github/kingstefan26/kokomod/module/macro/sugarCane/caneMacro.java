@@ -28,7 +28,7 @@ public class caneMacro extends Module {
 
     private boolean ismacroingReady;
     private macroStages macroWalkStage = macroStages.DEFAULT;
-    private macroStages lastmacroWalkStage = macroWalkStage.DEFAULT;
+    private macroStages lastmacroWalkStage = macroStages.DEFAULT;
 
     private boolean playerTeleported;
     private long playerSpeedCheckTimer;
@@ -40,6 +40,7 @@ public class caneMacro extends Module {
 
     public caneMacro(){
         super("cane macro", "macros cane!", Category.MACRO, true," cane macro enabed"," cane macro disabled");
+        this.init();
     }
 
     @SubscribeEvent

@@ -65,6 +65,7 @@ public class Button extends Component {
 	
 	@Override
 	public void renderComponent() {
+		if(closed) return;
 		Gui.drawRect(parent.getX(),
 				this.parent.getY() + this.offset,
 				parent.getX() + parent.getWidth(),
@@ -73,19 +74,35 @@ public class Button extends Component {
 						(this.mod.isToggled() ? new Color(14,14,14).getRGB() : 0xFF111111));
 		GL11.glPushMatrix();
 		GL11.glScalef(0.5f,0.5f, 0.5f);
-		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.mod.getName(),
-				(parent.getX() + 2) * 2,
-				(parent.getY() + offset + 2) * 2 + 4,
+//		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.mod.getName(),
+//				(parent.getX() + 2) * 2,
+//				(parent.getY() + offset + 2) * 2 + 4,
+//				this.mod.isToggled() ? -1 : 0x999999);
+		ClickGui.getClickGui().customFont.drawStringS(
+				ClickGui.getClickGui(),
+				this.mod.getName(),
+				(parent.getX() * 2 + 2) * 2,
+				(parent.getY() * 2 + offset + 2) * 2 + 4,
 				this.mod.isToggled() ? -1 : 0x999999);
-		if(this.subcomponents.size() > 2)
-		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.open ? "-" : "+", (parent.getX() + parent.getWidth() - 10) * 2, (parent.getY() + offset + 2) * 2 + 4, -1);
+		if(this.subcomponents.size() > 2) {
+//			Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.open ? "-" : "+",
+//					(parent.getX() + parent.getWidth() - 10) * 2,
+//					(parent.getY() + offset + 2) * 2 + 4,
+//					-1);
+			ClickGui.getClickGui().customFont.drawStringS(
+					ClickGui.getClickGui(),
+					this.open ? "-" : "+",
+					(parent.getX() * 2 + parent.getWidth() - 10) * 2,
+					(parent.getY() * 2 + offset + 2) * 2 + 4,
+					-1);
+		}
 		GL11.glPopMatrix();
 		if(this.open) {
 			if(!this.subcomponents.isEmpty()) {
 				for(Component comp : this.subcomponents) {
 					comp.renderComponent();
 				}
-				Gui.drawRect(parent.getX() + 2, parent.getY() + this.offset + 12, parent.getX() + 3, parent.getY() + this.offset + ((this.subcomponents.size() + 1) * 12), ClickGui.color);
+				Gui.drawRect(parent.getX() + 2, parent.getY() + this.offset + 12, parent.getX() + 3, parent.getY() + this.offset + ((this.subcomponents.size() + 1) * 12), ClickGui.mainColor);
 			}
 		}
 	}
@@ -100,6 +117,7 @@ public class Button extends Component {
 	
 	@Override
 	public void updateComponent(int mouseX, int mouseY) {
+		if(closed) return;
 		this.isHovered = isMouseOnButton(mouseX, mouseY);
 		if(!this.subcomponents.isEmpty()) {
 			for(Component comp : this.subcomponents) {
@@ -110,6 +128,7 @@ public class Button extends Component {
 	
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
+		if(closed) return;
 		if(isMouseOnButton(mouseX, mouseY) && button == 0) {
 			this.mod.toggle();
 		}
@@ -124,6 +143,7 @@ public class Button extends Component {
 	
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+		if(closed) return;
 		for(Component comp : this.subcomponents) {
 			comp.mouseReleased(mouseX, mouseY, mouseButton);
 		}
@@ -131,6 +151,7 @@ public class Button extends Component {
 	
 	@Override
 	public void keyTyped(char typedChar, int key) {
+		if(closed) return;
 		for(Component comp : this.subcomponents) {
 			comp.keyTyped(typedChar, key);
 		}

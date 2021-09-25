@@ -1,6 +1,7 @@
 package io.github.kingstefan26.kokomod.core.clickgui.component;
 
 public class Component {
+	public boolean closed;
 
 	public void renderComponent() {
 		

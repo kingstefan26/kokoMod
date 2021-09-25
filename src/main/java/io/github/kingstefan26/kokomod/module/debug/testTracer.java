@@ -14,9 +14,19 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
 public class testTracer extends Module {
-    public testTracer() {
+    public static testTracer testTracer_;
+    public static testTracer gettesttracer() {
+        if(testTracer_ == null) { testTracer_ = new testTracer();}
+        return testTracer_;
+    }
+    public static void unload(){
+        testTracer_ = null;
+    }
+
+    private testTracer() {
         super("test tracer", "yazz", Category.DEBUG);
         SettingsManager.getSettingsManager().rSetting(new Setting("boxes", this, true));
+        this.init();
     }
 
     boolean a;

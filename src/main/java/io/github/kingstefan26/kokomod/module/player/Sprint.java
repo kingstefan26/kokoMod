@@ -9,7 +9,6 @@ import io.github.kingstefan26.kokomod.util.sendChatMessage;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
 public class Sprint extends Module {
 
 	public Sprint() {
@@ -18,6 +17,7 @@ public class Sprint extends Module {
 		if(SettingsManager.getSettingsManager().getSettingByName("Permanently enable sprint", this).getValBoolean()){
 			this.toggle();
 		}
+		this.init();
 	}
 	
 	@SubscribeEvent

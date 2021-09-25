@@ -23,6 +23,7 @@ public class iWillcancelYouOnTwitter extends Module {
     public iWillcancelYouOnTwitter(){
         super("twitterWhiteGirls", "white twitter girls are the downfall on society", Category.PLAYER, true, " iwillcancelyou enabled", " iwillcancelyou disabled");
         SettingsManager.getSettingsManager().rSetting(new Setting("cancel speed", this, 12, 1, 1000, true));
+        this.init();
     }
 
     @SubscribeEvent

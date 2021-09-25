@@ -6,7 +6,6 @@ import io.github.kingstefan26.kokomod.core.config.configMenager;
 import io.github.kingstefan26.kokomod.core.config.configObject;
 import io.github.kingstefan26.kokomod.core.module.Category;
 import io.github.kingstefan26.kokomod.core.module.blueprints.Module;
-import io.github.kingstefan26.kokomod.core.module.ModuleManager;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;
@@ -22,6 +21,8 @@ public class Frame {
 	private int width;
 	private int y;
 	private int x;
+	private int translatedX;
+	private int translatedY;
 	private int barHeight;
 	private boolean isDragging;
 	public int dragX;
@@ -29,16 +30,16 @@ public class Frame {
 
 	configObject xConfig;
 	configObject yConfig;
-	
-	public Frame(Category cat) {
+	int tY = this.barHeight;
+	public Frame(Category cat)  {
+
 		this.components = new ArrayList<>();
 		this.category = cat;
-		this.width = 88;
+		this.width = 84;
 		this.barHeight = 13;
 		this.dragX = 0;
 		this.open = false;
 		this.isDragging = false;
-		int tY = this.barHeight;
 
 		xConfig = new configObject(cat + "frameX", "frame x", x);
 		yConfig = new configObject(cat + "frameY", "frame y", y);
@@ -48,15 +49,31 @@ public class Frame {
 		this.x = xConfig.getIntValue();
 		this.y = yConfig.getIntValue();
 
-		for(Module mod : ModuleManager.getModuleManager().getModulesInCategory(category)) {
-			Button modButton = new Button(mod, this, tY);
-			this.components.add(modButton);
-			tY += 12;
-		}
+//		for(Module mod : ModuleManager.getModuleManager().getModulesInCategory(category)) {
+//			Button modButton = new Button(mod, this, tY);
+//			this.components.add(modButton);
+//			tY += 12;
+//		}
+//		for(Module mod : moduleRegistery.getModuleRegistery().getModulesInCategory(category)) {
+//			Button modButton = new Button(mod, this, tY);
+//			this.components.add(modButton);
+//			tY += 12;
+//		}
 	}
 	
 	public ArrayList<Component> getComponents() {
 		return components;
+	}
+
+	public void clearComponents() {
+		components.forEach(a -> a.closed = true);
+		components.clear();
+		tY = this.barHeight;
+	}
+	public void registerComponent(Module m){
+		Button modButton = new Button(m, this, tY);
+		this.components.add(modButton);
+		tY += 12;
 	}
 	
 	public void setX(int newX) {
@@ -82,11 +99,21 @@ public class Frame {
 	}
 	
 	public void renderFrame(FontRenderer fontRenderer) {
-		Gui.drawRect(this.x, this.y, this.x + this.width, this.y + this.barHeight, ClickGui.color);
+		Gui.drawRect(this.x + 5, this.y + 5, this.x + this.width + 5, this.y + this.barHeight + 5, 0xFF222222);
+		Gui.drawRect(this.x, this.y, this.x + this.width, this.y + this.barHeight, ClickGui.mainColor);
 		GL11.glPushMatrix();
 		GL11.glScalef(0.5f,0.5f, 0.5f);
-		fontRenderer.drawStringWithShadow(this.category.name(), (this.x + 2) * 2 + 5, (this.y + 2.5f) * 2 + 5, 0xFFFFFFFF);
-		fontRenderer.drawStringWithShadow(this.open ? "-" : "+", (this.x + this.width - 10) * 2 + 5, (this.y + 2.5f) * 2 + 5, -1);
+		this.translatedX = this.x * 2;
+		this.translatedY = this.y * 2;
+
+//		fontRenderer.drawStringWithShadow("example text", 50, 50, -1);
+//		ClickGui.getClickGui().customFont.drawStringS(ClickGui.getClickGui(),"example text", 100, 100, 0xFFFFFFFF);
+
+		ClickGui.getClickGui().customFont.drawStringS(ClickGui.getClickGui(),this.category.name(), (translatedX + 2) * 2 + 5, (int)(translatedY + 2.5f) * 2 + 5, 0xFFFFFFFF);
+		//fontRenderer.drawStringWithShadow(this.category.name(), (this.x + 2) * 2 + 5, (this.y + 2.5f) * 2 + 5, 0xFFFFFFFF);
+		//fontRenderer.drawStringWithShadow(this.open ? "-" : "+", (this.x + this.width - 10) * 2 + 5, (this.y + 2.5f) * 2 + 5, -1);
+		ClickGui.getClickGui().customFont.drawStringS(ClickGui.getClickGui(),this.open ? "-" : "+", (translatedX + this.width - 10) * 2 + 5, (int)(translatedY + 2.5f) * 2 + 5, -1);
+
 		GL11.glPopMatrix();
 		if(this.open) {
 			if(!this.components.isEmpty()) {

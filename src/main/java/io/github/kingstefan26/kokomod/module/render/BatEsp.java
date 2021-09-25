@@ -13,6 +13,7 @@ public class BatEsp extends Module {
 
     public BatEsp(){
         super("BatEsp", "shows location of bats", Category.RENDER, true, "enabled batEsp", "disabled batEsp");
+        this.init();
     }
 
     @SubscribeEvent

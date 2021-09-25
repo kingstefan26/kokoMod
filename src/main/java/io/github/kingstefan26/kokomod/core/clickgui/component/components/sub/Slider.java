@@ -1,5 +1,6 @@
 package io.github.kingstefan26.kokomod.core.clickgui.component.components.sub;
 
+import io.github.kingstefan26.kokomod.core.clickgui.ClickGui;
 import io.github.kingstefan26.kokomod.core.clickgui.component.Component;
 import io.github.kingstefan26.kokomod.core.clickgui.component.components.Button;
 import io.github.kingstefan26.kokomod.core.setting.Setting;
@@ -39,7 +40,17 @@ public class Slider extends Component {
 		Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
 		GL11.glPushMatrix();
 		GL11.glScalef(0.5f,0.5f, 0.5f);
-		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.set.getName() + ": " + this.set.getValDouble() , (parent.parent.getX()* 2 + 15), (parent.parent.getY() + offset + 2) * 2 + 5, -1);
+//		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(
+//				this.set.getName() + ": " + this.set.getValDouble() ,
+//				(parent.parent.getX()* 2 + 15),
+//				(parent.parent.getY() + offset + 2) * 2 + 5,
+//				-1);
+		ClickGui.getClickGui().customFont.drawStringS(
+				ClickGui.getClickGui(),
+				this.set.getName() + ": " + this.set.getValDouble(),
+				(parent.parent.getX()* 4 + 15),
+				(parent.parent.getY() * 2 + offset + 2) * 2 + 5,
+				-1);
 		
 		GL11.glPopMatrix();
 	}

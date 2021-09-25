@@ -65,6 +65,7 @@ public class wartMacroVerticalDesign extends Module {
 		SettingsManager.getSettingsManager().rSetting(new Setting("pitch", this, 9, 0, 90, true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("perfect head rotation", this, true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("experimental gui", this, false));
+		this.init();
 	}
 
 	@SubscribeEvent

@@ -26,6 +26,7 @@ public class RmbAutoCliker extends Module {
 
         SettingsManager.getSettingsManager().rSetting(new Setting("RbmMinCPS", this, 8, 1, 20, false));
         SettingsManager.getSettingsManager().rSetting(new Setting("RbmMaxCPS", this, 12, 1, 20, false));
+        this.init();
     }
 
     @SubscribeEvent
