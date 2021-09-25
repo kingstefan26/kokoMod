@@ -36,12 +36,7 @@ public class Setting {
 
 	private configObject settingConfigObject;
 
-	/**
-	 *
-	 * @param name
-	 * @param parent
-	 * @param type
-	 */
+
 	public Setting(String name, Module parent, confgValueType type){
 		this.name = name;
 		this.parent = parent;
@@ -53,13 +48,6 @@ public class Setting {
 		this.mode = settingType.CHECK;
 	}
 
-	/**
-	 *
-	 * @param name
-	 * @param parent
-	 * @param sval
-	 * @param options
-	 */
 	public Setting(String name, Module parent, String sval, ArrayList<String> options){
 		this.name = name;
 		this.parent = parent;
@@ -72,12 +60,7 @@ public class Setting {
 		settingConfigObject = configMenager.getConfigManager().getConfigObjectByNameAndTypeAndParent(name, parent.getName(), type);
 	}
 
-	/**
-	 *
-	 * @param name
-	 * @param parent
-	 * @param bval
-	 */
+
 	public Setting(String name, Module parent, boolean bval){
 		this.name = name;
 		this.parent = parent;
@@ -89,15 +72,7 @@ public class Setting {
 		settingConfigObject = configMenager.getConfigManager().getConfigObjectByNameAndTypeAndParent(name, parent.getName(), type);
 	}
 
-	/**
-	 *
-	 * @param name
-	 * @param parent
-	 * @param dval
-	 * @param min
-	 * @param max
-	 * @param onlyint
-	 */
+
 	public Setting(String name, Module parent, double dval, double min, double max, boolean onlyint){
 		this.name = name;
 		this.parent = parent;
@@ -177,27 +152,15 @@ public class Setting {
 	}
 	
 	public boolean isCombo(){
-		if(this.mode == settingType.COMBO){
-			return true;
-		}else{
-			return false;
-		}
+		return this.mode == settingType.COMBO;
 	}
 	
 	public boolean isCheck(){
-		if(this.mode == settingType.CHECK){
-			return true;
-		}else{
-			return false;
-		}
+		return this.mode == settingType.CHECK;
 	}
 	
 	public boolean isSlider(){
-		if(this.mode == settingType.SLIDER){
-			return true;
-		}else{
-			return false;
-		}
+		return this.mode == settingType.SLIDER;
 	}
 	
 	public boolean isonlyInt(){
