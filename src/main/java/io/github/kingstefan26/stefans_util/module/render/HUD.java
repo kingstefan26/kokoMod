@@ -26,8 +26,7 @@ public class HUD extends Module {
 		SettingsManager.getSettingsManager().rSetting(new Setting("R",this, 255, 0, 255,true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("G",this, 255, 0, 255,true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("B",this, 255, 0, 255,true));
-		SettingsManager.getSettingsManager().rSetting(new Setting("PERSISTENCE", this, confgValueType.PERSISTENT));
-		if(SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()) this.toggle();
+		this.presistanceEnabled = true;
 	}
 
 	private void updateVals(){

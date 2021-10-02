@@ -48,6 +48,9 @@ public class Button extends Component {
 		}
 		this.subcomponents.add(new Keybind(this, opY));
 		this.subcomponents.add(new VisibleButton(this, mod, opY));
+		if(mod.presistanceEnabled){
+			this.subcomponents.add(new PersistenceButton(this, mod, opY));
+		}
 	}
 	
 	@Override

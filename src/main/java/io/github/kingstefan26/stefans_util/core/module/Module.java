@@ -1,7 +1,10 @@
 package io.github.kingstefan26.stefans_util.core.module;
 
 import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.config.confgValueType;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
+import io.github.kingstefan26.stefans_util.core.setting.Setting;
+import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -34,6 +37,8 @@ public class Module implements moduleInterface {
 	public boolean closed;
 	private boolean toggled;
 	private boolean visible;
+	public boolean presistanceEnabled;
+	configObject presistance;
 	configObject visibleConfigObject;
 	private boolean keybindEnabled = false;
 	private KeyBinding fmlkeybindObject;
@@ -65,6 +70,20 @@ public class Module implements moduleInterface {
 		visibleConfigObject = new configObject("visibility", this.name, true);
 		visible = visibleConfigObject.getBooleanValue();
 		logger = LogManager.getLogger(name);
+	}
+
+	public boolean isPresident(){
+		return this.presistance.getBooleanValue();
+	}
+	public void setPresistance(boolean value){
+		this.presistance.setBooleanValue(value);
+	}
+	public void togglePresistance(){
+		if(this.presistance.getBooleanValue()){
+			this.presistance.setBooleanValue(false);
+		}else{
+			this.presistance.setBooleanValue(true);
+		}
 	}
 
 	public String getDescription() {
@@ -164,6 +183,10 @@ public class Module implements moduleInterface {
 	@Override
 	public void onLoad() {
 		ClickGui.getClickGui().registerComponent(this);
+		if(presistanceEnabled){
+			this.presistance = new configObject(name + "-PERSISTENCE","PERSISTENCE", false);
+			if(this.presistance.getBooleanValue()) this.toggle();
+		}
 	}
 
 	@Override
