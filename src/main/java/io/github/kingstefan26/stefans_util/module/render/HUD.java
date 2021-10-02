@@ -23,10 +23,15 @@ public class HUD extends Module {
 
 	public HUD() {
 		super("HUD", "Draws the module list on your screen", ModuleManager.Category.RENDER);
+		this.presistanceEnabled = true;
+	}
+
+	@Override
+	public void onLoad(){
 		SettingsManager.getSettingsManager().rSetting(new Setting("R",this, 255, 0, 255,true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("G",this, 255, 0, 255,true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("B",this, 255, 0, 255,true));
-		this.presistanceEnabled = true;
+		super.onLoad();
 	}
 
 	private void updateVals(){

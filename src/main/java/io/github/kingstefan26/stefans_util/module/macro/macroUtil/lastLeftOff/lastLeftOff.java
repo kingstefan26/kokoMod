@@ -46,9 +46,10 @@ public class lastLeftOff extends Module {
 
 	private lastLeftOff() {
 		super("lastLeftOff", "shows where you last left a macro in current session", ModuleManager.Category.MISC);
-		SettingsManager.getSettingsManager().rSetting(new Setting("PERSISTENCE", this, confgValueType.PERSISTENT));
-		if (SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()) this.toggle();
-
+		this.presistanceEnabled = true;
+	}
+	@Override
+	public void onLoad(){
 		x = new configObject("x", this.getName(), 0.0F);
 		y = new configObject("y", this.getName(), 0.5F);
 		z = new configObject("z", this.getName(), 0.5F);
@@ -77,6 +78,7 @@ public class lastLeftOff extends Module {
 			}
 
 		}
+		super.onLoad();
 	}
 
 	public void registerLastLeftOff(lastleftoffObject in) {

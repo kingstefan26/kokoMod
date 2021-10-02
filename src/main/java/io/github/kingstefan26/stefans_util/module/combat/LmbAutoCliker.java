@@ -25,9 +25,13 @@ public class LmbAutoCliker extends Module {
 		super("LmbAutoClicker", "Automatically clicks when you hold down left click", ModuleManager.Category.COMBAT, true);
 		this.enableMessage = "lmb autoclicker enabled";
 		this.disableMessage = "lmb autoclicker disabled";
+	}
 
+	@Override
+	public void onLoad(){
 		SettingsManager.getSettingsManager().rSetting(new Setting("LbmMinCPS", this, 8, 1, 20, false));
 		SettingsManager.getSettingsManager().rSetting(new Setting("LbmMaxCPS", this, 12, 1, 20, false));
+		super.onLoad();
 	}
 
 	@SubscribeEvent

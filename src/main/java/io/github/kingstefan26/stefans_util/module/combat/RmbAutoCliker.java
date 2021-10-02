@@ -25,9 +25,12 @@ public class RmbAutoCliker extends Module {
         super("RmbAutoClicker", "Automatically clicks when you hold down right click", ModuleManager.Category.COMBAT, true);
         this.enableMessage = "rmb autoclicker enabled";
         this.disableMessage = "rmb autoclicker disabled";
-
+    }
+    @Override
+    public void onLoad(){
         SettingsManager.getSettingsManager().rSetting(new Setting("RbmMinCPS", this, 8, 1, 20, false));
         SettingsManager.getSettingsManager().rSetting(new Setting("RbmMaxCPS", this, 12, 1, 20, false));
+        super.onLoad();
     }
 
     @SubscribeEvent

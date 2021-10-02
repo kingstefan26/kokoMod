@@ -25,7 +25,11 @@ public class iWillcancelYouOnTwitter extends Module {
         this.enableMessage = "iwillcancelyou enabled";
         this.disableMessage = "iwillcancelyou disabled";
 
+    }
+    @Override
+    public void onLoad(){
         SettingsManager.getSettingsManager().rSetting(new Setting("cancel speed", this, 12, 1, 1000, true));
+        super.onLoad();
     }
 
     @SubscribeEvent

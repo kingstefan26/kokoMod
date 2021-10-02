@@ -22,10 +22,7 @@ public class stolenFarmOverlay extends Module {
 
     public stolenFarmOverlay() {
         super("stolenoverlay!", "yay!!!", ModuleManager.Category.MISC);
-        SettingsManager.getSettingsManager().rSetting(new Setting("PERSISTENCE", this, confgValueType.PERSISTENT));
-        if(SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()){
-            this.toggle();
-        }
+        this.presistanceEnabled = true;
     }
 
     ArrayList<Float> avrageValueStorecps = new ArrayList<>();

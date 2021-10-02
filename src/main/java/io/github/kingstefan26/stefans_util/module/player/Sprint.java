@@ -14,10 +14,7 @@ public class Sprint extends Module {
 
 	public Sprint() {
 		super("Sprint", "Always holds down the sprint key", ModuleManager.Category.MOVEMENT, true);
-		SettingsManager.getSettingsManager().rSetting(new Setting("Permanently enable sprint", this, confgValueType.PERSISTENT));
-		if(SettingsManager.getSettingsManager().getSettingByName("Permanently enable sprint", this).getValBoolean()){
-			this.toggle();
-		}
+		this.presistanceEnabled = true;
 	}
 
 	@Override
