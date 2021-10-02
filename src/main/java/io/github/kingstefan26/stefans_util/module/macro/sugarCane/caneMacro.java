@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.macro.sugarCane;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroStages;
 import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
@@ -39,7 +39,7 @@ public class caneMacro extends Module {
     private double distanceWalked;
 
     public caneMacro(){
-        super("cane macro", "macros cane!", Category.MACRO, true);
+        super("cane macro", "macros cane!", ModuleManager.Category.MACRO, true);
         this.enableMessage = "cane macro enabed";
         this.disableMessage = "cane macro disabled";
     }

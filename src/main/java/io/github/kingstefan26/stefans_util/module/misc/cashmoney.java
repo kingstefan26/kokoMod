@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -19,7 +19,7 @@ public class cashmoney extends Module {
     private String Match;
 
     public cashmoney() {
-        super("cash money", "plays money sound on auction receive", Category.PLAYER);
+        super("cash money", "plays money sound on auction receive", ModuleManager.Category.PLAYER);
     }
     //§6[Auction] §7paradaox_63 §ebought §fStone Bricks §efor §65 coins §lCLICK
     //ah

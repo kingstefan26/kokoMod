@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import io.github.kingstefan26.stefans_util.util.sendChatMessage;
@@ -12,7 +12,7 @@ import org.lwjgl.input.Mouse;
 public class farmReadycane extends Module {
 
     public farmReadycane(){
-        super("farmReady", "gets you ready to farm cane", Category.MISC, true);
+        super("farmReady", "gets you ready to farm cane", ModuleManager.Category.MISC, true);
         this.enableMessage = "farmReady-cane enabled";
         this.disableMessage = "farmReady-cane disabled";
     }

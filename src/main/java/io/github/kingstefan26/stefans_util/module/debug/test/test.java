@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.debug.test;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.main;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.lastLeftOff.lastLeftOff;
@@ -17,7 +17,7 @@ import static io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline.dra
 public class test extends Module {
 
     public test() {
-        super("test", "test", Category.DEBUG, true);
+        super("test", "test", ModuleManager.Category.DEBUG, true);
         this.enableMessage = "hello test";
         this.disableMessage = "rip test";
 //        SettingsManager.getSettingsManager().rSetting(new Setting("interpolate steps", this, 10, 1, 60, true));

@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.macro.wart;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
@@ -53,7 +53,7 @@ public class wartMacronoTppad extends Module {
 
 
     public wartMacronoTppad() {
-        super("wart macro noTp", "no tp pad wart macro!", Category.MACRO, true);
+        super("wart macro noTp", "no tp pad wart macro!", ModuleManager.Category.MACRO, true);
         SettingsManager.getSettingsManager().rSetting(new Setting("yaw", this, 90, 1, 90, true));
         SettingsManager.getSettingsManager().rSetting(new Setting("pitch", this, 9, 0, 90, true));
     }

@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.core.clickgui;
 
 import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.Frame;
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.main;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static io.github.kingstefan26.stefans_util.core.module.Category.*;
 
 public class ClickGui extends GuiScreen {
 
@@ -35,7 +34,7 @@ public class ClickGui extends GuiScreen {
 		frames = new ArrayList<>();
 		int frameX = 0;
 
-		for(Category c : Category.values()) {
+		for(ModuleManager.Category c : ModuleManager.Category.values()) {
 			//if(c == UtilModule) return;
 			//if(c == DEBUG && !main.debug) return;
 			Frame frame = new Frame(c);

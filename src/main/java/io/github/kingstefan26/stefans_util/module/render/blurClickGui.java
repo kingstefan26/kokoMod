@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.module.render;
 
 import com.google.common.base.Throwables;
 import io.github.kingstefan26.stefans_util.core.config.confgValueType;
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
@@ -31,7 +31,7 @@ public class blurClickGui extends Module {
     ArrayList<String> alowedGuiClasses = new ArrayList<>();
 
     public blurClickGui(){
-        super("blurClickGui", "adds nice blur to click gui", Category.RENDER);
+        super("blurClickGui", "adds nice blur to click gui", ModuleManager.Category.RENDER);
         SettingsManager.getSettingsManager().rSetting(new Setting("PERSISTENCE", this, confgValueType.PERSISTENT));
         if(SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()) this.toggle();
         alowedGuiClasses.add("io.github.kingstefan26.stefans_util.core.clickgui.ClickGui");

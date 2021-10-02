@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.core.module.blueprints;
 
 import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -27,7 +27,7 @@ public class Module implements moduleInterface {
 	protected static Minecraft mc = Minecraft.getMinecraft();
 
 	private final String name;
-	private final Category category;
+	private final ModuleManager.Category category;
 
 	public String description, enableMessage, disableMessage;
 	private int key;
@@ -41,7 +41,7 @@ public class Module implements moduleInterface {
 	protected Logger logger;
 
 
-	public Module(String name, String description, Category category,boolean keybindEnabled) {
+	public Module(String name, String description, ModuleManager.Category category,boolean keybindEnabled) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -57,7 +57,7 @@ public class Module implements moduleInterface {
 		logger = LogManager.getLogger(name);
 	}
 
-	public Module(String name, String description, Category category) {
+	public Module(String name, String description, ModuleManager.Category category) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -158,7 +158,7 @@ public class Module implements moduleInterface {
 		return this.name;
 	}
 	
-	public Category getCategory() {
+	public ModuleManager.Category getCategory() {
 		return this.category;
 	}
 

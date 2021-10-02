@@ -25,6 +25,11 @@ import static io.github.kingstefan26.stefans_util.main.debug;
 
 public class ModuleManager {
 
+	public enum Category {
+		COMBAT, MOVEMENT, PLAYER, RENDER, MISC, MACRO, UtilModule, DEBUG
+	}
+
+
 	public static ModuleManager ModuleManager;
 	public static ModuleManager getModuleManager() {
 		if(ModuleManager == null) ModuleManager = new ModuleManager();

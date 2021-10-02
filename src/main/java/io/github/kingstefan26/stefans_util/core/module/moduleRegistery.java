@@ -85,7 +85,7 @@ public class moduleRegistery {
 //        ClickGui.getClickGui().clearComponents();
 //    }
 
-    public ArrayList<Module> getModulesInCategory(Category c){
+    public ArrayList<Module> getModulesInCategory(ModuleManager.Category c){
         ArrayList<Module> a = new ArrayList<>();
         for(Module m : loadedModules){
             if(m.getCategory() == c){

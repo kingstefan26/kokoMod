@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.util.stolenBs.freeCamv2;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import net.minecraft.client.Minecraft;
 
@@ -8,7 +8,7 @@ public class freeCamModulev2 extends Module {
 
         public freeCamModulev2()
         {
-            super("freecamv2", "frees ur cam!", Category.RENDER, true);
+            super("freecamv2", "frees ur cam!", ModuleManager.Category.RENDER, true);
         }
 
         private FreecamEntity freecamEnt;

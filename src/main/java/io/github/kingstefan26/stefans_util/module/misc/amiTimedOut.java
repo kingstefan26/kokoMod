@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.util.forgeEventClasses.receivedKeepAlivePacketEvent;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
@@ -18,7 +18,7 @@ public class amiTimedOut extends Module {
 
 
 	public amiTimedOut() {
-		super("am i Timed out?", "shows warnings based on your network status", Category.MISC, true);
+		super("am i Timed out?", "shows warnings based on your network status", ModuleManager.Category.MISC, true);
 		this.enableMessage = "amitimedout enabled";
 		this.disableMessage = "amitimedout diasabled";
 	}

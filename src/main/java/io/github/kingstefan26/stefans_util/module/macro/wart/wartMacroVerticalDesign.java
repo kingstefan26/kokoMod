@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.macro.wart;
 
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.main;
-import io.github.kingstefan26.stefans_util.core.module.Category;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
@@ -60,7 +60,7 @@ public class wartMacroVerticalDesign extends Module {
 
 
 	private wartMacroVerticalDesign() {
-		super("wart macro my design", "my design wart macro!", Category.MACRO, true);
+		super("wart macro my design", "my design wart macro!", ModuleManager.Category.MACRO, true);
 		SettingsManager.getSettingsManager().rSetting(new Setting("yaw", this, 90, 1, 90, true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("pitch", this, 9, 0, 90, true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("perfect head rotation", this, true));

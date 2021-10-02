@@ -1,9 +1,9 @@
 package io.github.kingstefan26.stefans_util.module.macro.macroUtil.lastLeftOff;
 
 import io.github.kingstefan26.stefans_util.core.config.configObject;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.main;
 import io.github.kingstefan26.stefans_util.core.config.confgValueType;
-import io.github.kingstefan26.stefans_util.core.module.Category;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
@@ -45,7 +45,7 @@ public class lastLeftOff extends Module {
 	configObject time;
 
 	private lastLeftOff() {
-		super("lastLeftOff", "shows where you last left a macro in current session", Category.MISC);
+		super("lastLeftOff", "shows where you last left a macro in current session", ModuleManager.Category.MISC);
 		SettingsManager.getSettingsManager().rSetting(new Setting("PERSISTENCE", this, confgValueType.PERSISTENT));
 		if (SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()) this.toggle();
 

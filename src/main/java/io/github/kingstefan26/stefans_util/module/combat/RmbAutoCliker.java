@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.combat;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
@@ -22,7 +22,7 @@ public class RmbAutoCliker extends Module {
     private double max;
 
     public RmbAutoCliker() {
-        super("RmbAutoClicker", "Automatically clicks when you hold down right click", Category.COMBAT, true);
+        super("RmbAutoClicker", "Automatically clicks when you hold down right click", ModuleManager.Category.COMBAT, true);
         this.enableMessage = "rmb autoclicker enabled";
         this.disableMessage = "rmb autoclicker disabled";
 

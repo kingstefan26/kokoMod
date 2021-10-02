@@ -4,7 +4,6 @@ import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
 import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
-import io.github.kingstefan26.stefans_util.core.module.Category;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.module.moduleRegistery;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 public class Frame {
 
 	public ArrayList<Component> components;
-	public Category category;
+	public ModuleManager.Category category;
 	private boolean open;
 	private int width;
 	private int y;
@@ -37,7 +36,7 @@ public class Frame {
 	configObject xConfig;
 	configObject yConfig;
 	int tY = this.barHeight;
-	public Frame(Category cat)  {
+	public Frame(ModuleManager.Category cat)  {
 
 		this.components = new ArrayList<>();
 		this.category = cat;

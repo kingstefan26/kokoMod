@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.combat;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
@@ -22,7 +22,7 @@ public class LmbAutoCliker extends Module {
 	private double max;
 
 	public LmbAutoCliker() {
-		super("LmbAutoClicker", "Automatically clicks when you hold down left click", Category.COMBAT, true);
+		super("LmbAutoClicker", "Automatically clicks when you hold down left click", ModuleManager.Category.COMBAT, true);
 		this.enableMessage = "lmb autoclicker enabled";
 		this.disableMessage = "lmb autoclicker disabled";
 

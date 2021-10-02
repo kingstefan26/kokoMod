@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.util.renderUtil.renderEsp;
 import net.minecraft.client.Minecraft;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class BatEsp extends Module {
 
     public BatEsp(){
-        super("BatEsp", "shows location of bats", Category.RENDER, true);
+        super("BatEsp", "shows location of bats", ModuleManager.Category.RENDER, true);
         this.enableMessage = "enabled batEsp";
         this.disableMessage = "disabled batEsp";
     }

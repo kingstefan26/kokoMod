@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.util.stolenBs.freeCam;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
@@ -29,7 +29,7 @@ public class freeCamModule extends Module {
     private final KeyBinding xt2 = new KeyBinding("Backward", Keyboard.KEY_DOWN, "FreeCam");
 
     public freeCamModule() {
-        super("freecam", "frees ur cam!", Category.RENDER, true);
+        super("freecam", "frees ur cam!", ModuleManager.Category.RENDER, true);
         ClientRegistry.registerKeyBinding(yt);
         ClientRegistry.registerKeyBinding(yt2);
         ClientRegistry.registerKeyBinding(zt);

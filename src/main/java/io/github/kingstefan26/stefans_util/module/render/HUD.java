@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
 import io.github.kingstefan26.stefans_util.core.config.confgValueType;
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.module.moduleRegistery;
 import io.github.kingstefan26.stefans_util.module.moduleIndex;
@@ -27,7 +27,7 @@ public class HUD extends Module {
 	CustomFont aaa = new CustomFont(Minecraft.getMinecraft(), "JetBrains Mono",2020);
 
 	public HUD() {
-		super("HUD", "Draws the module list on your screen", Category.RENDER);
+		super("HUD", "Draws the module list on your screen", ModuleManager.Category.RENDER);
 		SettingsManager.getSettingsManager().rSetting(new Setting("R",this, 255, 0, 255,true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("G",this, 255, 0, 255,true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("B",this, 255, 0, 255,true));

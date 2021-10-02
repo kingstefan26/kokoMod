@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.module.debug;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import net.minecraft.block.Block;
@@ -36,7 +36,7 @@ public class testRaytrace extends Module {
     public static final double RAD_TO_DEG = 180.0 / Math.PI;
 
     public testRaytrace() {
-        super("looking at", "test", Category.DEBUG);
+        super("looking at", "test", ModuleManager.Category.DEBUG);
     }
 
     @Override

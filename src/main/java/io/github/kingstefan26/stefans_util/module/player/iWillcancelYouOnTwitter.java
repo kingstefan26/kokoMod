@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.player;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
@@ -21,7 +21,7 @@ public class iWillcancelYouOnTwitter extends Module {
             "Cwassh is gay!"};
     String randomText;
     public iWillcancelYouOnTwitter(){
-        super("twitterWhiteGirls", "white twitter girls are the downfall on society", Category.PLAYER, true);
+        super("twitterWhiteGirls", "white twitter girls are the downfall on society", ModuleManager.Category.PLAYER, true);
         this.enableMessage = "iwillcancelyou enabled";
         this.disableMessage = "iwillcancelyou disabled";
 

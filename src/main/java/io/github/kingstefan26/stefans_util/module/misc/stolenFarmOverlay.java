@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
 import io.github.kingstefan26.stefans_util.core.config.confgValueType;
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
@@ -21,7 +21,7 @@ import java.util.LinkedList;
 public class stolenFarmOverlay extends Module {
 
     public stolenFarmOverlay() {
-        super("stolenoverlay!", "yay!!!", Category.MISC);
+        super("stolenoverlay!", "yay!!!", ModuleManager.Category.MISC);
         SettingsManager.getSettingsManager().rSetting(new Setting("PERSISTENCE", this, confgValueType.PERSISTENT));
         if(SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()){
             this.toggle();

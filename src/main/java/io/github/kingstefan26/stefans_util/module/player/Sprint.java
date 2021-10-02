@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.player;
 
 import io.github.kingstefan26.stefans_util.core.config.confgValueType;
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class Sprint extends Module {
 
 	public Sprint() {
-		super("Sprint", "Always holds down the sprint key", Category.MOVEMENT, true);
+		super("Sprint", "Always holds down the sprint key", ModuleManager.Category.MOVEMENT, true);
 		SettingsManager.getSettingsManager().rSetting(new Setting("Permanently enable sprint", this, confgValueType.PERSISTENT));
 		if(SettingsManager.getSettingsManager().getSettingByName("Permanently enable sprint", this).getValBoolean()){
 			this.toggle();

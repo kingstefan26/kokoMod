@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.Category;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import io.github.kingstefan26.stefans_util.util.sendChatMessage;
@@ -13,7 +13,7 @@ public class tpsDispay extends Module {
     private drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
 
     public tpsDispay() {
-        super("tpsMeter", "displays the tsp", Category.MISC, true);
+        super("tpsMeter", "displays the tsp", ModuleManager.Category.MISC, true);
         this.enableMessage = "enabled tps display";
         this.disableMessage = "disabled tps display";
     }
