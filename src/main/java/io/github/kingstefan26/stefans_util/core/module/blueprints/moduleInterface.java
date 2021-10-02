@@ -2,6 +2,7 @@ package io.github.kingstefan26.stefans_util.core.module.blueprints;
 
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,5 +16,6 @@ public interface moduleInterface {
     void onPlayerFall();
     void onPlayerTeleport();
     void onGuiRender(float partialTicks, ScaledResolution resolution, RenderGameOverlayEvent.ElementType type);
+    void onChat(ClientChatReceivedEvent e);
     void onUnload();
 }

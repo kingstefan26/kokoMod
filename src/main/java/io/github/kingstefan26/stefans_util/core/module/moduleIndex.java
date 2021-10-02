@@ -17,7 +17,7 @@ public class moduleIndex {
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.macro.sugarCane.caneMacro");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.macro.wart.wartMacro");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.macro.wart.wartMacronoTppad");
-        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.misc.amiTimedOut.amiTimedOut");
+        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.misc.amiTimedOut");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.misc.stolenFarmOverlay");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.player.Sprint");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.player.dynamicRender");

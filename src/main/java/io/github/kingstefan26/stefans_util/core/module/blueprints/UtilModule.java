@@ -3,6 +3,7 @@ package io.github.kingstefan26.stefans_util.core.module.blueprints;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -62,6 +63,11 @@ public class UtilModule implements moduleInterface {
 
 	@Override
 	public void onGuiRender(float partialTicks, ScaledResolution resolution, RenderGameOverlayEvent.ElementType type) {
+
+	}
+
+	@Override
+	public void onChat(ClientChatReceivedEvent e) {
 
 	}
 

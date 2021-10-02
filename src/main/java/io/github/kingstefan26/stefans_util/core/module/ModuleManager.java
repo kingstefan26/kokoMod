@@ -8,6 +8,7 @@ import io.github.kingstefan26.stefans_util.module.moduleIndex;
 import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerFallEvent;
 import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -151,6 +152,23 @@ public class ModuleManager {
 		}
 		for (UtilModule m : moduleRegistery.getModuleRegistery().loadedUtilModules) {
 			m.onGuiRender(e.partialTicks,e.resolution,e.type);
+		}
+	}
+
+	@SubscribeEvent
+	public void onChat(ClientChatReceivedEvent e){
+		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
+			if(m.isToggled()){
+				m.onChat(e);
+			}
+		}
+		for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
+			if(m.isToggled()){
+				m.onChat(e);
+			}
+		}
+		for (UtilModule m : moduleRegistery.getModuleRegistery().loadedUtilModules) {
+			m.onChat(e);
 		}
 	}
 
