@@ -1,0 +1,18 @@
+{
+  "cash": {
+    "category" : "player",
+    "sounds": [{
+      "name": "stefan_util:cash",
+      "stream": false
+    }
+    ]
+  },
+  "win": {
+    "category" : "player",
+    "sounds": [{
+      "name": "stefan_util:win",
+      "stream": true
+    }
+    ]
+  }
+}
