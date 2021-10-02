@@ -1,12 +1,8 @@
 package io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import org.lwjgl.opengl.GL11;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 
 public class VisibleButton extends Component { // Remove this class if you don't want it (it's kinda useless)
 

@@ -1,19 +1,14 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

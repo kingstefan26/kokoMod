@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.util.stolenBs.freeCam;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;

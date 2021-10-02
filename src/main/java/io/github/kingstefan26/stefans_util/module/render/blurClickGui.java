@@ -3,7 +3,7 @@ package io.github.kingstefan26.stefans_util.module.render;
 import com.google.common.base.Throwables;
 import io.github.kingstefan26.stefans_util.core.config.confgValueType;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import net.minecraft.client.Minecraft;

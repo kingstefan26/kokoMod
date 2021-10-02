@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util;
 
-import io.github.kingstefan26.stefans_util.core.commands.commandIndex;
+import io.github.kingstefan26.stefans_util.core.commands.commandRegistry;
 import io.github.kingstefan26.stefans_util.core.kokoMod;
 import io.github.kingstefan26.stefans_util.util.ShaderResourcePack;
 import io.github.kingstefan26.stefans_util.util.renderUtil.updateWidowTitle;
@@ -48,8 +48,9 @@ public class main {
 
     @EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
-        for(CommandBase c : commandIndex.getCommandIndex().getCommands()){
-            ClientCommandHandler.instance.registerCommand(c);
+        new commandRegistry();
+        for(CommandBase a : commandRegistry.simpleCommands){
+            ClientCommandHandler.instance.registerCommand(a);
         }
         cockbone = (new Achievement("a", "cock with no cock bone", 0, 0, Items.bone, null)).registerStat();
 

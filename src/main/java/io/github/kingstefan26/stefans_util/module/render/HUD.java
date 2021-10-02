@@ -2,20 +2,15 @@ package io.github.kingstefan26.stefans_util.module.render;
 
 import io.github.kingstefan26.stefans_util.core.config.confgValueType;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.module.moduleRegistery;
 import io.github.kingstefan26.stefans_util.module.moduleIndex;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
 

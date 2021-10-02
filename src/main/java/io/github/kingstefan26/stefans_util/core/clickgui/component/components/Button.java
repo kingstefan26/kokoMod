@@ -5,12 +5,9 @@ import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.Frame;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub.Checkbox;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub.*;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;

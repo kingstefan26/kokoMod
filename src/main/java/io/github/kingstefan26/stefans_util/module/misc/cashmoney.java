@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;

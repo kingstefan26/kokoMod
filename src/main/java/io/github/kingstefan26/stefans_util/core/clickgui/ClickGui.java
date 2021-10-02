@@ -3,16 +3,12 @@ package io.github.kingstefan26.stefans_util.core.clickgui;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.Frame;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
-import io.github.kingstefan26.stefans_util.main;
-import io.github.kingstefan26.stefans_util.util.CustomFont;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class ClickGui extends GuiScreen {

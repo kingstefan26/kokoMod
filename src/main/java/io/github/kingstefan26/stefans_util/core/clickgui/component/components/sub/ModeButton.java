@@ -1,13 +1,9 @@
 package io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import org.lwjgl.opengl.GL11;
 
 public class ModeButton extends Component {
 

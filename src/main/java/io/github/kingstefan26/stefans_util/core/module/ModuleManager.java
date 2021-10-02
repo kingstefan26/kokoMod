@@ -1,9 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.module;
 
 import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.UtilModule;
-import io.github.kingstefan26.stefans_util.main;
 import io.github.kingstefan26.stefans_util.module.moduleIndex;
 import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerFallEvent;
 import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
@@ -12,7 +9,6 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;

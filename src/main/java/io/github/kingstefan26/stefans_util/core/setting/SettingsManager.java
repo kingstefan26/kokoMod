@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.setting;
 
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 
 import java.util.ArrayList;
 

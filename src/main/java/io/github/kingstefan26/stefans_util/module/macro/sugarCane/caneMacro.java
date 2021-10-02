@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.macro.sugarCane;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroStages;
 import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;

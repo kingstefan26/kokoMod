@@ -1,5 +1,6 @@
-package io.github.kingstefan26.stefans_util.core.module.blueprints;
+package io.github.kingstefan26.stefans_util.core.module;
 
+import io.github.kingstefan26.stefans_util.core.module.moduleInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderGlobal;

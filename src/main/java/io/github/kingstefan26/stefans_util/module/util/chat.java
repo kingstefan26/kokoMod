@@ -1,8 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.util;
 
-import io.github.kingstefan26.stefans_util.core.module.blueprints.UtilModule;
+import io.github.kingstefan26.stefans_util.core.module.UtilModule;
 import net.minecraft.client.Minecraft;
-import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;

@@ -1,7 +1,5 @@
 package io.github.kingstefan26.stefans_util.core.module;
 
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.UtilModule;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

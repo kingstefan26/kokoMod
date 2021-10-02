@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.macro.macroUtil;
 
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 

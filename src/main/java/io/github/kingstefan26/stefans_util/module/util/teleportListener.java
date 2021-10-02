@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.util;
 
-import io.github.kingstefan26.stefans_util.core.module.blueprints.UtilModule;
+import io.github.kingstefan26.stefans_util.core.module.UtilModule;
 import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;

@@ -1,18 +1,13 @@
 package io.github.kingstefan26.stefans_util.core.clickgui.component;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
 import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.blueprints.Module;
-import io.github.kingstefan26.stefans_util.core.module.moduleRegistery;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -1,8 +1,7 @@
-package io.github.kingstefan26.stefans_util.core.module.blueprints;
+package io.github.kingstefan26.stefans_util.core.module;
 
 import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
