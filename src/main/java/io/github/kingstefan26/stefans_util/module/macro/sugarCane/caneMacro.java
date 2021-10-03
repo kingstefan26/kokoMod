@@ -3,7 +3,7 @@ package io.github.kingstefan26.stefans_util.module.macro.sugarCane;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroStages;
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import io.github.kingstefan26.stefans_util.util.stolenBs.KeyboardLocker;
@@ -238,7 +238,7 @@ public class caneMacro extends Module {
     }
 
     @SubscribeEvent
-    public void onPlayerTeleportEvent(playerTeleportEvent event) {
+    public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
         if(ismacroingReady){
             sendChatMessage.sendClientMessage(" teleport detected, changing walk stage to right!", true);
             playerTeleported = true;

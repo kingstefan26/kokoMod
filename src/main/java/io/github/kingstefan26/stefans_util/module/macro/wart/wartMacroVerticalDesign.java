@@ -10,8 +10,7 @@ import io.github.kingstefan26.stefans_util.module.macro.macroUtil.lastLeftOff.la
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.lastLeftOff.lastleftoffObject;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroMenu;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroStages;
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerFallEvent;
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -59,8 +58,9 @@ public class wartMacroVerticalDesign extends Module {
 	private int fallCounter;
 
 
-	private wartMacroVerticalDesign() {
+	public wartMacroVerticalDesign() {
 		super("wart macro my design", "my design wart macro!", ModuleManager.Category.MACRO, true);
+		wartMacroVerticalDesign = this;
 		SettingsManager.getSettingsManager().rSetting(new Setting("yaw", this, 90, 1, 90, true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("pitch", this, 9, 0, 90, true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("perfect head rotation", this, true));
@@ -90,7 +90,7 @@ public class wartMacroVerticalDesign extends Module {
 		if (System.currentTimeMillis() - YSpeedTimer > 500) {
 			YSpeedTimer = System.currentTimeMillis();
 			if (player.posY - player.lastTickPosY < 0) {
-				MinecraftForge.EVENT_BUS.post(new playerFallEvent());
+				MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.playerFallEvent());
 			}
 		}
 	}
@@ -261,7 +261,7 @@ public class wartMacroVerticalDesign extends Module {
 	}
 
 	@SubscribeEvent
-	public void onPlayerFallEvent(playerFallEvent e) {
+	public void onPlayerFallEvent(stefan_utilEvents.playerFallEvent e) {
 		if (isMacroingReady && !playerTeleported) {
 			fallCounter++;
 			sendChatMessage.sendClientMessage("fallen for the " + fallCounter + " time", true);
@@ -271,7 +271,7 @@ public class wartMacroVerticalDesign extends Module {
 
 
 	@SubscribeEvent
-	public void onPlayerTeleportEvent(playerTeleportEvent event) {
+	public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
 		if (isMacroingReady) {
 			sendChatMessage.sendClientMessage("teleport detected!", true);
 			playerTeleported = true;

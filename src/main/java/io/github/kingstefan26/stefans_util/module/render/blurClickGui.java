@@ -32,8 +32,8 @@ public class blurClickGui extends Module {
 
     public blurClickGui(){
         super("blurClickGui", "adds nice blur to click gui", ModuleManager.Category.RENDER);
-        SettingsManager.getSettingsManager().rSetting(new Setting("PERSISTENCE", this, confgValueType.PERSISTENT));
-        if(SettingsManager.getSettingsManager().getSettingByName("PERSISTENCE", this).getValBoolean()) this.toggle();
+        blurClickGui_ = this;
+        this.presistanceEnabled = true;
         alowedGuiClasses.add("io.github.kingstefan26.stefans_util.core.clickgui.ClickGui");
     }
 

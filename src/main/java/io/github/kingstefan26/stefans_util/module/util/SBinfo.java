@@ -1,8 +1,8 @@
 package io.github.kingstefan26.stefans_util.module.util;
 
 import io.github.kingstefan26.stefans_util.core.module.UtilModule;
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.*;
 import io.github.kingstefan26.stefans_util.util.handelers.ScoreboardHandler;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,7 +38,7 @@ public class SBinfo extends UtilModule {
 
 
                 if (temp0 && !inSkyblock) {
-                    MinecraftForge.EVENT_BUS.post(new joinedSkyblockEvent());
+                    MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.joinedSkyblockEvent());
                     //if(main.debug) chat.queueClientChatMessage("joined Skyblock", chat.chatEnum.DEBUG);
                     chat.queueClientChatMessage("joined Skyblock", chat.chatEnum.DEBUG);
 
@@ -47,11 +47,11 @@ public class SBinfo extends UtilModule {
                     inSkyblock = false;
                     //if(main.debug) chat.queueClientChatMessage("left Skyblock", chat.chatEnum.DEBUG);
                     chat.queueClientChatMessage("left Skyblock", chat.chatEnum.DEBUG);
-                    MinecraftForge.EVENT_BUS.post(new leftSkyblockEvent());
+                    MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.leftSkyblockEvent());
                 }
 
                 if (temp1 && !inDungeons) {
-                    MinecraftForge.EVENT_BUS.post(new joinedDungeonEvent());
+                    MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.joinedDungeonEvent());
                     //if(main.debug) chat.queueClientChatMessage("joined dungeons", chat.chatEnum.DEBUG);
                     chat.queueClientChatMessage("joined dungeons", chat.chatEnum.DEBUG);
                     inDungeons = true;
@@ -60,11 +60,11 @@ public class SBinfo extends UtilModule {
                     //if(main.debug) chat.queueClientChatMessage("left dungeons", chat.chatEnum.DEBUG);
                     chat.queueClientChatMessage("left dungeons", chat.chatEnum.DEBUG);
 
-                    MinecraftForge.EVENT_BUS.post(new leftDungeonEvent());
+                    MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.leftDungeonEvent());
                 }
 
                 if (temp2 && !inPrivateIsland) {
-                    MinecraftForge.EVENT_BUS.post(new joinedPrivateIslandEvent());
+                    MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.joinedPrivateIslandEvent());
                     //if(main.debug) chat.queueClientChatMessage("joined players private island", chat.chatEnum.DEBUG);
                     chat.queueClientChatMessage("joined players private island", chat.chatEnum.DEBUG);
                     inPrivateIsland = true;
@@ -72,7 +72,7 @@ public class SBinfo extends UtilModule {
                     inPrivateIsland = false;
                     // if(main.debug) chat.queueClientChatMessage("left players private island", chat.chatEnum.DEBUG);
                     chat.queueClientChatMessage("left players private island", chat.chatEnum.DEBUG);
-                    MinecraftForge.EVENT_BUS.post(new leftPrivateIslandEvent());
+                    MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.leftPrivateIslandEvent());
                 }
 
             } catch (InterruptedException e) {

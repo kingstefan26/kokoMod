@@ -1,23 +1,15 @@
 package io.github.kingstefan26.stefans_util.module.util;
 
 import io.github.kingstefan26.stefans_util.core.module.UtilModule;
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class teleportListener extends UtilModule {
-    public static teleportListener teleportListener;
 
-    public static teleportListener getTeleportListner() {
-        if (teleportListener == null) {
-            teleportListener = new teleportListener();
-        }
-        return teleportListener;
-    }
-
-    private teleportListener() {
+    public teleportListener() {
         super("teleport listener");
     }
 
@@ -28,7 +20,7 @@ public class teleportListener extends UtilModule {
         EntityPlayerSP p = mc.thePlayer;
         double playerSpeed = p.getDistance(p.lastTickPosX, p.lastTickPosY, p.lastTickPosZ);
         if (playerSpeed > 5) {
-            MinecraftForge.EVENT_BUS.post(new playerTeleportEvent());
+            MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.playerTeleportEvent());
         }
     }
 }

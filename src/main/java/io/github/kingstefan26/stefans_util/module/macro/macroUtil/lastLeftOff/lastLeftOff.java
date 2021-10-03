@@ -44,8 +44,9 @@ public class lastLeftOff extends Module {
 	configObject macrostage;
 	configObject time;
 
-	private lastLeftOff() {
+	public lastLeftOff() {
 		super("lastLeftOff", "shows where you last left a macro in current session", ModuleManager.Category.MISC);
+		LastLeftOffinstance = this;
 		this.presistanceEnabled = true;
 	}
 	@Override

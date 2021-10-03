@@ -6,7 +6,7 @@ import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroStages;
 import io.github.kingstefan26.stefans_util.module.util.SBinfo;
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -218,7 +218,7 @@ public class wartMacro extends Module {
     }
 
     @SubscribeEvent
-    public void onPlayerTeleportEvent(playerTeleportEvent event) {
+    public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
         if (ismacroingReady) {
             sendChatMessage.sendClientMessage(" teleport detected!", true);
             playerTeleported = true;

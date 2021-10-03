@@ -6,8 +6,7 @@ import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroStages;
 import io.github.kingstefan26.stefans_util.module.util.SBinfo;
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerFallEvent;
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -70,7 +69,7 @@ public class wartMacronoTppad extends Module {
         if(System.currentTimeMillis() - YSpeedTimer > 400){
             YSpeedTimer = System.currentTimeMillis();
             if(player.posY - player.lastTickPosY < 0){
-                MinecraftForge.EVENT_BUS.post(new playerFallEvent());
+                MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.playerFallEvent());
             }
         }
 
@@ -277,7 +276,7 @@ public class wartMacronoTppad extends Module {
     }
 
     @SubscribeEvent
-    public void onPlayerFallEvent(playerFallEvent e){
+    public void onPlayerFallEvent(stefan_utilEvents.playerFallEvent e){
         if(ismacroingReady && !playerTeleported){
             sendChatMessage.sendClientMessage(" daddy cum harder!", true);
             playerFallen = true;
@@ -286,7 +285,7 @@ public class wartMacronoTppad extends Module {
 
 
     @SubscribeEvent
-    public void onPlayerTeleportEvent(playerTeleportEvent event) {
+    public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
         if (ismacroingReady) {
             sendChatMessage.sendClientMessage(" teleport detected!", true);
             playerTeleported = true;

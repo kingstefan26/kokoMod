@@ -4,7 +4,6 @@ import io.github.kingstefan26.stefans_util.core.config.confgValueType;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.module.moduleRegistery;
-import io.github.kingstefan26.stefans_util.module.moduleIndex;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
@@ -55,12 +54,6 @@ public class HUD extends Module {
 		if (e.type == RenderGameOverlayEvent.ElementType.TEXT) {
 			ScaledResolution sraka = new ScaledResolution(Minecraft.getMinecraft());
 			int temp = 2;
-			for (Module mod : moduleIndex.getmoduleIndex().getAllModules()) {
-				if (mod.isToggled()) {
-					c.drawString(mod.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(mod.getName()) - 1, temp, 0xFFccFFFF);
-					temp += c.getStringHeight(mod.getName()) + 1;
-				}
-			}
 			for (Module mod : moduleRegistery.getModuleRegistery().loadedModules) {
 				if (mod.isToggled()) {
 					c.drawString(mod.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(mod.getName()) - 1, temp, 0xFFccFFFF);

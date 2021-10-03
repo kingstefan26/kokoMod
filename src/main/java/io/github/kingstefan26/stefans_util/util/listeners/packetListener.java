@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.util.listeners;
 
 
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.receivedKeepAlivePacketEvent;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.Packet;
@@ -15,7 +15,7 @@ public class packetListener extends ChannelDuplexHandler {
 		System.out.println(packet);
 
 		if (packet instanceof C00PacketKeepAlive) {
-			MinecraftForge.EVENT_BUS.post(new receivedKeepAlivePacketEvent());
+			MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.receivedKeepAlivePacketEvent());
 		}
 		super.channelRead(ctx, packet);
 	}

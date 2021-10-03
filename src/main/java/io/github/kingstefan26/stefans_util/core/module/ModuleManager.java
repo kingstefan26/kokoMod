@@ -1,9 +1,7 @@
 package io.github.kingstefan26.stefans_util.core.module;
 
 import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
-import io.github.kingstefan26.stefans_util.module.moduleIndex;
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerFallEvent;
-import io.github.kingstefan26.stefans_util.util.forgeEventClasses.playerTeleportEvent;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -13,10 +11,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
-
-import java.util.ArrayList;
-
-import static io.github.kingstefan26.stefans_util.main.debug;
 
 
 public class ModuleManager {
@@ -33,30 +27,10 @@ public class ModuleManager {
 	}
 
 	private ModuleManager() {
-		moduleIndex.instance = moduleIndex.getmoduleIndex();
-		if(debug) moduleIndex.getmoduleIndex().loadDebugModules();
 		moduleRegistery.getModuleRegistery();
 		MinecraftForge.EVENT_BUS.register(this);
 	}
-	
-	public Module getModule(String name) {
-		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
-			if (m.getName().equalsIgnoreCase(name)) {
-				return m;
-			}
-		}
-		return null;
-	}
 
-	public ArrayList<Module> getModulesInCategory(Category c) {
-		ArrayList<Module> mods = new ArrayList<>();
-		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
-			if (m.getCategory() == c) {
-				mods.add(m);
-			}
-		}
-		return mods;
-	}
 
 //	void onEnable();
 //	void onDisable();
@@ -70,11 +44,6 @@ public class ModuleManager {
 
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent e){
-		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
-			if(m.isToggled()){
-				m.onTick(e);
-			}
-		}
 		for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
 			if(m.isToggled()){
 				m.onTick(e);
@@ -89,11 +58,6 @@ public class ModuleManager {
 
 	@SubscribeEvent
 	public void onWorldRender(RenderWorldLastEvent e){
-		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
-			if(m.isToggled()){
-				m.onWorldRender(e);
-			}
-		}
 		for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
 			if(m.isToggled()){
 				m.onWorldRender(e);
@@ -106,12 +70,7 @@ public class ModuleManager {
 	}
 
 	@SubscribeEvent
-	public void onPlayerFall(playerFallEvent e) {
-		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
-			if(m.isToggled()){
-				m.onPlayerFall();
-			}
-		}
+	public void onPlayerFall(stefan_utilEvents.playerFallEvent e) {
 		for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
 			if(m.isToggled()){
 				m.onPlayerFall();
@@ -123,12 +82,7 @@ public class ModuleManager {
 	}
 
 	@SubscribeEvent
-	public void onPlayerTeleport(playerTeleportEvent e) {
-		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
-			if(m.isToggled()){
-				m.onPlayerTeleport();
-			}
-		}
+	public void onPlayerTeleport(stefan_utilEvents.playerTeleportEvent e) {
 		for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
 			if(m.isToggled()){
 				m.onPlayerTeleport();
@@ -141,11 +95,6 @@ public class ModuleManager {
 
 	@SubscribeEvent
 	public void onGuiRender(RenderGameOverlayEvent e){
-		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
-			if(m.isToggled()){
-				m.onGuiRender(e);
-			}
-		}
 		for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
 			if(m.isToggled()){
 				m.onGuiRender(e);
@@ -158,11 +107,6 @@ public class ModuleManager {
 
 	@SubscribeEvent
 	public void onChat(ClientChatReceivedEvent e){
-		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
-			if(m.isToggled()){
-				m.onChat(e);
-			}
-		}
 		for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
 			if(m.isToggled()){
 				m.onChat(e);
@@ -183,11 +127,6 @@ public class ModuleManager {
 					int keyCode = Keyboard.getEventKey();
 					if (keyCode <= 0)
 						return;
-					for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
-						if (m.getKey() == keyCode) {
-							m.toggle();
-						}
-					}
 					for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
 						if (m.getKey() == keyCode) {
 							m.toggle();

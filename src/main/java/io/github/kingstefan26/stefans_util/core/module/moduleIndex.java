@@ -26,6 +26,9 @@ public class moduleIndex {
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.render.HUD");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.misc.cashmoney");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro");
+        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.render.blurClickGui");
+        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.macro.macroUtil.lastLeftOff.lastLeftOff");
+        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.macro.wart.wartMacroVerticalDesign");
 
         debugModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testingchat");
         debugModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testRaytrace");
@@ -35,6 +38,7 @@ public class moduleIndex {
 
         utilModuleIndex.add("io.github.kingstefan26.stefans_util.module.util.chat");
         utilModuleIndex.add("io.github.kingstefan26.stefans_util.module.util.SBinfo");
+        utilModuleIndex.add("io.github.kingstefan26.stefans_util.module.util.teleportListener");
 
 
     }
