@@ -18,7 +18,7 @@ public class Sprint extends Module {
 	}
 
 	@Override
-	public void onTick(TickEvent.Type type, Side side, TickEvent.Phase phase){
+	public void onTick(TickEvent.ClientTickEvent e){
 		if(mc.thePlayer != null || mc.theWorld != null) KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(), true);
 	}
 

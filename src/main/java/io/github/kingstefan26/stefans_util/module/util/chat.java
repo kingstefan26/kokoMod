@@ -31,7 +31,7 @@ public class chat extends UtilModule {
     }
 
     @Override
-    public void onTick(TickEvent.Type type, Side side, TickEvent.Phase phase){
+    public void onTick(TickEvent.ClientTickEvent e){
         if(Minecraft.getMinecraft().theWorld != null || Minecraft.getMinecraft().thePlayer != null){
             Iterator<Map.Entry<chatEnum, Object>> it = chatSendQueue.entrySet().iterator();
             while(it.hasNext()){

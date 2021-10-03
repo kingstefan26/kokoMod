@@ -72,17 +72,17 @@ public class ModuleManager {
 	public void onClientTick(TickEvent.ClientTickEvent e){
 		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
 			if(m.isToggled()){
-				m.onTick(e.type,e.side,e.phase);
+				m.onTick(e);
 			}
 		}
 		for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
 			if(m.isToggled()){
-				m.onTick(e.type,e.side,e.phase);
+				m.onTick(e);
 			}
 		}
 		if(!moduleRegistery.getModuleRegistery().loadedUtilModules.isEmpty()){
 			for (UtilModule ma : moduleRegistery.getModuleRegistery().loadedUtilModules) {
-				ma.onTick(e.type,e.side,e.phase);
+				ma.onTick(e);
 			}
 		}
 	}
@@ -91,17 +91,17 @@ public class ModuleManager {
 	public void onWorldRender(RenderWorldLastEvent e){
 		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
 			if(m.isToggled()){
-				m.onWorldRender(e.context,e.partialTicks);
+				m.onWorldRender(e);
 			}
 		}
 		for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
 			if(m.isToggled()){
-				m.onWorldRender(e.context,e.partialTicks);
+				m.onWorldRender(e);
 			}
 		}
 
 		for (UtilModule m : moduleRegistery.getModuleRegistery().loadedUtilModules) {
-			m.onWorldRender(e.context,e.partialTicks);
+			m.onWorldRender(e);
 		}
 	}
 
@@ -143,16 +143,16 @@ public class ModuleManager {
 	public void onGuiRender(RenderGameOverlayEvent e){
 		for (Module m : moduleIndex.getmoduleIndex().getAllModules()) {
 			if(m.isToggled()){
-				m.onGuiRender(e.partialTicks,e.resolution,e.type);
+				m.onGuiRender(e);
 			}
 		}
 		for (Module m : moduleRegistery.getModuleRegistery().loadedModules) {
 			if(m.isToggled()){
-				m.onGuiRender(e.partialTicks,e.resolution,e.type);
+				m.onGuiRender(e);
 			}
 		}
 		for (UtilModule m : moduleRegistery.getModuleRegistery().loadedUtilModules) {
-			m.onGuiRender(e.partialTicks,e.resolution,e.type);
+			m.onGuiRender(e);
 		}
 	}
 

@@ -6,6 +6,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -43,12 +44,12 @@ public class UtilModule implements moduleInterface {
 	}
 
 	@Override
-	public void onTick(TickEvent.Type type, Side side, TickEvent.Phase phase) {
+	public void onTick(TickEvent.ClientTickEvent e) {
 
 	}
 
 	@Override
-	public void onWorldRender(RenderGlobal context, float partialTick) {
+	public void onWorldRender(RenderWorldLastEvent e) {
 
 	}
 
@@ -63,7 +64,7 @@ public class UtilModule implements moduleInterface {
 	}
 
 	@Override
-	public void onGuiRender(float partialTicks, ScaledResolution resolution, RenderGameOverlayEvent.ElementType type) {
+	public void onGuiRender(RenderGameOverlayEvent e) {
 
 	}
 

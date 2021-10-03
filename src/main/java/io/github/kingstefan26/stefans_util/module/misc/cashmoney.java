@@ -29,7 +29,7 @@ public class cashmoney extends Module {
 
 
     @Override
-    public void onTick(TickEvent.Type type, Side side, TickEvent.Phase phase){
+    public void onTick(TickEvent.ClientTickEvent e){
         if(this.Match != null){
             mc.thePlayer.playSound("stefan_util:cash", 1F, 1F);
             Match = null;

@@ -4,8 +4,6 @@ import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.util.TrueTypeFont;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import java.awt.*;
@@ -29,11 +27,10 @@ public class testttf extends Module {
     }
 
     @Override
-    public void onGuiRender(float partialTicks, ScaledResolution resolution, RenderGameOverlayEvent.ElementType type){
-        if(type == RenderGameOverlayEvent.ElementType.TEXT){
+    public void onGuiRender(RenderGameOverlayEvent e){
+        if(e.type == RenderGameOverlayEvent.ElementType.TEXT){
             trueTypeFont.drawString(20, 20, "hello luvs", 20, 20);
         }
-        super.onGuiRender(partialTicks, resolution, type);
     }
 
 }

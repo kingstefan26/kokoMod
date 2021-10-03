@@ -50,9 +50,9 @@ public class HUD extends Module {
 	}
 
 	@Override
-	public void onGuiRender(float partialTicks, ScaledResolution resolution, RenderGameOverlayEvent.ElementType type) {
+	public void onGuiRender(RenderGameOverlayEvent e) {
 		if (this.closed || !this.isToggled()) return;
-		if (type == RenderGameOverlayEvent.ElementType.TEXT) {
+		if (e.type == RenderGameOverlayEvent.ElementType.TEXT) {
 			ScaledResolution sraka = new ScaledResolution(Minecraft.getMinecraft());
 			int temp = 2;
 			for (Module mod : moduleIndex.getmoduleIndex().getAllModules()) {

@@ -10,6 +10,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.*;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,11 +42,11 @@ public class testRaytrace extends Module {
     }
 
     @Override
-    public void onWorldRender(RenderGlobal context, float partialTick){
+    public void onWorldRender(RenderWorldLastEvent e){
         List<Vec3> vecList = vectorsToRaytrace(12);
         Vec3 eyes = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY + (double)mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
         for(Vec3 v : vecList){
-            draw3DLine(eyes,v, 0xfcba03, 1, false, partialTick);
+            draw3DLine(eyes,v, 0xfcba03, 1, false, e.partialTicks);
         }
     }
 
