@@ -34,11 +34,13 @@ public class moduleIndex {
         debugModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testRaytrace");
         debugModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testTracer");
         debugModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testttf");
+        debugModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.keyMouselocktest");
 
 
         utilModuleIndex.add("io.github.kingstefan26.stefans_util.module.util.chat");
         utilModuleIndex.add("io.github.kingstefan26.stefans_util.module.util.SBinfo");
         utilModuleIndex.add("io.github.kingstefan26.stefans_util.module.util.teleportListener");
+        utilModuleIndex.add("io.github.kingstefan26.stefans_util.module.util.inputLocker");
 
 
     }

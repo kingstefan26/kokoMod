@@ -49,9 +49,9 @@ public class KeyboardLocker {
         if(isKeyboardLocked() && event.phase == TickEvent.Phase.START) {
             while (Keyboard.next()) {
                 if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-                    if (mc.isGamePaused())
+                    if (mc.isGamePaused()) {
                         mc.displayGuiScreen(null);
-                    else {
+                    } else {
                         unlockKeyboard();
                         MouseLocker.getMouseLocker().unlockMousePos();
                         MouseLocker.getMouseLocker().unlockMouseButtons();

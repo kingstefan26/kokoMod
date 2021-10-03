@@ -21,6 +21,7 @@ public class stefan_utilEvents {
     }
     public static class receivedKeepAlivePacketEvent extends Event {
     }
+    public static class clickedUnlockKeyEvent extends Event {}
 
 
 }
