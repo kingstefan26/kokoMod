@@ -3,9 +3,9 @@ package io.github.kingstefan26.stefans_util.module.macro.sugarCane;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroStages;
+import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
-import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import io.github.kingstefan26.stefans_util.util.stolenBs.KeyboardLocker;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -240,7 +240,7 @@ public class caneMacro extends Module {
     @SubscribeEvent
     public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
         if(ismacroingReady){
-            sendChatMessage.sendClientMessage(" teleport detected, changing walk stage to right!", true);
+            chat.queueClientChatMessage("teleport detected, changing walk stage to right!", chat.chatEnum.CHAT);
             playerTeleported = true;
         }
     }
@@ -261,6 +261,6 @@ public class caneMacro extends Module {
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
         super.setToggled(false);
-        sendChatMessage.sendClientMessage(" cane macro was unloaded because you switched worlds", true);
+        chat.queueClientChatMessage("cane macro was unloaded because you switched worlds", chat.chatEnum.CHAT);
     }
 }

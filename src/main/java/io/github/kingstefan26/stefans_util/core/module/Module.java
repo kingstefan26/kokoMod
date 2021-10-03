@@ -5,7 +5,7 @@ import io.github.kingstefan26.stefans_util.core.config.confgValueType;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
-import io.github.kingstefan26.stefans_util.util.sendChatMessage;
+import io.github.kingstefan26.stefans_util.module.util.chat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -143,13 +143,13 @@ public class Module implements moduleInterface {
 	public void onEnable() {
 		if(closed) return;
 		MinecraftForge.EVENT_BUS.register(this);
-		if(this.enableMessage != null) sendChatMessage.sendClientMessage(this.enableMessage, true);
+		if(this.enableMessage != null) chat.queueClientChatMessage(this.enableMessage, chat.chatEnum.CHAT);
 	}
 
 	@Override
 	public void onDisable() {
 		MinecraftForge.EVENT_BUS.unregister(this);
-		if(this.disableMessage != null) sendChatMessage.sendClientMessage(this.disableMessage, true);
+		if(this.disableMessage != null) chat.queueClientChatMessage(this.disableMessage, chat.chatEnum.CHAT);
 	}
 
 	public void setInvisible(){

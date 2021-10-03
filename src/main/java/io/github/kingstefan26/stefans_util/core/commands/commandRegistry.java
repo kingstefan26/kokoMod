@@ -3,7 +3,6 @@ package io.github.kingstefan26.stefans_util.core.commands;
 import com.google.common.collect.Lists;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.util.CalendarUtils;
-import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;

@@ -2,8 +2,8 @@ package io.github.kingstefan26.stefans_util.module.misc;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
-import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -33,7 +33,7 @@ public class tpsDispay extends Module {
         if(tps < 20){
             //drawCenterString.GuiNotif(mc, "the server tick rate is: " + tps);
 //            kokoMod.instance.renderEngine.drawCenterString.GuiNotif(mc, "the server tick rate is: " + tps);
-            sendChatMessage.sendClientMessage("current tick rate: " + tps, false);
+            chat.queueClientChatMessage("current tick rate: " + tps, chat.chatEnum.CHATNOPREFIX);
             //sendChatMessage.sendClientMessage("server tick is late for: " + tps + " miliseconds", false);
         }
         if(System.currentTimeMillis() - this.lastTick >= 1000){

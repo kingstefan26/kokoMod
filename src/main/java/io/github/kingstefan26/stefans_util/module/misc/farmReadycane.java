@@ -2,8 +2,8 @@ package io.github.kingstefan26.stefans_util.module.misc;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
-import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -76,6 +76,6 @@ public class farmReadycane extends Module {
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
         super.setToggled(false);
-        sendChatMessage.sendClientMessage(" farmReady-cane was unloaded because you switched worlds", true);
+        chat.queueClientChatMessage("farmReady-cane was unloaded because you switched worlds", chat.chatEnum.CHAT);
     }
 }

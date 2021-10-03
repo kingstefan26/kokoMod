@@ -4,8 +4,8 @@ import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
-import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -36,10 +36,10 @@ public class iWillcancelYouOnTwitter extends Module {
     public void onTick(TickEvent.RenderTickEvent e){
         if(System.currentTimeMillis() - lastSpam > speed * 1000){
             randomText = cancelTexts[ThreadLocalRandom.current().nextInt(0, cancelTexts.length - 1)];
-            sendChatMessage.sendClientMessage("§4[WATCHDOG ANNOUNCEMENT]" +"\n"
-                    +"§fWatchdog has cannceled §l§c100§r players in the last 7 days." +"\n"
-                    +"§fStaff have cannceled an additional §l§c100§r in the last 7 days."+"\n"
-                    +"§r§l§c"+randomText, false);
+            chat.queueClientChatMessage("§4[WATCHDOG ANNOUNCEMENT]" + "\n"
+                    + "§fWatchdog has cannceled §l§c100§r players in the last 7 days." + "\n"
+                    + "§fStaff have cannceled an additional §l§c100§r in the last 7 days." + "\n"
+                    + "§r§l§c" + randomText, chat.chatEnum.CHATNOPREFIX);
             lastSpam = System.currentTimeMillis();
         }
     }

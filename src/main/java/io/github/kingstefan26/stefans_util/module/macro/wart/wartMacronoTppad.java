@@ -6,9 +6,9 @@ import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroStages;
 import io.github.kingstefan26.stefans_util.module.util.SBinfo;
+import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
-import io.github.kingstefan26.stefans_util.util.sendChatMessage;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -225,20 +225,20 @@ public class wartMacronoTppad extends Module {
     public void onEnable() {
         super.onEnable();
         if (this.getKey() == 0) {
-            sendChatMessage.sendClientMessage("please set a keybind!", true);
+            chat.queueClientChatMessage("please set a keybind!", chat.chatEnum.CHAT);
             this.setToggled(false);
             return;
         }
         if (!debug) {
             if (!SBinfo.isOnPrivateIsland()) {
-                sendChatMessage.sendClientMessage("please join a your island!", true);
+                chat.queueClientChatMessage("please join a your island!", chat.chatEnum.CHAT);
                 this.setToggled(false);
                 return;
             }
         }
         if(macroWalkStage == DEFAULT) macroWalkStage = RIGHT;
 
-        sendChatMessage.sendClientMessage(" enabled wart macro", true);
+        chat.queueClientChatMessage("enabled wart macro", chat.chatEnum.CHAT);
 
 
         this.wantedPitch = SettingsManager.getSettingsManager().getSettingByName("pitch", this).getValInt();
@@ -255,7 +255,7 @@ public class wartMacronoTppad extends Module {
     public void onDisable() {
         super.onDisable();
 
-        sendChatMessage.sendClientMessage(" disabled wart macro", true);
+        chat.queueClientChatMessage("disabled wart macro", chat.chatEnum.CHAT);
         /*
         reset every variable & unpress every key on disable
          */
@@ -278,7 +278,7 @@ public class wartMacronoTppad extends Module {
     @SubscribeEvent
     public void onPlayerFallEvent(stefan_utilEvents.playerFallEvent e){
         if(ismacroingReady && !playerTeleported){
-            sendChatMessage.sendClientMessage(" daddy cum harder!", true);
+            chat.queueClientChatMessage("daddy cum harder!", chat.chatEnum.CHAT);
             playerFallen = true;
         }
     }
@@ -287,7 +287,7 @@ public class wartMacronoTppad extends Module {
     @SubscribeEvent
     public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
         if (ismacroingReady) {
-            sendChatMessage.sendClientMessage(" teleport detected!", true);
+            chat.queueClientChatMessage("teleport detected!", chat.chatEnum.CHAT);
             playerTeleported = true;
         }
     }
@@ -308,6 +308,6 @@ public class wartMacronoTppad extends Module {
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
         super.setToggled(false);
-        sendChatMessage.sendClientMessage(" wart macro was unloaded because you switched worlds", true);
+        chat.queueClientChatMessage("wart macro was unloaded because you switched worlds", chat.chatEnum.CHAT);
     }
 }
