@@ -25,7 +25,7 @@ public class newergui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        c.drawStringS("fuck raw you in tha ass", this.width, this.height, 0xFFFFFFFF);
+        c.drawString("fuck raw you in tha ass", this.width, this.height, 0xFFFFFFFF);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

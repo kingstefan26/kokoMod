@@ -47,7 +47,7 @@ public class Slider extends Component {
 //				(parent.parent.getX()* 2 + 15),
 //				(parent.parent.getY() + offset + 2) * 2 + 5,
 //				-1);
-		this.p1.drawStringS(
+		this.p1.drawString(
 				this.set.getName() + ": " + this.set.getValDouble(),
 				(parent.parent.getX()* 2 + 15),
 				(parent.parent.getY()+ offset - 3)* 2,

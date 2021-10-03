@@ -25,6 +25,7 @@ public class moduleIndex {
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.render.BatEsp");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.render.HUD");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.misc.cashmoney");
+        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro");
 
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testTracer");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testingchat");

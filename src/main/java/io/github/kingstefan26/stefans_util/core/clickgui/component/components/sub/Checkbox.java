@@ -35,7 +35,7 @@ public class Checkbox extends Component {
 //				(parent.parent.getX() + 10 + 4) * 2 + 5,
 //				(parent.parent.getY() + offset + 2) * 2 + 4,
 //				-1);
-		this.p1.drawStringS(
+		this.p1.drawString(
 				this.op.getName(),
 				(parent.parent.getX() + 10 + 4) * 2,
 				(parent.parent.getY() + offset - 2) * 2,

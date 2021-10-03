@@ -37,7 +37,7 @@ public class VisibleButton extends Component { // Remove this class if you don't
 //				(parent.parent.getX() + 7) * 2,
 //				(parent.parent.getY() + offset + 2) * 2 + 5,
 //				-1);
-		this.p1.drawStringS(
+		this.p1.drawString(
 				"Visible: " + mod.getVisibility(),
 				(parent.parent.getX() + 7) * 2,
 				(parent.parent.getY() + offset - 3) * 2,

@@ -24,7 +24,7 @@ public class ModeButton extends Component {
 		this.x = button.parent.getX() + button.parent.getWidth();
 		this.y = button.parent.getY() + button.offset;
 		this.offset = offset;
-		this.modeIndex = 0;
+		modeIndex = set.getOptions().indexOf(set.getValString());
 	}
 	
 	@Override
@@ -43,10 +43,10 @@ public class ModeButton extends Component {
 //				(parent.parent.getX() + 7) * 2,
 //				(parent.parent.getY() + offset + 2) * 2 + 5,
 //				-1);
-		this.c.drawStringS(
+		this.c.drawString(
 				"Mode: " + set.getValString(),
 				(parent.parent.getX()+ 7) * 2,
-				(parent.parent.getY()+ offset + 2) * 2 + 5,
+				(parent.parent.getY()+ offset - 3) * 2,
 				-1);
 //		GL11.glPopMatrix();
 	}
@@ -61,12 +61,12 @@ public class ModeButton extends Component {
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
 		if(isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-			int maxIndex = set.getOptions().size();
-
-			if(modeIndex + 1 > maxIndex)
+			int maxIndex = set.getOptions().size() - 1;
+			if(modeIndex >= maxIndex) {
 				modeIndex = 0;
-			else
+			} else {
 				modeIndex++;
+			}
 
 			set.setValString(set.getOptions().get(modeIndex));
 		}

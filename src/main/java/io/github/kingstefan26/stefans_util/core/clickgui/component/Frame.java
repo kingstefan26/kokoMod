@@ -95,11 +95,11 @@ public class Frame {
 		//Gui.drawRect(this.x, this.y, this.x + this.width, this.y + this.barHeight, 0xFF222200);
 
 		Component.drawRect(this.x, this.y, this.x + this.width, this.y + this.barHeight, 0xFF222200);
-		c.drawStringS(this.category.name(),
+		c.drawString(this.category.name(),
 				this.x * 2,
 				this.y * 2 - (this.barHeight / 2),
 				0xFFFFFFFF);
-		c.drawStringS(this.open ? "-" : "+",
+		c.drawString(this.open ? "-" : "+",
 				(this.x + this.width - 10) * 2 + 5,
 				this.y * 2 - (this.barHeight / 2),
 				-1);

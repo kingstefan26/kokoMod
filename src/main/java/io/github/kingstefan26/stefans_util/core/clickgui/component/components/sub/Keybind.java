@@ -40,7 +40,7 @@ public class Keybind extends Component {
 //				(parent.parent.getX() + 7) * 2,
 //				(parent.parent.getY() + offset + 2) * 2 + 5,
 //				-1);
-		this.p1.drawStringS(
+		this.p1.drawString(
 				binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getKey())),
 				(parent.parent.getX()+ 7) * 2,
 				(parent.parent.getY()+ offset - 3) * 2,

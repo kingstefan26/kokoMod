@@ -78,7 +78,7 @@ public class Button extends Component {
 //				(parent.getX() + 2) * 2,
 //				(parent.getY() + offset + 2) * 2 + 4,
 //				this.mod.isToggled() ? -1 : 0x999999);
-		this.c.drawStringS(
+		this.c.drawString(
 				this.mod.getName(),
 				(parent.getX()+ 2) * 2,
 //				parent.getY(),
@@ -90,7 +90,7 @@ public class Button extends Component {
 //					(parent.getX() + parent.getWidth() - 10) * 2,
 //					(parent.getY() + offset + 2) * 2 + 4,
 //					-1);
-			this.c.drawStringS(
+			this.c.drawString(
 					this.open ? "-" : "+",
 					(parent.getX() + parent.getWidth() - 10) * 2,
 					(parent.getY() + offset - this.height / 2) * 2,

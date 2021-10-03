@@ -135,10 +135,8 @@ public class CustomFont {
         int l = color & 0xff000000;
         int shade = (0x000000) >> 2;
         shade += l;
-        GlStateManager.enableBlend();
         drawString(text, x + 1, y + 1, shade);
         drawString(text, x, y, color);
-        GlStateManager.disableBlend();
     }
 
     /**
@@ -150,6 +148,7 @@ public class CustomFont {
      * @param color The color of the non-shadowed text (Hex)
      */
     public void drawString(String text, int x, int y, int color) {
+        GlStateManager.enableBlend();
         GlStateManager.pushMatrix();
         GlStateManager.scale(0.5,0.5,0.5);
         GlStateManager.bindTexture(texID);
@@ -167,6 +166,7 @@ public class CustomFont {
         }
         GlStateManager.scale(2,2,2);
         GlStateManager.popMatrix();
+        GlStateManager.disableBlend();
     }
 
     /**

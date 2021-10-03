@@ -57,13 +57,13 @@ public class HUD extends Module {
 			int temp = 2;
 			for (Module mod : moduleIndex.getmoduleIndex().getAllModules()) {
 				if (mod.isToggled()) {
-					c.drawStringS(mod.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(mod.getName()) - 1, temp, 0xFFccFFFF);
+					c.drawString(mod.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(mod.getName()) - 1, temp, 0xFFccFFFF);
 					temp += c.getStringHeight(mod.getName()) + 1;
 				}
 			}
 			for (Module mod : moduleRegistery.getModuleRegistery().loadedModules) {
 				if (mod.isToggled()) {
-					c.drawStringS(mod.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(mod.getName()) - 1, temp, 0xFFccFFFF);
+					c.drawString(mod.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(mod.getName()) - 1, temp, 0xFFccFFFF);
 					temp += c.getStringHeight(mod.getName()) + 1;
 				}
 			}
