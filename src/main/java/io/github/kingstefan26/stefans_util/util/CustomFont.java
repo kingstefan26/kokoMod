@@ -44,7 +44,7 @@ public class CustomFont {
      * @param size The size of the font to be drawn.
      */
     public CustomFont(Minecraft mc, Object font, int size) {
-        this(mc, font, size, 32, 128);
+        this(mc, font, size, 32, 126);
     }
 
     /**

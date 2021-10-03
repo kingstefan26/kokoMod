@@ -27,9 +27,10 @@ public class moduleIndex {
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.misc.cashmoney");
         productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro");
 
-        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testTracer");
-        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testingchat");
-        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testRaytrace");
+        debugModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testingchat");
+        debugModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testRaytrace");
+        debugModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testTracer");
+        debugModuleIndex.add("io.github.kingstefan26.stefans_util.module.debug.testttf");
 
 
         utilModuleIndex.add("io.github.kingstefan26.stefans_util.module.util.chat");
