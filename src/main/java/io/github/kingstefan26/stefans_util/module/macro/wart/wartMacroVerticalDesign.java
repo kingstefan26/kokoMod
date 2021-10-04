@@ -25,12 +25,6 @@ import org.lwjgl.input.Mouse;
 
 
 public class wartMacroVerticalDesign extends Module {
-	public static wartMacroVerticalDesign wartMacroVerticalDesign;
-
-	public static wartMacroVerticalDesign getwartMacroVerticalDesign(){
-		if(wartMacroVerticalDesign == null) wartMacroVerticalDesign = new wartMacroVerticalDesign();
-		return wartMacroVerticalDesign;
-	}
 
 	private final drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
 	private io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroMenu macroMenu;
@@ -60,7 +54,6 @@ public class wartMacroVerticalDesign extends Module {
 
 	public wartMacroVerticalDesign() {
 		super("wart macro my design", "my design wart macro!", ModuleManager.Category.MACRO, true);
-		wartMacroVerticalDesign = this;
 		SettingsManager.getSettingsManager().rSetting(new Setting("yaw", this, 90, 1, 90, true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("pitch", this, 9, 0, 90, true));
 		SettingsManager.getSettingsManager().rSetting(new Setting("perfect head rotation", this, true));
