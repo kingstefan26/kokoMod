@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class UniversalWartMacro extends Module {
@@ -34,7 +35,7 @@ public class UniversalWartMacro extends Module {
     }
 
 
-    public ArrayList<String> options;
+
     private final drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
     private io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroMenu macroMenu;
 
@@ -63,11 +64,11 @@ public class UniversalWartMacro extends Module {
 
     @Override
     public void onLoad(){
-        options = new ArrayList<>();
-        options.add("vertical design");
-        options.add("horizontal with pads");
-        options.add("horizontal with no pad");
-        SettingsManager.getSettingsManager().rSetting(new Setting("version", this,"vertical design",options));
+        SettingsManager.getSettingsManager().rSetting(new Setting("version", this,"vertical design",new ArrayList<String>() {{
+            add("vertical design");
+            add("horizontal with pads");
+            add("horizontal with no pad");
+        }}));
         SettingsManager.getSettingsManager().rSetting(new Setting("yaw", this, 90, 1, 90, true));
         SettingsManager.getSettingsManager().rSetting(new Setting("pitch", this, 9, 0, 90, true));
         SettingsManager.getSettingsManager().rSetting(new Setting("perfect head rotation", this, true));

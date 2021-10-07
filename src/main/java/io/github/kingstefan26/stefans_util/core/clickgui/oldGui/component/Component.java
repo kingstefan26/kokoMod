@@ -1,4 +1,4 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component;
+package io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component;
 
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.Minecraft;

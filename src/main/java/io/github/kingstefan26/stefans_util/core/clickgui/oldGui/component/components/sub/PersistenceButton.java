@@ -1,30 +1,24 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub;
+package io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component.components.sub;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
+import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component.Component;
+import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component.components.Button;
 import io.github.kingstefan26.stefans_util.core.module.Module;
-import io.github.kingstefan26.stefans_util.core.setting.Setting;
 
-public class ModeButton extends Component {
+public class PersistenceButton extends Component { // Remove this class if you don't want it (it's kinda useless)
 
 	private boolean hovered;
 	private Button parent;
-	private Setting set;
 	private int offset;
 	private int x;
 	private int y;
 	private Module mod;
 
-	private int modeIndex;
-	
-	public ModeButton(Setting set, Button button, Module mod, int offset) {
-		this.set = set;
+	public PersistenceButton(Button button, Module mod, int offset) {
 		this.parent = button;
 		this.mod = mod;
 		this.x = button.parent.getX() + button.parent.getWidth();
 		this.y = button.parent.getY() + button.offset;
 		this.offset = offset;
-		modeIndex = set.getOptions().indexOf(set.getValString());
 	}
 	
 	@Override
@@ -39,14 +33,14 @@ public class ModeButton extends Component {
 //		GL11.glPushMatrix();
 //		GL11.glScalef(0.5f,0.5f, 0.5f);
 //		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(
-//				"Mode: " + set.getValString(),
+//				"Visible: " + mod.getVisibility(),
 //				(parent.parent.getX() + 7) * 2,
 //				(parent.parent.getY() + offset + 2) * 2 + 5,
 //				-1);
-		this.c.drawString(
-				"Mode: " + set.getValString(),
-				(parent.parent.getX()+ 7) * 2,
-				(parent.parent.getY()+ offset - 3) * 2,
+		this.p1.drawString(
+				"presisnant: " + mod.isPresident(),
+				(parent.parent.getX() + 7) * 2,
+				(parent.parent.getY() + offset - 3) * 2,
 				-1);
 //		GL11.glPopMatrix();
 	}
@@ -61,14 +55,7 @@ public class ModeButton extends Component {
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
 		if(isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-			int maxIndex = set.getOptions().size() - 1;
-			if(modeIndex >= maxIndex) {
-				modeIndex = 0;
-			} else {
-				modeIndex++;
-			}
-
-			set.setValString(set.getOptions().get(modeIndex));
+			mod.togglePresistance();
 		}
 	}
 	

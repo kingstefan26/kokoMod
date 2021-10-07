@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.module;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import net.minecraft.client.Minecraft;

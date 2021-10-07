@@ -1,19 +1,19 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub;
+package io.github.kingstefan26.stefans_util.core.clickgui.newGui.components.subComponents;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
+import io.github.kingstefan26.stefans_util.core.clickgui.newGui.components.newModuleComponent;
+import io.github.kingstefan26.stefans_util.core.clickgui.newGui.components.newComponent;
 import io.github.kingstefan26.stefans_util.core.module.Module;
 
-public class PersistenceButton extends Component { // Remove this class if you don't want it (it's kinda useless)
+public class newPersistenceButton extends newComponent { // Remove this class if you don't want it (it's kinda useless)
 
 	private boolean hovered;
-	private Button parent;
+	private newModuleComponent parent;
 	private int offset;
 	private int x;
 	private int y;
 	private Module mod;
 
-	public PersistenceButton(Button button, Module mod, int offset) {
+	public newPersistenceButton(newModuleComponent button, Module mod, int offset) {
 		this.parent = button;
 		this.mod = mod;
 		this.x = button.parent.getX() + button.parent.getWidth();
@@ -28,8 +28,8 @@ public class PersistenceButton extends Component { // Remove this class if you d
 	
 	@Override
 	public void renderComponent() {
-		Component.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (parent.parent.getWidth()), parent.parent.getY() + offset + 12, this.hovered ? 0xFF222222 : 0xFF111111);
-		Component.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
+		newComponent.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (parent.parent.getWidth()), parent.parent.getY() + offset + 12, this.hovered ? 0xFF222222 : 0xFF111111);
+		newComponent.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
 //		GL11.glPushMatrix();
 //		GL11.glScalef(0.5f,0.5f, 0.5f);
 //		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(

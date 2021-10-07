@@ -1,6 +1,6 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component;
+package io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
+import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component.components.Button;
 import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;

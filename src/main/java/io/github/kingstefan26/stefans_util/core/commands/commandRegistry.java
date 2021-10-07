@@ -1,7 +1,9 @@
 package io.github.kingstefan26.stefans_util.core.commands;
 
+import io.github.kingstefan26.stefans_util.core.clickgui.newGui.newClickGui;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.util.CalendarUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 

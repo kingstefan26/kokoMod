@@ -1,24 +1,21 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub;
+package io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component.components.sub;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
+import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component.Component;
+import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component.components.Button;
+import io.github.kingstefan26.stefans_util.core.module.Module;
 
-public class Keybind extends Component {
+public class VisibleButton extends Component { // Remove this class if you don't want it (it's kinda useless)
 
 	private boolean hovered;
-	private boolean binding;
 	private Button parent;
 	private int offset;
 	private int x;
 	private int y;
+	private Module mod;
 	
-	public Keybind(Button button, int offset) {
+	public VisibleButton(Button button, Module mod, int offset) {
 		this.parent = button;
+		this.mod = mod;
 		this.x = button.parent.getX() + button.parent.getWidth();
 		this.y = button.parent.getY() + button.offset;
 		this.offset = offset;
@@ -36,14 +33,14 @@ public class Keybind extends Component {
 //		GL11.glPushMatrix();
 //		GL11.glScalef(0.5f,0.5f, 0.5f);
 //		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(
-//				binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getKey())),
+//				"Visible: " + mod.getVisibility(),
 //				(parent.parent.getX() + 7) * 2,
 //				(parent.parent.getY() + offset + 2) * 2 + 5,
 //				-1);
 		this.p1.drawString(
-				binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getKey())),
-				(parent.parent.getX()+ 7) * 2,
-				(parent.parent.getY()+ offset - 3) * 2,
+				"Visible: " + mod.getVisibility(),
+				(parent.parent.getX() + 7) * 2,
+				(parent.parent.getY() + offset - 3) * 2,
 				-1);
 //		GL11.glPopMatrix();
 	}
@@ -58,18 +55,7 @@ public class Keybind extends Component {
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
 		if(isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-			this.binding = !this.binding;
-		}
-	}
-	
-	@Override
-	public void keyTyped(char typedChar, int key) {
-		if(this.binding) {
-			if(key == 1){
-				this.binding = false;
-			}
-			this.parent.mod.setKey(key);
-			this.binding = false;
+			mod.toggleVisibility();
 		}
 	}
 	

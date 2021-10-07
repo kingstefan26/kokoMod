@@ -1,6 +1,7 @@
 package io.github.kingstefan26.stefans_util.core.module;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.clickgui.newGui.newClickGui;
+import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.ClickGui;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -134,6 +135,9 @@ public class ModuleManager {
 					}
 					if(keyCode == Keyboard.KEY_RSHIFT){
 						Minecraft.getMinecraft().displayGuiScreen(ClickGui.getClickGui());
+					}
+					if(keyCode == Keyboard.KEY_APOSTROPHE){
+						Minecraft.getMinecraft().displayGuiScreen(newClickGui.getClickGui());
 					}
 				}
 			}

@@ -1,21 +1,20 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub;
+package io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component.components.sub;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
-import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component.Component;
+import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.component.components.Button;
+import org.lwjgl.input.Keyboard;
 
-public class VisibleButton extends Component { // Remove this class if you don't want it (it's kinda useless)
+public class Keybind extends Component {
 
 	private boolean hovered;
+	private boolean binding;
 	private Button parent;
 	private int offset;
 	private int x;
 	private int y;
-	private Module mod;
 	
-	public VisibleButton(Button button, Module mod, int offset) {
+	public Keybind(Button button, int offset) {
 		this.parent = button;
-		this.mod = mod;
 		this.x = button.parent.getX() + button.parent.getWidth();
 		this.y = button.parent.getY() + button.offset;
 		this.offset = offset;
@@ -33,14 +32,14 @@ public class VisibleButton extends Component { // Remove this class if you don't
 //		GL11.glPushMatrix();
 //		GL11.glScalef(0.5f,0.5f, 0.5f);
 //		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(
-//				"Visible: " + mod.getVisibility(),
+//				binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getKey())),
 //				(parent.parent.getX() + 7) * 2,
 //				(parent.parent.getY() + offset + 2) * 2 + 5,
 //				-1);
 		this.p1.drawString(
-				"Visible: " + mod.getVisibility(),
-				(parent.parent.getX() + 7) * 2,
-				(parent.parent.getY() + offset - 3) * 2,
+				binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getKey())),
+				(parent.parent.getX()+ 7) * 2,
+				(parent.parent.getY()+ offset - 3) * 2,
 				-1);
 //		GL11.glPopMatrix();
 	}
@@ -55,7 +54,18 @@ public class VisibleButton extends Component { // Remove this class if you don't
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
 		if(isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-			mod.toggleVisibility();
+			this.binding = !this.binding;
+		}
+	}
+	
+	@Override
+	public void keyTyped(char typedChar, int key) {
+		if(this.binding) {
+			if(key == 1){
+				this.binding = false;
+			}
+			this.parent.mod.setKey(key);
+			this.binding = false;
 		}
 	}
 	

@@ -10,6 +10,8 @@ import java.util.ArrayList;
  *  it's free to use
  *  but you have to credit him
  *
+ *  im about to make this so diffrent that miss herocode is gonna shit himself
+ *
  *  @author HeroCode
  */
 public class SettingsManager {

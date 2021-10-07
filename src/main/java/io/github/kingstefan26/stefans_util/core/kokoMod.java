@@ -1,9 +1,11 @@
 package io.github.kingstefan26.stefans_util.core;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.clickgui.newGui.newClickGui;
+import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.core.setting.newSetting.general.SettingsCore;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.util.handelers.PacketHandler;
 import net.minecraft.client.Minecraft;
@@ -60,5 +62,8 @@ public class kokoMod {
 	    SettingsManager.SettingsManager = SettingsManager.getSettingsManager();
 	    ModuleManager.ModuleManager = ModuleManager.getModuleManager();
 	    ClickGui.ClickGui = ClickGui.getClickGui();
+
+		SettingsCore.getSettingsCore();
+		newClickGui.getClickGui();
     }
 }
