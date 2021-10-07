@@ -76,6 +76,6 @@ public class farmReadycane extends Module {
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
         super.setToggled(false);
-        chat.queueClientChatMessage("farmReady-cane was unloaded because you switched worlds", chat.chatEnum.CHAT);
+        chat.queueClientChatMessage("farmReady-cane was unloaded because you switched worlds", chat.chatEnum.CHATPREFIX);
     }
 }

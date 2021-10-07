@@ -6,7 +6,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.*;
 
@@ -16,7 +15,7 @@ public class chat extends UtilModule {
     private static final String DEBUG_PREFIX = "[§9KOKOMOD-DEBUG§9§r] ";
     public enum chatEnum{
         DEBUG,
-        CHAT,
+        CHATPREFIX,
         CHATNOPREFIX,
         CHATCOMPONENT
         }
@@ -48,7 +47,7 @@ public class chat extends UtilModule {
             case DEBUG:
                 event = new ClientChatReceivedEvent((byte) 1, new ChatComponentText(DEBUG_PREFIX + content));
                 break;
-            case CHAT:
+            case CHATPREFIX:
                 event = new ClientChatReceivedEvent((byte) 1, new ChatComponentText(MESSAGE_PREFIX + content));
                 break;
             case CHATNOPREFIX:

@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.util;
 import io.github.kingstefan26.stefans_util.core.module.UtilModule;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
-import io.github.kingstefan26.stefans_util.util.stolenBs.MouseLocker;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -15,6 +15,15 @@ public class inputLocker extends UtilModule {
     }
     public static boolean locked;
     public static int unlockkey;
+
+
+    public static void disable(){
+        locked = false;
+    }
+    public static void enable(){
+        KeyBinding.unPressAllKeys();
+        locked = true;
+    }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.RenderTickEvent event) {

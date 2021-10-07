@@ -14,5 +14,13 @@
       "stream": true
     }
     ]
+  },
+  "whatsgoodkorea": {
+    "category": "player",
+    "sounds": [{
+      "name": "stefan_util:whatsgoodkorea",
+      "stream": false
+    }
+    ]
   }
 }

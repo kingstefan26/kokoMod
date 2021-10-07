@@ -189,13 +189,13 @@ public class wartMacroVerticalDesign extends Module {
 	public void onEnable() {
 		super.onEnable();
 		if (this.getKey() == 0) {
-			chat.queueClientChatMessage("please set a keybinding!", chat.chatEnum.CHAT);
+			chat.queueClientChatMessage("please set a keybinding!", chat.chatEnum.CHATPREFIX);
 			this.setToggled(false);
 			return;
 		}
 		if (!main.debug) {
 			if (!io.github.kingstefan26.stefans_util.module.util.SBinfo.isOnPrivateIsland()) {
-				chat.queueClientChatMessage("please join a your island!", chat.chatEnum.CHAT);
+				chat.queueClientChatMessage("please join a your island!", chat.chatEnum.CHATPREFIX);
 				this.setToggled(false);
 				return;
 			}
@@ -222,7 +222,7 @@ public class wartMacroVerticalDesign extends Module {
 		}
 
 		mc.displayGuiScreen(null);
-		chat.queueClientChatMessage("enabled wart macro", chat.chatEnum.CHAT);
+		chat.queueClientChatMessage("enabled wart macro", chat.chatEnum.CHATPREFIX);
 
 	}
 
@@ -231,7 +231,7 @@ public class wartMacroVerticalDesign extends Module {
 		super.onDisable();
 		mc.displayGuiScreen(null);
 
-		chat.queueClientChatMessage("disabled wart macro", chat.chatEnum.CHAT);
+		chat.queueClientChatMessage("disabled wart macro", chat.chatEnum.CHATPREFIX);
         /*
         reset every variable & unpress every key on disable
          */
@@ -257,7 +257,7 @@ public class wartMacroVerticalDesign extends Module {
 	public void onPlayerFallEvent(stefan_utilEvents.playerFallEvent e) {
 		if (isMacroingReady && !playerTeleported) {
 			fallCounter++;
-			chat.queueClientChatMessage("fallen for the " + fallCounter + " time", chat.chatEnum.CHAT);
+			chat.queueClientChatMessage("fallen for the " + fallCounter + " time", chat.chatEnum.CHATPREFIX);
 			playerFallen = true;
 		}
 	}
@@ -266,7 +266,7 @@ public class wartMacroVerticalDesign extends Module {
 	@SubscribeEvent
 	public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
 		if (isMacroingReady) {
-			chat.queueClientChatMessage("teleport detected!", chat.chatEnum.CHAT);
+			chat.queueClientChatMessage("teleport detected!", chat.chatEnum.CHATPREFIX);
 			playerTeleported = true;
 		}
 	}
@@ -291,6 +291,6 @@ public class wartMacroVerticalDesign extends Module {
 	@SubscribeEvent
 	public void onUnloadWorld(WorldEvent.Unload event) {
 		super.setToggled(false);
-		chat.queueClientChatMessage(this.getName() + " was unloaded because you switched worlds", chat.chatEnum.CHAT);
+		chat.queueClientChatMessage(this.getName() + " was unloaded because you switched worlds", chat.chatEnum.CHATPREFIX);
 	}
 }

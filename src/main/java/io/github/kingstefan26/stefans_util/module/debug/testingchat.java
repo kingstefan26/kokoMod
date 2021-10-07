@@ -10,7 +10,7 @@ public class testingchat extends Module {
     }
     @Override
     public void onEnable(){
-        chat.queueClientChatMessage("hello luvs", chat.chatEnum.CHAT);
+        chat.queueClientChatMessage("hello luvs", chat.chatEnum.CHATPREFIX);
         this.toggle();
     }
 }

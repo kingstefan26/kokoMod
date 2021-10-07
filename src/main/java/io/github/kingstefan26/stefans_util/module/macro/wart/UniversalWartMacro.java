@@ -6,11 +6,7 @@ import io.github.kingstefan26.stefans_util.core.module.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.main;
-import io.github.kingstefan26.stefans_util.module.macro.macroUtil.cropType;
-import io.github.kingstefan26.stefans_util.module.macro.macroUtil.lastLeftOff.lastLeftOff;
-import io.github.kingstefan26.stefans_util.module.macro.macroUtil.lastLeftOff.lastleftoffObject;
 import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroMenu;
-import io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroStages;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.module.util.inputLocker;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
@@ -23,7 +19,6 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -139,7 +134,7 @@ public class UniversalWartMacro extends Module {
                 guiCloseGrace = false;
                 mc.displayGuiScreen(macroMenu);
             }
-            inputLocker.locked = true;
+            inputLocker.enable();
             inputLocker.unlockkey = this.getKeyBindingObj().getKeyCode();
         }
     }
@@ -157,7 +152,7 @@ public class UniversalWartMacro extends Module {
 
 
         //checks the speed every half second so we don't spam the variable
-        if (System.currentTimeMillis() - this.playerSpeedCheckTimer > 200) {
+        if (System.currentTimeMillis() - this.playerSpeedCheckTimer > 600) {
             //reset the timer
             this.playerSpeedCheckTimer = System.currentTimeMillis();
 
@@ -169,27 +164,15 @@ public class UniversalWartMacro extends Module {
             }
             switch (macroWalkStage){
                 case LEFT:
-                    macroWalkStage = walkStates.LEFTTOP;
+                    macroWalkStage = walkStates.TOP;
                     break;
                 case RIGHT:
-                    macroWalkStage = walkStates.RIGHTBOTTOM;
-                    break;
-                case TOP:
-                    macroWalkStage = walkStates.RIGHTTOP;
-                    break;
-                case BOTTOM:
-                    macroWalkStage = walkStates.LEFTBOTTOM;
-                    break;
-                case LEFTTOP:
-                    macroWalkStage = walkStates.RIGHTTOP;
-                    break;
-                case RIGHTTOP:
-                    macroWalkStage = walkStates.RIGHT;
-                    break;
-                case RIGHTBOTTOM:
                     macroWalkStage = walkStates.BOTTOM;
                     break;
-                case LEFTBOTTOM:
+                case TOP:
+                    macroWalkStage = walkStates.RIGHT;
+                    break;
+                case BOTTOM:
                     macroWalkStage = walkStates.LEFT;
                     break;
             }
@@ -263,13 +246,13 @@ public class UniversalWartMacro extends Module {
     public void onEnable(){
         super.onEnable();
         if (this.getKey() == 0) {
-            chat.queueClientChatMessage("please set a keybinding!", chat.chatEnum.CHAT);
+            chat.queueClientChatMessage("please set a keybinding!", chat.chatEnum.CHATPREFIX);
             this.setToggled(false);
             return;
         }
         if (!main.debug) {
             if (!io.github.kingstefan26.stefans_util.module.util.SBinfo.isOnPrivateIsland()) {
-                chat.queueClientChatMessage("please join a your island!", chat.chatEnum.CHAT);
+                chat.queueClientChatMessage("please join a your island!", chat.chatEnum.CHATPREFIX);
                 this.setToggled(false);
                 return;
             }
@@ -279,6 +262,7 @@ public class UniversalWartMacro extends Module {
                 m.setToggled(false);
             }
         }
+        mc.thePlayer.playSound("stefan_util:whatsgoodkorea", 1F, 1F);
 //        if(lastLeftOff.getLastleftoffObject() != null) {
 //            macroWalkStage = walkStates.getLastleftoffObject().getMacroStage();
 //        }else{
@@ -301,7 +285,7 @@ public class UniversalWartMacro extends Module {
         }
 
         mc.displayGuiScreen(null);
-        chat.queueClientChatMessage("enabled wart macro", chat.chatEnum.CHAT);
+        chat.queueClientChatMessage("enabled wart macro", chat.chatEnum.CHATPREFIX);
 
     }
 
@@ -316,7 +300,7 @@ public class UniversalWartMacro extends Module {
             }
         }
 
-        chat.queueClientChatMessage("disabled wart macro", chat.chatEnum.CHAT);
+        chat.queueClientChatMessage("disabled wart macro", chat.chatEnum.CHATPREFIX);
         /*
         reset every variable & unpress every key on disable
          */
@@ -348,7 +332,7 @@ public class UniversalWartMacro extends Module {
     public void onPlayerFallEvent(stefan_utilEvents.playerFallEvent e) {
         if (isMacroingReady && !playerTeleported) {
             fallCounter++;
-            chat.queueClientChatMessage("fallen for the " + fallCounter + " time", chat.chatEnum.CHAT);
+            chat.queueClientChatMessage("fallen for the " + fallCounter + " time", chat.chatEnum.CHATPREFIX);
             playerFallen = true;
         }
     }
@@ -357,7 +341,7 @@ public class UniversalWartMacro extends Module {
     @SubscribeEvent
     public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
         if (isMacroingReady) {
-            chat.queueClientChatMessage("teleport detected!", chat.chatEnum.CHAT);
+            chat.queueClientChatMessage("teleport detected!", chat.chatEnum.CHATPREFIX);
             playerTeleported = true;
         }
     }
@@ -382,7 +366,7 @@ public class UniversalWartMacro extends Module {
 
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
-        chat.queueClientChatMessage(this.getName() + " was unloaded because you switched worlds", chat.chatEnum.CHAT);
+        chat.queueClientChatMessage(this.getName() + " was unloaded because you switched worlds", chat.chatEnum.CHATPREFIX);
         super.setToggled(false);
     }
 }

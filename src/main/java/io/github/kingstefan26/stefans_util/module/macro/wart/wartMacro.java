@@ -172,19 +172,19 @@ public class wartMacro extends Module {
     public void onEnable() {
         super.onEnable();
         if (this.getKey() == 0) {
-            chat.queueClientChatMessage("please set a keybind!", chat.chatEnum.CHAT);
+            chat.queueClientChatMessage("please set a keybind!", chat.chatEnum.CHATPREFIX);
             this.setToggled(false);
             return;
         }
         if (!debug) {
             if (!SBinfo.isOnPrivateIsland()) {
-                chat.queueClientChatMessage("please join a your island!", chat.chatEnum.CHAT);
+                chat.queueClientChatMessage("please join a your island!", chat.chatEnum.CHATPREFIX);
                 this.setToggled(false);
                 return;
             }
         }
 
-        chat.queueClientChatMessage(" enabled wart macro", chat.chatEnum.CHAT);
+        chat.queueClientChatMessage(" enabled wart macro", chat.chatEnum.CHATPREFIX);
 
 
         this.wantedPitch = SettingsManager.getSettingsManager().getSettingByName("pitch", this).getValInt();
@@ -199,7 +199,7 @@ public class wartMacro extends Module {
     public void onDisable() {
         super.onDisable();
 
-        chat.queueClientChatMessage("disabled wart macro", chat.chatEnum.CHAT);
+        chat.queueClientChatMessage("disabled wart macro", chat.chatEnum.CHATPREFIX);
         /*
         reset every variable & unpress every key on disable
          */
@@ -220,7 +220,7 @@ public class wartMacro extends Module {
     @SubscribeEvent
     public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
         if (ismacroingReady) {
-            chat.queueClientChatMessage("teleport detected!", chat.chatEnum.CHAT);
+            chat.queueClientChatMessage("teleport detected!", chat.chatEnum.CHATPREFIX);
             playerTeleported = true;
         }
     }
@@ -241,6 +241,6 @@ public class wartMacro extends Module {
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
         super.setToggled(false);
-        chat.queueClientChatMessage("wart macro was unloaded because you switched worlds", chat.chatEnum.CHAT);
+        chat.queueClientChatMessage("wart macro was unloaded because you switched worlds", chat.chatEnum.CHATPREFIX);
     }
 }

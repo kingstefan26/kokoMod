@@ -1,12 +1,9 @@
 package io.github.kingstefan26.stefans_util.core.commands;
 
-import com.google.common.collect.Lists;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.util.CalendarUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
 
 import java.util.ArrayList;
 
@@ -19,7 +16,7 @@ public class commandRegistry {
         simpleCommands = new ArrayList<>();
         simpleCommands.add(new SimpleCommand("kokomod", new SimpleCommand.ProcessCommandRunnable() {
             public void processCommand(ICommandSender sender, String[] args) {
-                chat.queueClientChatMessage("funny that you ask", chat.chatEnum.CHAT);
+                chat.queueClientChatMessage("funny that you ask", chat.chatEnum.CHATPREFIX);
             }
         }));
         simpleCommands.add(new SimpleCommand("lastleftoffdebug", new SimpleCommand.ProcessCommandRunnable() {

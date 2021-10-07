@@ -73,7 +73,7 @@ public class amiTimedOut extends Module {
 	@Override
 	public void onEnable() {
 		if(mc.isSingleplayer()){
-			chat.queueClientChatMessage("you are in singleplayer nono", chat.chatEnum.CHAT);
+			chat.queueClientChatMessage("you are in singleplayer nono", chat.chatEnum.CHATPREFIX);
 			this.setToggled(false);
 			return;
 		}

@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+//stolen from stackoverflow :!
 public class CalendarUtils {
 
     public static String dateFormat = "dd-MM-yyyy hh:mm";

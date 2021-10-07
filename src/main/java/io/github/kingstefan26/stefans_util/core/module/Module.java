@@ -1,14 +1,9 @@
 package io.github.kingstefan26.stefans_util.core.module;
 
 import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.config.confgValueType;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
-import io.github.kingstefan26.stefans_util.core.setting.Setting;
-import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -16,7 +11,6 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -143,13 +137,13 @@ public class Module implements moduleInterface {
 	public void onEnable() {
 		if(closed) return;
 		MinecraftForge.EVENT_BUS.register(this);
-		if(this.enableMessage != null) chat.queueClientChatMessage(this.enableMessage, chat.chatEnum.CHAT);
+		if(this.enableMessage != null) chat.queueClientChatMessage(this.enableMessage, chat.chatEnum.CHATPREFIX);
 	}
 
 	@Override
 	public void onDisable() {
 		MinecraftForge.EVENT_BUS.unregister(this);
-		if(this.disableMessage != null) chat.queueClientChatMessage(this.disableMessage, chat.chatEnum.CHAT);
+		if(this.disableMessage != null) chat.queueClientChatMessage(this.disableMessage, chat.chatEnum.CHATPREFIX);
 	}
 
 	public void setInvisible(){
