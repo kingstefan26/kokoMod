@@ -3,6 +3,8 @@ package io.github.kingstefan26.stefans_util.core.setting.newSetting.general;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.module.Module;
 
+import java.util.UUID;
+
 public class AbstractSetting {
     protected String name;
     protected Module parent;
@@ -14,6 +16,7 @@ public class AbstractSetting {
         this.name = name;
         this.parent = parentModule;
         this.type = type;
+        if(SettingsCore.getSettingsCore().doesSettingExist(name)) throw new IllegalStateException("Name is already registered");
         addToSettingsCore();
     }
 

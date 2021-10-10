@@ -6,8 +6,12 @@ import io.github.kingstefan26.stefans_util.util.CalendarUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraftforge.client.model.ItemLayerModel;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static io.github.kingstefan26.stefans_util.module.macro.macroUtil.lastLeftOff.lastLeftOff.getLastLeftOff;
 
@@ -39,6 +43,20 @@ public class commandRegistry {
 
 
                 messeges.forEach(a -> chat.queueClientChatMessage(a, chat.chatEnum.DEBUG));
+            }
+        }));
+        simpleCommands.add(new SimpleCommand("listmods", new SimpleCommand.ProcessCommandRunnable() {
+            @Override
+            public void processCommand(ICommandSender sender, String[] args) {
+                Loader.instance().getActiveModList().forEach(a -> {
+                    chat.queueClientChatMessage("Mod id: " + a.getModId(), chat.chatEnum.DEBUG);
+                });
+                List<ModContainer> c = Loader.instance().getModList();
+//                c.forEach(a -> chat.queueClientChatMessage("Mod id: " + a.getModId(), chat.chatEnum.DEBUG));
+                for(ModContainer abc : c){
+                    chat.queueClientChatMessage("Mod id: " + abc.getModId(), chat.chatEnum.DEBUG);
+                    System.out.println("Mod id: " + abc.getModId());
+                }
             }
         }));
     }

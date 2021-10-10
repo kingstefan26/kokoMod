@@ -28,7 +28,6 @@ public class amiTimedOut extends Module {
 		if (mc == null || mc.theWorld == null || mc.thePlayer == null) return;
 		if(System.currentTimeMillis() - checkTimer > 2000){
 			mc.displayGuiScreen(new GuiScreen() {
-				private final drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
 				@Override
 				public void initGui() {
         		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height - (this.height / 4) + 10, "couldn't care less"));
@@ -38,7 +37,7 @@ public class amiTimedOut extends Module {
 				@Override
 				public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 					this.drawDefaultBackground();
-					drawCenterStringOBJ.drawCenterStringOnScreen(mc, "server stopped responding", "ff002f");
+					drawCenterString.drawCenterStringOnScreen(mc, "server stopped responding", "ff002f");
 					super.drawScreen(mouseX, mouseY, partialTicks);
 				}
     			@Override

@@ -18,7 +18,6 @@ public class farmReadycane extends Module {
     }
     public boolean toggled;
 
-    private drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
     private long temptime;
 
 
@@ -34,7 +33,7 @@ public class farmReadycane extends Module {
         }
 
             if(System.currentTimeMillis() - temptime < 7 * 1000){
-                drawCenterStringOBJ.GuiNotif(mc, "farm helper will lock your head postion on the right angle");
+                drawCenterString.GuiNotif(mc, "farm helper will lock your head postion on the right angle");
             }
 
             if(!headlockCondition){

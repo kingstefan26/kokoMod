@@ -30,19 +30,13 @@ public class newPersistenceButton extends newComponent { // Remove this class if
 	public void renderComponent() {
 		newComponent.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (parent.parent.getWidth()), parent.parent.getY() + offset + 12, this.hovered ? 0xFF222222 : 0xFF111111);
 		newComponent.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
-//		GL11.glPushMatrix();
-//		GL11.glScalef(0.5f,0.5f, 0.5f);
-//		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(
-//				"Visible: " + mod.getVisibility(),
-//				(parent.parent.getX() + 7) * 2,
-//				(parent.parent.getY() + offset + 2) * 2 + 5,
-//				-1);
+
 		this.p1.drawString(
 				"presisnant: " + mod.isPresident(),
 				(parent.parent.getX() + 7) * 2,
 				(parent.parent.getY() + offset - 3) * 2,
 				-1);
-//		GL11.glPopMatrix();
+
 	}
 	
 	@Override

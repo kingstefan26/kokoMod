@@ -31,7 +31,7 @@ public class newSliderNoDecimal extends newComponent {
 	@Override
 	public void renderComponent() {
 		newComponent.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + parent.parent.getWidth(), parent.parent.getY() + offset + 12, this.hovered ? 0xFF222222 : 0xFF111111);
-		final int drag = this.set.getValue() / this.set.getMax() * this.parent.parent.getWidth();
+//		final int drag = this.set.getValue() / this.set.getMax() * this.parent.parent.getWidth();
 		newComponent.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 12,hovered ? 0xFF555555 : 0xFF444444);
 		newComponent.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
 

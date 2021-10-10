@@ -104,12 +104,12 @@ public class moduleIndex {
 //        utilModuleIndex.add("io.github.kingstefan26.stefans_util.module.util.teleportListener");
 //        utilModuleIndex.add("io.github.kingstefan26.stefans_util.module.util.inputLocker");
 
-        logger.info("producrion modules:");
-        productionModuleIndex.forEach(logger::info);
-        logger.info("debug modules:");
-        debugModuleIndex.forEach(logger::info);
-        logger.info("util modules:");
-        utilModuleIndex.forEach(logger::info);
+//        logger.info("producrion modules:");
+//        productionModuleIndex.forEach(logger::info);
+//        logger.info("debug modules:");
+//        debugModuleIndex.forEach(logger::info);
+//        logger.info("util modules:");
+//        utilModuleIndex.forEach(logger::info);
     }
 
 }

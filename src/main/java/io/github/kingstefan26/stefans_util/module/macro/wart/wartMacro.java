@@ -23,7 +23,6 @@ import static io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroSt
 
 public class wartMacro extends Module {
 
-    private final drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
     private EntityPlayerSP player;
 
     private boolean ismacroingReady;
@@ -63,7 +62,7 @@ public class wartMacro extends Module {
         //that runs if we just stared the module, checks if we can start moving and breaking
         if (!ismacroingReady) {
             //notify the user what we want them to do
-            drawCenterStringOBJ.GuiNotif(mc, "macro will start when you lock your head postion on the right angle");
+            drawCenterString.GuiNotif(mc, "macro will start when you lock your head postion on the right angle");
 
             //update player pitch and yaw with up to date info
             playerYaw = Math.round(mc.thePlayer.rotationYaw);
@@ -83,13 +82,13 @@ public class wartMacro extends Module {
             //Mouse.setGrabbed(false);
 
             //the text :)
-            drawCenterStringOBJ.GuiNotif(mc, "macroing ur life away!");
+            drawCenterString.GuiNotif(mc, "macroing ur life away!");
 
             //show the release message
             ScaledResolution scaled = new ScaledResolution(mc);
             int width = scaled.getScaledWidth();
             int height = scaled.getScaledHeight();
-            drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) + " to stop", "ff002f");
+            drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) + " to stop", "ff002f");
 
             //just holds the attack key down
             KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), true);

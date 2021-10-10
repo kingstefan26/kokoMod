@@ -12,6 +12,7 @@ public class stefan_utilPlugin implements IFMLLoadingPlugin {
     @Override
     public String[] getASMTransformerClass() {
         return new String[] {"io.github.kingstefan26.stefans_util.stefan_utilTransformer"};
+//        return new String[] {"io.github.kingstefan26.stefans_util.core.transformers.NetHandlerTransformer"};
     }
 
     @Override

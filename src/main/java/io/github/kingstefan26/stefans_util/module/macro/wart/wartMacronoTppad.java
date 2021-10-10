@@ -24,7 +24,6 @@ import static io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroSt
 
 public class wartMacronoTppad extends Module {
 
-    private final drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
     private EntityPlayerSP player;
 
     private boolean ismacroingReady;
@@ -77,8 +76,8 @@ public class wartMacronoTppad extends Module {
         //that runs if we just stared the module, checks if we can start moving and breaking
         if (!ismacroingReady) {
             //notify the user what we want them to do
-            drawCenterStringOBJ.GuiNotif(mc, "macro will start when you lock your head postion on the right angle");
-            drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) + " to stop", "ff002f");
+            drawCenterString.GuiNotif(mc, "macro will start when you lock your head postion on the right angle");
+            drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) + " to stop", "ff002f");
 
 
             //update player pitch and yaw with up to date info
@@ -101,10 +100,10 @@ public class wartMacronoTppad extends Module {
             if(debug) Mouse.setGrabbed(false);
 
             //the text :)
-            drawCenterStringOBJ.GuiNotif(mc, "macroing ur life away!");
+            drawCenterString.GuiNotif(mc, "macroing ur life away!");
 
             //show the release message
-            drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) + " to stop", "ff002f");
+            drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) + " to stop", "ff002f");
 
 
 

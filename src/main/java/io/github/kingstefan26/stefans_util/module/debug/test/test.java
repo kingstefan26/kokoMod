@@ -131,7 +131,6 @@ public class test extends Module {
     public void onEnable() {
         super.onEnable();
 
-        mc.guiAchievement.displayAchievement(main.cockbone);
 
 
 

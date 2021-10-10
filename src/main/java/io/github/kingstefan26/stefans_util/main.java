@@ -13,6 +13,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +23,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
 
-@Mod(modid = main.MODID, version = main.VERSION)
+@Mod(modid = main.MODID, version = main.VERSION, clientSideOnly = true, acceptedMinecraftVersions = "1.8.9")
 public class main {
     public static final String MODID = "stefan_util";
     public static final String VERSION = "0.2.8-ALPHA";
@@ -34,8 +35,7 @@ public class main {
     @Nonnull
     private ShaderResourcePack dummyPack = new ShaderResourcePack();
 
-    public static final Logger logger = LogManager.getLogger();
-    public static Achievement cockbone;
+    public static final Logger logger = LogManager.getLogger("main-kokomod");
 
     @SuppressWarnings("unchecked")
     public main(){
@@ -48,11 +48,21 @@ public class main {
 
     @EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
-        new commandRegistry();
-        for(CommandBase a : commandRegistry.simpleCommands){
+        ProgressManager.ProgressBar progressBar = ProgressManager.push("kokomod", 2);
+        long start = System.currentTimeMillis();
+        if(debug) logger.info("started repo refresh");
+
+        kokoMod.refreshRepo(logger, progressBar);
+        long stop = System.currentTimeMillis();
+        if(debug) logger.info("finished repo refresh in " + (stop - start) + "ms");
+
+        while (progressBar.getStep() < progressBar.getSteps())
+            progressBar.step("random-"+progressBar.getStep());
+        ProgressManager.pop(progressBar);
+
+        for(CommandBase a : new commandRegistry().simpleCommands){
             ClientCommandHandler.instance.registerCommand(a);
         }
-        cockbone = (new Achievement("a", "cock with no cock bone", 0, 0, Items.bone, null)).registerStat();
 
         // Add our dummy resourcepack
         ((SimpleReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(dummyPack);
@@ -60,6 +70,11 @@ public class main {
 
     @EventHandler
     public static void Init(FMLPreInitializationEvent event) {
+
+//        Thread t = new Thread(() -> {
+//        });
+//        t.setName("REPO-REFRESH");
+//        t.start();
         updateWidowTitle.updateTitle("Kokoclient V69.420");
         kokoMod.getkokoMod().init();
     }

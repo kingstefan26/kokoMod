@@ -3,6 +3,7 @@ package io.github.kingstefan26.stefans_util.core.setting.newSetting.general;
 import io.github.kingstefan26.stefans_util.core.module.Module;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SettingsCore {
     private static SettingsCore SettingsCoreInstance;
@@ -32,6 +33,15 @@ public class SettingsCore {
             }
         }
         return a;
+    }
+
+    public boolean doesSettingExist(String name){
+        for(AbstractSetting s : settings){
+            if(Objects.equals(s.name, name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<AbstractSetting> getSettingsInType(SettingsCore.type type) {

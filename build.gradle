@@ -7,7 +7,9 @@ buildscript {
             url 'https://jitpack.io'
         }
         maven { url = "https://repo.spongepowered.org/maven" }
-        maven { url = "https://repo.sk1er.club/repository/maven-public"}
+        maven {
+            url = "https://repo.sk1er.club/repository/maven-public"
+        }
         maven {
             name = "forge"
             url = "https://maven.minecraftforge.net/"
@@ -57,16 +59,16 @@ dependencies {
     annotationProcessor('org.spongepowered:mixin:0.7.11-SNAPSHOT')
 }
 
-//mixin {
-//    add sourceSets.main, "io.github.kingstefan26.kokomod.core.mixins.${modid}.refmap.json"
-//}
+mixin {
+    add sourceSets.main, "mixins.stefan_util.refmap.json"
+}
 
 jar {
     manifest.attributes(
             'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
             'ModSide': 'CLIENT',
             'ForceLoadAsMod': true,
-            //'MixinConfigs': "io.github.kingstefan26.kokomod.core.mixins.${modid}.json",
+            'MixinConfigs': "mixins.stefan_util.json",
             'FMLCorePluginContainsFMLMod': true
             //"FMLAT": 'stefans_util_at.cfg'
     )

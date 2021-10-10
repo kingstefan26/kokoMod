@@ -16,6 +16,7 @@ public class newModeButton extends newComponent {
 	private Module mod;
 
 	private int modeIndex;
+	private int maxIndex;
 	
 	public newModeButton(MultichoiseSetting set, newModuleComponent button, Module mod, int offset) {
 		this.set = set;
@@ -25,6 +26,7 @@ public class newModeButton extends newComponent {
 		this.y = button.parent.getY() + button.offset;
 		this.offset = offset;
 		modeIndex = set.getAllPossibleValues().indexOf(set.getValue());
+		maxIndex = set.getAllPossibleValues().size() - 1;
 	}
 	
 	@Override
@@ -36,19 +38,13 @@ public class newModeButton extends newComponent {
 	public void renderComponent() {
 		newComponent.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (parent.parent.getWidth()), parent.parent.getY() + offset + 12, this.hovered ? 0xFF222222 : 0xFF111111);
 		newComponent.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
-//		GL11.glPushMatrix();
-//		GL11.glScalef(0.5f,0.5f, 0.5f);
-//		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(
-//				"Mode: " + set.getValString(),
-//				(parent.parent.getX() + 7) * 2,
-//				(parent.parent.getY() + offset + 2) * 2 + 5,
-//				-1);
+
 		this.c.drawString(
 				"Mode: " + set.getValue(),
 				(parent.parent.getX()+ 7) * 2,
 				(parent.parent.getY()+ offset - 3) * 2,
 				-1);
-//		GL11.glPopMatrix();
+
 	}
 	
 	@Override
@@ -61,7 +57,6 @@ public class newModeButton extends newComponent {
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
 		if(isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-			int maxIndex = set.getAllPossibleValues().size() - 1;
 			if(modeIndex >= maxIndex) {
 				modeIndex = 0;
 			} else {

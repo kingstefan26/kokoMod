@@ -40,8 +40,8 @@ public class newFrame {
         this.open = false;
         this.isDragging = false;
 
-        xConfig = new configObject(cat + "frameX", "frame x", x);
-        yConfig = new configObject(cat + "frameY", "frame y", y);
+        xConfig = new configObject(cat + "newframeX", "frame x", x);
+        yConfig = new configObject(cat + "newframeY", "frame y", y);
         configMenager.getConfigManager().createConfigObject(xConfig);
         configMenager.getConfigManager().createConfigObject(yConfig);
 
@@ -90,7 +90,7 @@ public class newFrame {
     }
 
     public void renderFrame() {
-        newComponent.drawRect(this.x, this.y, this.x + this.width, this.y + this.barHeight, 0xFF222200);
+        newComponent.drawRect(this.x, this.y, this.x + this.width, this.y + this.barHeight, 0xFF00010a);
         c.drawString(this.category.name(),
                 this.x * 2,
                 this.y * 2 - (this.barHeight / 2),

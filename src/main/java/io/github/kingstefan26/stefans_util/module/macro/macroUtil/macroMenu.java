@@ -8,7 +8,6 @@ import net.minecraft.client.gui.GuiScreen;
 public class macroMenu extends GuiScreen {
 	private final Module parent;
 
-
 	public macroMenu(Module parent){
 		this.parent = parent;
 	}
@@ -22,22 +21,7 @@ public class macroMenu extends GuiScreen {
 	@Override
 	public void initGui() {
 		this.allowUserInput = true;
-		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height - (this.height / 4) + 10, "shut it"));
 	}
-
-	@Override
-	protected void actionPerformed(GuiButton button){
-		if (button.id == 0) {
-			parent.setToggled(false);
-			this.mc.displayGuiScreen(null);
-		}
-	}
-
-//	@Override
-//	public void onGuiClosed() {
-//		this.mc.displayGuiScreen(null);
-//		parent.setToggled(false);
-//	}
 
 	@Override
 	public boolean doesGuiPauseGame() {

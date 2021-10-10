@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class tpsDispay extends Module {
     private long lastTick;
     private long tps = 0;
-    private drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
 
     public tpsDispay() {
         super("tpsMeter", "displays the tsp", ModuleManager.Category.MISC, true);
@@ -37,8 +36,7 @@ public class tpsDispay extends Module {
             //sendChatMessage.sendClientMessage("server tick is late for: " + tps + " miliseconds", false);
         }
         if(System.currentTimeMillis() - this.lastTick >= 1000){
-            drawCenterStringOBJ.GuiNotif(mc, "the server stopped responding sad");
-
+            drawCenterString.GuiNotif(mc, "the server stopped responding sad");
         }
     }
 

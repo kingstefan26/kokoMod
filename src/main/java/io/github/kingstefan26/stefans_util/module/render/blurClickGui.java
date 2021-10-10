@@ -30,11 +30,27 @@ public class blurClickGui extends Module {
 
     ArrayList<String> alowedGuiClasses = new ArrayList<>();
 
+    @Override
+    public void onLoad(){
+        SettingsManager.getSettingsManager().rSetting(new Setting("radius", this, 12, 0 ,50,true));
+        SettingsManager.getSettingsManager().rSetting(new Setting("fadetime", this, 150, 0 ,1000,true));
+        super.onLoad();
+    }
+
+
     public blurClickGui(){
         super("blurClickGui", "adds nice blur to click gui", ModuleManager.Category.RENDER);
         blurClickGui_ = this;
         this.presistanceEnabled = true;
-        alowedGuiClasses.add("io.github.kingstefan26.stefans_util.core.clickgui.ClickGui");
+        alowedGuiClasses.add("io.github.kingstefan26.stefans_util.core.clickgui.oldGui.ClickGui");
+        alowedGuiClasses.add("io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroMenu");
+    }
+
+    @Override
+    public void onEnable(){
+        super.onEnable();
+        radius = SettingsManager.getSettingsManager().getSettingByName("radius", this).getValInt();
+        fadeTime = SettingsManager.getSettingsManager().getSettingByName("fadetime", this).getValInt();
     }
 
     @Override
@@ -57,12 +73,13 @@ public class blurClickGui extends Module {
         }
         if (Minecraft.getMinecraft().theWorld != null) {
             EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
-            //boolean excluded = event.gui == null || ArrayUtils.contains(blurExclusions, event.gui.getClass().getName());
+//            if(event.gui != null){
+//                this.logger.info("current GUI class: " + event.gui.getClass().getName());
+//            }
             boolean excluded = event.gui == null || ! alowedGuiClasses.contains(event.gui.getClass().getName());
-            //boolean excluded = event.gui == null;
-            //io.github.kingstefan26.kokomod.module.debug.test.newergui
+            //this.logger.info(excluded ? "current Gui is excuded" : "current Gui is incuded");
+
             if (!er.isShaderActive() && !excluded) {
-            //if (!er.isShaderActive()) {
                 er.loadShader(new ResourceLocation("shaders/post/fade_in_blur.json"));
                 start = System.currentTimeMillis();
             } else {

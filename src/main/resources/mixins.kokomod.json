@@ -1,7 +1,0 @@
-{
-  "package": "io.github.kingstefan26.stefans_util.core.mixins",
-  "refmap": "mixins.kokomod.refmap.json",
-  "compatibilityLevel": "JAVA_8",
-  "mixins": [
-  ]
-}

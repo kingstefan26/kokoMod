@@ -17,7 +17,8 @@ import net.minecraft.launchwrapper.IClassTransformer;
 public class stefan_utilTransformer implements IClassTransformer {
 
     private static final String GUI_SCREEN_CLASS_NAME = "net.minecraft.client.gui.GuiScreen";
-    
+    private static final String NetHandlerPlayClient_CLASS_NAME = "net.minecraft.client.network.NetHandlerPlayClient";
+
     private static final String DRAW_WORLD_BAGKGROUND_METHOD = "drawWorldBackground";
     private static final String DRAW_WORLD_BAGKGROUND_METHOD_OBF = "func_146270_b";
     

@@ -30,26 +30,18 @@ public class newSliderDouble extends newComponent {
 	
 	@Override
 	public void renderComponent() {
-//		GL11.glPushMatrix();
+
 		newComponent.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + parent.parent.getWidth(), parent.parent.getY() + offset + 12, this.hovered ? 0xFF222222 : 0xFF111111);
 		final int drag = (int)(this.set.getValue() / this.set.getMax() * this.parent.parent.getWidth());
 		newComponent.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 12,hovered ? 0xFF555555 : 0xFF444444);
 		newComponent.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
-//		GL11.glPopMatrix();
-		//		GL11.glPushMatrix();
-//		GL11.glScalef(0.5f,0.5f, 0.5f);
-//		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(
-//				this.set.getName() + ": " + this.set.getValDouble() ,
-//				(parent.parent.getX()* 2 + 15),
-//				(parent.parent.getY() + offset + 2) * 2 + 5,
-//				-1);
+
 		this.p1.drawString(
 				this.set.getName() + ": " + this.set.getValue(),
 				(parent.parent.getX()* 2 + 15),
 				(parent.parent.getY()+ offset - 3)* 2,
 				-1);
-//
-//		GL11.glPopMatrix();
+
 	}
 	
 	@Override

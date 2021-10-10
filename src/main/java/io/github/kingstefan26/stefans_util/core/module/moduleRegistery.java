@@ -37,7 +37,7 @@ public class moduleRegistery {
                     logger.warn("failed to load " + moduleclassname);
                     continue;
                 }
-                logger.info("loaded module: "+ ((UtilModule) object).getName());
+                //logger.info("loaded module: "+ ((UtilModule) object).getName());
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -52,7 +52,7 @@ public class moduleRegistery {
                 Object object = ctor.newInstance();
                 loadedModules.add((Module) object);
                 ((Module) object).onLoad();
-                logger.info("loaded module: "+ ((Module) object).getName());
+                //logger.info("loaded module: "+ ((Module) object).getName());
             }catch(Exception e){
                 logger.warn("Failed to load debug module " + moduleclassname);
             }
@@ -67,7 +67,7 @@ public class moduleRegistery {
                 Object object = ctor.newInstance();
                 loadedModules.add((Module) object);
                 ((Module) object).onLoad();
-                logger.info("loaded module: "+ ((Module) object).getName());
+                //logger.info("loaded module: "+ ((Module) object).getName());
             }catch(Exception e){
                 logger.warn("Failed to load debug module " + moduleclassname);
             }

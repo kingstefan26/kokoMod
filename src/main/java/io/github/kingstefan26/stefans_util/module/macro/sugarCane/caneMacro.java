@@ -18,8 +18,6 @@ import org.lwjgl.input.Mouse;
 
 public class caneMacro extends Module {
 
-    private drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
-
 
 
     private EntityPlayerSP player;
@@ -51,7 +49,7 @@ public class caneMacro extends Module {
         prevents you form using the mod without a keybind
          */
         if(this.getKey() == 0){
-            drawCenterStringOBJ.GuiNotif(mc, "please set a keybind!");
+            drawCenterString.GuiNotif(mc, "please set a keybind!");
             return;
         }
 
@@ -64,7 +62,7 @@ public class caneMacro extends Module {
         //that runs if we just stared the module, checks if we can start moving and breaking
         if(!ismacroingReady){
             //notify the user what we want them to do
-            drawCenterStringOBJ.GuiNotif(mc, "macro will start when you lock your head postion on the right angle");
+            drawCenterString.GuiNotif(mc, "macro will start when you lock your head postion on the right angle");
 
             //update player pitch and yaw with up to date info
             playerYaw = Math.round(mc.thePlayer.rotationYaw);
@@ -100,13 +98,13 @@ public class caneMacro extends Module {
             }
 
             //the text :)
-            drawCenterStringOBJ.GuiNotif(mc, "macroing ur life away!");
+            drawCenterString.GuiNotif(mc, "macroing ur life away!");
 
             //show the release message
             ScaledResolution scaled = new ScaledResolution(mc);
             int width = scaled.getScaledWidth();
             int height = scaled.getScaledHeight();
-            drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc,"press key "+Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) +" to stop","ff002f");
+            drawCenterString.drawCenterStringOnScreenLittleToDown(mc,"press key "+Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) +" to stop","ff002f");
 
             //just holds the attack key down
             KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), true);

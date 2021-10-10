@@ -26,7 +26,6 @@ import org.lwjgl.input.Mouse;
 
 public class wartMacroVerticalDesign extends Module {
 
-	private final drawCenterString drawCenterStringOBJ = drawCenterString.getdrawCenterString();
 	private io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroMenu macroMenu;
 
 	private boolean isMacroingReady;
@@ -90,8 +89,8 @@ public class wartMacroVerticalDesign extends Module {
 
 	private void notReadyOnTickRoutine() {
 		//notify the user what we want them to do
-		drawCenterStringOBJ.GuiNotif(mc, "macro will start when you lock your head position on the right angle");
-		drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc,
+		drawCenterString.GuiNotif(mc, "macro will start when you lock your head position on the right angle");
+		drawCenterString.drawCenterStringOnScreenLittleToDown(mc,
 				"press key " + Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) + " to stop", "ff002f");
 
 		//update player pitch and yaw with up to date info
@@ -125,15 +124,15 @@ public class wartMacroVerticalDesign extends Module {
 		if (main.debug) Mouse.setGrabbed(false);
 
 		//the text :)
-		drawCenterStringOBJ.GuiNotif(mc, "macroing ur life away!");
+		drawCenterString.GuiNotif(mc, "macroing ur life away!");
 
 		//show the release message
 		if(experimentalGui){
-			drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc,
+			drawCenterString.drawCenterStringOnScreenLittleToDown(mc,
 					"press key esc or tha button to stop",
 					"ff002f");
 		}else{
-			drawCenterStringOBJ.drawCenterStringOnScreenLittleToDown(mc, "press key "
+			drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key "
 					+ Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) +
 					" to stop", "ff002f");
 		}
