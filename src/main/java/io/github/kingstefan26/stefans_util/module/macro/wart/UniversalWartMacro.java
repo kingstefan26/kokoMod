@@ -19,7 +19,6 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -30,6 +29,7 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
@@ -39,7 +39,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static io.github.kingstefan26.stefans_util.module.macro.macroUtil.lastLeftOff.lastLeftOff.LastLeftOff;
 import static io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline.draw3DLine;
 
 public class UniversalWartMacro extends Module {
@@ -146,6 +145,15 @@ public class UniversalWartMacro extends Module {
     @SubscribeEvent
     public void onRenderLast(TickEvent.RenderTickEvent a){
         renderTickRoutine(isMacroingReady);
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if(isMacroingReady){
+            if(event.phase == TickEvent.Phase.START) {
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), true);
+            }
+        }
     }
 
     @Override
@@ -281,7 +289,7 @@ public class UniversalWartMacro extends Module {
         }
     }
 
-    Block[] aa = new Block[40];
+//    Block[] aa = new Block[40];
     private void JustEnabledRoutine() {
         //update player pitch and yaw with up to date info
         playerYaw = Math.round(getYaw());
@@ -305,11 +313,20 @@ public class UniversalWartMacro extends Module {
         }
     }
 
+    public void setPlayerRotations(float yaw, float pitch) {
+        mc.thePlayer.rotationYaw = lerpAngle(mc.thePlayer.rotationYaw, yaw, 0.01F);
+        mc.thePlayer.rotationPitch = lerpAngle(mc.thePlayer.rotationPitch, pitch, 0.01F);
+    }
+
+    public static float lerpAngle(float fromRadians, float toRadians, float progress) {
+        float f = ((toRadians - fromRadians) % 360.0F + 540.0F) % 360.0F - 180.0F;
+        return fromRadians + f * progress % 360.0F;
+    }
+
     private void preMacroRoutine(){
         //lastLeftOff.nullLastLeftOff();
         if(perfectHeadRotation){
-            mc.thePlayer.rotationYaw = wantedYaw;
-            mc.thePlayer.rotationPitch = wantedPitch;
+            setPlayerRotations(wantedYaw, wantedPitch);
         }
         if(experimentalGui){
             guiCloseGrace = false;

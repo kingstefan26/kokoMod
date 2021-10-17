@@ -1,9 +1,11 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
-import io.github.kingstefan26.stefans_util.core.config.confgValueType;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.module.moduleRegistery;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.decoratorInterface;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.visibleDecorator;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
@@ -12,6 +14,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class HUD extends Module {
 
@@ -19,6 +22,7 @@ public class HUD extends Module {
 	int rgb;
 	CustomFont c = new CustomFont(Minecraft.getMinecraft(), new Font("JetBrains Mono", Font.PLAIN, 15), 15);
 	CustomFont aaa = new CustomFont(Minecraft.getMinecraft(), "JetBrains Mono",2020);
+	public static ArrayList<visibleDecorator> visibleDecorators = new ArrayList<>();
 
 	public HUD() {
 		super("HUD", "Draws the module list on your screen", ModuleManager.Category.RENDER);
@@ -58,6 +62,16 @@ public class HUD extends Module {
 				if (mod.isToggled()) {
 					c.drawString(mod.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(mod.getName()) - 1, temp, 0xFFccFFFF);
 					temp += c.getStringHeight(mod.getName()) + 1;
+				}
+			}
+			for(basicModule m : io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleRegistery.getModuleRegistery().loadedModules){
+				for(decoratorInterface d : m.moduleDecorators){
+					if(d.getClass().getName().equals(visibleDecorator.class.getName())){
+						if(!((visibleDecorator) d).isVisibilityEnabled()){
+							c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, 0xFFccFFFF);
+							temp += c.getStringHeight(m.getName()) + 1;
+						}
+					}
 				}
 			}
 		}

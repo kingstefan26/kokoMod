@@ -1,17 +1,13 @@
 package io.github.kingstefan26.stefans_util.core.module;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleInterface;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
-public class UtilModule implements moduleInterface {
+public class UtilModule implements preRewriteModueInterface {
 
 	protected static Minecraft mc = Minecraft.getMinecraft();
 

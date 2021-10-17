@@ -2,33 +2,32 @@ package io.github.kingstefan26.stefans_util.core;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.github.kingstefan26.stefans_util.core.clickgui.newGui.newClickGui;
+import io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui;
 import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
-import io.github.kingstefan26.stefans_util.core.setting.newSetting.general.SettingsCore;
+import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.SettingsCore;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;
 import io.github.kingstefan26.stefans_util.util.handelers.PacketHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiErrorScreen;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.util.*;
 
 import static io.github.kingstefan26.stefans_util.main.VERSION;
@@ -76,7 +75,7 @@ public class kokoMod {
 						}
 
 						@Override
-						protected void actionPerformed(GuiButton button) throws IOException {
+						protected void actionPerformed(GuiButton button){
 							FMLCommonHandler.instance().exitJava(-1, true);
 						}
 					};
@@ -127,9 +126,7 @@ public class kokoMod {
 
 		if(debug){
 			logger.info("Whitelisted users:");
-			alowedUsers.forEach((K, V)  -> {
-				logger.info(K + " uuid:" + V);
-			});
+			alowedUsers.forEach((K, V)  -> logger.info(K + " uuid:" + V));
 		}
 	}
 
@@ -147,6 +144,7 @@ public class kokoMod {
 	    ModuleManager.ModuleManager = ModuleManager.getModuleManager();
 	    ClickGui.ClickGui = ClickGui.getClickGui();
 
+		moduleManager.getModuleManager();
 		SettingsCore.getSettingsCore();
 		newClickGui.getClickGui();
     }

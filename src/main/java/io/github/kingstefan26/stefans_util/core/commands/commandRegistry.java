@@ -1,12 +1,10 @@
 package io.github.kingstefan26.stefans_util.core.commands;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.newGui.newClickGui;
 import io.github.kingstefan26.stefans_util.module.util.chat;
+import io.github.kingstefan26.stefans_util.module.util.notificationEngine;
 import io.github.kingstefan26.stefans_util.util.CalendarUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraftforge.client.model.ItemLayerModel;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 
@@ -40,8 +38,6 @@ public class commandRegistry {
                     messeges.add("time :" + CalendarUtils.ConvertMilliSecondsToFormattedDate(getLastLeftOff().getLastleftoffObject().getTime()));
                     messeges.add("macro stage :" + getLastLeftOff().getLastleftoffObject().getMacroStage().toString());
                 }
-
-
                 messeges.forEach(a -> chat.queueClientChatMessage(a, chat.chatEnum.DEBUG));
             }
         }));
@@ -56,6 +52,17 @@ public class commandRegistry {
                 for(ModContainer abc : c){
                     chat.queueClientChatMessage("Mod id: " + abc.getModId(), chat.chatEnum.DEBUG);
                     System.out.println("Mod id: " + abc.getModId());
+                }
+            }
+        }));
+        simpleCommands.add(new SimpleCommand("push", new SimpleCommand.ProcessCommandRunnable() {
+            @Override
+            public void processCommand(ICommandSender sender, String[] args) {
+                
+                if(args.length > 2) {
+                    notificationEngine.push(new notificationEngine.Notification(args[0], args[1], 10));
+                }else{
+                    notificationEngine.push(new notificationEngine.Notification("cock", "and bones", 2));
                 }
             }
         }));

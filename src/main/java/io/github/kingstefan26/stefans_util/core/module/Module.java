@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.UUID;
 
 
-public class Module implements moduleInterface {
+public class Module implements preRewriteModueInterface {
 	final String uuid = UUID.randomUUID().toString().replace("-", "");
 
 	protected static Minecraft mc = Minecraft.getMinecraft();
@@ -40,7 +40,7 @@ public class Module implements moduleInterface {
 	protected Logger logger;
 
 
-	public Module(String name, String description, ModuleManager.Category category,boolean keybindEnabled) {
+	public Module(String name, String description, ModuleManager.Category category, boolean keybindEnabled) {
 		super();
 		this.name = name;
 		this.description = description;

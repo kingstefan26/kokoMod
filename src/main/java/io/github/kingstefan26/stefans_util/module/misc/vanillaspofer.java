@@ -1,17 +1,12 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import com.google.common.collect.Lists;
 import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.module.util.chat;
 import net.minecraftforge.fml.common.LoadController;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
 
 public class vanillaspofer extends Module {
 

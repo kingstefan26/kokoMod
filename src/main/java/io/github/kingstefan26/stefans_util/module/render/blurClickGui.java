@@ -1,9 +1,9 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
 import com.google.common.base.Throwables;
-import io.github.kingstefan26.stefans_util.core.config.confgValueType;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui;
 import io.github.kingstefan26.stefans_util.core.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import net.minecraft.client.Minecraft;
@@ -44,6 +44,7 @@ public class blurClickGui extends Module {
         this.presistanceEnabled = true;
         alowedGuiClasses.add("io.github.kingstefan26.stefans_util.core.clickgui.oldGui.ClickGui");
         alowedGuiClasses.add("io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroMenu");
+        alowedGuiClasses.add("io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui");
     }
 
     @Override
