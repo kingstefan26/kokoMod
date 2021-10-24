@@ -28,7 +28,8 @@ public class newClickGui extends GuiScreen {
 		int frameX = 0;
 
 		for(moduleManager.Category c : moduleManager.Category.values()) {
-			if(moduleRegistery.getModuleRegistery().getModulesInCategory(c).isEmpty()) continue;
+//			if(moduleRegistery.getModuleRegistery().getModulesInCategory(c).isEmpty()) continue;
+			if(c == moduleManager.Category.UtilModule) continue;
 			newFrame frame = new newFrame(c);
 			frame.setX(frameX);
 			frames.add(frame);

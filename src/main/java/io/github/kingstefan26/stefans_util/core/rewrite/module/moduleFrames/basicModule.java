@@ -5,6 +5,8 @@ import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.mo
 import io.github.kingstefan26.stefans_util.core.rewrite.module.interfaces.baseModuleInterface;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.interfaces.moduleMinecraftInterfaceEvents;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.decoratorInterface;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.localDecoratorManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.localSettingManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -18,8 +20,6 @@ import java.util.*;
 
 
 public class basicModule implements baseModuleInterface, moduleMinecraftInterfaceEvents {
-    public List<decoratorInterface> moduleDecorators = new ArrayList<>();
-
     protected static Minecraft mc = Minecraft.getMinecraft();
     protected Logger logger;
     public String name;
@@ -27,15 +27,16 @@ public class basicModule implements baseModuleInterface, moduleMinecraftInterfac
     private final moduleManager.Category category;
     public boolean closed;
     private boolean toggled;
-
+    protected final localSettingManager localSettingManager = new localSettingManager(this);
+    public localDecoratorManager localDecoratorManager;
 
     public basicModule(String name, String description, moduleManager.Category category, decoratorInterface... decorators) {
-        moduleDecorators.addAll(Arrays.asList(decorators));
+        localDecoratorManager = new localDecoratorManager(this, decorators);
         this.name = name;
         this.description = description;
         this.category = category;
         this.logger = LogManager.getLogger(name);
-        for(decoratorInterface m : moduleDecorators){
+        for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
             m.onInit(this);
         }
     }
@@ -87,7 +88,7 @@ public class basicModule implements baseModuleInterface, moduleMinecraftInterfac
     @Override
     public void onEnable() {
         if(closed) return;
-        for(decoratorInterface m : moduleDecorators){
+        for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
             m.onEnable();
         }
         MinecraftForge.EVENT_BUS.register(this);
@@ -96,14 +97,14 @@ public class basicModule implements baseModuleInterface, moduleMinecraftInterfac
     @Override
     public void onDisable() {
         MinecraftForge.EVENT_BUS.unregister(this);
-        for(decoratorInterface m : moduleDecorators){
+        for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
             m.onDisable();
         }
     }
 
     @Override
     public void onLoad() {
-        for(decoratorInterface m : moduleDecorators){
+        for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
             m.onLoad();
         }
         newClickGui.getClickGui().registerComponent(this);
@@ -111,7 +112,7 @@ public class basicModule implements baseModuleInterface, moduleMinecraftInterfac
 
     @Override
     public void onUnload() {
-        for(decoratorInterface m : moduleDecorators){
+        for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
             m.onDisable();
         }
         this.onDisable();

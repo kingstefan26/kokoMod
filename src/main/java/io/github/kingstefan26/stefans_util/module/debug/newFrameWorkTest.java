@@ -11,10 +11,13 @@ import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.CheckSettin
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.MultichoiseSetting;
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.SliderSetting;
+import io.github.kingstefan26.stefans_util.util.CustomFont;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class newFrameWorkTest extends basicModule {
@@ -41,9 +44,18 @@ public class newFrameWorkTest extends basicModule {
         }});
         super.onLoad();
     }
+    CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);
 
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent r){
         drawCenterString.drawCenterStringOnScreen(mc, "am i work", "FFFFFF");
+    }
+
+    @Override
+    public void onGuiRender(RenderGameOverlayEvent e) {
+        if(e.type == RenderGameOverlayEvent.ElementType.TEXT){
+            c.drawString("bone", 100, 100, 0xFFFFFFFF, 0.2F);
+        }
+        super.onGuiRender(e);
     }
 }

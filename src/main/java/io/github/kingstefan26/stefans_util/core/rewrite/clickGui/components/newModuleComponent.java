@@ -59,7 +59,7 @@ public class newModuleComponent extends newComponent {
             }
         }
         int finalOpY = opY;
-        mod.moduleDecorators.forEach(decorator -> {
+        mod.localDecoratorManager.decoratorArrayList.forEach(decorator -> {
             if(decorator.getClass().getName().equals(keyBindDecorator.class.getName())){
                 this.subcomponents.add(new newKeybind(this, finalOpY));
             }

@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.core.module;
 
 import io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui;
-import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -50,11 +50,6 @@ public class ModuleManager {
 				m.onTick(e);
 			}
 		}
-		if(!moduleRegistery.getModuleRegistery().loadedUtilModules.isEmpty()){
-			for (UtilModule ma : moduleRegistery.getModuleRegistery().loadedUtilModules) {
-				ma.onTick(e);
-			}
-		}
 	}
 
 	@SubscribeEvent
@@ -63,10 +58,6 @@ public class ModuleManager {
 			if(m.isToggled()){
 				m.onWorldRender(e);
 			}
-		}
-
-		for (UtilModule m : moduleRegistery.getModuleRegistery().loadedUtilModules) {
-			m.onWorldRender(e);
 		}
 	}
 
@@ -77,9 +68,6 @@ public class ModuleManager {
 				m.onPlayerFall();
 			}
 		}
-		for (UtilModule m : moduleRegistery.getModuleRegistery().loadedUtilModules) {
-			m.onPlayerFall();
-		}
 	}
 
 	@SubscribeEvent
@@ -88,9 +76,6 @@ public class ModuleManager {
 			if(m.isToggled()){
 				m.onPlayerTeleport();
 			}
-		}
-		for (UtilModule m : moduleRegistery.getModuleRegistery().loadedUtilModules) {
-			m.onPlayerTeleport();
 		}
 	}
 
@@ -101,9 +86,6 @@ public class ModuleManager {
 				m.onGuiRender(e);
 			}
 		}
-		for (UtilModule m : moduleRegistery.getModuleRegistery().loadedUtilModules) {
-			m.onGuiRender(e);
-		}
 	}
 
 	@SubscribeEvent
@@ -112,9 +94,6 @@ public class ModuleManager {
 			if(m.isToggled()){
 				m.onChat(e);
 			}
-		}
-		for (UtilModule m : moduleRegistery.getModuleRegistery().loadedUtilModules) {
-			m.onChat(e);
 		}
 	}
 

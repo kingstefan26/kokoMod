@@ -16,10 +16,8 @@ public class Sprint extends Module {
 
 	@Override
 	public void onTick(TickEvent.ClientTickEvent e){
-		if(mc.thePlayer != null || mc.theWorld != null) KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(), true);
+		if(mc.thePlayer != null || mc.theWorld != null || !mc.gameSettings.keyBindSprint.isKeyDown()) KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(), true);
 	}
-
-
 
 	@Override
 	public void onDisable() {

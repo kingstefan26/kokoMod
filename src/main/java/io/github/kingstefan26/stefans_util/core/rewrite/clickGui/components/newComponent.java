@@ -1,7 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.rewrite.clickGui.components;
 
 import io.github.kingstefan26.stefans_util.util.CustomFont;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -12,8 +11,8 @@ import java.awt.*;
 public class newComponent {
     public boolean closed;
 
-    public CustomFont c = new CustomFont(Minecraft.getMinecraft(), new Font("JetBrains Mono", Font.BOLD, 20), 20);
-    public CustomFont p1 = new CustomFont(Minecraft.getMinecraft(), new Font("JetBrains Mono", Font.PLAIN, 17), 17);
+    public CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);
+    public CustomFont p1 = new CustomFont(new Font("JetBrains Mono", Font.PLAIN, 17), 17);
 
 
     public static void drawRect(int left, int top, int right, int bottom, int color) {

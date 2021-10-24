@@ -7,7 +7,10 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,9 +20,13 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class APIHandler {
-    public static JsonObject getResponse(String urlString) {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+    static Logger logger;
+    static {
+        logger = LogManager.getLogger("APIHandler");
+    }
 
+
+    public static JsonObject getResponse(String urlString) {
         try {
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -49,13 +56,13 @@ public class APIHandler {
                         return gson.fromJson(error, JsonObject.class);
                     }
                 } else if (urlString.startsWith("https://api.mojang.com/users/profiles/minecraft/") && conn.getResponseCode() == 204) {
-                    player.addChatMessage(new ChatComponentText("Failed with reason: Player does not exist."));
+                    logger.warn("Failed with reason: Player does not exist.");
                 } else {
-                    player.addChatMessage(new ChatComponentText("Request failed. HTTP Error Code: " + conn.getResponseCode()));
+                    logger.warn("Request "+ urlString +" failed. HTTP Error Code: " + conn.getResponseCode());
                 }
             }
         } catch (IOException ex) {
-            player.addChatMessage(new ChatComponentText( "An error has occured. See logs for more details."));
+            logger.warn( "An error has occured. See logs for more details.");
             ex.printStackTrace();
         }
 

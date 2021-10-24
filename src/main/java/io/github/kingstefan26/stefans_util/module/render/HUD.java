@@ -18,10 +18,8 @@ import java.util.ArrayList;
 
 public class HUD extends Module {
 
-	int r,g,b;
-	int rgb;
-	CustomFont c = new CustomFont(Minecraft.getMinecraft(), new Font("JetBrains Mono", Font.PLAIN, 15), 15);
-	CustomFont aaa = new CustomFont(Minecraft.getMinecraft(), "JetBrains Mono",2020);
+	int rgb,r,g,b;
+	CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.PLAIN, 15), 15);
 	public static ArrayList<visibleDecorator> visibleDecorators = new ArrayList<>();
 
 	public HUD() {
@@ -44,12 +42,13 @@ public class HUD extends Module {
 		rgb = r;
 		rgb = (rgb << 8) + g;
 		rgb = (rgb << 8) + b;
+		logger.info("rgb: " + rgb + " hex: " + 0xFFccFFFF);
 	}
 
 	@Override
 	public void onEnable(){
-		super.onEnable();
 		this.updateVals();
+		super.onEnable();
 	}
 
 	@Override
@@ -60,15 +59,15 @@ public class HUD extends Module {
 			int temp = 2;
 			for (Module mod : moduleRegistery.getModuleRegistery().loadedModules) {
 				if (mod.isToggled()) {
-					c.drawString(mod.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(mod.getName()) - 1, temp, 0xFFccFFFF);
+					c.drawString(mod.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(mod.getName()) - 1, temp, -1);
 					temp += c.getStringHeight(mod.getName()) + 1;
 				}
 			}
 			for(basicModule m : io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleRegistery.getModuleRegistery().loadedModules){
-				for(decoratorInterface d : m.moduleDecorators){
+				for(decoratorInterface d : m.localDecoratorManager.decoratorArrayList){
 					if(d.getClass().getName().equals(visibleDecorator.class.getName())){
 						if(!((visibleDecorator) d).isVisibilityEnabled()){
-							c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, 0xFFccFFFF);
+							c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, -1);
 							temp += c.getStringHeight(m.getName()) + 1;
 						}
 					}

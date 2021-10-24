@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.module.misc;
 
 import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.module.util.chat;
+import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraftforge.fml.common.LoadController;
 import net.minecraftforge.fml.common.Loader;
 
@@ -40,7 +40,7 @@ public class vanillaspofer extends Module {
             LoadController value = (LoadController) modsField.get(privateinstance);
 
 
-            chat.queueClientChatMessage("stefan_util is no more hehe", chat.chatEnum.CHATPREFIX);
+            chatService.queueClientChatMessage("stefan_util is no more hehe", chatService.chatEnum.CHATPREFIX);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }

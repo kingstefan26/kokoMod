@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.module.misc;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
-import io.github.kingstefan26.stefans_util.module.util.chat;
+import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import net.minecraft.client.gui.GuiButton;
@@ -72,7 +72,7 @@ public class amiTimedOut extends Module {
 	@Override
 	public void onEnable() {
 		if(mc.isSingleplayer()){
-			chat.queueClientChatMessage("you are in singleplayer nono", chat.chatEnum.CHATPREFIX);
+			chatService.queueClientChatMessage("you are in singleplayer nono", chatService.chatEnum.CHATPREFIX);
 			this.setToggled(false);
 			return;
 		}

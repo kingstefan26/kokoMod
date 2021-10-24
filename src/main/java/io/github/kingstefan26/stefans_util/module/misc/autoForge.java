@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.module.misc;
 
 import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.module.util.chat;
+import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
@@ -33,7 +33,7 @@ public class autoForge extends Module {
     @Override
     public void onEnable()
     {
-        chat.queueClientChatMessage("enabled AutoForager lmao", chat.chatEnum.CHATNOPREFIX);
+        chatService.queueClientChatMessage("enabled AutoForager lmao", chatService.chatEnum.CHATNOPREFIX);
         this.CheckBlocks(Radius);
 //        this.oldAutoJumpValue = this.mc.gameSettings.autoJump;
 //        this.mc.gameSettings.autoJump = true;
@@ -133,7 +133,7 @@ public class autoForge extends Module {
                 if (block instanceof BlockLog)
                 {
                     this.cutBlocks.add(this.getSearchPos(j1, k1));
-                    chat.queueClientChatMessage(String.format("Block in %s , %s is a wood block", j1, k1), chat.chatEnum.CHATNOPREFIX);
+                    chatService.queueClientChatMessage(String.format("Block in %s , %s is a wood block", j1, k1), chatService.chatEnum.CHATNOPREFIX);
                 }
                 else
                 {
@@ -146,7 +146,7 @@ public class autoForge extends Module {
 
         for (BlockPos blockpos : this.cutBlocks)
         {
-            chat.queueClientChatMessage(blockpos.getX() + " , " + blockpos.getZ(), chat.chatEnum.CHATNOPREFIX);
+            chatService.queueClientChatMessage(blockpos.getX() + " , " + blockpos.getZ(), chatService.chatEnum.CHATNOPREFIX);
         }
     }
 

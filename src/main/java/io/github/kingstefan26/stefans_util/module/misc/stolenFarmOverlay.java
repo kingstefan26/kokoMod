@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.module.misc;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
-import io.github.kingstefan26.stefans_util.module.util.SBinfo;
+import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -138,7 +138,7 @@ public class stolenFarmOverlay extends Module {
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
         if(System.currentTimeMillis() - timer > 1000){
             timer = System.currentTimeMillis();
-            if(SBinfo.isInSkyblock() && mc.thePlayer != null){
+            if(WorldInfoService.isInSkyblock() && mc.thePlayer != null){
                 lastUpdate = System.currentTimeMillis();
                 updateThaInfo();
 

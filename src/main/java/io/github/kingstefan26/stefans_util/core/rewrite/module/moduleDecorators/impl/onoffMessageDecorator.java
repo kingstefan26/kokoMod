@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl;
 
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.Idecorator;
-import io.github.kingstefan26.stefans_util.module.util.chat;
+import io.github.kingstefan26.stefans_util.service.impl.chatService;
 
 public class onoffMessageDecorator extends Idecorator {
     public onoffMessageDecorator() {
@@ -9,10 +9,10 @@ public class onoffMessageDecorator extends Idecorator {
     }
     @Override
     public void onEnable(){
-        chat.queueClientChatMessage("Enabled " + this.parentModule.name, chat.chatEnum.CHATPREFIX);
+        if(!chatService.lockEnableMessages) chatService.queueClientChatMessage("Enabled " + this.parentModule.name, chatService.chatEnum.CHATPREFIX);
     }
     @Override
     public void onDisable(){
-        chat.queueClientChatMessage("Disabled " + this.parentModule.name, chat.chatEnum.CHATPREFIX);
+        chatService.queueClientChatMessage("Disabled " + this.parentModule.name, chatService.chatEnum.CHATPREFIX);
     }
 }

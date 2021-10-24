@@ -1,6 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
 import com.google.common.base.Throwables;
+import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
 import io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui;
@@ -28,7 +29,11 @@ public class blurClickGui extends Module {
         return blurClickGui_;
     }
 
-    ArrayList<String> alowedGuiClasses = new ArrayList<>();
+    ArrayList<String> alowedGuiClasses = new ArrayList<String>() {{
+        add(ClickGui.class.getName());
+        add("io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroMenu");
+        add(newClickGui.class.getName());
+    }};
 
     @Override
     public void onLoad(){
@@ -42,9 +47,7 @@ public class blurClickGui extends Module {
         super("blurClickGui", "adds nice blur to click gui", ModuleManager.Category.RENDER);
         blurClickGui_ = this;
         this.presistanceEnabled = true;
-        alowedGuiClasses.add("io.github.kingstefan26.stefans_util.core.clickgui.oldGui.ClickGui");
-        alowedGuiClasses.add("io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroMenu");
-        alowedGuiClasses.add("io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui");
+
     }
 
     @Override

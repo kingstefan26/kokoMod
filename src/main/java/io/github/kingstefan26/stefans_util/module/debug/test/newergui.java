@@ -12,7 +12,7 @@ public class newergui extends GuiScreen {
     public void initGui() {
         super.initGui();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height - (this.height / 4) + 10, "fuck you in the ass"));
-        c = new CustomFont(mc, new Font("JetBrains Mono", Font.BOLD, 17), 17);
+        c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 17), 17);
     }
 
     @Override

@@ -16,17 +16,24 @@ public class moduleRegistery {
         return moduleRegistery_;
     }
 
-    private static final Logger logger = LogManager.getLogger("kokomod-moduleRegistry");
-    public static ArrayList<String> productionModuleIndex = new ArrayList<>();
+    private final Logger logger;
+    public ArrayList<String> productionModuleIndex;
+    public ArrayList<basicModule> loadedModules;
 
-    public ArrayList<basicModule> loadedModules = new ArrayList<>();
+    {
+        logger = LogManager.getLogger("kokomod-moduleRegistry");
+    }
 
-    private moduleRegistery() {
+    public void initRegistry(){
+        productionModuleIndex = new ArrayList<>();
+        loadedModules = new ArrayList<>();
         loadModuleNames();
         loadModules();
     }
 
+
     public void loadModules() {
+        productionModuleIndex = removeDuplicates(productionModuleIndex);
         try{
             productionModuleIndex = removeDuplicates(productionModuleIndex);
             for(String moduleclassname : productionModuleIndex){
@@ -39,6 +46,7 @@ public class moduleRegistery {
                     logger.info("loaded module: "+ ((basicModule) object).getName());
                 }catch(Exception e){
                     logger.warn("Failed to load debug module " + moduleclassname);
+                    e.printStackTrace();
                 }
             }
         }catch (Exception ignored){}
@@ -69,9 +77,7 @@ public class moduleRegistery {
                 if (info.getName().startsWith("io.github.kingstefan26.stefans_util.module")) {
                     final Class<?> clazz = info.load();
                     if(basicModule.class.isAssignableFrom(clazz)) {
-                        if(clazzlist.contains(clazz.getName())){
-                            return;
-                        }else{
+                        if(!clazzlist.contains(clazz.getName())){
                             logger.info("found module: "+ clazz.getName());
                             clazzlist.add(clazz.getName());
                         }

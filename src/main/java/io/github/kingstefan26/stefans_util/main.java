@@ -1,17 +1,16 @@
 package io.github.kingstefan26.stefans_util;
 
 import io.github.kingstefan26.stefans_util.core.commands.commandRegistry;
+import io.github.kingstefan26.stefans_util.core.config.confgValueType;
+import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.kokoMod;
+import io.github.kingstefan26.stefans_util.service.serviceMenager;
 import io.github.kingstefan26.stefans_util.util.ShaderResourcePack;
 import io.github.kingstefan26.stefans_util.util.renderUtil.updateWidowTitle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.command.CommandBase;
-import net.minecraft.init.Items;
-import net.minecraft.stats.Achievement;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -25,12 +24,14 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.*;
 
 @Mod(modid = main.MODID, version = main.VERSION, clientSideOnly = true, acceptedMinecraftVersions = "1.8.9")
 public class main {
     public static final String MODID = "stefan_util";
-    public static final String VERSION = "0.2.8-ALPHA";
+    public static final String VERSION = "1.0.0-ALPHA";
     public static boolean debug = false;
+    public static boolean firstStartup;
 
     @Mod.Instance
     public static main instance;
@@ -51,6 +52,16 @@ public class main {
 
     @EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
+//        Thread t = new Thread(() -> {while (true) {}});
+//        t.setName("COCK-CLIENT");
+//        t.start();
+
+//        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+//        scheduledExecutorService.shutdown();
+
+        (new serviceMenager()).start();
+
+
         ProgressManager.ProgressBar progressBar = ProgressManager.push("kokomod", 2);
         long start = System.currentTimeMillis();
         if(debug) logger.info("started repo refresh");
@@ -59,26 +70,25 @@ public class main {
         long stop = System.currentTimeMillis();
         if(debug) logger.info("finished repo refresh in " + (stop - start) + "ms");
 
-        while (progressBar.getStep() < progressBar.getSteps())
+        while (progressBar.getStep() < progressBar.getSteps()) {
             progressBar.step("random-"+progressBar.getStep());
+        }
         ProgressManager.pop(progressBar);
 
         for(CommandBase a : new commandRegistry().simpleCommands){
             ClientCommandHandler.instance.registerCommand(a);
         }
+        updateWidowTitle.updateTitle("Kokoclient V69.420");
+        kokoMod.getkokoMod().init();
 
         // Add our dummy resourcepack
         ((SimpleReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(dummyPack);
     }
-
     @EventHandler
-    public static void Init(FMLPreInitializationEvent event) {
-
-//        Thread t = new Thread(() -> {
-//        });
-//        t.setName("REPO-REFRESH");
-//        t.start();
-        updateWidowTitle.updateTitle("Kokoclient V69.420");
-        kokoMod.getkokoMod().init();
+    public void postInit(final FMLPostInitializationEvent event){
+        configObject temp = new configObject("firstStartup", "main", true);
+        firstStartup = temp.getBooleanValue();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> temp.setBooleanValue(false)));
     }
+
 }

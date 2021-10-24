@@ -4,9 +4,7 @@ import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
-import net.minecraft.client.Minecraft;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ public class newFrame {
     private boolean isDragging;
     public int dragX;
     public int dragY;
-    CustomFont c = new CustomFont(Minecraft.getMinecraft(), new Font("JetBrains Mono", Font.BOLD, 20), 20);
+    CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);
 
     configObject xConfig;
     configObject yConfig;

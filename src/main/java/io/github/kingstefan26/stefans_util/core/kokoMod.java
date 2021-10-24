@@ -3,19 +3,19 @@ package io.github.kingstefan26.stefans_util.core;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui;
-import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.SettingsCore;
-import io.github.kingstefan26.stefans_util.module.util.chat;
+import io.github.kingstefan26.stefans_util.main;
+import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;
 import io.github.kingstefan26.stefans_util.util.handelers.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiErrorScreen;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,7 +24,6 @@ import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 
@@ -51,36 +50,24 @@ public class kokoMod {
 		try {
 			if (ev.side == Side.SERVER) return;
 			if (ev.phase == TickEvent.Phase.START) {
-				if (!isAllowedToPlay) {
+				if(!isAllowedToPlay){
 					if (Minecraft.getMinecraft().currentScreen instanceof GuiErrorScreen) return;
 
-					final String[] a = new String[]{
-							"you fool are not allowed to use this mod.",
-							"smh"
-					};
-					final GuiScreen b = new GuiErrorScreen(null, null) {
-						@Override
-						public void drawScreen(int par1, int par2, float par3) {
-							super.drawScreen(par1, par2, par3);
-							for (int i = 0; i < a.length; ++i) {
-								drawCenteredString(fontRendererObj, a[i], width / 2, height / 3 + 12 * i, 0xFFFFFFFF);
-							}
-						}
+                    Minecraft.getMinecraft().displayGuiScreen(new GuiErrorScreen("you fool are not allowed to use this mod.",
+							"smh") {
+                        @Override
+                        public void initGui() {
+                            super.initGui();
+                            this.buttonList.clear();
+                            this.buttonList.add(new GuiButton(0, width / 2 - 50, height - 50, 100, 20, "close"));
+                        }
 
-						@Override
-						public void initGui() {
-							super.initGui();
-							this.buttonList.clear();
-							this.buttonList.add(new GuiButton(0, width / 2 - 50, height - 50, 100, 20, "close"));
-						}
-
-						@Override
-						protected void actionPerformed(GuiButton button){
-							FMLCommonHandler.instance().exitJava(-1, true);
-						}
-					};
-					Minecraft.getMinecraft().displayGuiScreen(b);
-				}
+                        @Override
+                        protected void actionPerformed(GuiButton button){
+                            FMLCommonHandler.instance().exitJava(-1, true);
+                        }
+                    });
+                }
 			}
 		} catch (Exception ignored){
 			FMLCommonHandler.instance().exitJava(-1, true);
@@ -89,32 +76,57 @@ public class kokoMod {
 
 
     public boolean firstStartup = true;
+	boolean lockfirstStartup = false;
 
     @SubscribeEvent
     public void onFirstWorldJoin(TickEvent.ClientTickEvent e){
-        if(firstStartup){
-        	Minecraft mc = Minecraft.getMinecraft();
-        	if(mc != null){
-        		if(mc.thePlayer != null || mc.theWorld != null){
-			        firstStartup = false;
-					ChatComponentText a = new ChatComponentText("§bThis version of Cock Mod™ "
-							+ VERSION +
-							" does not contain stds nor aids! §oall rights reserved§o§r Session id steal-er privacy policy §nhere§n");
-					a.getChatStyle().setChatClickEvent(new ClickEvent(net.minecraft.event.ClickEvent.Action.OPEN_URL,
-					"https://youtu.be/dQw4w9WgXcQ"));
+		if(main.firstStartup && !lockfirstStartup){
+			Minecraft mc = Minecraft.getMinecraft();
+			if(mc != null){
+				if(mc.thePlayer != null || mc.theWorld != null){
+					String[] temp = {
+							"Hi its seems like its first time using kokoMod",
+							"so welcome...",
+							"you will quickly regret using this mod (｀ڼ´)",
+							"§4this is gonna be a fun time "
+					};
+					for(String t : temp){
+						chatService.queueCleanChatMessage(t);
+					}
+					lockfirstStartup = true;
+				}
+			}
+		}else{
+			if(firstStartup){
+				Minecraft mc = Minecraft.getMinecraft();
+				if(mc != null){
+					if(mc.thePlayer != null || mc.theWorld != null){
+						firstStartup = false;
+						ChatComponentText b = new ChatComponentText("§bThis version of Cock Mod™ "
+								+ VERSION);
+						b.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "KokoModPrivacyPolicy"));
 
-					chat.queueClientChatMessage(a, chat.chatEnum.CHATCOMPONENT);
-		        }
-	        }
-        }
+						chatService.queueClientChatMessage(b, chatService.chatEnum.CHATCOMPONENT);
+
+						ChatComponentText a = new ChatComponentText(
+								" does not contain stds nor aids! §oall rights reserved§o§r Session id steal-er privacy policy §nhere§n");
+						a.getChatStyle().setChatClickEvent(new ClickEvent(net.minecraft.event.ClickEvent.Action.OPEN_URL,
+								"https://youtu.be/dQw4w9WgXcQ"));
+						chatService.queueClientChatMessage(a, chatService.chatEnum.CHATCOMPONENT);
+
+						chatService.lockEnableMessages = false;
+					}
+				}
+			}
+		}
     }
 
 	public static void refreshRepo(Logger logger, ProgressManager.ProgressBar progressBar) {
 		alowedUsers.clear();
-		progressBar.step("(1/2) Downloading alowed users");
+		progressBar.step("(1/2) Downloading allowed users");
 		data = APIHandler.getResponse("https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/data.json");
 		if(debug) logger.info(data != null && data.has("alowed") ? "loaded data from github" : "failed to load data from github");
-		progressBar.step("(2/2) Parsing alowed users");
+		progressBar.step("(2/2) Parsing allowed users");
 		Set<Map.Entry<String, JsonElement>> entrySet = data.get("alowed").getAsJsonObject().entrySet();
 		for(Map.Entry<String,JsonElement> entry : entrySet){
 			alowedUsers.put(entry.getKey(), entry.getValue().getAsString());
@@ -129,6 +141,16 @@ public class kokoMod {
 			alowedUsers.forEach((K, V)  -> logger.info(K + " uuid:" + V));
 		}
 	}
+
+
+//	public static void checkWhitelist() {
+//		JsonObject data = APIHandler.getResponse("http://auth.kingstefan26.workers.dev/?uuid=" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
+//		try{
+//			System.out.println("AAAAAAAAAAAAA " + data.toString());
+//		}catch (Exception e){
+//			e.printStackTrace();
+//		}
+//	}
 
 
 	@SubscribeEvent

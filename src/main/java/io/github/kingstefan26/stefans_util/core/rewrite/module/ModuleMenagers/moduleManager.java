@@ -30,7 +30,7 @@ public class moduleManager {
 	}
 
 	private moduleManager() {
-		moduleRegistery.getModuleRegistery();
+		moduleRegistery.getModuleRegistery().initRegistry();
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
@@ -99,7 +99,7 @@ public class moduleManager {
 					if (keyCode <= 0)
 						return;
 					for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
-						m.moduleDecorators.forEach(decorator -> {
+						m.localDecoratorManager.decoratorArrayList.forEach(decorator -> {
 							if(decorator.getClass().getName().equals(keyBindDecorator.class.getName())){
 								keyBindDecorator temp = (keyBindDecorator) decorator;
 								if(temp.keybind.getKeyCode() == keyCode){

@@ -1,7 +1,6 @@
 package io.github.kingstefan26.stefans_util;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-import org.apache.logging.log4j.core.Logger;
 
 import java.util.Map;
 

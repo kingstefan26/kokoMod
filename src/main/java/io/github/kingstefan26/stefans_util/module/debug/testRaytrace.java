@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.module.debug;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.Module;
-import io.github.kingstefan26.stefans_util.module.util.chat;
+import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -74,7 +74,7 @@ public class testRaytrace extends Module {
                 //the following is filtering out blocks which we don't want for detection, note that these blocks are also line of sight
                 if (raytraceResult.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
                     Entity hit = raytraceResult.entityHit;
-                    chat.queueClientChatMessage(hit.getName(), chat.chatEnum.DEBUG);
+                    chatService.queueClientChatMessage(hit.getName(), chatService.chatEnum.DEBUG);
                 } else if (raytraceResult.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                     BlockPos raytracedBlockPos = raytraceResult.getBlockPos();
 //                if (currentScannedBlocks.contains(raytracedBlockPos)) continue;
@@ -94,7 +94,7 @@ public class testRaytrace extends Module {
                     Block blockClicked = mc.theWorld.getBlockState(raytracedBlockPos).getBlock();
 
 
-                    chat.queueClientChatMessage(blockClicked, chat.chatEnum.DEBUG);
+                    chatService.queueClientChatMessage(blockClicked, chatService.chatEnum.DEBUG);
 
 //                if (RoomDetectionUtils.whitelistedBlocks.contains(identifier)) {
 //                    blocksToCheck.put(raytracedBlockPos, identifier); //will be checked  and filtered in getPossibleRooms()
@@ -105,7 +105,7 @@ public class testRaytrace extends Module {
         //DungeonRooms.logger.debug("DungeonRooms: Finished raytracing, amount of blocks to check = " + blocksToCheck.size());
         long timeFinish = System.nanoTime();
         logger.info("Time to raytrace and filter: " + (timeFinish - timeStart)  + " nano seconds");
-        chat.queueClientChatMessage("found " + raytraceResults.size() + " results", chat.chatEnum.DEBUG);
+        chatService.queueClientChatMessage("found " + raytraceResults.size() + " results", chatService.chatEnum.DEBUG);
         raytraceResults.clear();
 
 //        if (futureUpdatePossibleRooms == null && stage2Executor != null && !stage2Executor.isTerminated()) { //start processing in new thread to avoid lag in case of complex scan

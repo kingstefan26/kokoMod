@@ -1,14 +1,11 @@
 package io.github.kingstefan26.stefans_util.util;
 
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -19,18 +16,18 @@ import java.util.Arrays;
 
 /**
  * @author TheObliterator
+ * @author kokoniara
  *         <p/>
  *         A class to create and draw true type
  *         fonts onto the Minecraft game engine.
  */
 public class CustomFont {
 
-    private int texID;
-    private int[] xPos;
-    private int[] yPos;
-    private int startChar;
-    private int endChar;
-    private FontMetrics metrics;
+    private final int texID;
+    private final int[] xPos;
+    private final int[] yPos;
+    private final int startChar;
+    private final FontMetrics metrics;
 
     /**
      * Instantiates the font, filling in default start
@@ -39,12 +36,11 @@ public class CustomFont {
      * 'new CustomFont(ModLoader.getMinecraftInstance(),
      * "Arial", 12);
      *
-     * @param mc   The Minecraft instance for the font to be bound to.
      * @param font The name of the font to be drawn.
      * @param size The size of the font to be drawn.
      */
-    public CustomFont(Minecraft mc, Object font, int size) {
-        this(mc, font, size, 32, 126);
+    public CustomFont(Object font, int size) {
+        this(font, size, 32, 126);
     }
 
     /**
@@ -56,21 +52,19 @@ public class CustomFont {
      * 'new CustomFont(ModLoader.getMinecraftInstance(),
      * "Arial", 12, 32, 126);'
      *
-     * @param mc        The Minecraft instance for the font to be bound to.
      * @param font      The name of the font to be drawn.
      * @param size      The size of the font to be drawn.
      * @param startChar The starting ASCII character id to be drawable. (Default 32)
      * @param endChar   The ending ASCII character id to be drawable. (Default 126)
      */
-    public CustomFont(Minecraft mc, Object font, int size, int startChar, int endChar) {
+    public CustomFont(Object font, int size, int startChar, int endChar) {
         this.startChar = startChar;
-        this.endChar = endChar;
         xPos = new int[endChar - startChar];
         yPos = new int[endChar - startChar];
 
         // Create a bitmap and fill it with a transparent color as well
         // as obtain a Graphics instance which can be drawn on.
-        // NOTE: It is CRUICIAL that the size of the image is 256x256, if
+        // NOTE: It is CRUCIAL that the size of the image is 256x256, if
         // it is not the Minecraft engine will not draw it properly.
         BufferedImage img = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
         Graphics g1 = img.getGraphics();
@@ -99,11 +93,13 @@ public class CustomFont {
         g.setColor(Color.white);
         metrics = g.getFontMetrics();
 
-        // Draw the specified range of characters onto
-        // the new bitmap, spacing according to the font
-        // widths. Also allocating positions of characters
-        // on the bitmap to two arrays which will be used
-        // later when drawing.
+        /*
+         Draw the specified range of characters onto
+         the new bitmap, spacing according to the font
+         widths. Also allocating positions of characters
+         on the bitmap to two arrays which will be used
+         later when drawing.
+        */
         int x = 2;
         int y = 2;
         for (int i = startChar; i < endChar; i++) {
@@ -117,8 +113,10 @@ public class CustomFont {
             }
         }
 
-        // Render the finished bitmap into the Minecraft
-        // graphics engine.
+        /*
+         Render the finished bitmap into the Minecraft
+         graphics engine.
+        */
         texID = new DynamicTexture(img).getGlTextureId();
     }
 
@@ -170,8 +168,43 @@ public class CustomFont {
     }
 
     /**
+     * Draws a given string onto a gui/subclass.
+     *
+     * @param text  The string to be drawn
+     * @param x     The x position to start drawing
+     * @param y     The y position to start drawing
+     * @param color The color of the non-shadowed text (Hex)
+     * @param scale the scale
+     */
+    public void drawString(String text, int x, int y, int color, float scale) {
+        float mSize = (float) Math.pow(scale,-1);
+        x = Math.round(x / scale);
+        y = Math.round(y / scale);
+        GlStateManager.enableBlend();
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(scale,scale,scale);
+        GlStateManager.bindTexture(texID);
+        float red = (float) (color >> 16 & 0xff) / 255F;
+        float green = (float) (color >> 8 & 0xff) / 255F;
+        float blue = (float) (color & 0xff) / 255F;
+        float alpha = (float) (color >> 24 & 0xff) / 255F;
+        GlStateManager.color(red, green, blue, alpha);
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            try {
+                drawChar(c, x, y);
+            } catch (Exception ignored) {}
+            x += metrics.getStringBounds("" + c, null).getWidth();
+        }
+        GlStateManager.scale(mSize,mSize,mSize);
+        GlStateManager.popMatrix();
+        GlStateManager.disableBlend();
+    }
+
+
+    /**
      * Returns the created FontMetrics
-     * which is used to retrive various
+     * which is used to retrieve various
      * information about the True Type Font
      *
      * @return FontMetrics of the created font.
@@ -204,7 +237,7 @@ public class CustomFont {
 
     /**
      * A method that returns a Rectangle that
-     * contains the width and height demensions
+     * contains the width and height dimensions
      * of the given string.
      *
      * @param text The string to be measured
@@ -245,7 +278,7 @@ public class CustomFont {
         Rectangle2D bounds = metrics.getStringBounds("" + c, null);
         drawTexturedModalRect(x, y, xPos[(byte) c - startChar], yPos[(byte) c - startChar], (int) bounds.getWidth(), (int) bounds.getHeight() + metrics.getMaxDescent() + 2);
     }
-
+    @SuppressWarnings("all")
     private void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height)
     {
         float f = 0.00390625F;
@@ -333,7 +366,7 @@ public class CustomFont {
     }
 
     private static String getFormatFromString(String var0) {
-        String var1 = "";
+        StringBuilder var1 = new StringBuilder();
         int var2 = -1;
         int var3 = var0.length();
 
@@ -342,14 +375,14 @@ public class CustomFont {
                 char var4 = var0.charAt(var2 + 1);
 
                 if (isFormatColor(var4)) {
-                    var1 = "\u00a7" + var4;
+                    var1 = new StringBuilder("\u00a7" + var4);
                 } else if (isFormatSpecial(var4)) {
-                    var1 = var1 + "\u00a7" + var4;
+                    var1.append("\u00a7").append(var4);
                 }
             }
         }
 
-        return var1;
+        return var1.toString();
     }
 
     private static boolean isFormatColor(char var0) {
@@ -362,4 +395,3 @@ public class CustomFont {
                 || var0 == 114 || var0 == 82;
     }
 }
-

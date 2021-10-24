@@ -1,8 +1,8 @@
 package io.github.kingstefan26.stefans_util.core.module;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.oldGui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
-import io.github.kingstefan26.stefans_util.module.util.chat;
+import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -137,13 +137,13 @@ public class Module implements preRewriteModueInterface {
 	public void onEnable() {
 		if(closed) return;
 		MinecraftForge.EVENT_BUS.register(this);
-		if(this.enableMessage != null) chat.queueClientChatMessage(this.enableMessage, chat.chatEnum.CHATPREFIX);
+		if(this.enableMessage != null) chatService.queueClientChatMessage(this.enableMessage, chatService.chatEnum.CHATPREFIX);
 	}
 
 	@Override
 	public void onDisable() {
 		MinecraftForge.EVENT_BUS.unregister(this);
-		if(this.disableMessage != null) chat.queueClientChatMessage(this.disableMessage, chat.chatEnum.CHATPREFIX);
+		if(this.disableMessage != null) chatService.queueClientChatMessage(this.disableMessage, chatService.chatEnum.CHATPREFIX);
 	}
 
 	public void setInvisible(){
