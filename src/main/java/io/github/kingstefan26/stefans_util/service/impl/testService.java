@@ -19,7 +19,7 @@ public class testService extends Service {
     Logger logger = LogManager.getLogger("testService");
 
     Runnable executeRunnable = (() -> {
-        logger.info("Test Service Executed");
+//        logger.info("Test Service Executed");
     });
 
     @Override

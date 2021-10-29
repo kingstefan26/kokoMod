@@ -2,17 +2,25 @@ package io.github.kingstefan26.stefans_util.service.impl;
 
 import io.github.kingstefan26.stefans_util.service.Service;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ChatLine;
+import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 
 public class chatService extends Service {
+    public chatService() {
+        super("chat sender/receiver Module");
+    }
+
     private static final String MESSAGE_PREFIX = "[§bKokomod§f] ";
     private static final String DEBUG_PREFIX = "[§9KOKOMOD-DEBUG§9§r] ";
 
@@ -24,30 +32,26 @@ public class chatService extends Service {
     @Override
     public void stop() {
     }
-
     public enum chatEnum {
         DEBUG,
         CHATPREFIX,
         CHATNOPREFIX,
         CHATCOMPONENT
-    }
 
+    }
     static class message {
         public Object text = null;
-        public chatEnum type = null;
 
+        public chatEnum type = null;
         public message(Object text, chatEnum type) {
             this.text = text;
             this.type = type;
         }
-    }
 
+    }
     static Queue<message> messageQueue = new LinkedList<>();
-    public static boolean lockEnableMessages = true;
 
-    public chatService() {
-        super("chat sender/receiver Module");
-    }
+    public static boolean lockEnableMessages = true;
 
     public static void queueClientChatMessage(Object message, chatEnum type) {
         messageQueue.add(new message(message, type));
@@ -60,7 +64,6 @@ public class chatService extends Service {
     public static void queueCleanChatMessage(String message) {
         messageQueue.add(new message(message, chatEnum.CHATNOPREFIX));
     }
-
 
     public static void queueClientChatMessage(ChatComponentText message) {
         messageQueue.add(new message(message, chatEnum.CHATNOPREFIX));
@@ -99,6 +102,18 @@ public class chatService extends Service {
         MinecraftForge.EVENT_BUS.post(event);
         if (!event.isCanceled()) {
             Minecraft.getMinecraft().thePlayer.addChatMessage(event.message);
+        }
+    }
+
+    /**
+     * DOES NOT WORK
+     */
+    public static synchronized void removeLastChatMessage(){
+//        List<ChatLine> chatLines = ReflectionHelper.getPrivateValue(GuiNewChat.class, Minecraft.getMinecraft().ingameGUI.getChatGUI(), "chatLines");
+        try{
+            Minecraft.getMinecraft().ingameGUI.getChatGUI().deleteChatLine(0);
+        }catch (Exception ignored){
+
         }
     }
 }
