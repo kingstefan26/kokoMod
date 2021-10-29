@@ -126,8 +126,6 @@ public class keyControlService extends Service {
     static boolean[] executeKeyCodeBoardHand = new boolean[2];
 
 
-
-
     static command currentExecutedCommand;
 
     private static void executeCommand(command command) {
