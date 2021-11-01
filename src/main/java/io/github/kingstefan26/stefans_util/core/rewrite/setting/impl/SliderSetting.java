@@ -5,19 +5,21 @@ import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basi
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.AbstractSetting;
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.SettingsCore;
 
+import java.util.function.Consumer;
+
 public class SliderSetting extends AbstractSetting {
     int min;
 
     int max;
 
-    public SliderSetting(String name, basicModule parentModule, Double deafultValue, int min, int max) {
-        super(name, parentModule, SettingsCore.type.slider);
+    public SliderSetting(String name, basicModule parentModule, Double deafultValue, int min, int max, Consumer<Object> callback) {
+        super(name, parentModule, SettingsCore.type.slider, callback);
         this.min = min;
         this.max = max;
         this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
     }
-    public SliderSetting(String name, basicModule parentModule, Double deafultValue, int min, int max, String comment) {
-        super(name, parentModule, SettingsCore.type.slider);
+    public SliderSetting(String name, basicModule parentModule, Double deafultValue, int min, int max, Consumer<Object> callback, String comment) {
+        super(name, parentModule, SettingsCore.type.slider, callback);
         this.min = min;
         this.max = max;
         this.comment = comment;
@@ -30,6 +32,7 @@ public class SliderSetting extends AbstractSetting {
     public void setValue(Double value){
         if(!(value >= max)){
             this.ConfigObject.setDoubleValue(value);
+            this.callback.accept(value);
         }
     }
 

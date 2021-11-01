@@ -7,6 +7,7 @@ import io.github.kingstefan26.stefans_util.service.impl.notificationService;
 import io.github.kingstefan26.stefans_util.service.Service;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
 import io.github.kingstefan26.stefans_util.util.CalendarUtils;
+import io.github.kingstefan26.stefans_util.util.InlineCompiler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
@@ -167,5 +168,12 @@ public class commandRegistry {
                 chatService.queueCleanChatMessage("============================================");
             }
         }));
+
+//        simpleCommands.add(new SimpleCommand("dynamicloadtest", new SimpleCommand.ProcessCommandRunnable() {
+//            @Override
+//            public void processCommand(ICommandSender sender, String[] args) {
+//                InlineCompiler.main();
+//            }
+//        }));
     }
 }

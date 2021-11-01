@@ -3,6 +3,9 @@ package io.github.kingstefan26.stefans_util.util;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 
 public class util {
     /**
@@ -33,6 +36,25 @@ public class util {
                 System.err.println(e);
             }
         }).start();
+    }
+
+    /**
+     * do thing
+     * @param service the thing that gives threads
+     * @param callable the thging that does stuff eg download pic
+     * @param callback the thing that executes with stuff
+     * @param <T> bs
+     */
+    public static <T> void submit(ExecutorService service,
+                                  Callable<T> callable,
+                                  Consumer<T> callback) {
+        service.submit(() -> {
+            try {
+                callback.accept(callable.call());
+            } catch (Throwable t) {
+                // log the Throwable
+            }
+        });
     }
 
 }

@@ -2,11 +2,11 @@ package io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames;
 
 import io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.interfaces.baseModuleInterface;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.interfaces.moduleMinecraftInterfaceEvents;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.decoratorInterface;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.localDecoratorManager;
-import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.localSettingManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -25,12 +25,13 @@ public class basicModule implements baseModuleInterface, moduleMinecraftInterfac
     public String name;
     public String description;
     private final moduleManager.Category category;
-    public boolean closed;
+    public boolean closed, loaded;
     private boolean toggled;
-    protected final localSettingManager localSettingManager = new localSettingManager(this);
+
     public localDecoratorManager localDecoratorManager;
 
     public basicModule(String name, String description, moduleManager.Category category, decoratorInterface... decorators) {
+        moduleRegistery.loadedModules.add(this);
         localDecoratorManager = new localDecoratorManager(this, decorators);
         this.name = name;
         this.description = description;
@@ -108,6 +109,7 @@ public class basicModule implements baseModuleInterface, moduleMinecraftInterfac
             m.onLoad();
         }
         newClickGui.getClickGui().registerComponent(this);
+        loaded = true;
     }
 
     @Override
@@ -117,6 +119,7 @@ public class basicModule implements baseModuleInterface, moduleMinecraftInterfac
         }
         this.onDisable();
         this.closed = true;
+        loaded = false;
     }
 
     @Override

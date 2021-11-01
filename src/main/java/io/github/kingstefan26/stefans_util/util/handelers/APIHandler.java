@@ -25,6 +25,26 @@ public class APIHandler {
         logger = LogManager.getLogger("APIHandler");
     }
 
+    public static String downloadTextFromUrl(final String URL) throws IOException {
+        String line = "", all = "";
+        URL myUrl = null;
+        BufferedReader in = null;
+        try {
+            myUrl = new URL(URL);
+            in = new BufferedReader(new InputStreamReader(myUrl.openStream()));
+
+            while ((line = in.readLine()) != null) {
+                all += line;
+            }
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+
+        return all;
+    }
+
 
     public static JsonObject getResponse(String urlString) {
         try {

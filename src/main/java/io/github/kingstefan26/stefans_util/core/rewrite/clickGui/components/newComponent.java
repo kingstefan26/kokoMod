@@ -7,12 +7,33 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
 import java.awt.*;
+import java.io.InputStream;
 
 public class newComponent {
+
+    private InputStream getFileFromResourceAsStream(String fileName) {
+// get a file from the resources folder
+// works everywhere, IDEA, unit test and JAR file.
+
+        // The class loader that loaded the class
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+
+        // the stream holding the file content
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
+            return inputStream;
+        }
+
+    }
+
     public boolean closed;
 
-    public CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);
-    public CustomFont p1 = new CustomFont(new Font("JetBrains Mono", Font.PLAIN, 17), 17);
+    //    public CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);
+    public CustomFont c = new CustomFont(getFileFromResourceAsStream("Teko-Light.ttf"), 20);
+//    public CustomFont p1 = new CustomFont(new Font("JetBrains Mono", Font.PLAIN, 17), 17);
+    public CustomFont p1 = new CustomFont(getFileFromResourceAsStream("Teko-Light.ttf"), 17);
 
 
     public static void drawRect(int left, int top, int right, int bottom, int color) {

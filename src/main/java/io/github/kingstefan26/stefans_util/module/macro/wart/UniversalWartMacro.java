@@ -41,7 +41,7 @@ public class UniversalWartMacro extends basicModule {
     private int wantedPitch;
     private int wantedYaw;
     private boolean perfectHeadRotation;
-    private boolean experimentalGui;
+    private boolean experimentalGuiFlag;
 
     private util.walkStates macroWalkStage = util.walkStates.RIGHT;
 
@@ -103,17 +103,28 @@ public class UniversalWartMacro extends basicModule {
 
     @Override
     public void onLoad() {
-        localSettingManager.addBulk(
-                new MultichoiseSetting("version", this, "vertical design", new ArrayList<String>() {{
-                    add("vertical design");
-                    add("horizontal with pads");
-                    add("horizontal with no pad");
-                }}),
-                new SliderNoDecimalSetting("yaw", this, 90, 0, 180),
-                new SliderNoDecimalSetting("pitch", this, 9, 0, 90),
-                new CheckSetting("perfect head rotation", this, true),
-                new CheckSetting("experimental gui", this, false)
-        );
+
+        new MultichoiseSetting("version", this, "vertical design", new ArrayList<String>() {{
+            add("vertical design");
+            add("horizontal with pads");
+            add("horizontal with no pad");
+        }}, (newvalue) -> {
+
+        });
+        new SliderNoDecimalSetting("yaw", this, 90, 0, 180, (newvalue) -> {
+            wantedYaw = (int) newvalue;
+        });
+        new SliderNoDecimalSetting("pitch", this, 9, 0, 90, (newvalue) -> {
+            wantedPitch = (int) newvalue;
+        });
+        new CheckSetting("perfect head rotation", this, true, (newvalue) -> {
+            perfectHeadRotation = (boolean) newvalue;
+        });
+
+        new CheckSetting("experimental gui", this, false, (onUpdateCallbackValue) -> {
+            experimentalGuiFlag = (boolean) onUpdateCallbackValue;
+        });
+
         super.onLoad();
     }
 
@@ -206,7 +217,7 @@ public class UniversalWartMacro extends basicModule {
         if (perfectHeadRotation) {
             setPlayerRotations(wantedYaw, wantedPitch);
         }
-        if (experimentalGui) {
+        if (experimentalGuiFlag) {
             guiCloseGrace = false;
             mc.displayGuiScreen(macroMenu);
         }
@@ -310,13 +321,10 @@ public class UniversalWartMacro extends basicModule {
 //        }
 
         fallCounter = 0;
-        wantedYaw = ((SliderNoDecimalSetting) localSettingManager.get("yaw")).getValue();
-        wantedPitch = ((SliderNoDecimalSetting) localSettingManager.get("pitch")).getValue();
-        experimentalGui = ((CheckSetting) localSettingManager.get("experimental gui")).getValue();
-        perfectHeadRotation = ((CheckSetting) localSettingManager.get("perfect head rotation")).getValue();
 
 
-        if (experimentalGui) {
+
+        if (experimentalGuiFlag) {
             if (this.macroMenu == null) macroMenu = new util.macroMenu(this);
             guiCloseGrace = true;
         }
@@ -373,7 +381,7 @@ public class UniversalWartMacro extends basicModule {
 
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent e) {
-        if (experimentalGui) {
+        if (experimentalGuiFlag) {
             if (!(e.gui instanceof util.macroMenu) && !guiCloseGrace) {
                 this.toggle();
             }

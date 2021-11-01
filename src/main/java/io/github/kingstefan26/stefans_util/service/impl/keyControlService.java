@@ -4,7 +4,6 @@ import io.github.kingstefan26.stefans_util.service.Service;
 import io.github.kingstefan26.stefans_util.util.util;
 import net.minecraft.client.settings.KeyBinding;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -21,10 +20,9 @@ public class keyControlService extends Service {
 
     public static class action {
         public enum walk {
-            walkforward, walkright, walkleft, walkback,
-            walkforwardLeft, walkforwardRight, walkbackLeft, walkbackRight
+            forward, right, left, back,
+            forwardLeft, forwardRight, backLeft, backRight
         }
-
         public enum hand {
             punch, place
         }
@@ -118,23 +116,15 @@ public class keyControlService extends Service {
     }
 
 
-    static ArrayList<command> AsyncExpireCommands = new ArrayList<>();
-
-    boolean finished = false;
-    static boolean[] executeKeyCodeBoardWalk = new boolean[4];
-
-    static boolean[] executeKeyCodeBoardHand = new boolean[2];
-
-
-    static command currentExecutedCommand;
 
     private static void executeCommand(command command) {
         //null safe on thinnna
         if (command == null) return;
 
         if (command.walkAction != null) {
+            boolean[] executeKeyCodeBoardWalk = new boolean[4];
             switch (command.walkAction) {
-                case walkforward:
+                case forward:
                     //image a wall full of switches, each switch corresponds to a button on a keyboard
                     // if you switch the 0-th switch the player presses w and so on
                     executeKeyCodeBoardWalk[0] = true;
@@ -142,43 +132,43 @@ public class keyControlService extends Service {
                     executeKeyCodeBoardWalk[2] = false;
                     executeKeyCodeBoardWalk[3] = false;
                     break;
-                case walkright:
+                case right:
                     executeKeyCodeBoardWalk[0] = false;
                     executeKeyCodeBoardWalk[1] = true;
                     executeKeyCodeBoardWalk[2] = false;
                     executeKeyCodeBoardWalk[3] = false;
                     break;
-                case walkleft:
+                case left:
                     executeKeyCodeBoardWalk[0] = false;
                     executeKeyCodeBoardWalk[1] = false;
                     executeKeyCodeBoardWalk[2] = true;
                     executeKeyCodeBoardWalk[3] = false;
                     break;
-                case walkback:
+                case back:
                     executeKeyCodeBoardWalk[0] = false;
                     executeKeyCodeBoardWalk[1] = false;
                     executeKeyCodeBoardWalk[2] = false;
                     executeKeyCodeBoardWalk[3] = true;
                     break;
-                case walkforwardLeft:
+                case forwardLeft:
                     executeKeyCodeBoardWalk[0] = true;
                     executeKeyCodeBoardWalk[1] = false;
                     executeKeyCodeBoardWalk[2] = true;
                     executeKeyCodeBoardWalk[3] = false;
                     break;
-                case walkforwardRight:
+                case forwardRight:
                     executeKeyCodeBoardWalk[0] = true;
                     executeKeyCodeBoardWalk[1] = true;
                     executeKeyCodeBoardWalk[2] = false;
                     executeKeyCodeBoardWalk[3] = false;
                     break;
-                case walkbackLeft:
+                case backLeft:
                     executeKeyCodeBoardWalk[0] = false;
                     executeKeyCodeBoardWalk[1] = false;
                     executeKeyCodeBoardWalk[2] = true;
                     executeKeyCodeBoardWalk[3] = true;
                     break;
-                case walkbackRight:
+                case backRight:
                     executeKeyCodeBoardWalk[0] = false;
                     executeKeyCodeBoardWalk[1] = true;
                     executeKeyCodeBoardWalk[2] = false;
@@ -187,7 +177,8 @@ public class keyControlService extends Service {
             }
             clickWalkButtonsAccordingToBoard(executeKeyCodeBoardWalk);
         } else if (command.handAction != null) {
-            switch (currentExecutedCommand.handAction) {
+            boolean[] executeKeyCodeBoardHand = new boolean[2];
+            switch (command.handAction) {
                 case punch:
                     executeKeyCodeBoardHand[0] = true;
                     executeKeyCodeBoardHand[1] = false;
@@ -208,29 +199,29 @@ public class keyControlService extends Service {
         if (command == null) return;
 
         if (command.walkAction != null) {
-            if (command.walkAction.equals(action.walk.walkforward)) {
+            if (command.walkAction.equals(action.walk.forward)) {
                 KeyBinding.setKeyBindState(forwardKeyCode, false);
-            } else if (command.walkAction.equals(action.walk.walkright)) {
+            } else if (command.walkAction.equals(action.walk.right)) {
                 KeyBinding.setKeyBindState(rightKeyCode, false);
-            } else if (command.walkAction.equals(action.walk.walkleft)) {
+            } else if (command.walkAction.equals(action.walk.left)) {
                 KeyBinding.setKeyBindState(leftKeyCode, false);
-            } else if (command.walkAction.equals(action.walk.walkback)) {
+            } else if (command.walkAction.equals(action.walk.back)) {
                 KeyBinding.setKeyBindState(backKeyCode, false);
-            } else if (command.walkAction.equals(action.walk.walkforwardLeft)) {
+            } else if (command.walkAction.equals(action.walk.forwardLeft)) {
                 KeyBinding.setKeyBindState(forwardKeyCode, false);
                 KeyBinding.setKeyBindState(leftKeyCode, false);
-            } else if (command.walkAction.equals(action.walk.walkforwardRight)) {
+            } else if (command.walkAction.equals(action.walk.forwardRight)) {
                 KeyBinding.setKeyBindState(forwardKeyCode, false);
                 KeyBinding.setKeyBindState(rightKeyCode, false);
-            } else if (command.walkAction.equals(action.walk.walkbackLeft)) {
+            } else if (command.walkAction.equals(action.walk.backLeft)) {
                 KeyBinding.setKeyBindState(backKeyCode, false);
                 KeyBinding.setKeyBindState(leftKeyCode, false);
-            } else if (command.walkAction.equals(action.walk.walkbackRight)) {
+            } else if (command.walkAction.equals(action.walk.backRight)) {
                 KeyBinding.setKeyBindState(backKeyCode, false);
                 KeyBinding.setKeyBindState(rightKeyCode, false);
             }
         } else if (command.handAction != null) {
-            if (currentExecutedCommand.handAction == action.hand.punch) {
+            if (command.handAction == action.hand.punch) {
                 KeyBinding.setKeyBindState(attackKeyCode, false);
             }
         } else {
@@ -269,7 +260,5 @@ public class keyControlService extends Service {
     }
 
     @Override
-    public void stop() {
-        finished = true;
-    }
+    public void stop() {}
 }

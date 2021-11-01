@@ -12,6 +12,7 @@ import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.Multichoise
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.SliderSetting;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
+import io.github.kingstefan26.stefans_util.util.InlineCompiler;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -34,14 +35,22 @@ public class newFrameWorkTest extends basicModule {
 
     @Override
     public void onLoad(){
-        checkSetting1 = new CheckSetting("check test", this, false);
-        new SliderNoDecimalSetting("SliderNoDecimalSetting test", this, 10, 1, 50);
-        new SliderSetting("SliderSetting test", this, 10.0D, 1, 50);
+        checkSetting1 = new CheckSetting("check test", this, false, (newvalue)->{
+
+        });
+        new SliderNoDecimalSetting("SliderNoDecimalSetting test", this, 10, 1, 50, (newvalue)->{
+
+        });
+        new SliderSetting("SliderSetting test", this, 10.0D, 1, 50, (newvalue)->{
+
+        });
         new MultichoiseSetting("MultichoiseSetting test", this, "test1", new ArrayList<String>() {{
             add("test0");
             add("test1");
             add("test2");
-        }});
+        }}, (newvalue)->{
+
+        });
         super.onLoad();
     }
     CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);

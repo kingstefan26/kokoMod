@@ -5,14 +5,17 @@ import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basi
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.AbstractSetting;
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.SettingsCore;
 
+import java.util.function.Consumer;
+
 public class CheckSetting extends AbstractSetting {
 
-    public CheckSetting(String name, basicModule parentModule, boolean deafultValue) {
-        super(name, parentModule, SettingsCore.type.check);
+
+    public CheckSetting(String name, basicModule parentModule, boolean deafultValue, Consumer<Object> callback) {
+        super(name, parentModule, SettingsCore.type.check, callback);
         this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
     }
-    public CheckSetting(String name, basicModule parentModule, boolean deafultValue, String comment) {
-        super(name, parentModule, SettingsCore.type.check);
+    public CheckSetting(String name, basicModule parentModule, boolean deafultValue,Consumer<Object> callback, String comment) {
+        super(name, parentModule, SettingsCore.type.check, callback);
         this.comment = comment;
         this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
     }
@@ -23,5 +26,6 @@ public class CheckSetting extends AbstractSetting {
 
     public void setValue(boolean value){
         this.ConfigObject.setBooleanValue(value);
+        this.callback.accept(value);
     }
 }

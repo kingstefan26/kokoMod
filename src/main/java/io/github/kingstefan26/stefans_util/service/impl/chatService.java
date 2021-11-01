@@ -102,6 +102,7 @@ public class chatService extends Service {
         MinecraftForge.EVENT_BUS.post(event);
         if (!event.isCanceled()) {
             Minecraft.getMinecraft().thePlayer.addChatMessage(event.message);
+//            Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(event.message);
         }
     }
 

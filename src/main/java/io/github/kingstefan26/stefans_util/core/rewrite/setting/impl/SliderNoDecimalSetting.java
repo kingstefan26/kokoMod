@@ -5,19 +5,21 @@ import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basi
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.AbstractSetting;
 import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.SettingsCore;
 
+import java.util.function.Consumer;
+
 public class SliderNoDecimalSetting extends AbstractSetting {
     int min;
 
     int max;
 
-    public SliderNoDecimalSetting(String name, basicModule parentModule, int deafultValue, int min, int max) {
-        super(name, parentModule, SettingsCore.type.sliderNoDecimal);
+    public SliderNoDecimalSetting(String name, basicModule parentModule, int deafultValue, int min, int max, Consumer<Object> callback) {
+        super(name, parentModule, SettingsCore.type.sliderNoDecimal, callback);
         this.min = min;
         this.max = max;
         this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
     }
-    public SliderNoDecimalSetting(String name, basicModule parentModule, int deafultValue, int min, int max, String comment) {
-        super(name, parentModule, SettingsCore.type.sliderNoDecimal);
+    public SliderNoDecimalSetting(String name, basicModule parentModule, int deafultValue, int min, int max,Consumer<Object> callback, String comment) {
+        super(name, parentModule, SettingsCore.type.sliderNoDecimal, callback);
         this.min = min;
         this.max = max;
         this.comment = comment;
@@ -30,6 +32,7 @@ public class SliderNoDecimalSetting extends AbstractSetting {
     public void setValue(int value){
         if (!(value >= max)) {
             this.ConfigObject.setIntValue(value);
+            this.callback.accept(value);
         }
     }
 

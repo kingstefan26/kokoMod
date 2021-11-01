@@ -3,17 +3,20 @@ package io.github.kingstefan26.stefans_util.core.rewrite.setting.general;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 
+import java.util.function.Consumer;
+
 public class AbstractSetting {
     protected String name;
     protected basicModule parent;
     protected configObject ConfigObject;
     protected SettingsCore.type type;
     protected String comment;
-
-    public AbstractSetting(String name, basicModule parentModule, SettingsCore.type type) {
+    protected final Consumer<Object> callback;
+    public AbstractSetting(String name, basicModule parentModule, SettingsCore.type type, Consumer<Object> callback) {
         this.name = name;
         this.parent = parentModule;
         this.type = type;
+        this.callback = callback;
         if(SettingsCore.getSettingsCore().doesSettingExist(name)) throw new IllegalStateException("Name is already registered");
         addToSettingsCore();
     }

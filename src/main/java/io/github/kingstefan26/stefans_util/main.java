@@ -4,6 +4,7 @@ import io.github.kingstefan26.stefans_util.core.commands.commandRegistry;
 import io.github.kingstefan26.stefans_util.core.config.confgValueType;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.kokoMod;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.webModules;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
 import io.github.kingstefan26.stefans_util.util.ShaderResourcePack;
 import io.github.kingstefan26.stefans_util.util.renderUtil.updateWidowTitle;
@@ -37,7 +38,7 @@ public class main {
     public static main instance;
 
     @Nonnull
-    private ShaderResourcePack dummyPack = new ShaderResourcePack();
+    private final ShaderResourcePack dummyPack = new ShaderResourcePack();
 
     public static final Logger logger = LogManager.getLogger("main-kokomod");
 
@@ -52,14 +53,16 @@ public class main {
 
     @EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
-//        Thread t = new Thread(() -> {while (true) {}});
-//        t.setName("COCK-CLIENT");
-//        t.start();
+        (new webModules()).init();
+        (new serviceMenager()).start();
+
+//        (new Thread(() -> {
+//            Thread.currentThread().setName("myThread");
+//        })).start();
 
 //        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 //        scheduledExecutorService.shutdown();
 
-        (new serviceMenager()).start();
 
 
         ProgressManager.ProgressBar progressBar = ProgressManager.push("kokomod", 2);
@@ -75,7 +78,7 @@ public class main {
         }
         ProgressManager.pop(progressBar);
 
-        for(CommandBase a : new commandRegistry().simpleCommands){
+        for(CommandBase a : (new commandRegistry()).simpleCommands){
             ClientCommandHandler.instance.registerCommand(a);
         }
         updateWidowTitle.updateTitle("Kokoclient V69.420");

@@ -1,6 +1,9 @@
 package io.github.kingstefan26.stefans_util.core.rewrite.setting.general;
 
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.main;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.Objects;

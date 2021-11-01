@@ -1,6 +1,5 @@
 package io.github.kingstefan26.stefans_util.core.rewrite.clickGui.components;
 
-import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
@@ -30,7 +29,6 @@ public class newFrame {
     int tY = this.barHeight;
 
     public newFrame(moduleManager.Category cat) {
-
         this.components = new ArrayList<>();
         this.category = cat;
         this.width = 84;
@@ -39,10 +37,8 @@ public class newFrame {
         this.open = false;
         this.isDragging = false;
 
-        xConfig = new configObject(cat + "newframeX", "frame x", x);
-        yConfig = new configObject(cat + "newframeY", "frame y", y);
-        configMenager.getConfigManager().createConfigObject(xConfig);
-        configMenager.getConfigManager().createConfigObject(yConfig);
+        xConfig = new configObject(cat + "newframeX", "new frame x", x);
+        yConfig = new configObject(cat + "newframeY", "new frame y", y);
 
         this.x = xConfig.getIntValue();
         this.y = yConfig.getIntValue();

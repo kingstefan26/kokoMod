@@ -11,22 +11,22 @@ import java.util.ArrayList;
 
 public class moduleRegistery {
     public static moduleRegistery moduleRegistery_;
+
     public static moduleRegistery getModuleRegistery() {
-        if(moduleRegistery_ == null) moduleRegistery_ = new moduleRegistery();
+        if (moduleRegistery_ == null) moduleRegistery_ = new moduleRegistery();
         return moduleRegistery_;
     }
 
     private final Logger logger;
     public ArrayList<String> productionModuleIndex;
-    public ArrayList<basicModule> loadedModules;
+    public static ArrayList<basicModule> loadedModules = new ArrayList<>();
 
     {
         logger = LogManager.getLogger("kokomod-moduleRegistry");
     }
 
-    public void initRegistry(){
+    public void initRegistry() {
         productionModuleIndex = new ArrayList<>();
-        loadedModules = new ArrayList<>();
         loadModuleNames();
         loadModules();
     }
@@ -34,22 +34,34 @@ public class moduleRegistery {
 
     public void loadModules() {
         productionModuleIndex = removeDuplicates(productionModuleIndex);
-        try{
+        try {
             productionModuleIndex = removeDuplicates(productionModuleIndex);
-            for(String moduleclassname : productionModuleIndex){
-                try{
+            for (String moduleclassname : productionModuleIndex) {
+                try {
                     Class<?> clazz = Class.forName(moduleclassname);
-                    Constructor<?> ctor = clazz.getConstructor();
-                    Object object = ctor.newInstance();
-                    loadedModules.add((basicModule) object);
-                    ((basicModule) object).onLoad();
-                    logger.info("loaded module: "+ ((basicModule) object).getName());
-                }catch(Exception e){
+                    boolean exists = false;
+                    for (basicModule bm : loadedModules) {
+                        if (bm.getClass() == clazz) {
+                            exists = true;
+                            logger.info("module " + bm.getName() + " was already loaded (probably web module)");
+                            break;
+                        }
+                    }
+
+                    if (!exists) {
+                        Constructor<?> ctor = clazz.getConstructor();
+                        Object object = ctor.newInstance();
+                        ((basicModule) object).onLoad();
+                        logger.info("loaded module: " + ((basicModule) object).getName());
+                    }
+
+                } catch (Exception e) {
                     logger.warn("Failed to load debug module " + moduleclassname);
                     e.printStackTrace();
                 }
             }
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
     /**
@@ -68,33 +80,34 @@ public class moduleRegistery {
     /**
      * IM NOT DOCUMENTIGN THIS SHIT HAHA LLL
      */
-    private void loadModuleNames(){
+    private void loadModuleNames() {
         ArrayList<String> clazzlist = new ArrayList<>();
-        try{
+        try {
             final ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
             for (final ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClasses()) {
                 if (info.getName().startsWith("io.github.kingstefan26.stefans_util.module")) {
                     final Class<?> clazz = info.load();
-                    if(basicModule.class.isAssignableFrom(clazz)) {
-                        if(!clazzlist.contains(clazz.getName())){
-                            logger.info("found module: "+ clazz.getName());
+                    if (basicModule.class.isAssignableFrom(clazz)) {
+                        if (!clazzlist.contains(clazz.getName())) {
+                            logger.info("found module: " + clazz.getName());
                             clazzlist.add(clazz.getName());
                         }
                     }
                 }
             }
 
-        }catch(Exception ignored){}
+        } catch (Exception ignored) {
+        }
 
         clazzlist = removeDuplicates(clazzlist);
         productionModuleIndex.addAll(clazzlist);
     }
 
-    public ArrayList<basicModule> getModulesInCategory(moduleManager.Category c){
+    public ArrayList<basicModule> getModulesInCategory(moduleManager.Category c) {
         ArrayList<basicModule> a = new ArrayList<>();
-        for(basicModule m : loadedModules){
-            if(m.getCategory() == c){
+        for (basicModule m : loadedModules) {
+            if (m.getCategory() == c) {
                 a.add(m);
             }
         }
