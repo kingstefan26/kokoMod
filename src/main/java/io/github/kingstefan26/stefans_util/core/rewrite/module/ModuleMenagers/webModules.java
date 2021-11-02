@@ -36,85 +36,79 @@ public class webModules {
             this.id = id;
         }
     }
-
     static class MasterResourceObject {
         public moduleJsonObject[] moduleJsonObject;
-        public codeResourceObject[] codeResourceObjects;
-
+        public ArrayList<codeResourceObject> codeResourceObjects;
     }
-
-
-
-
-
-
-
-
 
     int counter = 0;
     public void init() {
-        Future<moduleJsonObject[]> future =
-                Executors.newSingleThreadExecutor().submit(() -> {
-                    Gson gson = new Gson();
-                    return gson.fromJson(APIHandler.downloadTextFromUrl(remoteModuleResourcesURL), moduleJsonObject[].class);
-                });
-        moduleJsonObject[] moduleJsonObjectArray = new moduleJsonObject[0];
-        try {
-            moduleJsonObjectArray = future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+//        Future<moduleJsonObject[]> future =
+//                Executors.newSingleThreadExecutor().submit(() -> {
+//                    Gson gson = new Gson();
+//                    return gson.fromJson(APIHandler.downloadTextFromUrl(remoteModuleResourcesURL), moduleJsonObject[].class);
+//                });
+//        moduleJsonObject[] moduleJsonObjectArray = new moduleJsonObject[0];
+//        try {
+//            moduleJsonObjectArray = future.get();
+//        } catch (InterruptedException | ExecutionException e) {
+//            e.printStackTrace();
+//        }
 
 
 
         ExecutorService s = Executors.newSingleThreadExecutor();
         //non-blocking resource downloading
         util.submit(s,() -> {
-            final MasterResourceObject masterResourceObject = new MasterResourceObject();
+            long start = System.currentTimeMillis();logger.info("Downloading web assets");
+            MasterResourceObject masterResourceObject = new MasterResourceObject();
             Gson gson = new Gson();
+
+            logger.info("Downloading main json file");
             masterResourceObject.moduleJsonObject = gson.fromJson(APIHandler.downloadTextFromUrl(remoteModuleResourcesURL), moduleJsonObject[].class);
             ArrayList<codeResourceObject> codeResourceObjects = new ArrayList<>();
+            logger.info("Downloading resource files");
             for(moduleJsonObject m : masterResourceObject.moduleJsonObject){
                 codeResourceObjects.add(new codeResourceObject(m.classLocation, APIHandler.downloadTextFromUrl(m.classLocation)));
+                logger.info("Downloaded " + m.classpath);
             }
+            masterResourceObject.codeResourceObjects = codeResourceObjects;
+
+            long stop = System.currentTimeMillis();logger.info("finished downloading web assets in " + (stop - start) + "ms, loaded " + masterResourceObject.codeResourceObjects.size() + " objects");
             return masterResourceObject;
         }, (MasterResourceObject) -> {
+            try {
+                long start = System.currentTimeMillis();
 
-        });
+                logger.info("Starting web load");
 
+                logger.info("found " + MasterResourceObject.moduleJsonObject.length + " module/s in the repo");
+                totalDepList.add("core:" + main.VERSION);
+                loadedWebClasses.add("core:" + main.VERSION);
+                for (moduleJsonObject mjo : MasterResourceObject.moduleJsonObject) {
+                    totalDepList.add(mjo.classpath);
 
+                    boolean isMissingADep = CheckForMissingDep(mjo);
 
-        try {
-            long start = System.currentTimeMillis();
-
-            logger.info("Starting web load");
-
-            logger.info("found " + moduleJsonObjectArray.length + " module/s in the repo");
-            totalDepList.add("core:" + main.VERSION);
-            loadedWebClasses.add("core:" + main.VERSION);
-            for (moduleJsonObject mjo : moduleJsonObjectArray) {
-                totalDepList.add(mjo.classpath);
-
-                boolean isMissingADep = CheckForMissingDep(mjo);
-
-                if(!isMissingADep){
-                    loadModuleFormThing(mjo);
-                    loadedWebClasses.add(mjo.classpath);
-                }else{
-                    missingDependencyWebClasses.add(mjo);
+                    if(!isMissingADep){
+                        loadModuleFormThing(mjo);
+                        loadedWebClasses.add(mjo.classpath);
+                    }else{
+                        missingDependencyWebClasses.add(mjo);
+                    }
                 }
-            }
 
-            if(!missingDependencyWebClasses.isEmpty()){
-                recheckClasses();
-            }
+                if(!missingDependencyWebClasses.isEmpty()){
+                    recheckClasses();
+                }
 
-            long stop = System.currentTimeMillis();
-            logger.info("finished loading web modules in " + (stop - start) + "ms, loaded " + counter + " module/s");
-        } catch (Exception e) {
-            logger.error("Something bad happened", e);
-            e.printStackTrace();
-        }
+                long stop = System.currentTimeMillis();
+                logger.info("finished loading web modules in " + (stop - start) + "ms, loaded " + counter + " module/s");
+            } catch (Exception e) {
+                logger.error("Something bad happened", e);
+                e.printStackTrace();
+            }
+        });
     }
 
 
