@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.module.Module;
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.inputLockerService;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -17,8 +17,7 @@ public class keyMouselocktest extends Module {
     }
     @Override
     public void onEnable(){
-        inputLockerService.unlockkey = Keyboard.KEY_L;
-        inputLockerService.locked = true;
+        inputLockerService.lock(Keyboard.KEY_L, () -> {});
         super.onEnable();
     }
     @SubscribeEvent

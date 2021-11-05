@@ -1,9 +1,9 @@
 package io.github.kingstefan26.stefans_util.module.macro.wart.oldshit;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.Module;
-import io.github.kingstefan26.stefans_util.core.setting.Setting;
-import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
+import io.github.kingstefan26.stefans_util.core.preRewrite.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.module.macro.util.macroStages;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;

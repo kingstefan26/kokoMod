@@ -1,10 +1,10 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub;
+package io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.components.sub;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
-import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.Component;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.components.Button;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
 
-public class PersistenceButton extends Component { // Remove this class if you don't want it (it's kinda useless)
+public class VisibleButton extends Component { // Remove this class if you don't want it (it's kinda useless)
 
 	private boolean hovered;
 	private Button parent;
@@ -12,8 +12,8 @@ public class PersistenceButton extends Component { // Remove this class if you d
 	private int x;
 	private int y;
 	private Module mod;
-
-	public PersistenceButton(Button button, Module mod, int offset) {
+	
+	public VisibleButton(Button button, Module mod, int offset) {
 		this.parent = button;
 		this.mod = mod;
 		this.x = button.parent.getX() + button.parent.getWidth();
@@ -38,7 +38,7 @@ public class PersistenceButton extends Component { // Remove this class if you d
 //				(parent.parent.getY() + offset + 2) * 2 + 5,
 //				-1);
 		this.p1.drawString(
-				"presisnant: " + mod.isPresident(),
+				"Visible: " + mod.getVisibility(),
 				(parent.parent.getX() + 7) * 2,
 				(parent.parent.getY() + offset - 3) * 2,
 				-1);
@@ -55,7 +55,7 @@ public class PersistenceButton extends Component { // Remove this class if you d
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
 		if(isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-			mod.togglePresistance();
+			mod.toggleVisibility();
 		}
 	}
 	

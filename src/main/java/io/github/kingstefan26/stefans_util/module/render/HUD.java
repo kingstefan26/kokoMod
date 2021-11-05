@@ -1,13 +1,13 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.Module;
-import io.github.kingstefan26.stefans_util.core.module.moduleRegistery;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.decoratorInterface;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.visibleDecorator;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.core.setting.Setting;
-import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
+import io.github.kingstefan26.stefans_util.core.preRewrite.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

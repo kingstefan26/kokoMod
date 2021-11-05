@@ -1,8 +1,8 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub;
+package io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.components.sub;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
-import io.github.kingstefan26.stefans_util.core.setting.Setting;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.Component;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.components.Button;
+import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

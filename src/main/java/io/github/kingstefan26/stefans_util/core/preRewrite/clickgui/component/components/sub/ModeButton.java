@@ -1,23 +1,30 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub;
+package io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.components.sub;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
-import org.lwjgl.input.Keyboard;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.Component;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.components.Button;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
 
-public class Keybind extends Component {
+public class ModeButton extends Component {
 
 	private boolean hovered;
-	private boolean binding;
 	private Button parent;
+	private Setting set;
 	private int offset;
 	private int x;
 	private int y;
+	private Module mod;
+
+	private int modeIndex;
 	
-	public Keybind(Button button, int offset) {
+	public ModeButton(Setting set, Button button, Module mod, int offset) {
+		this.set = set;
 		this.parent = button;
+		this.mod = mod;
 		this.x = button.parent.getX() + button.parent.getWidth();
 		this.y = button.parent.getY() + button.offset;
 		this.offset = offset;
+		modeIndex = set.getOptions().indexOf(set.getValString());
 	}
 	
 	@Override
@@ -32,12 +39,12 @@ public class Keybind extends Component {
 //		GL11.glPushMatrix();
 //		GL11.glScalef(0.5f,0.5f, 0.5f);
 //		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(
-//				binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getKey())),
+//				"Mode: " + set.getValString(),
 //				(parent.parent.getX() + 7) * 2,
 //				(parent.parent.getY() + offset + 2) * 2 + 5,
 //				-1);
-		this.p1.drawString(
-				binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getKey())),
+		this.c.drawString(
+				"Mode: " + set.getValString(),
 				(parent.parent.getX()+ 7) * 2,
 				(parent.parent.getY()+ offset - 3) * 2,
 				-1);
@@ -54,18 +61,14 @@ public class Keybind extends Component {
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
 		if(isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-			this.binding = !this.binding;
-		}
-	}
-	
-	@Override
-	public void keyTyped(char typedChar, int key) {
-		if(this.binding) {
-			if(key == 1){
-				this.binding = false;
+			int maxIndex = set.getOptions().size() - 1;
+			if(modeIndex >= maxIndex) {
+				modeIndex = 0;
+			} else {
+				modeIndex++;
 			}
-			this.parent.mod.setKey(key);
-			this.binding = false;
+
+			set.setValString(set.getOptions().get(modeIndex));
 		}
 	}
 	

@@ -1,4 +1,4 @@
-package io.github.kingstefan26.stefans_util.core.module;
+package io.github.kingstefan26.stefans_util.core.preRewrite.module;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;

@@ -1,10 +1,10 @@
 package io.github.kingstefan26.stefans_util.module.macro.wart.oldshit;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.main;
-import io.github.kingstefan26.stefans_util.core.module.Module;
-import io.github.kingstefan26.stefans_util.core.setting.Setting;
-import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
+import io.github.kingstefan26.stefans_util.core.preRewrite.setting.SettingsManager;
 import io.github.kingstefan26.stefans_util.module.macro.util.cropType;
 import io.github.kingstefan26.stefans_util.module.render.lastLeftOff;
 import io.github.kingstefan26.stefans_util.module.macro.util.macroStages;
@@ -198,8 +198,8 @@ public class wartMacroVerticalDesign extends Module {
 				return;
 			}
 		}
-		if(lastLeftOff.getLastleftoffObject() != null) {
-			macroWalkStage = lastLeftOff.getLastleftoffObject().getMacroStage();
+		if(lastLeftOff.getLastLeftOff().getLastleftoffObject() != null) {
+			macroWalkStage = lastLeftOff.getLastLeftOff().getLastleftoffObject().getMacroStage();
 		}else{
 			macroWalkStage = macroStages.RIGHT;
 		}

@@ -1,9 +1,9 @@
-package io.github.kingstefan26.stefans_util.core.clickgui;
+package io.github.kingstefan26.stefans_util.core.preRewrite.clickgui;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Frame;
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.Component;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.Frame;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 

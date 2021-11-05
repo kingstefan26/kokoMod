@@ -1,6 +1,6 @@
-package io.github.kingstefan26.stefans_util.core.setting;
+package io.github.kingstefan26.stefans_util.core.preRewrite.setting;
 
-import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
 
 import java.util.ArrayList;
 

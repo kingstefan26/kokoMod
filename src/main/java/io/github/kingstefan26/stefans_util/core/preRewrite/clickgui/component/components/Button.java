@@ -1,13 +1,13 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component.components;
+package io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.components;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Component;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.Frame;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub.Checkbox;
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.sub.*;
-import io.github.kingstefan26.stefans_util.core.module.Module;
-import io.github.kingstefan26.stefans_util.core.setting.Setting;
-import io.github.kingstefan26.stefans_util.core.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.Component;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.Frame;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.components.sub.Checkbox;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.components.sub.*;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
+import io.github.kingstefan26.stefans_util.core.preRewrite.setting.SettingsManager;
 
 import java.awt.*;
 import java.util.ArrayList;

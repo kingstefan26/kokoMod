@@ -1,10 +1,10 @@
-package io.github.kingstefan26.stefans_util.core.clickgui.component;
+package io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.component.components.Button;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.component.components.Button;
 import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.gui.FontRenderer;
 

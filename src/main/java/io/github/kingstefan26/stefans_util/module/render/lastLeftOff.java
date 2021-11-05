@@ -1,9 +1,9 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
 import io.github.kingstefan26.stefans_util.core.config.configObject;
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.main;
-import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
 import io.github.kingstefan26.stefans_util.module.macro.util.cropType;
 import io.github.kingstefan26.stefans_util.module.macro.util.macroStages;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
@@ -20,7 +20,7 @@ import static io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline.dra
 
 
 public class lastLeftOff extends Module {
-	public static lastleftoffObject LastLeftOff;
+	private static lastleftoffObject LastLeftOff;
 	public static lastLeftOff LastLeftOffinstance;
 
 	public static lastLeftOff getLastLeftOff(){
@@ -58,8 +58,6 @@ public class lastLeftOff extends Module {
 		public macroStages getMacroStage(){return this.lastStage;}
 	}
 
-
-
 	configObject x;
 	configObject y;
 	configObject z;
@@ -84,7 +82,7 @@ public class lastLeftOff extends Module {
 
 		if(x.getDoubleValue() != 0.0F){
 			if(time.getDoubleValue() != 0.5F){
-				lastleftoffObject temp = new lastleftoffObject(
+				 final lastleftoffObject temp = new lastleftoffObject(
 						(float) x.getDoubleValue(),
 						(float) y.getDoubleValue(),
 						(float) z.getDoubleValue(),
@@ -93,7 +91,7 @@ public class lastLeftOff extends Module {
 						(long) time.getDoubleValue());
 				registerLastLeftOff(temp);
 			}else{
-				lastleftoffObject temp2 = new lastleftoffObject(
+				final lastleftoffObject temp2 = new lastleftoffObject(
 						(float) x.getDoubleValue(),
 						(float) y.getDoubleValue(),
 						(float) z.getDoubleValue(),
@@ -119,7 +117,9 @@ public class lastLeftOff extends Module {
 		//float x,float y,float z,cropType type, macroStages macroStage, long time
 	}
 
-	public static lastleftoffObject getLastleftoffObject(){return LastLeftOff;}
+	public lastleftoffObject getLastleftoffObject(){
+		return LastLeftOff;
+	}
 
 	public static void nullLastLeftOff() {
 		LastLeftOff = null;

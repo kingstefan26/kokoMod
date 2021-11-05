@@ -1,26 +1,31 @@
 package io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers;
 
 import com.google.gson.Gson;
+import io.github.kingstefan26.stefans_util.core.globals;
+import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.main;
 import io.github.kingstefan26.stefans_util.util.InlineCompiler;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;
 import io.github.kingstefan26.stefans_util.util.util;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-import java.util.ArrayList;
-import java.util.ListIterator;
-import java.util.Objects;
-import java.util.concurrent.*;
+import java.util.*;
 
 public class webModules {
     Logger logger = LogManager.getLogger("webModules");
     static final String remoteModuleResourcesURL = "https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/modules.json";
-    ArrayList<String> loadedWebClasses = new ArrayList<>();
-    ArrayList<moduleJsonObject> missingDependencyWebClasses = new ArrayList<>();
+    ArrayList<String> loadedClasses = new ArrayList<>();
+    ArrayList<moduleJsonObject> missingDependencyClasses = new ArrayList<>();
     ArrayList<String> totalDepList = new ArrayList<>();
+
+    public webModules(){
+        MinecraftForge.EVENT_BUS.register(this);
+    }
 
     static class moduleJsonObject {
         public String type;
@@ -28,92 +33,92 @@ public class webModules {
         public String classLocation;
         public String[] dependecies;
     }
-    static class codeResourceObject {
-        public String id;
-        public String code;
-        public codeResourceObject(String id, String code){
-            this.code = code;
-            this.id = id;
-        }
-    }
     static class MasterResourceObject {
         public moduleJsonObject[] moduleJsonObject;
-        public ArrayList<codeResourceObject> codeResourceObjects;
+        public HashMap<String, String> codeResources = new HashMap<>();
+    }
+
+    @SubscribeEvent
+    public void onRepoReload(mainRepoManager.customRepoReloadedEvent e){
+        init(mainRepoManager.getMainRepoManager().getMainrepoobject().webModulesURL.getAsString());
+    }
+
+    public void init(){
+        init(remoteModuleResourcesURL);
     }
 
     int counter = 0;
-    public void init() {
-//        Future<moduleJsonObject[]> future =
-//                Executors.newSingleThreadExecutor().submit(() -> {
-//                    Gson gson = new Gson();
-//                    return gson.fromJson(APIHandler.downloadTextFromUrl(remoteModuleResourcesURL), moduleJsonObject[].class);
-//                });
-//        moduleJsonObject[] moduleJsonObjectArray = new moduleJsonObject[0];
-//        try {
-//            moduleJsonObjectArray = future.get();
-//        } catch (InterruptedException | ExecutionException e) {
-//            e.printStackTrace();
-//        }
+    public void init(final String repourl) {
 
+//        ExecutorService s = Executors.newSingleThreadExecutor();
 
+        //blocking resource downloading bc i need to load the modules on the main thread
+        //BUT i cant signal download finished to the main thread so sad
+        util.submitSync(() -> {
 
-        ExecutorService s = Executors.newSingleThreadExecutor();
-        //non-blocking resource downloading
-        util.submit(s,() -> {
             long start = System.currentTimeMillis();logger.info("Downloading web assets");
             MasterResourceObject masterResourceObject = new MasterResourceObject();
             Gson gson = new Gson();
 
             logger.info("Downloading main json file");
-            masterResourceObject.moduleJsonObject = gson.fromJson(APIHandler.downloadTextFromUrl(remoteModuleResourcesURL), moduleJsonObject[].class);
-            ArrayList<codeResourceObject> codeResourceObjects = new ArrayList<>();
+            masterResourceObject.moduleJsonObject = gson.fromJson(APIHandler.downloadTextFromUrl(repourl), moduleJsonObject[].class);
             logger.info("Downloading resource files");
             for(moduleJsonObject m : masterResourceObject.moduleJsonObject){
-                codeResourceObjects.add(new codeResourceObject(m.classLocation, APIHandler.downloadTextFromUrl(m.classLocation)));
-                logger.info("Downloaded " + m.classpath);
+                if (m.dependecies.length == 0) {
+                    logger.info("THIS SHOULD NOT BE EMPTY SMHHHH");
+                    FMLCommonHandler.instance().exitJava(1, true);
+                }
+                masterResourceObject.codeResources.put(m.classLocation, APIHandler.downloadTextFromUrl(m.classLocation));
+                logger.info("Downloaded " + m.classLocation);
             }
-            masterResourceObject.codeResourceObjects = codeResourceObjects;
+            long stop = System.currentTimeMillis();
+            logger.info("finished downloading web assets in " + (stop - start) + "ms, loaded " + (masterResourceObject.codeResources.size() + 1) + " objects");
 
-            long stop = System.currentTimeMillis();logger.info("finished downloading web assets in " + (stop - start) + "ms, loaded " + masterResourceObject.codeResourceObjects.size() + " objects");
             return masterResourceObject;
         }, (MasterResourceObject) -> {
             try {
                 long start = System.currentTimeMillis();
 
                 logger.info("Starting web load");
-
                 logger.info("found " + MasterResourceObject.moduleJsonObject.length + " module/s in the repo");
-                totalDepList.add("core:" + main.VERSION);
-                loadedWebClasses.add("core:" + main.VERSION);
+                totalDepList.add(globals.COREVERISON);
+                loadedClasses.add(globals.COREVERISON);
                 for (moduleJsonObject mjo : MasterResourceObject.moduleJsonObject) {
                     totalDepList.add(mjo.classpath);
 
                     boolean isMissingADep = CheckForMissingDep(mjo);
 
                     if(!isMissingADep){
-                        loadModuleFormThing(mjo);
-                        loadedWebClasses.add(mjo.classpath);
+                        loadModuleFormThing(mjo, MasterResourceObject);
+                        loadedClasses.add(mjo.classpath);
                     }else{
-                        missingDependencyWebClasses.add(mjo);
+                        missingDependencyClasses.add(mjo);
                     }
                 }
 
-                if(!missingDependencyWebClasses.isEmpty()){
-                    recheckClasses();
+                if(!missingDependencyClasses.isEmpty()){
+                    recheckClasses(MasterResourceObject);
                 }
 
                 long stop = System.currentTimeMillis();
                 logger.info("finished loading web modules in " + (stop - start) + "ms, loaded " + counter + " module/s");
+
+
             } catch (Exception e) {
                 logger.error("Something bad happened", e);
-                e.printStackTrace();
             }
         });
     }
 
 
-    private void recheckClasses(){
-        ListIterator<moduleJsonObject> iter = missingDependencyWebClasses.listIterator();
+    private void recheckClasses(MasterResourceObject master){
+
+        long start = System.currentTimeMillis();
+        long stop = System.currentTimeMillis();
+        logger.info("finished isthinfthen that  in " + (stop - start));
+
+        ListIterator<moduleJsonObject> iter = missingDependencyClasses.listIterator();
+
         while(iter.hasNext()){
             moduleJsonObject mjo = iter.next();
 
@@ -129,22 +134,23 @@ public class webModules {
                 iter.remove();
             }else{
                 if(!CheckForMissingDep(mjo)){
-                    loadModuleFormThing(mjo);
-                    loadedWebClasses.add(mjo.classpath);
+                    loadModuleFormThing(mjo, master);
+                    loadedClasses.add(mjo.classpath);
                     iter.remove();
                 }
             }
         }
 
-        if(!missingDependencyWebClasses.isEmpty()) {
-            recheckClasses();
+        if(!missingDependencyClasses.isEmpty()) {
+            recheckClasses(master);
         }
     }
 
     private boolean CheckForMissingDep(moduleJsonObject moduleJsonObject){
+        if(moduleJsonObject == null) throw new NullPointerException("WHY IS THIS NULL !!!!!!");
         boolean isMissing = false;
         for(String dependency : moduleJsonObject.dependecies){
-            if (!loadedWebClasses.contains(dependency)) {
+            if (!loadedClasses.contains(dependency)) {
                 isMissing = true;
                 break;
             }
@@ -152,16 +158,28 @@ public class webModules {
         return isMissing;
     }
 
-    private void loadModuleFormThing(moduleJsonObject moduleJsonObject){
+    private String getResourceFromMasterObject(String resourceUrl, MasterResourceObject master){
+        for (Map.Entry<String, String> entry : master.codeResources.entrySet()) {
+            if(Objects.equals(entry.getKey(), resourceUrl)){
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
+    private void loadModuleFormThing(moduleJsonObject moduleJsonObject, MasterResourceObject master){
         logger.info("loading " + moduleJsonObject.classpath);
         if(Objects.equals(moduleJsonObject.type, "module")){
             try {
-                final basicModule m = (basicModule) InlineCompiler.compileAndReturnObject(moduleJsonObject.classpath, APIHandler.downloadTextFromUrl(moduleJsonObject.classLocation));
-                if (m != null) {
-                    m.onLoad();
-                    moduleRegistery.loadedModules.add(m);
-                    logger.info("successfully loaded " + m.getName());
-                    counter++;
+                String resource = getResourceFromMasterObject(moduleJsonObject.classLocation, master);
+                if (resource != null) {
+                    final basicModule m = (basicModule) InlineCompiler.compileAndReturnObject(moduleJsonObject.classpath, resource);
+                    if (m != null) {
+                        m.onLoad();
+                        moduleRegistery.loadedModules.add(m);
+                        logger.info("successfully loaded " + m.getName());
+                        counter++;
+                    }
                 }
             } catch (Exception e) {
                 logger.info("failed to load " + moduleJsonObject.classpath);
@@ -169,9 +187,12 @@ public class webModules {
             }
         }else if (Objects.equals(moduleJsonObject.type, "util")){
             try {
-                final Object m = InlineCompiler.compileAndReturnObject(moduleJsonObject.classpath, APIHandler.downloadTextFromUrl(moduleJsonObject.classLocation));
-                logger.info("successfully loaded " + Objects.requireNonNull(m).getClass().getName());
-                counter++;
+                String resource = getResourceFromMasterObject(moduleJsonObject.classLocation, master);
+                if (resource != null) {
+                    final Object m = InlineCompiler.compileAndReturnObject(moduleJsonObject.classpath, resource);
+                    logger.info("successfully loaded " + Objects.requireNonNull(m).getClass().getName());
+                    counter++;
+                }
             } catch (Exception e) {
                 logger.info("failed to load " + moduleJsonObject.classpath);
                 e.printStackTrace();

@@ -11,6 +11,7 @@ import io.github.kingstefan26.stefans_util.module.macro.util.util;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.inputLockerService;
+import io.github.kingstefan26.stefans_util.service.impl.keyControlService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
@@ -103,7 +104,6 @@ public class UniversalWartMacro extends basicModule {
 
     @Override
     public void onLoad() {
-
         new MultichoiseSetting("version", this, "vertical design", new ArrayList<String>() {{
             add("vertical design");
             add("horizontal with pads");
@@ -111,19 +111,10 @@ public class UniversalWartMacro extends basicModule {
         }}, (newvalue) -> {
 
         });
-        new SliderNoDecimalSetting("yaw", this, 90, 0, 180, (newvalue) -> {
-            wantedYaw = (int) newvalue;
-        });
-        new SliderNoDecimalSetting("pitch", this, 9, 0, 90, (newvalue) -> {
-            wantedPitch = (int) newvalue;
-        });
-        new CheckSetting("perfect head rotation", this, true, (newvalue) -> {
-            perfectHeadRotation = (boolean) newvalue;
-        });
-
-        new CheckSetting("experimental gui", this, false, (onUpdateCallbackValue) -> {
-            experimentalGuiFlag = (boolean) onUpdateCallbackValue;
-        });
+        new SliderNoDecimalSetting("yaw", this, 90, 0, 180, (newvalue) -> wantedYaw = (int) newvalue);
+        new SliderNoDecimalSetting("pitch", this, 9, 0, 90, (newvalue) -> wantedPitch = (int) newvalue);
+        new CheckSetting("perfect head rotation", this, true, (newvalue) -> perfectHeadRotation = (boolean) newvalue);
+        new CheckSetting("experimental gui", this, false, (onUpdateCallbackValue) -> experimentalGuiFlag = (boolean) onUpdateCallbackValue);
 
         super.onLoad();
     }
@@ -134,18 +125,17 @@ public class UniversalWartMacro extends basicModule {
         double viewerX = viewer.lastTickPosX + (viewer.posX - viewer.lastTickPosX) * event.partialTicks;
         double viewerY = viewer.lastTickPosY + (viewer.posY - viewer.lastTickPosY) * event.partialTicks;
         double viewerZ = viewer.lastTickPosZ + (viewer.posZ - viewer.lastTickPosZ) * event.partialTicks;
-        Vec3 pos3;
-        Vec3 pos4;
-        pos3 = new Vec3(viewerX, viewerY, viewerZ);
-        pos4 = new Vec3(viewerX, viewerY + 1, viewerZ);
 
-        GlStateManager.disableDepth();
         GlStateManager.disableCull();
-        GlStateManager.disableTexture2D();
-        draw3Dline.draw3DLine(pos3, pos4, 0xffffff, 5, false, event.partialTicks);
-        GlStateManager.disableLighting();
-        GlStateManager.enableDepth();
-        GlStateManager.enableTexture2D();
+
+        draw3Dline.draw3DLine(new Vec3(viewerX, viewerY, viewerZ),
+                new Vec3(viewerX, viewerY + 1, viewerZ),
+                0xffffff,
+                5,
+                false,
+                event.partialTicks);
+
+        GlStateManager.enableCull();
     }
 
     @SubscribeEvent
@@ -200,7 +190,6 @@ public class UniversalWartMacro extends basicModule {
 */
 
         isMacroingReady = playerYaw == wantedYaw && playerPitch == wantedPitch;
-        //isMacroingReady = true;
 
         if (isMacroingReady) {
             preMacroRoutine();
@@ -221,8 +210,7 @@ public class UniversalWartMacro extends basicModule {
             guiCloseGrace = false;
             mc.displayGuiScreen(macroMenu);
         }
-        inputLockerService.enable();
-        inputLockerService.unlockkey = localDecoratorManager.keyBindDecorator.keybind.getKeyCode();
+        inputLockerService.lock(localDecoratorManager.keyBindDecorator.keybind.getKeyCode(), this::toggle);
     }
 
     private void MacroRoutine() {
@@ -240,6 +228,7 @@ public class UniversalWartMacro extends basicModule {
                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), true);
                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
+                keyControlService.submitCommandASYNC(new keyControlService.command(200, false,keyControlService.action.walk.left));
                 break;
             case RIGHT:
                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);

@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.debug.test;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
 import io.github.kingstefan26.stefans_util.module.render.lastLeftOff;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import net.minecraft.util.BlockPos;

@@ -15,16 +15,28 @@ public class inputLockerService extends Service {
         super("inputLocker");
     }
 
-    public static boolean locked;
-    public static int unlockkey;
+    private static boolean locked;
+    public static boolean getLockStatus(){
+        return locked;
+    }
+    private static int unlockkey;
+    private static Runnable callback;
 
 
-    public static void disable() {
+    public static void unlock() {
         locked = false;
     }
 
-    public static void enable() {
+    public static void lock() {
         KeyBinding.unPressAllKeys();
+        inputLockerService.callback = null;
+        locked = true;
+    }
+
+    public static void lock(int unLockKey,Runnable callback) {
+        KeyBinding.unPressAllKeys();
+        inputLockerService.callback = callback;
+        unlockkey = unLockKey;
         locked = true;
     }
 
@@ -44,11 +56,14 @@ public class inputLockerService extends Service {
                 while (Keyboard.next()) {
                     if (Keyboard.isKeyDown(unlockkey)) {
                         locked = false;
-                        MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.clickedUnlockKeyEvent());
+                        if (callback == null) {
+                            MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.clickedUnlockKeyEvent());
+                        }else{
+                            callback.run();
+                        }
                     }
                 }
-                while (Mouse.next()) {
-                }
+                while (Mouse.next()) {}
             }
         }
     }
@@ -59,7 +74,5 @@ public class inputLockerService extends Service {
     }
 
     @Override
-    public void stop() {
-
-    }
+    public void stop() {}
 }

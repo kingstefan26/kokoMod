@@ -1,4 +1,4 @@
-package io.github.kingstefan26.stefans_util.core.module;
+package io.github.kingstefan26.stefans_util.core.preRewrite.module;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

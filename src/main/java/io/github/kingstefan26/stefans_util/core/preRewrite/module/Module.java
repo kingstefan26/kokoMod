@@ -1,6 +1,6 @@
-package io.github.kingstefan26.stefans_util.core.module;
+package io.github.kingstefan26.stefans_util.core.preRewrite.module;
 
-import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.client.Minecraft;

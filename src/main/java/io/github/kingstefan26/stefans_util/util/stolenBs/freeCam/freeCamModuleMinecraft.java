@@ -1,10 +1,13 @@
 package io.github.kingstefan26.stefans_util.util.stolenBs.freeCam;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -14,6 +17,41 @@ import org.lwjgl.input.Keyboard;
 
 public class freeCamModuleMinecraft extends Module {
     public static int timeout = 0;
+
+
+    public class FakeClientPlayer extends EntityLivingBase {
+
+        public FakeClientPlayer(World world) {
+            super(world);//, "fakeClientPlayer");
+        }
+
+        @Override
+        public ItemStack getHeldItem() {
+            return null;
+        }
+
+        @Override
+        public ItemStack getEquipmentInSlot(int slotIn) {
+            return null;
+        }
+
+        @Override
+        public ItemStack getCurrentArmor(int slotIn) {
+            return null;
+        }
+
+        @Override
+        public void setCurrentItemOrArmor(int slotIn, ItemStack stack) {
+
+        }
+
+        @Override
+        public ItemStack[] getInventory() {
+            return new ItemStack[0];
+        }
+
+    }
+
 
     FakeClientPlayer fakePlayer = null;
     static int x, y, z;
@@ -83,27 +121,27 @@ public class freeCamModuleMinecraft extends Module {
     @SubscribeEvent
     public void onPreRenderGame(RenderGameOverlayEvent.Pre event) {
 
-            if (fakePlayer == null) {
-                fakePlayer = new FakeClientPlayer(Minecraft.getMinecraft().thePlayer.getEntityWorld());
-            }
+        if (fakePlayer == null) {
+            fakePlayer = new FakeClientPlayer(Minecraft.getMinecraft().thePlayer.getEntityWorld());
+        }
 
-            // set position and angles; note that posY is not altered but camera still correct:
-            fakePlayer.setLocationAndAngles(x, y, z, Minecraft.getMinecraft().thePlayer.rotationYaw, Minecraft.getMinecraft().thePlayer.rotationPitch);
+        // set position and angles; note that posY is not altered but camera still correct:
+        fakePlayer.setLocationAndAngles(x, y, z, Minecraft.getMinecraft().thePlayer.rotationYaw, Minecraft.getMinecraft().thePlayer.rotationPitch);
 
-            // set previous values to prevent camera from freaking out:
-            fakePlayer.prevRotationPitch = prevpitch;
-            fakePlayer.prevRotationYaw = prevyaw;
-            fakePlayer.rotationYawHead = Minecraft.getMinecraft().thePlayer.rotationYawHead;
-            fakePlayer.prevPosX = prevx;
-            fakePlayer.prevPosY = prevy;
-            fakePlayer.prevPosZ = prevz;
-            mc.setRenderViewEntity(fakePlayer);
+        // set previous values to prevent camera from freaking out:
+        fakePlayer.prevRotationPitch = prevpitch;
+        fakePlayer.prevRotationYaw = prevyaw;
+        fakePlayer.rotationYawHead = Minecraft.getMinecraft().thePlayer.rotationYawHead;
+        fakePlayer.prevPosX = prevx;
+        fakePlayer.prevPosY = prevy;
+        fakePlayer.prevPosZ = prevz;
+        mc.setRenderViewEntity(fakePlayer);
 
-            prevx = x;
-            prevy = y;
-            prevz = z;
-            prevpitch = mc.thePlayer.rotationPitch;
-            prevyaw = mc.thePlayer.rotationYaw;
+        prevx = x;
+        prevy = y;
+        prevz = z;
+        prevpitch = mc.thePlayer.rotationPitch;
+        prevyaw = mc.thePlayer.rotationYaw;
 
     }
 

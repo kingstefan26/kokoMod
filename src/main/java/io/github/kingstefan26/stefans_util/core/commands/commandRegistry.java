@@ -1,13 +1,13 @@
 package io.github.kingstefan26.stefans_util.core.commands;
 
-import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
+import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
+import io.github.kingstefan26.stefans_util.module.render.lastLeftOff;
+import io.github.kingstefan26.stefans_util.service.Service;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.notificationService;
-import io.github.kingstefan26.stefans_util.service.Service;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
 import io.github.kingstefan26.stefans_util.util.CalendarUtils;
-import io.github.kingstefan26.stefans_util.util.InlineCompiler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
@@ -19,43 +19,38 @@ import net.minecraftforge.fml.common.ModContainer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.kingstefan26.stefans_util.module.render.lastLeftOff.getLastLeftOff;
 
 
 public class commandRegistry {
-    public static ArrayList<CommandBase> simpleCommands;
-
-    public commandRegistry() {
-        simpleCommands = new ArrayList<>();
-        simpleCommands.add(new SimpleCommand("kokomod", new SimpleCommand.ProcessCommandRunnable() {
+    public static ArrayList<CommandBase> simpleCommands = new ArrayList<CommandBase>() {{
+        add(new SimpleCommand("kokomod", new SimpleCommand.ProcessCommandRunnable() {
             public void processCommand(ICommandSender sender, String[] args) {
                 chatService.queueClientChatMessage("funny that you ask", chatService.chatEnum.CHATPREFIX);
             }
         }));
-        simpleCommands.add(new SimpleCommand("lastleftoffdebug", new SimpleCommand.ProcessCommandRunnable() {
+        add(new SimpleCommand("lastleftoffdebug", new SimpleCommand.ProcessCommandRunnable() {
             @Override
             public void processCommand(ICommandSender sender, String[] args) {
                 ArrayList<String> messeges = new ArrayList<>();
-                if (getLastLeftOff().getLastleftoffObject() == null) {
+                if (lastLeftOff.getLastLeftOff().getLastleftoffObject() == null) {
                     messeges.add("error getting last left off object");
                     return;
+
                 } else {
-                    messeges.add("x :" + getLastLeftOff().getLastleftoffObject().getX());
-                    messeges.add("y :" + getLastLeftOff().getLastleftoffObject().getY());
-                    messeges.add("z :" + getLastLeftOff().getLastleftoffObject().getZ());
-                    messeges.add("Crop type :" + getLastLeftOff().getLastleftoffObject().getCropType().toString());
-                    messeges.add("time :" + CalendarUtils.ConvertMilliSecondsToFormattedDate(getLastLeftOff().getLastleftoffObject().getTime()));
-                    messeges.add("macro stage :" + getLastLeftOff().getLastleftoffObject().getMacroStage().toString());
+                    messeges.add("x :" + lastLeftOff.getLastLeftOff().getLastleftoffObject().getX());
+                    messeges.add("y :" + lastLeftOff.getLastLeftOff().getLastleftoffObject().getY());
+                    messeges.add("z :" + lastLeftOff.getLastLeftOff().getLastleftoffObject().getZ());
+                    messeges.add("Crop type :" + lastLeftOff.getLastLeftOff().getLastleftoffObject().getCropType().toString());
+                    messeges.add("time :" + CalendarUtils.ConvertMilliSecondsToFormattedDate(lastLeftOff.getLastLeftOff().getLastleftoffObject().getTime()));
+                    messeges.add("macro stage :" + lastLeftOff.getLastLeftOff().getLastleftoffObject().getMacroStage().toString());
                 }
                 messeges.forEach(a -> chatService.queueClientChatMessage(a, chatService.chatEnum.DEBUG));
             }
         }));
-        simpleCommands.add(new SimpleCommand("listmods", new SimpleCommand.ProcessCommandRunnable() {
+        add(new SimpleCommand("listmods", new SimpleCommand.ProcessCommandRunnable() {
             @Override
             public void processCommand(ICommandSender sender, String[] args) {
-                Loader.instance().getActiveModList().forEach(a -> {
-                    chatService.queueClientChatMessage("Mod id: " + a.getModId(), chatService.chatEnum.DEBUG);
-                });
+                Loader.instance().getActiveModList().forEach(a -> chatService.queueClientChatMessage("Mod id: " + a.getModId(), chatService.chatEnum.DEBUG));
                 List<ModContainer> c = Loader.instance().getModList();
 //                c.forEach(a -> chat.queueClientChatMessage("Mod id: " + a.getModId(), chat.chatEnum.DEBUG));
                 for (ModContainer abc : c) {
@@ -65,7 +60,7 @@ public class commandRegistry {
             }
         }));
 
-        simpleCommands.add(new SimpleCommand("push", new SimpleCommand.ProcessCommandRunnable() {
+        add(new SimpleCommand("push", new SimpleCommand.ProcessCommandRunnable() {
             @Override
             public void processCommand(ICommandSender sender, String[] args) {
 
@@ -76,7 +71,7 @@ public class commandRegistry {
                 }
             }
         }));
-        simpleCommands.add(new SimpleCommand("KokoModPrivacyPolicy", new SimpleCommand.ProcessCommandRunnable() {
+        add(new SimpleCommand("KokoModPrivacyPolicy", new SimpleCommand.ProcessCommandRunnable() {
             @Override
             public void processCommand(ICommandSender sender, String[] args) {
                 Minecraft.getMinecraft().displayGuiScreen(new GuiScreen() {
@@ -109,7 +104,7 @@ public class commandRegistry {
             }
         }));
 
-        simpleCommands.add(new SimpleCommand("iAMfacing", new SimpleCommand.ProcessCommandRunnable() {
+        add(new SimpleCommand("iAMfacing", new SimpleCommand.ProcessCommandRunnable() {
             boolean between(float variable, float minValueInclusive, float maxValueInclusive) {
                 return variable >= minValueInclusive && variable <= maxValueInclusive;
             }
@@ -142,7 +137,7 @@ public class commandRegistry {
             }
         }));
 
-        simpleCommands.add(new SimpleCommand("ServicesStatus", new SimpleCommand.ProcessCommandRunnable() {
+        add(new SimpleCommand("ServicesStatus", new SimpleCommand.ProcessCommandRunnable() {
             @Override
             public void processCommand(ICommandSender sender, String[] args) {
                 chatService.queueCleanChatMessage("============= KOKOMOD SERVICES =============");
@@ -168,12 +163,6 @@ public class commandRegistry {
                 chatService.queueCleanChatMessage("============================================");
             }
         }));
+    }};
 
-//        simpleCommands.add(new SimpleCommand("dynamicloadtest", new SimpleCommand.ProcessCommandRunnable() {
-//            @Override
-//            public void processCommand(ICommandSender sender, String[] args) {
-//                InlineCompiler.main();
-//            }
-//        }));
-    }
 }

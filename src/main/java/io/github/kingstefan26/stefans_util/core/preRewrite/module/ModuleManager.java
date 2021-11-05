@@ -1,7 +1,7 @@
-package io.github.kingstefan26.stefans_util.core.module;
+package io.github.kingstefan26.stefans_util.core.preRewrite.module;
 
 import io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui;
-import io.github.kingstefan26.stefans_util.core.clickgui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.ClickGui;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
