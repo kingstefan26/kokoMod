@@ -1,7 +1,5 @@
 package io.github.kingstefan26.stefans_util.core;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
 import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.ClickGui;
@@ -26,15 +24,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import static io.github.kingstefan26.stefans_util.main.debug;
-
 public class kokoMod {
 	Logger logger = LogManager.getLogger("kokoMod-Main");
-	public static HashMap<String, String> alowedUsers = new HashMap<>();
 	static boolean isAllowedToPlay = true;
 
 	public static kokoMod instance;
@@ -139,52 +130,21 @@ public class kokoMod {
 
 	@SubscribeEvent
 	public void onreporeload(mainRepoManager.repoReloadedEvent e){
-		alowedUsers.clear();
-
-		JsonObject data = mainRepoManager.getMainRepoManager().getMainrepoobject().allowedUsers;
-
-		Set<Map.Entry<String, JsonElement>> entrySet = data.entrySet();
-		for(Map.Entry<String,JsonElement> entry : entrySet){
-			alowedUsers.put(entry.getKey(), entry.getValue().getAsString());
-		}
-		if(debug) logger.info("current user uuid: " + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
-		isAllowedToPlay = alowedUsers.containsValue(Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
-		if(debug){
-			logger.info("Whitelisted users:");
-			alowedUsers.forEach((K, V)  -> logger.info(K + " uuid:" + V));
-		}
-	}
-
-//	public static void refreshRepoInit(Logger logger, ProgressManager.ProgressBar progressBar) {
 //		alowedUsers.clear();
-//		progressBar.step("(1/2) Downloading allowed users");
-//		data = APIHandler.getResponse("https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/data.json");
-//		if(debug) logger.info(data != null && data.has("alowed") ? "loaded data from github" : "failed to load data from github");
-//		progressBar.step("(2/2) Parsing allowed users");
-//		Set<Map.Entry<String, JsonElement>> entrySet = data.get("alowed").getAsJsonObject().entrySet();
+//
+//		JsonObject data = mainRepoManager.getMainRepoManager().getMainrepoobject().allowedUsers;
+//
+//		Set<Map.Entry<String, JsonElement>> entrySet = data.entrySet();
 //		for(Map.Entry<String,JsonElement> entry : entrySet){
 //			alowedUsers.put(entry.getKey(), entry.getValue().getAsString());
 //		}
-//
 //		if(debug) logger.info("current user uuid: " + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
-//
 //		isAllowedToPlay = alowedUsers.containsValue(Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
-//
 //		if(debug){
 //			logger.info("Whitelisted users:");
 //			alowedUsers.forEach((K, V)  -> logger.info(K + " uuid:" + V));
 //		}
-//	}
-
-
-//	public static void checkWhitelist() {
-//		JsonObject data = APIHandler.getResponse("http://auth.kingstefan26.workers.dev/?uuid=" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
-//		try{
-//			System.out.println("AAAAAAAAAAAAA " + data.toString());
-//		}catch (Exception e){
-//			e.printStackTrace();
-//		}
-//	}
+	}
 
 
 	@SubscribeEvent

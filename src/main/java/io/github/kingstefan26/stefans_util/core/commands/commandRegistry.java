@@ -1,5 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.commands;
 
+import io.github.kingstefan26.stefans_util.core.newConfig.fileCache.cacheManager;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
 import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
 import io.github.kingstefan26.stefans_util.module.render.lastLeftOff;
@@ -21,7 +22,8 @@ import java.util.List;
 
 
 
-public class commandRegistry {
+public class
+commandRegistry {
     public static ArrayList<CommandBase> simpleCommands = new ArrayList<CommandBase>() {{
         add(new SimpleCommand("kokomod", new SimpleCommand.ProcessCommandRunnable() {
             public void processCommand(ICommandSender sender, String[] args) {
@@ -161,6 +163,13 @@ public class commandRegistry {
 
                 }
                 chatService.queueCleanChatMessage("============================================");
+            }
+        }));
+        add(new SimpleCommand("purgeCache", new SimpleCommand.ProcessCommandRunnable() {
+            public void processCommand(ICommandSender sender, String[] args) {
+                chatService.queueClientChatMessage("purging cache ", chatService.chatEnum.CHATPREFIX);
+                int a = cacheManager.getInstance().clearCache();
+                chatService.queueClientChatMessage("cleaned " + a + " objects from cache", chatService.chatEnum.CHATPREFIX);
             }
         }));
     }};

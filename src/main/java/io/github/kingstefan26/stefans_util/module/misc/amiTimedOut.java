@@ -1,16 +1,14 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
-import java.io.IOException;
 
 public class amiTimedOut extends Module {
 	private long checkTimer;
@@ -41,7 +39,7 @@ public class amiTimedOut extends Module {
 					super.drawScreen(mouseX, mouseY, partialTicks);
 				}
     			@Override
-				protected void actionPerformed(GuiButton button) throws IOException {
+				protected void actionPerformed(GuiButton button) {
 					if (button.id == 0) {
 						mc.thePlayer.closeScreen();
 					}
@@ -62,11 +60,8 @@ public class amiTimedOut extends Module {
 
 	@SubscribeEvent
 	public void onKeepAlivePacet(stefan_utilEvents.receivedKeepAlivePacketEvent e){
-//		sendChatMessage.sendClientMessage("keep alive packet pog???", false);
 		checkTimer = System.currentTimeMillis();
-
 	}
-
 
 
 	@Override

@@ -7,16 +7,14 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class APIHandler {
@@ -26,23 +24,21 @@ public class APIHandler {
     }
 
     public static String downloadTextFromUrl(final String URL) throws IOException {
-        String line = "", all = "";
-        URL myUrl = null;
+        String output;
         BufferedReader in = null;
         try {
-            myUrl = new URL(URL);
-            in = new BufferedReader(new InputStreamReader(myUrl.openStream()));
+            URL myUrl = new URL(URL);
+            in = new BufferedReader(new InputStreamReader(myUrl.openStream(), StandardCharsets.UTF_8));
 
-            while ((line = in.readLine()) != null) {
-                all += line;
-            }
+            output = IOUtils.toString(in);
+
         } finally {
             if (in != null) {
                 in.close();
             }
         }
 
-        return all;
+        return output;
     }
 
 
@@ -78,11 +74,11 @@ public class APIHandler {
                 } else if (urlString.startsWith("https://api.mojang.com/users/profiles/minecraft/") && conn.getResponseCode() == 204) {
                     logger.warn("Failed with reason: Player does not exist.");
                 } else {
-                    logger.warn("Request "+ urlString +" failed. HTTP Error Code: " + conn.getResponseCode());
+                    logger.warn("Request " + urlString + " failed. HTTP Error Code: " + conn.getResponseCode());
                 }
             }
         } catch (IOException ex) {
-            logger.warn( "An error has occured. See logs for more details.");
+            logger.warn("An error has occured. See logs for more details.");
             ex.printStackTrace();
         }
 
@@ -112,10 +108,10 @@ public class APIHandler {
 
                 return gson.fromJson(response.toString(), JsonArray.class);
             } else {
-                player.addChatMessage(new ChatComponentText( "Request failed. HTTP Error Code: " + conn.getResponseCode()));
+                player.addChatMessage(new ChatComponentText("Request failed. HTTP Error Code: " + conn.getResponseCode()));
             }
         } catch (IOException ex) {
-            player.addChatMessage(new ChatComponentText( "An error has occured. See logs for more details."));
+            player.addChatMessage(new ChatComponentText("An error has occured. See logs for more details."));
             ex.printStackTrace();
         }
 
@@ -136,11 +132,11 @@ public class APIHandler {
         JsonObject profilesResponse = getResponse("https://api.hypixel.net/skyblock/profiles?uuid=" + UUID + "&key=" + key);
         if (!profilesResponse.get("success").getAsBoolean()) {
             String reason = profilesResponse.get("cause").getAsString();
-            player.addChatMessage(new ChatComponentText( "Failed with reason: " + reason));
+            player.addChatMessage(new ChatComponentText("Failed with reason: " + reason));
             return null;
         }
         if (profilesResponse.get("profiles").isJsonNull()) {
-            player.addChatMessage(new ChatComponentText( "This player doesn't appear to have played SkyBlock."));
+            player.addChatMessage(new ChatComponentText("This player doesn't appear to have played SkyBlock."));
             return null;
         }
 

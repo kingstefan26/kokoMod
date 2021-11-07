@@ -2,17 +2,14 @@ package io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers;
 
 import com.google.gson.Gson;
 import io.github.kingstefan26.stefans_util.core.globals;
-import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
+import io.github.kingstefan26.stefans_util.core.newConfig.fileCache.webCache;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.util.InlineCompiler;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;
 import io.github.kingstefan26.stefans_util.util.util;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 import java.util.*;
 
@@ -23,13 +20,16 @@ public class webModules {
     ArrayList<moduleJsonObject> missingDependencyClasses = new ArrayList<>();
     ArrayList<String> totalDepList = new ArrayList<>();
 
-    public webModules(){
-        MinecraftForge.EVENT_BUS.register(this);
+    private static webModules webModules_;
+    public static webModules getInstance(){
+        if(webModules_ == null) webModules_ = new webModules();
+        return webModules_;
     }
 
     static class moduleJsonObject {
         public String type;
         public String classpath;
+        public String md5;
         public String classLocation;
         public String[] dependecies;
     }
@@ -38,10 +38,6 @@ public class webModules {
         public HashMap<String, String> codeResources = new HashMap<>();
     }
 
-    @SubscribeEvent
-    public void onRepoReload(mainRepoManager.customRepoReloadedEvent e){
-        init(mainRepoManager.getMainRepoManager().getMainrepoobject().webModulesURL.getAsString());
-    }
 
     public void init(){
         init(remoteModuleResourcesURL);
@@ -68,7 +64,7 @@ public class webModules {
                     logger.info("THIS SHOULD NOT BE EMPTY SMHHHH");
                     FMLCommonHandler.instance().exitJava(1, true);
                 }
-                masterResourceObject.codeResources.put(m.classLocation, APIHandler.downloadTextFromUrl(m.classLocation));
+                masterResourceObject.codeResources.put(m.classLocation, webCache.downloadWithCaching(m.classLocation, m.md5));
                 logger.info("Downloaded " + m.classLocation);
             }
             long stop = System.currentTimeMillis();

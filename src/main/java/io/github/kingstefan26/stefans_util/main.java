@@ -4,6 +4,9 @@ import io.github.kingstefan26.stefans_util.core.commands.commandRegistry;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.globals;
 import io.github.kingstefan26.stefans_util.core.kokoMod;
+import io.github.kingstefan26.stefans_util.core.newConfig.configManagerz;
+import io.github.kingstefan26.stefans_util.core.newConfig.fileCache.cacheManager;
+import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.webModules;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
@@ -34,26 +37,35 @@ public class main {
     @Mod.Instance
     public static main instance;
 
+    public static final Logger logger = LogManager.getLogger("main-kokomod");
+
     @Nonnull
     private final ShaderResourcePack dummyPack = new ShaderResourcePack();
 
-    public static final Logger logger = LogManager.getLogger("main-kokomod");
-
     @SuppressWarnings("unchecked")
     public main() {
-        String a = System.getProperty("kokomod.debug", "false");
-        if (Objects.equals(a, "true")) {
-            debug = true;
-        }
         ((List<IResourcePack>) ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "field_110449_ao", "defaultResourcePacks")).add(dummyPack);
     }
 
     @EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
 //        TOKENTHELOG.TOKENTHELoG();
-        (new webModules()).init();
+        configManagerz.getInstance();
+        cacheManager.getInstance().init();
+
+
+        //FMLCommonHandler.instance().exitJava(1, false);
+
+        new webModules();
+        authmenager.getInstance().start();
+
+        mainRepoManager.getMainRepoManager().startup(authmenager.getInstance().getCashedAuthObject().configurl);
+        if(Objects.equals(authmenager.getInstance().getCashedAuthObject().status, "dev")){
+            debug = true;
+        }
+
         (new serviceMenager()).start();
-        mainRepoManager.getMainRepoManager().startup();
+
 
 
 //        curl -X POST -H "Content-Type: application/json" -d'{
@@ -79,7 +91,7 @@ public class main {
         for (CommandBase a : commandRegistry.simpleCommands) {
             ClientCommandHandler.instance.registerCommand(a);
         }
-        updateWidowTitle.updateTitle("Kokoclient V69.420");
+        updateWidowTitle.updateTitle("Kokoclient V69.420 | " + authmenager.getInstance().getCashedAuthObject().status);
         kokoMod.getkokoMod().init();
 
         // Add our dummy resourcepack

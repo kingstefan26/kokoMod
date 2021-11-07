@@ -49,6 +49,13 @@ public class UniversalWartMacro extends basicModule {
     private boolean playerTeleported;
 
     private boolean playerFallen;
+
+    public UniversalWartMacro() {
+        super("UniversalWartMacro", "macros wart", moduleManager.Category.MACRO,
+                new keyBindDecorator("wartMacro")
+        );
+    }
+
     Runnable reCheckMacroSteps = (() -> {
         if (playerTeleported) {
             playerTeleported = false;
@@ -72,22 +79,18 @@ public class UniversalWartMacro extends basicModule {
         }
         this.logger.info(macroWalkStage);
     });
+
     private boolean guiCloseGrace;
     private int playerYaw;
     private int playerPitch;
     private int fallCounter;
+
     Runnable reCheckSpeed = (() -> {
         playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
         if (mc.thePlayer.posY - mc.thePlayer.lastTickPosY < 0) {
             playerfallCallBack();
         }
     });
-
-    public UniversalWartMacro() {
-        super("UniversalWartMacro", "macros wart", moduleManager.Category.MACRO,
-                new keyBindDecorator("wartMacro")
-        );
-    }
 
     public static float getYaw() {
         float yaw = mc.thePlayer.rotationYawHead;
