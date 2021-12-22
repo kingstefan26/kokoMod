@@ -1,18 +1,18 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraftforge.fml.common.LoadController;
 import net.minecraftforge.fml.common.Loader;
 
 import java.lang.reflect.Field;
 
-public class vanillaspofer extends Module {
+public class vanillaspofer extends basicModule {
 
     //Lnet/minecraftforge/fml/common/Loader;mods:Ljava/util/List;
     public  vanillaspofer(){
-        super("vanillaspofer", "cock and bones", ModuleManager.Category.MISC);
+        super("vanillaspofer", "cock and bones", moduleManager.Category.MISC);
     }
 
     @Override

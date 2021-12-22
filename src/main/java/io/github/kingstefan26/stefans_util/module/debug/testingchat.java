@@ -1,16 +1,17 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
-import io.github.kingstefan26.stefans_util.service.impl.chatService;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 
-public class testingchat extends Module {
+public class testingchat extends basicModule {
     public testingchat() {
-        super("test", "test", ModuleManager.Category.DEBUG);
+        super("test", "test", moduleManager.Category.DEBUG);
     }
+
     @Override
-    public void onEnable(){
-        chatService.queueClientChatMessage("hello luvs", chatService.chatEnum.CHATPREFIX);
+    public void onEnable() {
+
+
         this.toggle();
     }
 }

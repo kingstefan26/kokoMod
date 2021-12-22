@@ -2,11 +2,11 @@ package io.github.kingstefan26.stefans_util.module.render;
 
 import com.google.common.base.Throwables;
 import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
 import io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui;
-import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
-import io.github.kingstefan26.stefans_util.core.preRewrite.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.presistanceDecorator;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.SliderNoDecimalSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.shader.Shader;
@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class blurClickGui extends Module {
+public class blurClickGui extends basicModule {
     public static blurClickGui blurClickGui_;
     public static blurClickGui getBlurClickGui(){
         if(blurClickGui_ == null) blurClickGui_ = new blurClickGui();
@@ -37,24 +37,21 @@ public class blurClickGui extends Module {
 
     @Override
     public void onLoad(){
-        SettingsManager.getSettingsManager().rSetting(new Setting("radius", this, 12, 0 ,50,true));
-        SettingsManager.getSettingsManager().rSetting(new Setting("fadetime", this, 150, 0 ,1000,true));
+        new SliderNoDecimalSetting("radius", this ,12, 0, 50, (newval) -> {
+            radius = (int) newval;
+        });
+
+        new SliderNoDecimalSetting("fadetime", this, 150, 0, 1000, (newval) -> {
+            fadeTime = (int) newval;
+        });
+
         super.onLoad();
     }
 
 
     public blurClickGui(){
-        super("blurClickGui", "adds nice blur to click gui", ModuleManager.Category.RENDER);
+        super("blurClickGui", "adds nice blur to click gui", moduleManager.Category.RENDER, new presistanceDecorator());
         blurClickGui_ = this;
-        this.presistanceEnabled = true;
-
-    }
-
-    @Override
-    public void onEnable(){
-        super.onEnable();
-        radius = SettingsManager.getSettingsManager().getSettingByName("radius", this).getValInt();
-        fadeTime = SettingsManager.getSettingsManager().getSettingByName("fadetime", this).getValInt();
     }
 
     @Override

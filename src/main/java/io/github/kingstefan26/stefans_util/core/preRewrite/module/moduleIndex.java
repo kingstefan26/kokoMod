@@ -74,7 +74,7 @@ public class moduleIndex {
 
         findAllclassNames();
 
-//        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.combat.LmbAutoCliker");
+//        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.misc.LmbAutoCliker");
 //        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.combat.RmbAutoCliker");
 //        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.macro.sugarCane.caneMacro");
 //        productionModuleIndex.add("io.github.kingstefan26.stefans_util.module.macro.wart.oldshit.wartMacro");

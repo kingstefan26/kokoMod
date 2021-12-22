@@ -1,9 +1,10 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
 import io.github.kingstefan26.stefans_util.core.config.configObject;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.presistanceDecorator;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.main;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
 import io.github.kingstefan26.stefans_util.module.macro.util.cropType;
 import io.github.kingstefan26.stefans_util.module.macro.util.macroStages;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
@@ -12,14 +13,15 @@ import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import static io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline.draw3DLine;
 
 
-public class lastLeftOff extends Module {
+public class lastLeftOff extends basicModule {
 	private static lastleftoffObject LastLeftOff;
 	public static lastLeftOff LastLeftOffinstance;
 
@@ -66,9 +68,8 @@ public class lastLeftOff extends Module {
 	configObject time;
 
 	public lastLeftOff() {
-		super("lastLeftOff", "shows where you last left a macro in current session", ModuleManager.Category.MISC);
+		super("lastLeftOff", "shows where you last left a macro in current session", moduleManager.Category.MISC, new presistanceDecorator());
 		LastLeftOffinstance = this;
-		this.presistanceEnabled = true;
 	}
 
 	@Override

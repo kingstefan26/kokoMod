@@ -1,14 +1,14 @@
 package io.github.kingstefan26.stefans_util.module.player;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class dynamicRender extends Module {
+public class dynamicRender extends basicModule {
     public dynamicRender(){
-        super("mgm", "mhm", ModuleManager.Category.DEBUG);
+        super("mgm", "mhm", moduleManager.Category.DEBUG);
     }
 
     int savedRenderDistance;

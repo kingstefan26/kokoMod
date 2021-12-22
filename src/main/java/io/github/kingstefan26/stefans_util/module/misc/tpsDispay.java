@@ -1,20 +1,19 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.onoffMessageDecorator;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class tpsDispay extends Module {
+public class tpsDispay extends basicModule {
     private long lastTick;
     private long tps = 0;
 
     public tpsDispay() {
-        super("tpsMeter", "displays the tsp", ModuleManager.Category.MISC, true);
-        this.enableMessage = "enabled tps display";
-        this.disableMessage = "disabled tps display";
+        super("tpsMeter", "displays the tsp", moduleManager.Category.MISC, new onoffMessageDecorator());
     }
 
     @SubscribeEvent

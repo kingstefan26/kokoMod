@@ -33,7 +33,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-public class UniversalWartMacro extends basicModule {
+public class
+UniversalWartMacro extends basicModule {
     public static final String chatprefix = "§d[Wart-Macro]§r ";
     double playerSpeed;
     ScheduledExecutorService scheduledExecutorService;

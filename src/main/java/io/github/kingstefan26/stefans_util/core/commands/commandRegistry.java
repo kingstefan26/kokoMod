@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.commands;
 
-import io.github.kingstefan26.stefans_util.core.newConfig.fileCache.cacheManager;
+import io.github.kingstefan26.stefans_util.core.newConfig.fileCacheing.cacheManager;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
 import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
 import io.github.kingstefan26.stefans_util.module.render.lastLeftOff;

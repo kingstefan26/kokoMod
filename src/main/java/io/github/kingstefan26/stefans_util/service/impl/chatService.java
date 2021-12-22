@@ -2,17 +2,13 @@ package io.github.kingstefan26.stefans_util.service.impl;
 
 import io.github.kingstefan26.stefans_util.service.Service;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ChatLine;
-import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 
@@ -62,6 +58,7 @@ public class chatService extends Service {
     }
 
     public static void queueCleanChatMessage(String message) {
+        if (message == null) return;
         messageQueue.add(new message(message, chatEnum.CHATNOPREFIX));
     }
 

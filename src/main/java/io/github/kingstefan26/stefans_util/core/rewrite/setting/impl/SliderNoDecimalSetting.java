@@ -17,6 +17,7 @@ public class SliderNoDecimalSetting extends AbstractSetting {
         this.min = min;
         this.max = max;
         this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
+        setValue(getValue());
     }
     public SliderNoDecimalSetting(String name, basicModule parentModule, int deafultValue, int min, int max,Consumer<Object> callback, String comment) {
         super(name, parentModule, SettingsCore.type.sliderNoDecimal, callback);

@@ -15,6 +15,7 @@ public class MultichoiseSetting extends AbstractSetting {
         super(name, parentModule, SettingsCore.type.multiChoise, callback);
         this.possibleValues = possibleValues;
         this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
+        setValue(getValue());
     }
 
     public MultichoiseSetting(String name, basicModule parentModule, String deafultValue, ArrayList<String> possibleValues,Consumer<Object> callback, String comment) {

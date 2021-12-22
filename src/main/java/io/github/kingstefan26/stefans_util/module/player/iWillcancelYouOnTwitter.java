@@ -1,19 +1,19 @@
 package io.github.kingstefan26.stefans_util.module.player;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
-import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
 import io.github.kingstefan26.stefans_util.core.preRewrite.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.presistanceDecorator;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class iWillcancelYouOnTwitter extends Module {
+public class iWillcancelYouOnTwitter extends basicModule {
     private long lastSpam;
     private double speed;
     String[] cancelTexts = {"Breathing oxygen is a cannceble offence!",
@@ -21,14 +21,13 @@ public class iWillcancelYouOnTwitter extends Module {
             "Cwassh is gay!"};
     String randomText;
     public iWillcancelYouOnTwitter(){
-        super("twitterWhiteGirls", "white twitter girls are the downfall on society", ModuleManager.Category.PLAYER, true);
-        this.enableMessage = "iwillcancelyou enabled";
-        this.disableMessage = "iwillcancelyou disabled";
-
+        super("twitterWhiteGirls", "white twitter girls are the downfall on society", moduleManager.Category.PLAYER, new presistanceDecorator());
     }
     @Override
     public void onLoad(){
-        SettingsManager.getSettingsManager().rSetting(new Setting("cancel speed", this, 12, 1, 1000, true));
+        new SliderNoDecimalSetting("cancel speed", this, 12, 1, 100, (newval) -> {
+            speed = (double) newval;
+        });
         super.onLoad();
     }
 
@@ -43,10 +42,12 @@ public class iWillcancelYouOnTwitter extends Module {
             lastSpam = System.currentTimeMillis();
         }
     }
-    @SubscribeEvent
-    public void onWorldRender(RenderWorldLastEvent e){
+
+
+    @Override
+    public void onWorldRender(RenderWorldLastEvent e) {
+        super.onWorldRender(e);
         if(mc == null || mc.thePlayer == null || mc.theWorld == null) return;
-        Minecraft mc = Minecraft.getMinecraft();
         hehe.drawTextAtWorld(randomText, (float)mc.thePlayer.posX + 25, (float)mc.thePlayer.posY, (float)mc.thePlayer.posZ, Integer.parseInt("ff0000", 16), 0.10F, false, true, e.partialTicks);
     }
 

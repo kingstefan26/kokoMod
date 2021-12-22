@@ -1,0 +1,51 @@
+[20:33:11] [main/INFO] [cacheManager-kokomod]: cache directory/home/kokoniara/Documents/java/stefans_util/stefanUtil/cache
+[20:33:11] [main/INFO] [cacheManager-kokomod]: concluded reading cache files, loaded 0 objects
+[20:33:11] [main/INFO] [webcache-kokomod]: requested web caching url: https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/test.java
+[20:33:11] [main/INFO] [webcache-kokomod]: the resource was not in cache downloading
+[20:33:11] [Thread-2/INFO] [cacheManager-kokomod]: dumped 0 objects
+[20:33:11] [Thread-2/INFO] [cacheManager-kokomod]: concluded the file dump lmao
+[20:33:12] [main/INFO] [cacheManager-kokomod]: cache directory/home/kokoniara/Documents/java/stefans_util/stefanUtil/cache
+[20:33:12] [main/INFO] [cacheManager-kokomod]: concluded reading cache files, loaded 0 objects
+[20:33:12] [main/INFO] [webcache-kokomod]: requested web caching url: https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/test.java
+[20:33:12] [main/INFO] [webcache-kokomod]: the resource was not in cache downloading
+[20:33:12] [Thread-2/INFO] [cacheManager-kokomod]: dumped 0 objects
+[20:33:12] [Thread-2/INFO] [cacheManager-kokomod]: concluded the file dump lmao
+[20:34:43] [main/INFO] [cacheManager-kokomod]: cache directory/home/kokoniara/Documents/java/stefans_util/stefanUtil/cache
+[20:34:43] [main/INFO] [cacheManager-kokomod]: concluded reading cache files, loaded 0 objects
+[20:34:43] [main/INFO] [webcache-kokomod]: requested web caching url: https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/test.java
+[20:34:43] [main/INFO] [webcache-kokomod]: the resource was not in cache downloading
+[20:34:45] [Thread-2/INFO] [cacheManager-kokomod]: dumped 1 objects
+[20:43:32] [main/INFO] [cacheManager-kokomod]: cache directory/home/kokoniara/Documents/java/stefans_util/stefanUtil/cache
+[20:43:32] [main/INFO] [cacheManager-kokomod]: concluded reading cache files, loaded 0 objects
+[20:43:32] [main/INFO] [webcache-kokomod]: requested web caching url: https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/test.java
+[20:43:32] [main/INFO] [webcache-kokomod]: the resource was not in cache downloading
+[20:43:34] [Thread-2/INFO] [cacheManager-kokomod]: dumped 1 objects
+[20:43:34] [Thread-2/INFO] [cacheManager-kokomod]: concluded the file dump lmao
+[20:43:59] [main/INFO] [cacheManager-kokomod]: cache directory/home/kokoniara/Documents/java/stefans_util/stefanUtil/cache
+[20:43:59] [main/INFO] [cacheManager-kokomod]: concluded reading cache files, loaded 1 objects
+[20:43:59] [main/INFO] [cacheManager-kokomod]: File name: https%3A%2F%2Fraw.githubusercontent.com%2Fkingstefan26%2Fcockmod-data%2Fmain%2Ftest.java hash: 098f6bcd4621d373cade4e832627b4f6
+[20:43:59] [main/INFO] [webcache-kokomod]: requested web caching url: https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/test.java
+[20:43:59] [main/INFO] [webcache-kokomod]: Resource https%3A%2F%2Fraw.githubusercontent.com%2Fkingstefan26%2Fcockmod-data%2Fmain%2Ftest.java was cashed
+[20:46:06] [main/INFO] [cacheManager-kokomod]: cache directory/home/kokoniara/Documents/java/stefans_util/stefanUtil/cache
+[20:46:06] [main/INFO] [cacheManager-kokomod]: concluded reading cache files, loaded 1 objects
+[20:46:06] [main/INFO] [cacheManager-kokomod]: File name: https%3A%2F%2Fraw.githubusercontent.com%2Fkingstefan26%2Fcockmod-data%2Fmain%2Ftest.java hash: 098f6bcd4621d373cade4e832627b4f6
+[20:46:06] [main/INFO] [webcache-kokomod]: requested web caching url: https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/test.java
+[20:46:06] [main/INFO] [webcache-kokomod]: Resource https%3A%2F%2Fraw.githubusercontent.com%2Fkingstefan26%2Fcockmod-data%2Fmain%2Ftest.java was cashed
+[20:46:06] [Thread-2/INFO] [cacheManager-kokomod]: dumped 1 objects
+[20:46:25] [main/INFO] [cacheManager-kokomod]: cache directory/home/kokoniara/Documents/java/stefans_util/stefanUtil/cache
+[20:46:25] [main/INFO] [cacheManager-kokomod]: concluded reading cache files, loaded 1 objects
+[20:46:25] [main/INFO] [cacheManager-kokomod]: File name: https%3A%2F%2Fraw.githubusercontent.com%2Fkingstefan26%2Fcockmod-data%2Fmain%2Ftest.java hash: 098f6bcd4621d373cade4e832627b4f6
+[20:46:25] [main/INFO] [webcache-kokomod]: requested web caching url: https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/test.java
+[20:46:25] [main/INFO] [webcache-kokomod]: Resource https%3A%2F%2Fraw.githubusercontent.com%2Fkingstefan26%2Fcockmod-data%2Fmain%2Ftest.java was cashed
+[20:46:25] [Thread-2/INFO] [cacheManager-kokomod]: dumped 1 objects
+[20:47:45] [main/INFO] [cacheManager-kokomod]: cache directory/home/kokoniara/Documents/java/stefans_util/stefanUtil/cache
+[20:47:45] [main/INFO] [cacheManager-kokomod]: concluded reading cache files, loaded 0 objects
+[20:47:45] [main/INFO] [webcache-kokomod]: requested web caching url: https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/test.java
+[20:47:45] [main/INFO] [webcache-kokomod]: the resource was not in cache downloading
+[20:47:45] [Thread-2/INFO] [cacheManager-kokomod]: dumped 1 objects
+[20:49:16] [main/INFO] [cacheManager-kokomod]: cache directory/home/kokoniara/Documents/java/stefans_util/stefanUtil/cache
+[20:49:16] [main/INFO] [cacheManager-kokomod]: concluded reading cache files, loaded 0 objects
+[20:49:16] [main/INFO] [webcache-kokomod]: requested web caching url: https://raw.githubusercontent.com/kingstefan26/cockmod-data/main/test.java
+[20:49:16] [main/INFO] [webcache-kokomod]: the resource was not in cache downloading
+[20:49:19] [Thread-2/INFO] [cacheManager-kokomod]: dumped 1 objects
+[20:49:19] [Thread-2/INFO] [cacheManager-kokomod]: concluded the file dump lmao

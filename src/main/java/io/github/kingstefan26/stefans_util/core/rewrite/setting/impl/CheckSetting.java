@@ -13,6 +13,7 @@ public class CheckSetting extends AbstractSetting {
     public CheckSetting(String name, basicModule parentModule, boolean deafultValue, Consumer<Object> callback) {
         super(name, parentModule, SettingsCore.type.check, callback);
         this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
+        setValue(getValue());
     }
     public CheckSetting(String name, basicModule parentModule, boolean deafultValue,Consumer<Object> callback, String comment) {
         super(name, parentModule, SettingsCore.type.check, callback);

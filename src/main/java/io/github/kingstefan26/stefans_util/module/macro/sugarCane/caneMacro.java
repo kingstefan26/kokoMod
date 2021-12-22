@@ -18,10 +18,6 @@ import org.lwjgl.input.Mouse;
 
 public class caneMacro extends Module {
 
-
-
-    private EntityPlayerSP player;
-
     private boolean ismacroingReady;
     private macroStages macroWalkStage = macroStages.DEFAULT;
     private macroStages lastmacroWalkStage = macroStages.DEFAULT;
@@ -32,7 +28,6 @@ public class caneMacro extends Module {
     private int playerYaw;
     private int playerPitch;
     private double playerSpeed;
-    private double distanceWalked;
 
     public caneMacro(){
         super("cane macro", "macros cane!", ModuleManager.Category.MACRO, true);
@@ -54,7 +49,7 @@ public class caneMacro extends Module {
         }
 
 
-        player = mc.thePlayer; // re making the player cuz we accessing fields
+        EntityPlayerSP player = mc.thePlayer; // re making the player cuz we accessing fields
 
         //get player speed to see if we reached the end of the farm already
         playerSpeed = player.getDistance(player.lastTickPosX, player.lastTickPosY, player.lastTickPosZ);
@@ -219,7 +214,7 @@ public class caneMacro extends Module {
         reset every variable & unpress every key on disable
          */
         ismacroingReady = false;
-        distanceWalked = 0;
+        double distanceWalked = 0;
         macroWalkStage = macroStages.DEFAULT;
         playerYaw = 0;
         playerPitch = 0;

@@ -17,14 +17,12 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath "com.github.Skytils:ForgeGradle:6f5327"
+        classpath 'com.github.Skytils:ForgeGradle:6f5327'
         classpath 'com.github.LxGaming:MixinGradle:d75e32e'//0.6-SNAPSHOT'
         classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
     }
 }
 
-
-apply plugin: 'java'
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
@@ -52,12 +50,13 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.reflections:reflections:0.10'
+    implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.java-websocket:Java-WebSocket:1.5.2'
-    implementation 'org.jetbrains:annotations:20.1.0'
-    compile('org.spongepowered:mixin:0.7.11-SNAPSHOT')
-    compile "net.openhft:compiler:2.21ea80"
-    annotationProcessor('org.spongepowered:mixin:0.7.11-SNAPSHOT')
+    implementation 'org.jetbrains:annotations:22.0.0'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    compile 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
+    compile 'net.openhft:compiler:2.21ea80'
+    annotationProcessor 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
 }
 
 mixin {
@@ -98,28 +97,28 @@ reobf {
 build.dependsOn(shadowJar)
 runClient.dependsOn(build)
 
-processResources
-        {
-            inputs.property "version", project.version
-            inputs.property "mcversion", project.minecraft.version
-
-            from(sourceSets.main.resources.srcDirs) {
-                include 'mcmod.info'
-                expand 'version':project.version, 'mcversion':project.minecraft.version
-            }
-
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
-            }
-
-            rename '(.+_at.cfg)', 'META-INF/$1'
-        }
-
-task moveResources {
-    doLast {
-        ant.move file: "${buildDir}/resources/main",
-                todir: "${buildDir}/classes/java"
-    }
-}
-moveResources.dependsOn processResources
-classes.dependsOn moveResources
+//processResources
+//        {
+//            inputs.property "version", project.version
+//            inputs.property "mcversion", project.minecraft.version
+//
+//            from(sourceSets.main.resources.srcDirs) {
+//                include 'mcmod.info'
+//                expand 'version':project.version, 'mcversion':project.minecraft.version
+//            }
+//
+//            from(sourceSets.main.resources.srcDirs) {
+//                exclude 'mcmod.info'
+//            }
+//
+//            rename '(.+_at.cfg)', 'META-INF/$1'
+//        }
+//
+//task moveResources {
+//    doLast {
+//        ant.move file: "${buildDir}/resources/main",
+//                todir: "${buildDir}/classes/java"
+//    }
+//}
+//moveResources.dependsOn processResources
+//classes.dependsOn moveResources

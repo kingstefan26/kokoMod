@@ -1,7 +1,8 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.keyBindDecorator;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.onoffMessageDecorator;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import net.minecraftforge.event.world.WorldEvent;
@@ -9,14 +10,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
 
-public class farmReadycane extends Module {
+import static io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager.Category.MISC;
 
-    public farmReadycane(){
-        super("farmReady", "gets you ready to farm cane", ModuleManager.Category.MISC, true);
-        this.enableMessage = "farmReady-cane enabled";
-        this.disableMessage = "farmReady-cane disabled";
+public class farmReadycane extends basicModule {
+
+    public farmReadycane() {
+        super("farmReady", "gets you ready to farm cane", MISC, new keyBindDecorator("farmReadyCane"),
+                new onoffMessageDecorator());
     }
-    public boolean toggled;
 
     private long temptime;
 
@@ -28,35 +29,35 @@ public class farmReadycane extends Module {
 
     @SubscribeEvent
     public void onTick(TickEvent.RenderTickEvent e) {
-        if( mc == null || mc.theWorld == null || mc.thePlayer == null ){
+        if (mc == null || mc.theWorld == null || mc.thePlayer == null) {
             return;
         }
 
-            if(System.currentTimeMillis() - temptime < 7 * 1000){
-                drawCenterString.GuiNotif(mc, "farm helper will lock your head postion on the right angle");
-            }
+        if (System.currentTimeMillis() - temptime < 7 * 1000) {
+            drawCenterString.GuiNotif(mc, "farm helper will lock your head position on the right angle");
+        }
 
-            if(!headlockCondition){
-                //updatePitchAndYaw();
-                playerYaw = Math.round(mc.thePlayer.rotationYaw);
-                playerPitch = Math.round(mc.thePlayer.rotationPitch);
-                headlockCondition = playerYaw % 45 == 0 && playerPitch == 0;
-                //headlockCondition = checkHeadCondition(playerPitch, playerYaw);
-            }else{
-                Mouse.getDX();
-                Mouse.getDY();
-                mc.mouseHelper.deltaX = mc.mouseHelper.deltaY = 0;
-            }
+        if (!headlockCondition) {
+            //updatePitchAndYaw();
+            playerYaw = Math.round(mc.thePlayer.rotationYaw);
+            playerPitch = Math.round(mc.thePlayer.rotationPitch);
+            headlockCondition = playerYaw % 45 == 0 && playerPitch == 0;
+            //headlockCondition = checkHeadCondition(playerPitch, playerYaw);
+        } else {
+            Mouse.getDX();
+            Mouse.getDY();
+            mc.mouseHelper.deltaX = mc.mouseHelper.deltaY = 0;
+        }
 
     }
 
-    private void updatePitchAndYaw(){
+    private void updatePitchAndYaw() {
         //gets the player yaw and pitch
         playerYaw = Math.round(mc.thePlayer.rotationYaw);
         playerPitch = Math.round(mc.thePlayer.rotationPitch);
     }
 
-    private boolean checkHeadCondition(int playerPitch, int playerYaw){
+    private boolean checkHeadCondition(int playerPitch, int playerYaw) {
         return playerYaw % 45 == 0 && playerPitch == 0;
     }
 
@@ -72,6 +73,7 @@ public class farmReadycane extends Module {
         headlockCondition = false;
         playerYaw = playerPitch = 0;
     }
+
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
         super.setToggled(false);

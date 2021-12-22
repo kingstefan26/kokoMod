@@ -2,7 +2,7 @@ package io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers;
 
 import com.google.gson.Gson;
 import io.github.kingstefan26.stefans_util.core.globals;
-import io.github.kingstefan26.stefans_util.core.newConfig.fileCache.webCache;
+import io.github.kingstefan26.stefans_util.core.newConfig.fileCacheing.webCache;
 import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.util.InlineCompiler;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;

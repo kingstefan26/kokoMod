@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.presistanceDecorator;
+import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -15,11 +15,12 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class stolenFarmOverlay extends Module {
+import static io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager.Category.MISC;
+
+public class stolenFarmOverlay extends basicModule {
 
     public stolenFarmOverlay() {
-        super("stolenoverlay!", "yay!!!", ModuleManager.Category.MISC);
-        this.presistanceEnabled = true;
+        super("stolenoverlay!", "yay!!!", MISC, new presistanceDecorator());
     }
 
     ArrayList<Float> avrageValueStorecps = new ArrayList<>();

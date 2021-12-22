@@ -16,8 +16,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
-
 
 public class basicModule implements baseModuleInterface, moduleMinecraftInterfaceEvents {
     protected static Minecraft mc = Minecraft.getMinecraft();
