@@ -9,6 +9,7 @@ import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.notificationService;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
 import io.github.kingstefan26.stefans_util.util.CalendarUtils;
+import io.github.kingstefan26.stefans_util.util.InlineCompiler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
@@ -170,6 +171,11 @@ commandRegistry {
                 chatService.queueClientChatMessage("purging cache ", chatService.chatEnum.CHATPREFIX);
                 int a = cacheManager.getInstance().clearCache();
                 chatService.queueClientChatMessage("cleaned " + a + " objects from cache", chatService.chatEnum.CHATPREFIX);
+            }
+        }));
+        add(new SimpleCommand("testInlineCompiler", new SimpleCommand.ProcessCommandRunnable() {
+            public void processCommand(ICommandSender sender, String[] args) {
+                InlineCompiler.someOldTestingShit();
             }
         }));
     }};
