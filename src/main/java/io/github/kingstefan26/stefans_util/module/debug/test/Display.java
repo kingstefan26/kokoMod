@@ -29,7 +29,7 @@ public class Display{
 
         //  ImageIcon image = new ImageIcon("home/kokoniara/Documents/java/stefans_utils/src/main/resources/cock.png");
 
-        ImageIcon image = new ImageIcon(getClass().getResource("/cock.png"));
+        ImageIcon image = new ImageIcon(getClass().getResource("/assets/stefan_util/textures/rando/cock.png"));
 
         JLabel imageLabel = new JLabel(image);
 

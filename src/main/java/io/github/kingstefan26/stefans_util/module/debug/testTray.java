@@ -24,7 +24,7 @@ public class testTray {
         //Toolkit toolkit = Toolkit.getDefaultToolkit();
         //get image
         //Toolkit.getDefaultToolkit().getImage("src/resources/busylogo.jpg");
-        Image image = Toolkit.getDefaultToolkit().getImage("cock.png");
+        Image image = Toolkit.getDefaultToolkit().getImage("assets/stefan_util/textures/rando/cock.png");
 
         //popupmenu
         PopupMenu trayPopupMenu = new PopupMenu();

@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
-import java.awt.*;
 import java.io.InputStream;
 
 public class newComponent {
@@ -31,9 +30,9 @@ public class newComponent {
     public boolean closed;
 
     //    public CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);
-    public CustomFont c = new CustomFont(getFileFromResourceAsStream("Teko-Light.ttf"), 20);
+    public CustomFont c = new CustomFont(getFileFromResourceAsStream("assets/stefan_util/textures/font/Teko-Light.ttf"), 20);
 //    public CustomFont p1 = new CustomFont(new Font("JetBrains Mono", Font.PLAIN, 17), 17);
-    public CustomFont p1 = new CustomFont(getFileFromResourceAsStream("Teko-Light.ttf"), 17);
+    public CustomFont p1 = new CustomFont(getFileFromResourceAsStream("assets/stefan_util/textures/font/Teko-Light.ttf"), 17);
 
 
     public static void drawRect(int left, int top, int right, int bottom, int color) {
