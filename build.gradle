@@ -78,10 +78,10 @@ shadowJar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     dependencies {
         include(dependency('org.spongepowered:mixin:0.7.11-SNAPSHOT'))
-        include(dependency('org.reflections:reflections:0.10'))
+        include(dependency('org.reflections:reflections:0.10.2'))
         include(dependency('org.apache.commons:commons-lang3'))
         include(dependency('net.openhft:compiler:2.21ea80'))
-        include(dependency('org.reflections:reflections:0.10.2'))
+        include(dependency('org.jetbrains:annotations:22.0.0'))
     }
     manifest.attributes(
             "FMLCorePlugin": "io.github.kingstefan26.stefans_util.stefan_utilPlugin"
