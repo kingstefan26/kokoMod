@@ -167,8 +167,10 @@ public class webModules {
         logger.info("loading " + moduleJsonObject.classpath);
         if(Objects.equals(moduleJsonObject.type, "module")){
             try {
+                logger.info("module is a standart module");
                 String resource = getResourceFromMasterObject(moduleJsonObject.classLocation, master);
                 if (resource != null) {
+                    logger.info("compiling code");
                     final basicModule m = (basicModule) InlineCompiler.compileAndReturnObject(moduleJsonObject.classpath, resource);
                     if (m != null) {
                         m.onLoad();
@@ -183,8 +185,10 @@ public class webModules {
             }
         }else if (Objects.equals(moduleJsonObject.type, "util")){
             try {
+                logger.info("module is a util module");
                 String resource = getResourceFromMasterObject(moduleJsonObject.classLocation, master);
                 if (resource != null) {
+                    logger.info("compiling code");
                     final Object m = InlineCompiler.compileAndReturnObject(moduleJsonObject.classpath, resource);
                     logger.info("successfully loaded " + Objects.requireNonNull(m).getClass().getName());
                     counter++;

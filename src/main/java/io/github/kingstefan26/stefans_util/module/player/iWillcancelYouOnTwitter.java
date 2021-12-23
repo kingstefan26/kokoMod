@@ -26,7 +26,7 @@ public class iWillcancelYouOnTwitter extends basicModule {
     @Override
     public void onLoad(){
         new SliderNoDecimalSetting("cancel speed", this, 12, 1, 100, (newval) -> {
-            speed = (double) newval;
+            speed = (int) newval;
         });
         super.onLoad();
     }
