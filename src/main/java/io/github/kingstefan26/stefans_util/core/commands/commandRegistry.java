@@ -11,6 +11,7 @@ import io.github.kingstefan26.stefans_util.service.impl.notificationService;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
 import io.github.kingstefan26.stefans_util.util.CalendarUtils;
 import io.github.kingstefan26.stefans_util.util.InlineCompiler;
+import io.github.kingstefan26.stefans_util.util.file;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
@@ -19,6 +20,7 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -180,7 +182,15 @@ commandRegistry {
         }));
         add(new SimpleCommand("LOADTHESPRINT", new SimpleCommand.ProcessCommandRunnable() {
             public void processCommand(ICommandSender sender, String[] args) {
-                webModuleMenager.loadJar("/home/kokoniara/Documents/java/stefans_util/run/stefanUtil/assets/premium.jar");
+                if(args[1] != null){
+                    webModuleMenager.loadJar(file.configFullPath + File.separator + args[1] + File.separator + "premium.jar");
+
+                } else {
+                    webModuleMenager.loadJar(file.configFullPath + File.separator + "assets" + File.separator + "premium.jar");
+
+                }
+
+//                FILE>ASSETS>TRUE>ASSHOLE>DOTASSEST>LOADJAR
             }
         }));
     }};
