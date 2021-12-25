@@ -58,9 +58,9 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
 }
 
-mixin {
-    add sourceSets.main, "mixins.stefan_util.refmap.json"
-}
+//mixin {
+//    add sourceSets.main, "mixins.stefan_util.refmap.json"
+//}
 
 jar {
     manifest.attributes(
@@ -97,6 +97,16 @@ reobf {
 
 build.dependsOn(shadowJar)
 runClient.dependsOn(build)
+
+
+
+task createPremiumJar(type:Exec) {
+    workingDir '.'
+    commandLine './doThat.sh'
+}
+
+
+createPremiumJar.dependsOn(build)
 
 //processResources
 //        {

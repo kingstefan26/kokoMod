@@ -24,7 +24,6 @@ public class fileUtils {
 
 
     public static File getFileAtPath(String path) throws IOException {
-        final File file = new File(path);
 
 //        if(!file.exists()) {
 //            Path directoriespath = Paths.get(path);
@@ -36,13 +35,7 @@ public class fileUtils {
 //            System.out.println("Directory is created!");
 //        }
 
-        if (file.createNewFile()) {
-            System.out.println("File created: " + file.getName());
-            return file;
-        } else {
-            System.out.println("File already exists.");
-            return file;
-        }
+        return new File(path);
     }
 
     public static String getFileTextContents(File file) throws IOException {

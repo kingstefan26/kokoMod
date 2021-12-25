@@ -28,7 +28,6 @@ public class configObject {
         configPropertyObject = configMenager.getConfigManager().config.get(parentModuleName, name, dval);
     }
     public configObject(String name,String parentModuleName, String dval){
-        if(configMenager.getConfigManager() == null) return;
         this.name = name;
         this.parentModuleName = parentModuleName;
         this.type = confgValueType.STRING;

@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public interface moduleMinecraftInterfaceEvents {
     void onTick(TickEvent.ClientTickEvent e);
+    void onRenderTick(TickEvent.RenderTickEvent e);
     void onWorldRender(RenderWorldLastEvent e);
     void onPlayerFall();
     void onPlayerTeleport();

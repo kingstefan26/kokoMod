@@ -11,7 +11,6 @@ import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoMana
 import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.webModules;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
 import io.github.kingstefan26.stefans_util.util.ShaderResourcePack;
-import io.github.kingstefan26.stefans_util.util.TOKENTHELOG;
 import io.github.kingstefan26.stefans_util.util.renderUtil.updateWidowTitle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResourcePack;
@@ -50,7 +49,7 @@ public class main {
 
     @EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
-        TOKENTHELOG.TOKENTHELoG();
+//        TOKENTHELOG.TOKENTHELoG();
         configManagerz.getInstance();
         cacheManager.getInstance().init();
 

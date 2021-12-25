@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class Sprint extends Module {
 
 	public Sprint() {
-		super("Sprint", "Always holds down the sprint key", ModuleManager.Category.MOVEMENT, true);
+		super("Sprint", "Always holds down the sprint key", ModuleManager.Category.MOVEMENT, false);
 		this.enableMessage = "Enabled sprint";
 		this.disableMessage = "Disabled sprint";
 		this.presistanceEnabled = true;

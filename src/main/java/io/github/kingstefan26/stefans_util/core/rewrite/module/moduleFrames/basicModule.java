@@ -126,6 +126,11 @@ public class basicModule implements baseModuleInterface, moduleMinecraftInterfac
     }
 
     @Override
+    public void onRenderTick(TickEvent.RenderTickEvent e) {
+
+    }
+
+    @Override
     public void onWorldRender(RenderWorldLastEvent e) {
 
     }

@@ -1,5 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.commands;
 
+import io.github.kingstefan26.stefans_util.core.dynamicModules.webModuleMenager;
 import io.github.kingstefan26.stefans_util.core.newConfig.fileCacheing.cacheManager;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
 import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
@@ -20,7 +21,6 @@ import net.minecraftforge.fml.common.ModContainer;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class
@@ -176,6 +176,11 @@ commandRegistry {
         add(new SimpleCommand("testInlineCompiler", new SimpleCommand.ProcessCommandRunnable() {
             public void processCommand(ICommandSender sender, String[] args) {
                 InlineCompiler.someOldTestingShit();
+            }
+        }));
+        add(new SimpleCommand("LOADTHESPRINT", new SimpleCommand.ProcessCommandRunnable() {
+            public void processCommand(ICommandSender sender, String[] args) {
+                webModuleMenager.loadJar("/home/kokoniara/Documents/java/stefans_util/run/stefanUtil/assets/premium.jar");
             }
         }));
     }};

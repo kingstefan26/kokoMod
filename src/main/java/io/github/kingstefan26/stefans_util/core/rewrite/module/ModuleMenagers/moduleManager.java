@@ -44,6 +44,16 @@ public class moduleManager {
 	}
 
 	@SubscribeEvent
+	public void onTickRenderTick(TickEvent.RenderTickEvent event) {
+		for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+			if(m.isToggled()){
+				m.onRenderTick(event);
+			}
+		}
+
+	}
+
+	@SubscribeEvent
 	public void onWorldRender(RenderWorldLastEvent e){
 		for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
 			if(m.isToggled()){

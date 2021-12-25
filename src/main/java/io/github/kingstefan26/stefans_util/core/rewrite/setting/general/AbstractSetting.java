@@ -17,7 +17,7 @@ public class AbstractSetting {
         this.parent = parentModule;
         this.type = type;
         this.callback = callback;
-        if(SettingsCore.getSettingsCore().doesSettingExist(name)) throw new IllegalStateException("Name is already registered");
+//        if(SettingsCore.getSettingsCore().doesSettingExist(name)) throw new IllegalStateException("Name is already registered");
         addToSettingsCore();
     }
 
