@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
@@ -10,15 +10,13 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class amiTimedOut extends Module {
+public class amiTimedOut extends basicModule {
 	private long checkTimer;
 	private boolean wasEnabled;
 
 
 	public amiTimedOut() {
-		super("am i Timed out?", "shows warnings based on your network status", ModuleManager.Category.MISC, true);
-		this.enableMessage = "amitimedout enabled";
-		this.disableMessage = "amitimedout diasabled";
+		super("am i Timed out?", "shows warnings based on your network status", moduleManager.Category.MISC);
 	}
 
 	@SubscribeEvent

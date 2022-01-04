@@ -14,6 +14,7 @@ import java.util.ListIterator;
 
 public class util {
     public static Minecraft mc = Minecraft.getMinecraft();
+
     public static Vec3 getPlayerFeetVec(){
         return new Vec3((int)mc.thePlayer.posX,(int)mc.thePlayer.posY,(int)mc.thePlayer.posZ);
     }
@@ -23,6 +24,19 @@ public class util {
                 playerPos.yCoord + relativeCords.yCoord,
                 playerPos.zCoord + relativeCords.zCoord);
     }
+
+    public static BlockPos getPlayerFeetBlockPos(){
+        return new BlockPos((int)mc.thePlayer.posX,(int)mc.thePlayer.posY,(int)mc.thePlayer.posZ);
+    }
+
+    public static BlockPos unRelitaviseCords(BlockPos relativeCords, BlockPos playerPos){
+        return new BlockPos(
+                playerPos.getX() + relativeCords.getX(),
+                playerPos.getY() + relativeCords.getY(),
+                playerPos.getZ() + relativeCords.getZ());
+    }
+
+
     public static class checkBlock {
         public int x, y, z;
         public String name;

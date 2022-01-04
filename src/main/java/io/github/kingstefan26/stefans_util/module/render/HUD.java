@@ -1,13 +1,10 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.moduleRegistery;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.decoratorInterface;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.visibleDecorator;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
-import io.github.kingstefan26.stefans_util.core.preRewrite.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleRegistery;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.visibleDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -16,29 +13,31 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class HUD extends Module {
+public class HUD extends basicModule {
 
 	int rgb,r,g,b;
 	CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.PLAIN, 15), 15);
 	public static ArrayList<visibleDecorator> visibleDecorators = new ArrayList<>();
 
 	public HUD() {
-		super("HUD", "Draws the module list on your screen", ModuleManager.Category.RENDER);
-		this.presistanceEnabled = true;
+		super("HUD", "Draws the module list on your screen", moduleManager.Category.RENDER);
 	}
 
 	@Override
 	public void onLoad(){
-		SettingsManager.getSettingsManager().rSetting(new Setting("R",this, 255, 0, 255,true));
-		SettingsManager.getSettingsManager().rSetting(new Setting("G",this, 255, 0, 255,true));
-		SettingsManager.getSettingsManager().rSetting(new Setting("B",this, 255, 0, 255,true));
+		new SliderNoDecimalSetting("R", this, 10, 1, 50, (newvalue)->{
+			this.r = (int) newvalue;
+		});
+		new SliderNoDecimalSetting("G", this, 10, 1, 50, (newvalue)->{
+			this.g = (int) newvalue;
+		});
+		new SliderNoDecimalSetting("B", this, 10, 1, 50, (newvalue)->{
+			this.b = (int) newvalue;
+		});
 		super.onLoad();
 	}
 
 	private void updateVals(){
-		this.r = SettingsManager.getSettingsManager().getSettingByName("R",this).getValInt();
-		this.g = SettingsManager.getSettingsManager().getSettingByName("G",this).getValInt();
-		this.b = SettingsManager.getSettingsManager().getSettingByName("B",this).getValInt();
 		rgb = r;
 		rgb = (rgb << 8) + g;
 		rgb = (rgb << 8) + b;
@@ -57,20 +56,15 @@ public class HUD extends Module {
 		if (e.type == RenderGameOverlayEvent.ElementType.TEXT) {
 			ScaledResolution sraka = new ScaledResolution(Minecraft.getMinecraft());
 			int temp = 2;
-			for (Module mod : moduleRegistery.getModuleRegistery().loadedModules) {
-				if (mod.isToggled()) {
-					c.drawString(mod.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(mod.getName()) - 1, temp, -1);
-					temp += c.getStringHeight(mod.getName()) + 1;
-				}
-			}
-			for(basicModule m : io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleRegistery.getModuleRegistery().loadedModules){
-				for(decoratorInterface d : m.localDecoratorManager.decoratorArrayList){
-					if(d.getClass().getName().equals(visibleDecorator.class.getName())){
-						if(!((visibleDecorator) d).isVisibilityEnabled()){
-							c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, -1);
-							temp += c.getStringHeight(m.getName()) + 1;
-						}
+			for(basicModule m : moduleRegistery.getModuleRegistery().loadedModules){
+				if(m.localDecoratorManager.visibleDecorator != null){
+					if(m.localDecoratorManager.visibleDecorator.isVisibilityEnabled()){
+						c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, -1);
+						temp += c.getStringHeight(m.getName()) + 1;
 					}
+				} else {
+					c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, -1);
+					temp += c.getStringHeight(m.getName()) + 1;
 				}
 			}
 		}

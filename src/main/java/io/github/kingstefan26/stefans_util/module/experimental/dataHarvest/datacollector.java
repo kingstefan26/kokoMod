@@ -4,8 +4,8 @@
 
 package io.github.kingstefan26.stefans_util.module.experimental.dataHarvest;
 
-import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.module.experimental.dataHarvest.recordables.impl.keyRecordable;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.MouseEvent;

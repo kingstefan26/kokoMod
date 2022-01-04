@@ -1,9 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
-import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
-import io.github.kingstefan26.stefans_util.core.preRewrite.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.setting.impl.CheckSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,10 +10,11 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
-public class testTracer extends Module {
+import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.DEBUG;
+
+public class testTracer extends basicModule {
     public testTracer() {
-        super("test tracer", "yazz", ModuleManager.Category.DEBUG);
-        SettingsManager.getSettingsManager().rSetting(new Setting("boxes", this, true));
+        super("test tracer", "yazz", DEBUG);
     }
 
     boolean a;
@@ -23,7 +22,9 @@ public class testTracer extends Module {
     @Override
     public void onEnable(){
         super.onEnable();
-        a = SettingsManager.getSettingsManager().getSettingByName("boxes", this).getValBoolean();
+        new CheckSetting("boxes", this, false, (newvalue)->{
+            a = (boolean) newvalue;
+        });
     }
 
     @SubscribeEvent

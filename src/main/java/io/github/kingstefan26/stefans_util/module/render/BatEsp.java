@@ -1,9 +1,9 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
-import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.keyBindDecorator;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.onoffMessageDecorator;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.onoffMessageDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.util.renderUtil.renderEsp;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;

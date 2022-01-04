@@ -1,13 +1,13 @@
 package io.github.kingstefan26.stefans_util.module.macro.util;
 
-import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
+import io.github.kingstefan26.stefans_util.module.macro.macro;
 import net.minecraft.client.gui.GuiScreen;
 
 
 public class macroMenu extends GuiScreen {
-	private final UniversalWartMacro parent;
+	private final macro parent;
 
-	public macroMenu(UniversalWartMacro parent){
+	public macroMenu(macro parent){
 		this.parent = parent;
 	}
 

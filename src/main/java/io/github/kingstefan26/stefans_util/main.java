@@ -8,25 +8,21 @@ import io.github.kingstefan26.stefans_util.core.newConfig.configManagerz;
 import io.github.kingstefan26.stefans_util.core.newConfig.fileCacheing.cacheManager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.webModules;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
-import io.github.kingstefan26.stefans_util.util.ShaderResourcePack;
 import io.github.kingstefan26.stefans_util.util.renderUtil.updateWidowTitle;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.command.CommandBase;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.Objects;
 
 @Mod(modid = globals.MODID, version = globals.VERSION, clientSideOnly = true, acceptedMinecraftVersions = "1.8.9")
@@ -39,25 +35,25 @@ public class main {
 
     public static final Logger logger = LogManager.getLogger("main-kokomod");
 
-    @Nonnull
-    private final ShaderResourcePack dummyPack = new ShaderResourcePack();
 
-    @SuppressWarnings("unchecked")
-    public main() {
-        ((List<IResourcePack>) ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "field_110449_ao", "defaultResourcePacks")).add(dummyPack);
-    }
+    public static boolean connectedToKokoCLoud = false;
+    long recoocnectTimer;
 
     @EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
-//        TOKENTHELOG.TOKENTHELoG();
         configManagerz.getInstance();
         cacheManager.getInstance().init();
 
 
         //FMLCommonHandler.instance().exitJava(1, false);
 
-        new webModules();
         authmenager.getInstance().start();
+        if(!connectedToKokoCLoud) {
+            recoocnectTimer = System.currentTimeMillis() + 5000;
+            MinecraftForge.EVENT_BUS.register(this);
+        }
+
+        moduleManager.getModuleManager();
 
         mainRepoManager.getMainRepoManager().startup(authmenager.getInstance().getCashedAuthObject().configurl);
         if(Objects.equals(authmenager.getInstance().getCashedAuthObject().status, "dev")){
@@ -67,11 +63,6 @@ public class main {
         (new serviceMenager()).start();
 
 
-
-//        curl -X POST -H "Content-Type: application/json" -d'{
-//        "content": "Hey there, what u watching",
-//                "embeds": null
-//    }' https://discord.com/api/webhooks/xyz/xyz
 
 
 //        (new Thread(() -> {
@@ -92,10 +83,25 @@ public class main {
             ClientCommandHandler.instance.registerCommand(a);
         }
         updateWidowTitle.updateTitle("Kokoclient V69.420 | " + authmenager.getInstance().getCashedAuthObject().status);
+
         kokoMod.getkokoMod().init();
 
-        // Add our dummy resourcepack
-        ((SimpleReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(dummyPack);
+    }
+
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent e){
+        if(!connectedToKokoCLoud){
+            if(System.currentTimeMillis() >= recoocnectTimer){
+                logger.info("trying to recconect to kokocloud");
+                authmenager.getInstance().start();
+                if(!connectedToKokoCLoud) {
+                    recoocnectTimer = System.currentTimeMillis() + 5000;
+                } else {
+                    // if we connect, unregister this from the bus cuz doing an unnecessary bool check every tick is not what we need in life
+                    MinecraftForge.EVENT_BUS.unregister(this);
+                }
+            }
+        }
     }
 
     @EventHandler

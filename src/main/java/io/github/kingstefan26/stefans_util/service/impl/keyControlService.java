@@ -2,7 +2,10 @@ package io.github.kingstefan26.stefans_util.service.impl;
 
 import io.github.kingstefan26.stefans_util.service.Service;
 import io.github.kingstefan26.stefans_util.util.util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -17,6 +20,7 @@ public class keyControlService extends Service {
 
     static Queue<command> taskQueue = new LinkedList<>();
 
+    public static boolean verbose = false;
 
     public static class action {
         public enum walk {
@@ -30,11 +34,43 @@ public class keyControlService extends Service {
 
     public static void submitCommand(command c) {
         taskQueue.add(c);
-        chatService.queueCleanChatMessage("queued new key control engine command to:" + (c.walkAction != null ? String.valueOf(c.walkAction) : String.valueOf(c.handAction)));
+        if(verbose) chatService.queueCleanChatMessage("queued new key control engine command to:" + (c.walkAction != null ? String.valueOf(c.walkAction) : String.valueOf(c.handAction)));
+    }
+
+
+    long lastStoopedMovingTimer;
+
+    @SubscribeEvent
+    public void clientTick(TickEvent.ClientTickEvent e){
+        if (mc == null || mc.theWorld == null || mc.thePlayer == null) return;
+        double playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
+        if (playerSpeed < 0 && lastStoopedMovingTimer == 0) {
+            lastStoopedMovingTimer = System.currentTimeMillis() + 250;
+        }
+        if(playerSpeed != 0 && lastStoopedMovingTimer != 0){
+            lastStoopedMovingTimer = 0;
+        }
+        if(playerSpeed < 0 && System.currentTimeMillis() >= lastStoopedMovingTimer){
+            playerStoppedMoving();
+            lastStoopedMovingTimer = 0;
+        }
+    }
+
+
+    public static void playerStoppedMoving(){
+        if(CurentlyExecuted.stoppedmovingCallback != null){
+            CurentlyExecuted.stoppedmovingCallback.run();
+            CurentlyExecuted = null;
+        }
     }
 
 
     static Queue<command> ASYNCQueue = new LinkedList<>();
+
+    public static void clearCommandQueue(){
+        ASYNCQueue.clear();
+        CurentlyExecuted = null;
+    }
 
 
     public static void submitCommandASYNC(command c) {
@@ -46,41 +82,53 @@ public class keyControlService extends Service {
     static command CurentlyExecuted;
     private static void addedCommand(){
         if(CurentlyExecuted == null){
-            chatService.removeLastChatMessage();
-            chatService.queueCleanChatMessage("checking if CurentlyExecuted is null: TRUE");
+
+            if(verbose) chatService.queueCleanChatMessage("checking if CurentlyExecuted is null: TRUE");
             CurentlyExecuted = ASYNCQueue.poll();
             if(CurentlyExecuted == null) {
-                chatService.removeLastChatMessage();
-                chatService.queueCleanChatMessage("getting head of queue: HEAD IS NULL");
+
+                if(verbose) chatService.queueCleanChatMessage("getting head of queue: HEAD IS NULL");
                 return;
             }else{
-                chatService.removeLastChatMessage();
-                chatService.queueCleanChatMessage("getting head of queue: HEAD IS NOT NULL");
+
+                if(verbose) chatService.queueCleanChatMessage("getting head of queue: HEAD IS NOT NULL");
                 executeCommand(CurentlyExecuted);
-                chatService.removeLastChatMessage();
-                chatService.queueCleanChatMessage("executing command: DONE");
-                util.setTimeout(() -> {
-                    chatService.queueCleanChatMessage("finished command:" + (CurentlyExecuted.walkAction != null ? String.valueOf(CurentlyExecuted.walkAction) : String.valueOf(CurentlyExecuted.handAction)));
-                    negateExecution(CurentlyExecuted);
-                    chatService.removeLastChatMessage();
-                    chatService.queueCleanChatMessage("negating keypresses: DONE");
-                    CurentlyExecuted = null;
-                    chatService.removeLastChatMessage();
-                    chatService.queueCleanChatMessage("nulling command: DONE");
-                    chatService.queueCleanChatMessage("checking if ASYNC queue is empty");
-                    if(!ASYNCQueue.isEmpty()) {
-                        chatService.removeLastChatMessage();
-                        chatService.queueCleanChatMessage("ASYNC queue is not empty calling recursively");
-                        addedCommand();
-                    }else{
-                        chatService.removeLastChatMessage();
-                        chatService.queueCleanChatMessage("ASYNC queue is empty EXITING");
-                    }
-                }, CurentlyExecuted.totalExecuteTime);
+
+                if(verbose) chatService.queueCleanChatMessage("executing command: DONE");
+
+                if(CurentlyExecuted.totalExecuteTime != 0){
+                    util.setTimeout(() -> {
+                        if(verbose) chatService.queueCleanChatMessage("finished command:" + (CurentlyExecuted.walkAction != null ? String.valueOf(CurentlyExecuted.walkAction) : String.valueOf(CurentlyExecuted.handAction)));
+                        negateExecution(CurentlyExecuted);
+
+                        if(verbose) chatService.queueCleanChatMessage("negating keypresses: DONE");
+
+
+                        if(CurentlyExecuted.asyncCallback != null){
+                            CurentlyExecuted.asyncCallback.run();
+                            if(verbose) chatService.queueCleanChatMessage("executing callback: DONE");
+                        }else{
+                            if(verbose) chatService.queueCleanChatMessage("did not find call back CONTINUE");
+                        }
+
+                        CurentlyExecuted = null;
+
+                        if(verbose) chatService.queueCleanChatMessage("nulling command: DONE");
+                        if(verbose) chatService.queueCleanChatMessage("checking if ASYNC queue is empty");
+                        if(!ASYNCQueue.isEmpty()) {
+
+                            if(verbose) chatService.queueCleanChatMessage("ASYNC queue is not empty calling recursively");
+                            addedCommand();
+                        }else{
+
+                            if(verbose) chatService.queueCleanChatMessage("ASYNC queue is empty EXITING");
+                        }
+                    }, CurentlyExecuted.totalExecuteTime);
+                }
                 return;
             }
         }
-        chatService.queueCleanChatMessage("FALSE");
+        if(verbose) chatService.queueCleanChatMessage("FALSE");
     }
 
 
@@ -88,28 +136,42 @@ public class keyControlService extends Service {
     public static class command {
         public int totalExecuteTime;
         public long commandExpireTimeStamp;
-        public boolean AsyncExpireCallbackFlag = false;
-        public boolean IsAsyncExpire = false;
+        Runnable asyncCallback = null;
+        Runnable stoppedmovingCallback = null;
+
         public action.hand handAction;
 
         public action.walk walkAction;
 
-        public command(int time, boolean isAsyncExpire, action.walk walkAction) {
-            if (isAsyncExpire) {
-                IsAsyncExpire = true;
-            } else {
-                this.totalExecuteTime = time;
-                commandExpireTimeStamp = System.currentTimeMillis() + time;
-            }
+        public command(int time, action.walk walkAction) {
+            this.totalExecuteTime = time;
+            commandExpireTimeStamp = System.currentTimeMillis() + time;
             this.walkAction = walkAction;
         }
-        public command(int time, boolean isAsyncExpire, action.hand handAction) {
-            if (isAsyncExpire) {
-                IsAsyncExpire = true;
-            } else {
-                this.totalExecuteTime = time;
-                commandExpireTimeStamp = System.currentTimeMillis() + time;
-            }
+
+        public command(int time, action.walk walkAction, Runnable asyncCallback) {
+            this.totalExecuteTime = time;
+            commandExpireTimeStamp = System.currentTimeMillis() + time;
+            this.asyncCallback = asyncCallback;
+            this.walkAction = walkAction;
+        }
+
+        public command(action.walk walkAction, Runnable stoppedmovingCallback) {
+            this.stoppedmovingCallback = stoppedmovingCallback;
+            this.walkAction = walkAction;
+        }
+
+
+        public command(int time, action.hand handAction) {
+            this.totalExecuteTime = time;
+            commandExpireTimeStamp = System.currentTimeMillis() + time;
+            this.handAction = handAction;
+        }
+
+        public command(int time, action.hand handAction, Runnable asyncCallback) {
+            this.totalExecuteTime = time;
+            commandExpireTimeStamp = System.currentTimeMillis() + time;
+            this.asyncCallback = asyncCallback;
             this.handAction = handAction;
         }
 
@@ -118,6 +180,7 @@ public class keyControlService extends Service {
 
 
     private static void executeCommand(command command) {
+        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null) return;
         //null safe on thinnna
         if (command == null) return;
 
@@ -195,6 +258,7 @@ public class keyControlService extends Service {
     }
 
     private static void negateExecution(command command){
+        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null) return;
         //null safe on thinnna
         if (command == null) return;
 
@@ -230,6 +294,7 @@ public class keyControlService extends Service {
     }
 
     private static void clickWalkButtonsAccordingToBoard(boolean[] board) {
+        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null) return;
         if (!board[0]) {
             KeyBinding.setKeyBindState(forwardKeyCode, false);
             KeyBinding.setKeyBindState(rightKeyCode, false);
@@ -243,6 +308,7 @@ public class keyControlService extends Service {
     }
 
     private static void clickHandButtonsAccordingToBoard(boolean[] board) {
+        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null) return;
         KeyBinding.setKeyBindState(attackKeyCode, board[0]);
     }
 

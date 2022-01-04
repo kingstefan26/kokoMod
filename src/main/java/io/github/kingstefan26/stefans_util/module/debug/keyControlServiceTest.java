@@ -1,11 +1,14 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.keyBindDecorator;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.onoffMessageDecorator;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.presistanceDecorator;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.onoffMessageDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
+import io.github.kingstefan26.stefans_util.service.impl.inputLockerService;
+import io.github.kingstefan26.stefans_util.service.impl.keyControlService;
+import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -16,13 +19,27 @@ public class keyControlServiceTest extends basicModule {
                 new keyBindDecorator("keyControlServiceTest"), new onoffMessageDecorator(), new presistanceDecorator());
     }
 
+    boolean shouldLoop = true;
+
     @Override
     public void onEnable() {
-        super.onEnable();
-        //keyControlService.submitCommandASYNC(new keyControlService.command(2000, false, keyControlService.action.walk.right));
-//        keyControlService.submitCommandASYNC(new keyControlService.command(2000, false, keyControlService.action.walk.walkback));
-//        keyControlService.submitCommandASYNC(new keyControlService.command(2000, false, keyControlService.action.walk.walkleft));
-//        keyControlService.submitCommandASYNC(new keyControlService.command(2000, false, keyControlService.action.walk.walkforward));
+
+        inputLockerService.lock(Keyboard.KEY_0, () -> {
+            chatService.queueCleanChatMessage("yay unlocked ig");
+        });
+
+            if(shouldLoop){
+                shouldLoop = false;
+                keyControlService.submitCommandASYNC(new keyControlService.command(200,keyControlService.action.walk.left, () -> {
+                    keyControlService.submitCommandASYNC(new keyControlService.command(200,keyControlService.action.walk.back, () -> {
+                        keyControlService.submitCommandASYNC(new keyControlService.command(200,keyControlService.action.walk.right, () -> {
+                            keyControlService.submitCommandASYNC(new keyControlService.command(200,keyControlService.action.walk.forward, () -> {
+                                shouldLoop = true;
+                            }));
+                        }));
+                    }));
+                }));
+            }
 
 
         (new Thread(() -> {
@@ -44,9 +61,6 @@ public class keyControlServiceTest extends basicModule {
         })).start();
 
 
-
-        //chatService.queueCleanChatMessage("am i disapir");
-        chatService.removeLastChatMessage();
         this.toggle();
     }
 }

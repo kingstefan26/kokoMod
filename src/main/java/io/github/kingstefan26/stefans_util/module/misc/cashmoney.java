@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -18,7 +18,7 @@ public class cashmoney extends basicModule {
     private String Match;
 
     public cashmoney() {
-        super("cash money", "plays money sound on auction receive", moduleManager.Category.PLAYER);
+        super("cash money", "plays money sound on auction receive", moduleManager.Category.MISC);
     }
     @Override
     public void onTick(TickEvent.ClientTickEvent e){

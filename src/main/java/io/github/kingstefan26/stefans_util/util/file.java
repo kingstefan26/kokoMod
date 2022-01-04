@@ -1,15 +1,19 @@
 package io.github.kingstefan26.stefans_util.util;
 
+import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
+
 import java.io.*;
 
 public class file {
     public static final String configFileName = "stefan_util.txt";
     public static final String configDirectoryPath;
     public static final String configFullPath;
+    public static final String stefans_utilPath;
 
     static {
         configDirectoryPath = System.getProperty("user.dir");
         configFullPath = configDirectoryPath + File.separator + configFileName;
+        stefans_utilPath = configDirectoryPath + File.separator + "stefanUtil" + File.separator;
     }
 
     public static void writeToFile(String dir, String Text) {
@@ -76,6 +80,23 @@ public class file {
         } catch (IOException ignored) {
         }
         return "";
+    }
+
+    public static InputStream getFileFromResourceAsStream(String fileName) {
+// get a file from the resources folder
+// works everywhere, IDEA, unit test and JAR file.
+
+        // The class loader that loaded the class
+        ClassLoader classLoader = component.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+
+        // the stream holding the file content
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
+            return inputStream;
+        }
+
     }
 
     public void startClient() {

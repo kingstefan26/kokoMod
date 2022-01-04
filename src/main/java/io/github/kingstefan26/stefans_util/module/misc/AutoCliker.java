@@ -4,11 +4,11 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.keyBindDecorator;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.MultichoiseSetting;
-import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.SliderNoDecimalSetting;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.setting.impl.MultichoiseSetting;
+import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -62,73 +62,54 @@ public class AutoCliker extends basicModule {
 
 	@SubscribeEvent
 	public void onTick(TickEvent.RenderTickEvent e) {
+		if(mc.currentScreen == null) return;
 		switch(mode){
 			case"lmb":
-				if (Mouse.isButtonDown(0)) {
-					if (System.currentTimeMillis() - leftlastClick > leftspeed * 1000) {
-						leftlastClick = System.currentTimeMillis();
-						if (lefthold < leftlastClick) {
-							lefthold = leftlastClick;
-						}
-						int key = mc.gameSettings.keyBindAttack.getKeyCode();
-						KeyBinding.setKeyBindState(key, true);
-						KeyBinding.onTick(key);
-						this.updateVals();
-					} else if (System.currentTimeMillis() - lefthold > leftholdLength * 1000) {
-						KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
-						this.updateVals();
-					}
-				}
+				lmbAutoclick();
 				break;
 			case"rmb":
-				if (Mouse.isButtonDown(1)) {
-					if (System.currentTimeMillis() - rightlastClick > rightspeed * 1000) {
-						rightlastClick = System.currentTimeMillis();
-						if (righthold < rightlastClick) {
-							righthold = rightlastClick;
-						}
-						int key = mc.gameSettings.keyBindUseItem.getKeyCode();
-						KeyBinding.setKeyBindState(key, true);
-						KeyBinding.onTick(key);
-						this.updateVals();
-					} else if (System.currentTimeMillis() - righthold > rightholdLength * 1000) {
-						KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), false);
-						this.updateVals();
-					}
-				}
+				rmbAutoClick();
 				break;
 			case"both":
-				if (Mouse.isButtonDown(0)) {
-					if (System.currentTimeMillis() - leftlastClick > leftspeed * 1000) {
-						leftlastClick = System.currentTimeMillis();
-						if (lefthold < leftlastClick) {
-							lefthold = leftlastClick;
-						}
-						int key = mc.gameSettings.keyBindAttack.getKeyCode();
-						KeyBinding.setKeyBindState(key, true);
-						KeyBinding.onTick(key);
-						this.updateVals();
-					} else if (System.currentTimeMillis() - lefthold > leftholdLength * 1000) {
-						KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
-						this.updateVals();
-					}
-				}
-				if (Mouse.isButtonDown(1)) {
-					if (System.currentTimeMillis() - rightlastClick > rightspeed * 1000) {
-						rightlastClick = System.currentTimeMillis();
-						if (righthold < rightlastClick) {
-							righthold = rightlastClick;
-						}
-						int key = mc.gameSettings.keyBindUseItem.getKeyCode();
-						KeyBinding.setKeyBindState(key, true);
-						KeyBinding.onTick(key);
-						this.updateVals();
-					} else if (System.currentTimeMillis() - righthold > rightholdLength * 1000) {
-						KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), false);
-						this.updateVals();
-					}
-				}
+				lmbAutoclick();
+				rmbAutoClick();
 				break;
+		}
+	}
+
+	private void lmbAutoclick() {
+		if (Mouse.isButtonDown(0)) {
+			if (System.currentTimeMillis() - leftlastClick > leftspeed * 1000) {
+				leftlastClick = System.currentTimeMillis();
+				if (lefthold < leftlastClick) {
+					lefthold = leftlastClick;
+				}
+				int key = mc.gameSettings.keyBindAttack.getKeyCode();
+				KeyBinding.setKeyBindState(key, true);
+				KeyBinding.onTick(key);
+				this.updateVals();
+			} else if (System.currentTimeMillis() - lefthold > leftholdLength * 1000) {
+				KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
+				this.updateVals();
+			}
+		}
+	}
+
+	private void rmbAutoClick() {
+		if (Mouse.isButtonDown(1)) {
+			if (System.currentTimeMillis() - rightlastClick > rightspeed * 1000) {
+				rightlastClick = System.currentTimeMillis();
+				if (righthold < rightlastClick) {
+					righthold = rightlastClick;
+				}
+				int key = mc.gameSettings.keyBindUseItem.getKeyCode();
+				KeyBinding.setKeyBindState(key, true);
+				KeyBinding.onTick(key);
+				this.updateVals();
+			} else if (System.currentTimeMillis() - righthold > rightholdLength * 1000) {
+				KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), false);
+				this.updateVals();
+			}
 		}
 	}
 

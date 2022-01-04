@@ -1,13 +1,9 @@
 package io.github.kingstefan26.stefans_util.core;
 
+import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.setting.SettingsManager;
-import io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.rewrite.setting.general.SettingsCore;
+import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
 import io.github.kingstefan26.stefans_util.main;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.handelers.PacketHandler;
@@ -36,16 +32,9 @@ public class kokoMod {
 
 	public void init() {
 		MinecraftForge.EVENT_BUS.register(this);
-
-
 		configMenager.configMenager = configMenager.getConfigManager();
-		SettingsManager.SettingsManager = SettingsManager.getSettingsManager();
-		ModuleManager.ModuleManager = ModuleManager.getModuleManager();
-		ClickGui.ClickGui = ClickGui.getClickGui();
-
-		moduleManager.getModuleManager();
 		SettingsCore.getSettingsCore();
-		newClickGui.getClickGui();
+		ClickGui.getClickGui();
 	}
 
 

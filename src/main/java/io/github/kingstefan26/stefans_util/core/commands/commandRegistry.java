@@ -1,17 +1,21 @@
 package io.github.kingstefan26.stefans_util.core.commands;
 
-import io.github.kingstefan26.stefans_util.core.dynamicModules.webModuleMenager;
+import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleRegistery;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.core.newConfig.fileCacheing.cacheManager;
+import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
+import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.jarLoader;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
-import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
 import io.github.kingstefan26.stefans_util.module.render.lastLeftOff;
 import io.github.kingstefan26.stefans_util.service.Service;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.notificationService;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
 import io.github.kingstefan26.stefans_util.util.CalendarUtils;
-import io.github.kingstefan26.stefans_util.util.InlineCompiler;
 import io.github.kingstefan26.stefans_util.util.file;
+import io.github.kingstefan26.stefans_util.util.handelers.ScoreboardHandler;
+import io.github.kingstefan26.stefans_util.util.renderUtil.updateWidowTitle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
@@ -24,10 +28,75 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.kingstefan26.stefans_util.module.macro.wart.helper.wartMacroHelpers.getYaw;
+
 
 public class
 commandRegistry {
+
+
+
     public static ArrayList<CommandBase> simpleCommands = new ArrayList<CommandBase>() {{
+        add(new SimpleCommand("itwasjustaprank", new SimpleCommand.ProcessCommandRunnable() {
+
+//            public List<String> getSidebarLines() {
+//                List<String> lines = new ArrayList<>();
+//                Scoreboard scoreboard = Minecraft.getMinecraft().theWorld.getScoreboard();
+//                if (scoreboard == null) {
+//                    return lines;
+//                }
+//
+//                ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
+//
+//                if (objective == null) {
+//                    return lines;
+//                }
+//
+//                Collection<Score> scores = scoreboard.getSortedScores(objective);
+//                List<Score> list = Lists.newArrayList(scores.stream()
+//                        .filter(input -> input != null && input.getPlayerName() != null && !input.getPlayerName().startsWith("#"))
+//                        .collect(Collectors.toList()));
+//
+//                if (list.size() > 15) {
+//                    scores = Lists.newArrayList(Iterables.skip(list, scores.size() - 15));
+//                } else {
+//                    scores = list;
+//                }
+//
+//                for (Score score : scores) {
+//                    ScorePlayerTeam team = scoreboard.getPlayersTeam(score.getPlayerName());
+//                    lines.add(ScorePlayerTeam.formatPlayerName(team, score.getPlayerName()));
+//                }
+//
+//                return lines;
+//            }
+
+            public void processCommand(ICommandSender sender, String[] args) {
+//                for(String s : getSidebarLines()){
+//                    System.out.println(s);
+//
+//                    String subjectString = StringUtils.stripControlCodes(s.toLowerCase());
+//                    subjectString = Normalizer.normalize(subjectString, Normalizer.Form.NFD);
+//                    String resultString = subjectString.replaceAll("[^\\x00-\\x7F]", "");
+//                    if(resultString.isEmpty()) continue;
+//
+//                    System.out.println(resultString);
+//
+//                    chatService.queueClientChatMessage("presonal island " + resultString.contains("your island"));
+//
+//                }
+                chatService.queueClientChatMessage("presonal island " + ScoreboardHandler.getScoreboardAsCleanString().contains("Your Island"));
+            }
+        }));
+
+        add(new SimpleCommand("resetDisplayTitle", new SimpleCommand.ProcessCommandRunnable() {
+            public void processCommand(ICommandSender sender, String[] args) {
+                updateWidowTitle.updateTitle("Kokoclient V69.420 | " + authmenager.getInstance().getCashedAuthObject().status);
+            }
+        }));
+
+
+
         add(new SimpleCommand("kokomod", new SimpleCommand.ProcessCommandRunnable() {
             public void processCommand(ICommandSender sender, String[] args) {
                 chatService.queueClientChatMessage("funny that you ask", chatService.chatEnum.CHATPREFIX);
@@ -117,7 +186,7 @@ commandRegistry {
             public void processCommand(ICommandSender sender, String[] args) {
                 //get block in front of player face and feet
                 util.checkBlock inFrontofFace = null;
-                float yaw = UniversalWartMacro.getYaw();
+                float yaw = getYaw();
 
                 if (between(yaw, -45, 45)) {
                     chatService.queueClientChatMessage("facing pozitive Z");
@@ -175,24 +244,50 @@ commandRegistry {
                 chatService.queueClientChatMessage("cleaned " + a + " objects from cache", chatService.chatEnum.CHATPREFIX);
             }
         }));
-        add(new SimpleCommand("testInlineCompiler", new SimpleCommand.ProcessCommandRunnable() {
+        add(new SimpleCommand("manualloadthejar", new SimpleCommand.ProcessCommandRunnable() {
             public void processCommand(ICommandSender sender, String[] args) {
-                InlineCompiler.someOldTestingShit();
-            }
-        }));
-        add(new SimpleCommand("LOADTHESPRINT", new SimpleCommand.ProcessCommandRunnable() {
-            public void processCommand(ICommandSender sender, String[] args) {
-                if(args[1] != null){
-                    webModuleMenager.loadJar(file.configFullPath + File.separator + args[1] + File.separator + "premium.jar");
+                if(args.length == 1 && args[0] != null){
+                    jarLoader.loadJar(args[0]);
 
                 } else {
-                    webModuleMenager.loadJar(file.configFullPath + File.separator + "assets" + File.separator + "premium.jar");
+                    jarLoader.loadJar(file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar");
 
                 }
 
 //                FILE>ASSETS>TRUE>ASSHOLE>DOTASSEST>LOADJAR
             }
         }));
+        add(new SimpleCommand("unloadallkokomodmodules", new SimpleCommand.ProcessCommandRunnable() {
+            public void processCommand(ICommandSender sender, String[] args) {
+                moduleRegistery.getModuleRegistery().unloadAllModules();
+                ClickGui.getClickGui().resetAllPositions();
+                chatService.queueClientChatMessage("unloaded all modules");
+            }
+        }));
+
+        add(new SimpleCommand("rerunModuleDiscovery", new SimpleCommand.ProcessCommandRunnable() {
+            public void processCommand(ICommandSender sender, String[] args) {
+                moduleRegistery.getModuleRegistery().findAndLoadModuleRegistry();
+            }
+        }));
+
+        add(new SimpleCommand("unloadamodule", new SimpleCommand.ProcessCommandRunnable() {
+            public void processCommand(ICommandSender sender, String[] args) {
+                if(args.length == 1){
+                    basicModule module = moduleRegistery.getModuleRegistery().getModuleByClassName(args[0]);
+                    module.onUnload();
+                    ClickGui.getClickGui().resetAllPositions();
+                    chatService.queueClientChatMessage("unloaded " + args[0]);
+                }
+            }
+        }));
+
+        add(new SimpleCommand("resetGuiPoses", new SimpleCommand.ProcessCommandRunnable() {
+            public void processCommand(ICommandSender sender, String[] args) {
+                ClickGui.getClickGui().resetAllPositions();
+            }
+        }));
+
     }};
 
 }

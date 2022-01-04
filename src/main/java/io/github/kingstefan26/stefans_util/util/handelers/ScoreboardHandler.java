@@ -9,6 +9,7 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.StringUtils;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,7 +31,7 @@ public class ScoreboardHandler {
     }
 
     public static List<String> getSidebarLines() {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
 
         if (Minecraft.getMinecraft().theWorld == null) return lines;
         Scoreboard scoreboard = Minecraft.getMinecraft().theWorld.getScoreboard();
@@ -58,4 +59,44 @@ public class ScoreboardHandler {
 
         return lines;
     }
+
+    public static String getScoreboardAsCleanString(){
+        List<String> lines = new ArrayList<>();
+        Scoreboard scoreboard = Minecraft.getMinecraft().theWorld.getScoreboard();
+        ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
+        Collection<Score> scores = scoreboard.getSortedScores(objective);
+        List<Score> list = scores.stream()
+                .filter(input -> input != null && input.getPlayerName() != null &&
+                        !input.getPlayerName().startsWith("#")).collect(Collectors.toList());
+
+        if (list.size() > 15) {
+            scores = Lists.newArrayList(Iterables.skip(list, scores.size() - 15));
+        } else {
+            scores = list;
+        }
+
+        for (Score score : scores) {
+            ScorePlayerTeam team = scoreboard.getPlayersTeam(score.getPlayerName());
+            lines.add(ScorePlayerTeam.formatPlayerName(team, score.getPlayerName()));
+        }
+
+
+        StringBuilder returnsting = new StringBuilder();
+        for(String s : lines){
+
+            String subjectString = StringUtils.stripControlCodes(s);
+            subjectString = Normalizer.normalize(subjectString, Normalizer.Form.NFD);
+            String resultString = subjectString.replaceAll("[^\\x00-\\x7F]", "");
+            if(resultString.isEmpty()) continue;
+
+
+
+            returnsting.append(resultString).append(" ");
+        }
+
+
+        return returnsting.toString();
+    }
+
+
 }

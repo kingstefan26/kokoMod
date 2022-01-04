@@ -33,7 +33,6 @@ public class chatService extends Service {
         CHATPREFIX,
         CHATNOPREFIX,
         CHATCOMPONENT
-
     }
     static class message {
         public Object text = null;
@@ -45,9 +44,17 @@ public class chatService extends Service {
         }
 
     }
+
+    static Queue<String> sendQueue = new LinkedList<>();
     static Queue<message> messageQueue = new LinkedList<>();
 
     public static boolean lockEnableMessages = true;
+
+
+    public static void sendMessage(String message){
+        sendQueue.add(message);
+    }
+
 
     public static void queueClientChatMessage(Object message, chatEnum type) {
         messageQueue.add(new message(message, type));
@@ -72,6 +79,9 @@ public class chatService extends Service {
             if (messageQueue.peek() != null) {
                 message temp = messageQueue.remove();
                 sendClientMessage(temp);
+            }
+            if (sendQueue.peek() != null) {
+                Minecraft.getMinecraft().thePlayer.sendChatMessage(sendQueue.remove());
             }
         }
     }

@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,7 @@ import java.util.Scanner;
 
 public class APIHandler {
     static Logger logger;
+
     static {
         logger = LogManager.getLogger("APIHandler");
     }
@@ -39,6 +41,13 @@ public class APIHandler {
         }
 
         return output;
+    }
+
+    public static String donloadAFileAndReturnPath(String urlString, String savePath) throws IOException {
+        URL url = new URL(urlString);
+        File file = new File(savePath);
+        FileUtils.copyURLToFile(url, file);
+        return file.getAbsolutePath();
     }
 
 

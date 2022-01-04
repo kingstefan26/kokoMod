@@ -1,21 +1,19 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.presistanceDecorator;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager.Category.MISC;
+import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.MISC;
 
 public class stolenFarmOverlay extends basicModule {
 
@@ -135,8 +133,8 @@ public class stolenFarmOverlay extends basicModule {
         cropsPerSecond = -1;
     }
 
-    @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent e) {
+    @Override
+    public void onTick(TickEvent.ClientTickEvent e) {
         if(System.currentTimeMillis() - timer > 1000){
             timer = System.currentTimeMillis();
             if(WorldInfoService.isInSkyblock() && mc.thePlayer != null){
@@ -145,11 +143,13 @@ public class stolenFarmOverlay extends basicModule {
 
             }
         }
+        super.onTick(e);
     }
 
-    @SubscribeEvent
-    public void onrederGui(RenderGameOverlayEvent e){
-        if (!e.type.equals(RenderGameOverlayEvent.ElementType.CROSSHAIRS) || !this.isToggled() || counter == -1) {
+
+    @Override
+    public void onRenderTick(TickEvent.RenderTickEvent e) {
+        if (!this.isToggled() || mc.getCurrentServerData() != null || counter == -1) {
             return;
         }
         GuiScreenText[0] = "counter " + counter;
@@ -171,8 +171,9 @@ public class stolenFarmOverlay extends basicModule {
 
             y += fr.FONT_HEIGHT;
         }
-
+        super.onRenderTick(e);
     }
+
 
 //    private static final int PADDING_X = 5;
 //    private static final int PADDING_Y = 5;

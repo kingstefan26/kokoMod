@@ -14,7 +14,9 @@ buildscript {
             name = "forge"
             url = "https://maven.minecraftforge.net/"
         }
-        maven { url "https://jitpack.io" }
+        maven {
+            url "https://jitpack.io"
+        }
     }
     dependencies {
         classpath 'com.github.Skytils:ForgeGradle:6f5327'
@@ -23,15 +25,22 @@ buildscript {
     }
 }
 
+apply plugin: 'java'
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
+archivesBaseName = "kokomod"
 group = 'io.github.kingstefan26'
 version = '0.2.8-ALPHA'
+String modid = 'stefan_util'
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
 
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
@@ -52,15 +61,26 @@ repositories {
 dependencies {
     implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.java-websocket:Java-WebSocket:1.5.2'
-    implementation 'org.jetbrains:annotations:22.0.0'
     compile 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
-    compile 'net.openhft:compiler:2.21ea80'
     annotationProcessor 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
+//
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
-//mixin {
-//    add sourceSets.main, "mixins.stefan_util.refmap.json"
-//}
+mixin {
+    add sourceSets.main, "mixins." + modid + ".refmap.json"
+}
+
+sourceSets {
+    main {
+        output.resourcesDir = output.classesDirs.asPath
+    }
+}
+
 
 jar {
     manifest.attributes(
@@ -74,7 +94,13 @@ jar {
 }
 
 shadowJar {
+    archiveFileName = jar.archiveFileName
+
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest.attributes(
+            "FMLCorePlugin": "io.github.kingstefan26.stefans_util.stefan_utilPlugin"
+    )
+
     dependencies {
         include(dependency('org.spongepowered:mixin:0.7.11-SNAPSHOT'))
         include(dependency('org.reflections:reflections:0.10.2'))
@@ -82,9 +108,10 @@ shadowJar {
         include(dependency('net.openhft:compiler:2.21ea80'))
         include(dependency('org.jetbrains:annotations:22.0.0'))
     }
-    manifest.attributes(
-            "FMLCorePlugin": "io.github.kingstefan26.stefans_util.stefan_utilPlugin"
-    )
+
+    exclude 'module-info.class'
+    exclude 'dummyThing'
+    exclude 'LICENSE.txt'
 }
 
 reobfJar.dependsOn tasks.shadowJar
@@ -95,41 +122,42 @@ reobf {
     }
 }
 
+
 build.dependsOn(shadowJar)
 runClient.dependsOn(build)
 
-
-
 task createPremiumJar(type:Exec) {
+    group 'kokoniara tasks'
+    description 'builds the jar extracts all the module classes and puts them in a separete jar'
     workingDir '.'
     commandLine './doThat.sh'
+}
+
+task syncChanges(type:Exec) {
+    group 'kokoniara tasks'
+    description 'sync premium jar to github'
+    workingDir '.'
+    commandLine './syncPremiumJarToGitHub.sh'
 }
 
 
 createPremiumJar.dependsOn(build)
 
-//processResources
-//        {
-//            inputs.property "version", project.version
-//            inputs.property "mcversion", project.minecraft.version
-//
-//            from(sourceSets.main.resources.srcDirs) {
-//                include 'mcmod.info'
-//                expand 'version':project.version, 'mcversion':project.minecraft.version
-//            }
-//
-//            from(sourceSets.main.resources.srcDirs) {
-//                exclude 'mcmod.info'
-//            }
-//
-//            rename '(.+_at.cfg)', 'META-INF/$1'
-//        }
-//
-//task moveResources {
-//    doLast {
-//        ant.move file: "${buildDir}/resources/main",
-//                todir: "${buildDir}/classes/java"
-//    }
-//}
-//moveResources.dependsOn processResources
-//classes.dependsOn moveResources
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include "mcmod.info"
+
+        // replace version and mcversion
+        expand "version": project.version, "mcversion": project.minecraft.version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude "mcmod.info"
+    }
+}

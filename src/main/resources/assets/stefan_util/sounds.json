@@ -22,5 +22,13 @@
       "stream": false
     }
     ]
+  },
+  "annoying": {
+    "category": "player",
+    "sounds": [{
+      "name": "stefan_util:annoying",
+      "stream": false
+    }
+    ]
   }
 }

@@ -1,13 +1,13 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.setting.Setting;
-import io.github.kingstefan26.stefans_util.core.preRewrite.setting.SettingsManager;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.inventory.*;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -24,16 +24,19 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-public class harpBot extends Module {
+public class harpBot extends basicModule {
     public harpBot() {
-        super("harpbot", "a bot that bots harp", ModuleManager.Category.DEBUG);
+        super("harpbot", "a bot that bots harp", moduleManager.Category.MISC);
     }
 
     @Override
     public void onLoad() {
-        SettingsManager.getSettingsManager().rSetting(new Setting("delay", this, 0, 1000, 100, true));
+        new SliderNoDecimalSetting("delay", this, 0, 100, 1000, (newvalue)->{
+
+        });
         super.onLoad();
     }
+
 
     List<Slot> slots = new ArrayList<>();
 

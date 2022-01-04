@@ -1,7 +1,5 @@
 package io.github.kingstefan26.stefans_util.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,7 +13,7 @@ public class util {
     /**
      * Function to remove duplicates from an ArrayList
      */
-    public static <T> ArrayList<T> removeDuplicates(@NotNull ArrayList<T> list) {
+    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) {
         ArrayList<T> newList = new ArrayList<>();
         for (T element : list) {
             if (!newList.contains(element)) {
@@ -24,6 +22,29 @@ public class util {
         }
         return newList;
     }
+
+
+    /**
+     * Generic rotate array clockwise by 90 degres
+     * @param clas the class of the array
+     * @param array the array itself
+     * @param <T> the rotated array
+     * @return the rotated array
+     */
+    public static <T> T[][] rotateArray90clockwise(Class<T> clas, T[][] array) {
+        T[][] target = (T[][]) java.lang.reflect.Array.newInstance(
+                clas, array[0].length, array.length);
+
+        for (int i = 0; i < target.length; i++) {
+            for (int j = 0; j < target[i].length; j++) {
+                target[i][j] = array[(target[i].length - 1) - j][i];
+            }
+        }
+
+        return target;
+    }
+
+
 
     /**
      * Equivalent to JS set timeout

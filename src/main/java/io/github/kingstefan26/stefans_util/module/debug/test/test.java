@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.debug.test;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.module.render.lastLeftOff;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import net.minecraft.util.BlockPos;
@@ -10,16 +10,15 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.DEBUG;
 import static io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline.draw3DLine;
 
 
-public class test extends Module {
+public class test extends basicModule {
 
     public test() {
-        super("test", "test", ModuleManager.Category.DEBUG, true);
-        this.enableMessage = "hello test";
-        this.disableMessage = "rip test";
-//        SettingsManager.getSettingsManager().rSetting(new Setting("interpolate steps", this, 10, 1, 60, true));
+        super("test", "test", DEBUG, new keyBindDecorator("test123"));
+        //        SettingsManager.getSettingsManager().rSetting(new Setting("interpolate steps", this, 10, 1, 60, true));
 //        SettingsManager.getSettingsManager().rSetting(new Setting("wanted Yaw", this, 90, 1, 90, false));
 //        SettingsManager.getSettingsManager().rSetting(new Setting("wanted Pitch", this, 1, 1, 90, false));
 

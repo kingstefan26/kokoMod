@@ -1,14 +1,16 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
 import com.google.common.base.Throwables;
-import io.github.kingstefan26.stefans_util.core.preRewrite.clickgui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.rewrite.clickGui.newClickGui;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleDecorators.impl.presistanceDecorator;
-import io.github.kingstefan26.stefans_util.core.rewrite.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.core.rewrite.setting.impl.SliderNoDecimalSetting;
+import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
+import io.github.kingstefan26.stefans_util.util.ShaderResourcePack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.resources.IResourcePack;
+import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.shader.Shader;
 import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.client.shader.ShaderUniform;
@@ -18,8 +20,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class blurClickGui extends basicModule {
@@ -29,11 +33,10 @@ public class blurClickGui extends basicModule {
         return blurClickGui_;
     }
 
-    ArrayList<String> alowedGuiClasses = new ArrayList<String>() {{
-        add(ClickGui.class.getName());
-        add("io.github.kingstefan26.stefans_util.module.macro.macroUtil.macroMenu");
-        add(newClickGui.class.getName());
-    }};
+    ArrayList<String> alowedGuiClasses = new ArrayList<>(Arrays.asList(ClickGui.class.getName()));
+
+    @Nonnull
+    private final ShaderResourcePack dummyPack = new ShaderResourcePack();
 
     @Override
     public void onLoad(){
@@ -44,6 +47,9 @@ public class blurClickGui extends basicModule {
         new SliderNoDecimalSetting("fadetime", this, 150, 0, 1000, (newval) -> {
             fadeTime = (int) newval;
         });
+
+        ((List<IResourcePack>) ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "field_110449_ao", "defaultResourcePacks")).add(dummyPack);
+        ((SimpleReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(dummyPack);
 
         super.onLoad();
     }

@@ -1,18 +1,20 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ import static io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline.dra
 /**
  * Stolen from Quantizr
  */
-public class testRaytrace extends Module {
+public class testRaytrace extends basicModule {
 
     public static final Logger logger = LogManager.getLogger("testRaytrace");
 
@@ -31,7 +33,7 @@ public class testRaytrace extends Module {
     public static final double RAD_TO_DEG = 180.0 / Math.PI;
 
     public testRaytrace() {
-        super("looking at", "test", ModuleManager.Category.DEBUG);
+        super("looking at", "test", moduleManager.Category.DEBUG);
     }
 
     @Override

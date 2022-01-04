@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Loader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class configMenager {
@@ -26,7 +27,7 @@ public class configMenager {
         config = new Configuration(configFile);
         config.load();
 
-        this.configObjects = new ArrayList<configObject>();
+        this.configObjects = new ArrayList<>();
     }
 
     public void createConfigObject(configObject in){
@@ -47,7 +48,7 @@ public class configMenager {
 
     public configObject getConfigObjectByNameAndTypeAndParent(String name,String parentModuleName ,confgValueType type){
         for(configObject i: configObjects){
-            if(i.getName() == name && i.getType() == type && i.getParentModuleName() == parentModuleName){
+            if(Objects.equals(i.getName(), name) && i.getType() == type && Objects.equals(i.getParentModuleName(), parentModuleName)){
                 int index  = configObjects.indexOf(i);
                 return configObjects.get(index);
             }

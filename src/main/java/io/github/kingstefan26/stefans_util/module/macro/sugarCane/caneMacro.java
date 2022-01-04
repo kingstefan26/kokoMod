@@ -1,11 +1,11 @@
 package io.github.kingstefan26.stefans_util.module.macro.sugarCane;
 
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.preRewrite.module.Module;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.module.macro.util.macroStages;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.KeyBinding;
@@ -16,7 +16,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-public class caneMacro extends Module {
+import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.MACRO;
+
+public class caneMacro extends basicModule {
 
     private boolean ismacroingReady;
     private macroStages macroWalkStage = macroStages.DEFAULT;
@@ -30,9 +32,7 @@ public class caneMacro extends Module {
     private double playerSpeed;
 
     public caneMacro(){
-        super("cane macro", "macros cane!", ModuleManager.Category.MACRO, true);
-        this.enableMessage = "cane macro enabed";
-        this.disableMessage = "cane macro disabled";
+        super("cane macro", "macros cane!", MACRO, new keyBindDecorator("caneMacro"));
     }
 
     @SubscribeEvent
@@ -43,7 +43,7 @@ public class caneMacro extends Module {
         /*
         prevents you form using the mod without a keybind
          */
-        if(this.getKey() == 0){
+        if(localDecoratorManager.keyBindDecorator.keybind.getKeyCode() == 0){
             drawCenterString.GuiNotif(mc, "please set a keybind!");
             return;
         }
@@ -99,7 +99,7 @@ public class caneMacro extends Module {
             ScaledResolution scaled = new ScaledResolution(mc);
             int width = scaled.getScaledWidth();
             int height = scaled.getScaledHeight();
-            drawCenterString.drawCenterStringOnScreenLittleToDown(mc,"press key "+Keyboard.getKeyName(this.getKeyBindingObj().getKeyCode()) +" to stop","ff002f");
+            drawCenterString.drawCenterStringOnScreenLittleToDown(mc,"press key "+Keyboard.getKeyName(localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) +" to stop","ff002f");
 
             //just holds the attack key down
             KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), true);
