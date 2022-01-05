@@ -5,7 +5,7 @@ import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.globals;
 import io.github.kingstefan26.stefans_util.core.kokoMod;
 import io.github.kingstefan26.stefans_util.core.newConfig.configManagerz;
-import io.github.kingstefan26.stefans_util.core.newConfig.fileCacheing.cacheManager;
+import io.github.kingstefan26.stefans_util.core.fileCacheing.cacheManager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;

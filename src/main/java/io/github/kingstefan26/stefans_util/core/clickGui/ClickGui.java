@@ -1,5 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.clickGui;
 
+import com.google.common.collect.Lists;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.frame;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
@@ -9,6 +10,7 @@ import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static io.github.kingstefan26.stefans_util.util.file.getFileFromResourceAsStream;
 
@@ -100,10 +102,15 @@ public class ClickGui extends GuiScreen {
 			}
 		}
 	}
-	
+
+
+	public List<String> list = Lists.newArrayList();
+
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
+
+		list.clear();
 		for(frame frame : frames) {
 			frame.renderFrame();
 			frame.updatePosition(mouseX, mouseY);
@@ -111,6 +118,13 @@ public class ClickGui extends GuiScreen {
 				comp.updateComponent(mouseX, mouseY);
 			}
 		}
+
+		if(!list.isEmpty()) {
+			this.drawHoveringText(list, mouseX, mouseY);
+		}
+
+
+
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

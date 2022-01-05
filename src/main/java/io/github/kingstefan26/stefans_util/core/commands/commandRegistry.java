@@ -3,7 +3,7 @@ package io.github.kingstefan26.stefans_util.core.commands;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.core.newConfig.fileCacheing.cacheManager;
+import io.github.kingstefan26.stefans_util.core.fileCacheing.cacheManager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.jarLoader;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;

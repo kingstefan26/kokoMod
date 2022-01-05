@@ -1,4 +1,4 @@
-package io.github.kingstefan26.stefans_util.core.newConfig.fileCacheing;
+package io.github.kingstefan26.stefans_util.core.fileCacheing;
 
 public class CacheObject {
     static class metaData{

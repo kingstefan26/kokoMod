@@ -1,4 +1,4 @@
-package io.github.kingstefan26.stefans_util.core.newConfig.fileCacheing;
+package io.github.kingstefan26.stefans_util.core.fileCacheing;
 
 import io.github.kingstefan26.stefans_util.util.cryptography;
 import io.github.kingstefan26.stefans_util.util.file;

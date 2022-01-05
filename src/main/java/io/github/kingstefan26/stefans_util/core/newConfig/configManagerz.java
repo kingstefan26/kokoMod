@@ -1,14 +1,22 @@
 package io.github.kingstefan26.stefans_util.core.newConfig;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import io.github.kingstefan26.stefans_util.core.globals;
+import io.github.kingstefan26.stefans_util.core.newConfig.impl.*;
+import lombok.Getter;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class configManagerz {
@@ -23,7 +31,22 @@ public class configManagerz {
     public static final String configDirectoryPath;
     public static final String configFullPath;
 
-    private final Gson gson = new Gson();
+    // we make sure we can serialise/deserialize it
+    private static final Gson gson;
+
+    static {
+        final RuntimeTypeAdapterFactory<Iproperty> typeFactory = RuntimeTypeAdapterFactory
+                .of(Iproperty.class, "type")
+                .registerSubtype(boolProp.class, "bool")
+                .registerSubtype(doubleProp.class, "double")
+                .registerSubtype(floatProp.class, "float")
+                .registerSubtype(intProp.class, "int")
+                .registerSubtype(stringProp.class, "string");
+
+
+        gson = new GsonBuilder().registerTypeAdapterFactory(typeFactory).setPrettyPrinting().create();
+    }
+
 
     private masterConfigObj masterObj;
 
@@ -32,8 +55,43 @@ public class configManagerz {
         configFullPath = configDirectoryPath + File.separator + "stefanUtil" + File.separator + configFileName;
     }
 
+    public static class masterConfigObj {
+        String version = globals.VERSION;
+
+        @Getter
+        Iproperty[] props;
+
+        void addProp(Iproperty prop){
+            if(props != null){
+                Iproperty[] temp = new Iproperty[props.length + 1];
+                System.arraycopy(props, 0, temp, 0, props.length);
+                temp[props.length] = prop;
+                props = temp;
+            } else {
+                props = new Iproperty[]{prop};
+            }
+        }
+
+    }
+
+
+    int tickcounter;
+    @SubscribeEvent
+    public void tick(TickEvent.ClientTickEvent e){
+        if(e.phase != TickEvent.Phase.START) return;
+
+        tickcounter++;
+        // this happenes every 200 ticks aka 10 seconds
+        if(tickcounter >= 200){
+            tickcounter = 0;
+            saveMasterObjectToThaFile(masterObj);
+        }
+
+    }
+
 
     private configManagerz() {
+        MinecraftForge.EVENT_BUS.register(this);
         System.out.print(configFullPath);
         // Get the file
         File f = new File(configFullPath);
@@ -70,18 +128,13 @@ public class configManagerz {
                     masterObj = gson.fromJson(everything, masterConfigObj.class);
                 }
 
+                // silly goffy part
+
                 System.out.println(masterObj.version);
 
-                configObj c = new configObj("test");
-                c.setaBoolean(true);
+                Iproperty c = getConfigObject("test", false);
 
-                createConfigObject(c);
-
-                configObj test = getExisitingObject("test");
-
-                System.out.println(test.isaBoolean());
-
-                c.setaFloat(20.5F);
+                System.out.println(c.getProperty());
 
             } catch (IOException exception) {
                 exception.printStackTrace();
@@ -98,35 +151,38 @@ public class configManagerz {
     }
 
 
+    public Iproperty getConfigObject(String name, Object deafultValue){
+        // we check if this object already exists
+        if(masterObj.getProps() != null){
+            for(Iproperty c : masterObj.getProps()){
+                if(Objects.equals(c.getName(), name)){
+                    return c;
+                }
+            }
+        }
 
-    public void createConfigObject(configObj obj){
-        ArrayList<configObj> temp;
-        if(masterObj.configObjs != null){
-            temp = new ArrayList<>(Arrays.asList(masterObj.configObjs));
-            for(configObj c : masterObj.configObjs){
+        // if it dont we create it yay
+        final Iproperty conf = configFactory.getInstance().getProperty(name, deafultValue);
+        createConfigObject(conf);
+
+        return conf;
+    }
+
+    private void createConfigObject(Iproperty obj){
+        if(masterObj.getProps() != null){
+            for(Iproperty c : masterObj.getProps()){
                 if(Objects.equals(c.getName(), obj.getName())){
                     System.out.println("config Already exists");
                     return;
                 }
             }
-        }else{
-            temp = new ArrayList<>();
         }
-        temp.add(obj);
-        masterObj.configObjs = temp.toArray(new configObj[0]);
-    }
 
-    public configObj getExisitingObject(String nameOfSaidObject){
-        for(configObj c : masterObj.configObjs){
-            if(Objects.equals(c.getName(), nameOfSaidObject)){
-                return c;
-            }
-        }
-        return null;
+        masterObj.addProp(obj);
     }
 
 
-    public void saveMasterObjectToThaFile(masterConfigObj master){
+    private void saveMasterObjectToThaFile(masterConfigObj master){
         try {
             FileWriter myWriter = new FileWriter(configFullPath);
             myWriter.write(gson.toJson(master));

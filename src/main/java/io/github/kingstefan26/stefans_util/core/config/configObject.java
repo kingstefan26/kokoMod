@@ -51,32 +51,7 @@ public class configObject {
     }
 
 
-//    public configObject(String name,String parentModuleName, confgValueType type){
-//        if(kokoMod.instance._configMenager == null) return;
-//        this.name = name;
-//        this.parentModuleName = parentModuleName;
-//        this.type = type;
-//        this.isIndependent = false;
-//        switch(type){
-//            case INT:
-//                configPropertyObject = configMenager.getConfigManager().config.get(parentModuleName, name, 0);
-//                break;
-//            case DOUBLE:
-//                configPropertyObject = configMenager.getConfigManager().config.get(parentModuleName, name, 0.0);
-//                break;
-//            case STRING:
-//                configPropertyObject = configMenager.getConfigManager().config.get(parentModuleName, name, "default");
-//                break;
-//            case BOOLEAN:
-//                configPropertyObject = configMenager.getConfigManager().config.get(parentModuleName, name, false);
-//                break;
-//            case PERSISTENT:
-//                configPropertyObject = configMenager.getConfigManager().config.get(parentModuleName, "presistanceToggle", false);
-//                break;
-//        }
-//    }
-
-    public configObject(String name, confgValueType type){
+    public configObject(String name, confgValueType type) {
         if(configMenager.getConfigManager() == null) return;
         this.name = name;
         this.type = type;

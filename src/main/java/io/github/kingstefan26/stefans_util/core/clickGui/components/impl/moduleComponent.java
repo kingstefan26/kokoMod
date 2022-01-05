@@ -20,8 +20,10 @@ import io.github.kingstefan26.stefans_util.core.setting.general.AbstractSetting;
 import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
 import io.github.kingstefan26.stefans_util.core.setting.impl.*;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
+import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class moduleComponent extends component {
      * this tell if the module component is being hovered over with a mouse,
      * used to change the components color when hovered
      */
+    @Getter
     private boolean isHovered;
 
     /**
@@ -194,6 +197,13 @@ public class moduleComponent extends component {
                 hehe.drawRect(parent.getX() + 2, parent.getY() + this.offset + 12, parent.getX() + 3, parent.getY() + this.offset + ((this.subcomponents.size() + 1) * 12), globals.mainColor);
             }
         }
+
+        if(isHovered){
+            if(mod.description != null){
+                ClickGui.getClickGui().list.add(EnumChatFormatting.WHITE + mod.description);
+            }
+        }
+
     }
 
     @Override
