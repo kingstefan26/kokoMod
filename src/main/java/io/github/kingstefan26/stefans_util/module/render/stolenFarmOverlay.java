@@ -195,6 +195,7 @@ public class stolenFarmOverlay extends basicModule {
         if (mc.currentScreen != null) {
             avragecps = 0;
             shouldRender = false;
+
             return;
         }
         if (mc.thePlayer.getHeldItem() != null) {
