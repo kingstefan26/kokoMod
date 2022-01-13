@@ -132,6 +132,7 @@ public class stolenFarmOverlay extends basicModule {
 
     @Override
     public void onDisable() {
+        super.onDisable();
         avrageValueStorecps.clear();
         cropsPerSecond = -1;
     }
@@ -207,7 +208,7 @@ public class stolenFarmOverlay extends basicModule {
                 updateThaInfo();
                 GuiScreenText[0] = "counter " + coolFormat(counter);
                 GuiScreenText[1] = "Ø crops/h " + coolFormat(avragecps * 60 * 60);
-                GuiScreenText[2] = "Ø money/h " + coolFormat(avragecps * 60 * 60 * 4);
+                GuiScreenText[2] = "Ø money/h " + coolFormat(avragecps * 60 * 60 * 3);
             } else {
                 shouldRender = false;
                 avragecps = 0;
