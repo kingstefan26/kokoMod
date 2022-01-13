@@ -12,7 +12,6 @@ import java.util.Map;
 @IFMLLoadingPlugin.MCVersion("1.8.9")
 public class stefan_utilPlugin implements IFMLLoadingPlugin {
 
-
     public stefan_utilPlugin() {
         MixinBootstrap.init();
         Mixins.addConfiguration("mixins." + globals.MODID+ ".json");
@@ -22,7 +21,6 @@ public class stefan_utilPlugin implements IFMLLoadingPlugin {
     @Override
     public String[] getASMTransformerClass() {
         return new String[] {"io.github.kingstefan26.stefans_util.stefan_utilTransformer"};
-//        return new String[] {"io.github.kingstefan26.stefans_util.core.transformers.NetHandlerTransformer"};
     }
 
     @Override

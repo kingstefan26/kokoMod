@@ -6,7 +6,6 @@ import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.vis
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
@@ -15,60 +14,63 @@ import java.util.ArrayList;
 
 public class HUD extends basicModule {
 
-	int rgb,r,g,b;
-	CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.PLAIN, 15), 15);
-	public static ArrayList<visibleDecorator> visibleDecorators = new ArrayList<>();
+    int rgb, r, g, b;
+    CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.PLAIN, 15), 15);
+    public static ArrayList<visibleDecorator> visibleDecorators = new ArrayList<>();
 
-	public HUD() {
-		super("HUD", "Draws the module list on your screen", moduleManager.Category.RENDER);
-	}
+    public HUD() {
+        super("HUD", "Draws the module list on your screen", moduleManager.Category.RENDER);
+    }
 
-	@Override
-	public void onLoad(){
-		new SliderNoDecimalSetting("R", this, 10, 1, 50, (newvalue)->{
-			this.r = (int) newvalue;
-		});
-		new SliderNoDecimalSetting("G", this, 10, 1, 50, (newvalue)->{
-			this.g = (int) newvalue;
-		});
-		new SliderNoDecimalSetting("B", this, 10, 1, 50, (newvalue)->{
-			this.b = (int) newvalue;
-		});
-		super.onLoad();
-	}
+    @Override
+    public void onLoad() {
+        new SliderNoDecimalSetting("R", this, 10, 1, 50, (newvalue) -> {
+            this.r = (int) newvalue;
+        });
+        new SliderNoDecimalSetting("G", this, 10, 1, 50, (newvalue) -> {
+            this.g = (int) newvalue;
+        });
+        new SliderNoDecimalSetting("B", this, 10, 1, 50, (newvalue) -> {
+            this.b = (int) newvalue;
+        });
+        super.onLoad();
+    }
 
-	private void updateVals(){
-		rgb = r;
-		rgb = (rgb << 8) + g;
-		rgb = (rgb << 8) + b;
-		logger.info("rgb: " + rgb + " hex: " + 0xFFccFFFF);
-	}
+    private void updateVals() {
+        rgb = r;
+        rgb = (rgb << 8) + g;
+        rgb = (rgb << 8) + b;
+        logger.info("rgb: " + rgb + " hex: " + 0xFFccFFFF);
+    }
 
-	@Override
-	public void onEnable(){
-		this.updateVals();
-		super.onEnable();
-	}
+    @Override
+    public void onEnable() {
+        this.updateVals();
+        super.onEnable();
+    }
 
-	@Override
-	public void onGuiRender(RenderGameOverlayEvent e) {
-		if (this.closed || !this.isToggled()) return;
-		if (e.type == RenderGameOverlayEvent.ElementType.TEXT) {
-			ScaledResolution sraka = new ScaledResolution(Minecraft.getMinecraft());
-			int temp = 2;
-			for(basicModule m : moduleRegistery.getModuleRegistery().loadedModules){
-				if(m.localDecoratorManager.visibleDecorator != null){
-					if(m.localDecoratorManager.visibleDecorator.isVisibilityEnabled()){
-						c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, -1);
-						temp += c.getStringHeight(m.getName()) + 1;
-					}
-				} else {
-					c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, -1);
-					temp += c.getStringHeight(m.getName()) + 1;
-				}
-			}
-		}
-	}
+    @Override
+    public void onGuiRender(RenderGameOverlayEvent e) {
+        if (this.closed || !this.isToggled()) return;
+        if (e.type == RenderGameOverlayEvent.ElementType.TEXT) {
+            ScaledResolution sraka = new ScaledResolution(mc);
+            int temp = 2;
+            for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+                if (!m.isToggled()) continue;
+                if (m.getName().equals("HUD")) continue;
+                if (m.localDecoratorManager.visibleDecorator != null) {
+                    if (m.localDecoratorManager.visibleDecorator.isVisibilityEnabled()) {
+                        c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, -1);
+                        temp += c.getStringHeight(m.getName()) + 1;
+                    }
+                } else {
+                    c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, -1);
+                    temp += c.getStringHeight(m.getName()) + 1;
+                }
+
+            }
+        }
+    }
 
 
 //	@SubscribeEvent

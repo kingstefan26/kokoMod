@@ -12,7 +12,7 @@ public class SettingsCore {
         return SettingsCoreInstance;
     }
 
-    public enum type{
+    public enum type {
         check, multiChoise, sliderNoDecimal, slider, key
     }
 

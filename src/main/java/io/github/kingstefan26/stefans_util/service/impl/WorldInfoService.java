@@ -1,6 +1,5 @@
 package io.github.kingstefan26.stefans_util.service.impl;
 
-import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.service.Service;
 import io.github.kingstefan26.stefans_util.util.handelers.ScoreboardHandler;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
@@ -55,17 +54,12 @@ public class WorldInfoService extends Service {
             if (temp0 && !inSkyblock) {
                 MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.joinedSkyblockEvent());
                 //if(main.debug) chat.queueClientChatMessage("joined Skyblock", chat.chatEnum.DEBUG);
-                if (authmenager.getInstance().getCashedAuthObject().status.equals("dev")) {
-                    chatService.queueClientChatMessage("joined Skyblock", chatService.chatEnum.DEBUG);
-                }
 
                 inSkyblock = true;
             } else if (!temp0 && inSkyblock) {
                 inSkyblock = false;
                 //if(main.debug) chat.queueClientChatMessage("left Skyblock", chat.chatEnum.DEBUG);
-                if (authmenager.getInstance().getCashedAuthObject().status.equals("dev")) {
-                    chatService.queueClientChatMessage("left Skyblock", chatService.chatEnum.DEBUG);
-                }
+
                 MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.leftSkyblockEvent());
             }
 
@@ -73,35 +67,23 @@ public class WorldInfoService extends Service {
                 MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.joinedDungeonEvent());
                 //if(main.debug) chat.queueClientChatMessage("joined dungeons", chat.chatEnum.DEBUG);
 
-                if (authmenager.getInstance().getCashedAuthObject().status.equals("dev")) {
-                    chatService.queueClientChatMessage("joined dungeons", chatService.chatEnum.DEBUG);
-                }
                 inDungeons = true;
             } else if (!temp1 && inDungeons) {
                 inDungeons = false;
                 //if(main.debug) chat.queueClientChatMessage("left dungeons", chat.chatEnum.DEBUG);
 
-                if (authmenager.getInstance().getCashedAuthObject().status.equals("dev")) {
-                    chatService.queueClientChatMessage("left dungeons", chatService.chatEnum.DEBUG);
-                }
                 MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.leftDungeonEvent());
             }
 
             if (temp2 && !inPrivateIsland) {
                 MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.joinedPrivateIslandEvent());
 
-                if (authmenager.getInstance().getCashedAuthObject().status.equals("dev")) {
-                    chatService.queueClientChatMessage("joined players private island", chatService.chatEnum.DEBUG);
-                }
                 //if(main.debug) chat.queueClientChatMessage("joined players private island", chat.chatEnum.DEBUG);
                 inPrivateIsland = true;
             } else if (!temp2 && inPrivateIsland) {
                 inPrivateIsland = false;
                 // if(main.debug) chat.queueClientChatMessage("left players private island", chat.chatEnum.DEBUG);
 
-                if (authmenager.getInstance().getCashedAuthObject().status.equals("dev")) {
-                    chatService.queueClientChatMessage("left players private island", chatService.chatEnum.DEBUG);
-                }
                 MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.leftPrivateIslandEvent());
             }
 

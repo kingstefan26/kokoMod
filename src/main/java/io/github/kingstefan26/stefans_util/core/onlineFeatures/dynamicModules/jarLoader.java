@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -22,6 +23,10 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.jar.Attributes;
+import java.util.jar.JarInputStream;
+import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -46,6 +51,22 @@ public class jarLoader {
             chatService.queueClientChatMessage("cannot find " + jarPath);
             return;
         }
+
+        try{
+
+            File initialFile = new File(jarPath);
+            InputStream targetStream = new FileInputStream(initialFile);
+
+            JarInputStream jarStream = new JarInputStream(targetStream);
+            Manifest mf = jarStream.getManifest();
+            Attributes mainAttributes = mf.getMainAttributes();
+
+            for (Map.Entry<Object, Object> objectObjectEntry : mainAttributes.entrySet()) {
+                System.out.println(objectObjectEntry.getKey());
+                System.out.println(objectObjectEntry.getValue());
+            }
+
+        } catch (Exception ignored){}
 
 
         List<String> classNames = new ArrayList<>();
@@ -102,5 +123,67 @@ public class jarLoader {
             e.printStackTrace();
         }
     }
+
+
+    public static String getJarbuildNumber(String jarPath) {
+        String result = null;
+
+        if ((new File(jarPath)).exists()) {
+            try {
+                JarInputStream jarStream = new JarInputStream(new FileInputStream(jarPath));
+                Attributes mainAttributes = jarStream.getManifest().getMainAttributes();
+                String value = mainAttributes.getValue("relasedate");
+
+                if (value != null) {
+                    result = value.replaceAll("[^\\x00-\\x7F]", "").replace("\n", "").replace("\r", "").replace(" ", "");
+                } else {
+                    System.out.println("an error has ripped ass");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+
+    public static String getOwnReleaseDate() {
+        String result = null;
+        boolean finished = false;
+        Class<?> clazz = jarLoader.class;
+        String className = clazz.getSimpleName() + ".class";
+        String classPath = null;
+        try {
+            classPath = clazz.getResource(className).toString();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            finished = true;
+        }
+        if (!finished) {// Class not from JAR
+            if (classPath.startsWith("jar")) {
+                String manifestPath = classPath.substring(0, classPath.lastIndexOf("!") + 1) +
+                        "/META-INF/MANIFEST.MF";
+                Manifest manifest = null;
+                try {
+                    manifest = new Manifest(new URL(manifestPath).openStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Attributes attr = null;
+                if (manifest != null) {
+                    attr = manifest.getMainAttributes();
+                }
+                if (attr != null) {
+                    result = attr.getValue("relasedate");
+                }
+            }
+
+        }
+
+
+        return result;
+    }
+
 
 }

@@ -1,9 +1,10 @@
 package io.github.kingstefan26.stefans_util.core.commands;
 
+import com.mojang.util.UUIDTypeAdapter;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.fileCacheing.cacheManager;
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.core.fileCacheing.cacheManager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.jarLoader;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
@@ -20,13 +21,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.Session;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static io.github.kingstefan26.stefans_util.module.macro.wart.helper.wartMacroHelpers.getYaw;
 
@@ -287,6 +291,35 @@ commandRegistry {
                 ClickGui.getClickGui().resetAllPositions();
             }
         }));
+
+        add(new SimpleCommand("logintoAccount", new SimpleCommand.ProcessCommandRunnable() {
+            public void processCommand(ICommandSender sender, String[] args) {
+                    Field nameField;
+
+                    try {
+                        nameField = Minecraft.getMinecraft().getClass().getDeclaredField("session");
+                        nameField.setAccessible(true);
+                        nameField.set(Minecraft.getMinecraft(), new Session("Metroendium", UUIDTypeAdapter.fromUUID(UUID.fromString("13895129-f549-47f0-a94f-724bb3cf6726")), "eyJhbGciOiJIUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQ0MjE1MDgzNTIzNSIsImFnZyI6IkFkdWx0Iiwic3ViIjoiZWVkMTZlMTItYjY0My00YzY4LWIyNDYtYTg5MjBjZWE1MjNhIiwibmJmIjoxNjQxNzIyMDIzLCJhdXRoIjoiWEJPWCIsInJvbGVzIjpbXSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJleHAiOjE2NDE4MDg0MjMsImlhdCI6MTY0MTcyMjAyMywicGxhdGZvcm0iOiJVTktOT1dOIiwieXVpZCI6IjJjM2QxMTgyZWEwY2RlMDE0MjQxYzZhNWNmZmUyM2E2In0.5CX_rP86JeZtvQVqtPuqtS0xa_KwYjo26bMiIpP2HOo", "mojang"));
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+            }
+        }));
+
+        add(new SimpleCommand("logintoAccount1", new SimpleCommand.ProcessCommandRunnable() {
+            public void processCommand(ICommandSender sender, String[] args) {
+                Field nameField;
+
+                try {
+                    nameField = Minecraft.getMinecraft().getClass().getDeclaredField("session");
+                    nameField.setAccessible(true);
+                    nameField.set(Minecraft.getMinecraft(), new Session("kokoniara", UUIDTypeAdapter.fromUUID(UUID.fromString("fe347f57-f382-40db-9b17-a8aa23736f88")), "eyJhbGciOiJIUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQzODcwODQ5MjA5OCIsImFnZyI6IkFkdWx0Iiwic3ViIjoiZWEyMDJjMjMtNDFjMy00ZWIxLTkyMTktYzE4MTQzNjZkMmM2IiwibmJmIjoxNjQxNjk5MjQxLCJhdXRoIjoiWEJPWCIsInJvbGVzIjpbXSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJleHAiOjE2NDE3ODU2NDEsImlhdCI6MTY0MTY5OTI0MSwicGxhdGZvcm0iOiJVTktOT1dOIiwieXVpZCI6IjFmNTE3MDlmYWJkODM4N2QxY2E0OTk5NGFhZmVhYjI2In0.XQlu-t88hpnjOpFY6Y-vmBel34Oy6ZGUbmgkS3WGtCo", "mojang"));
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }));
+
 
     }};
 

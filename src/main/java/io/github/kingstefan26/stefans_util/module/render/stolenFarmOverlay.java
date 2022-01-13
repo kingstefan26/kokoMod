@@ -1,36 +1,39 @@
-package io.github.kingstefan26.stefans_util.module.misc;
+/*
+ * Copyright (c) 2022. All copyright reserved
+ */
+
+package io.github.kingstefan26.stefans_util.module.render;
 
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.MISC;
+import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.RENDER;
 
 public class stolenFarmOverlay extends basicModule {
 
     public stolenFarmOverlay() {
-        super("stolenoverlay!", "yay!!!", MISC, new presistanceDecorator());
+        super("stolenoverlay!", "shows tha crops when you have a hoe", RENDER, new presistanceDecorator());
     }
 
-    ArrayList<Float> avrageValueStorecps = new ArrayList<>();
-    float avragecps;
 
     final String[] GuiScreenText = new String[]{"null", "null", "null"};
 
 
     long timer;
 
+    ArrayList<Float> avrageValueStorecps = new ArrayList<>();
+    float avragecps;
     long lastUpdate = -1;
-
     int counterLast = -1;
     int counter = -1;
     float cropsPerSecondLast = 0;
@@ -75,7 +78,7 @@ public class stolenFarmOverlay extends basicModule {
                     //and add it into counterqueue
                     counter = ea.getInteger("mined_crops");
                     counterQueue.add(0, counter);
-                //do the same for farmed_cultivating
+                    //do the same for farmed_cultivating
                 } else if (ea.hasKey("farmed_cultivating", 99)) {
                     counter = ea.getInteger("farmed_cultivating");
                     counterQueue.add(0, counter);
@@ -106,7 +109,7 @@ public class stolenFarmOverlay extends basicModule {
         }
 
 
-        if(avrageValueStorecps.size() > 20)
+        if (avrageValueStorecps.size() > 20)
             avrageValueStorecps.remove(avrageValueStorecps.size() - 1);
 
 
@@ -117,61 +120,135 @@ public class stolenFarmOverlay extends basicModule {
         for (Float avrageValueStorecp : avrageValueStorecps) {
             temp += avrageValueStorecp;
         }
-        avragecps = temp/avrageValueStorecps.size();
+        avragecps = temp / avrageValueStorecps.size();
     }
 
 
     @Override
-    public void onEnable(){
+    public void onEnable() {
         super.onEnable();
         timer = System.currentTimeMillis();
     }
 
     @Override
-    public void onDisable(){
+    public void onDisable() {
         avrageValueStorecps.clear();
         cropsPerSecond = -1;
     }
 
-    @Override
-    public void onTick(TickEvent.ClientTickEvent e) {
-        if(System.currentTimeMillis() - timer > 1000){
-            timer = System.currentTimeMillis();
-            if(WorldInfoService.isInSkyblock() && mc.thePlayer != null){
-                lastUpdate = System.currentTimeMillis();
-                updateThaInfo();
+    boolean shouldRender;
 
+    String getCurrentItemUuid() {
+        if (Minecraft.getMinecraft().thePlayer == null) return null;
+
+        ItemStack stack = Minecraft.getMinecraft().thePlayer.getHeldItem();
+        if (stack != null && stack.hasTagCompound()) {
+            NBTTagCompound tag = stack.getTagCompound();
+
+            //if there are ExtraAttributes in nbt tags
+            if (tag.hasKey("ExtraAttributes", 10)) {
+                //get the ExtraAttributes
+                NBTTagCompound ea = tag.getCompoundTag("ExtraAttributes");
+
+                if (ea.hasKey("uuid")) {
+                    return ea.getString("uuid");
+                }
             }
         }
-        super.onTick(e);
+        return null;
+    }
+
+    int tickCouter;
+
+    String uuid;
+
+    @Override
+    public void onTick(TickEvent.ClientTickEvent e) {
+        if (e.phase != TickEvent.Phase.START) return;
+        tickCouter++;
+        if (tickCouter % 20 != 0) return;
+        tickCouter = 0;
+
+        if(!WorldInfoService.isInSkyblock() && mc.thePlayer == null) return;
+
+
+        String temp = getCurrentItemUuid();
+        if (temp != null) {
+            if (uuid == null) uuid = temp;
+            if (!uuid.equals(temp)) {
+                avragecps = 0;
+                cropsPerSecondLast = 0;
+                avrageValueStorecps.clear();
+                counterQueue.clear();
+                counterLast = -1;
+                counter = -1;
+                cropsPerSecondLast = 0;
+                cropsPerSecond = 0;
+                uuid = temp;
+            }
+        } else {
+            uuid = null;
+            shouldRender = false;
+        }
+
+
+        if (mc.currentScreen != null) {
+            avragecps = 0;
+            shouldRender = false;
+            return;
+        }
+        if (mc.thePlayer.getHeldItem() != null) {
+
+            ItemStack hand = mc.thePlayer.getHeldItem();
+            if (hand.getItem().getRegistryName().toLowerCase().contains("hoe")) {
+                lastUpdate = System.currentTimeMillis();
+                shouldRender = true;
+                updateThaInfo();
+                GuiScreenText[0] = "counter " + coolFormat(counter);
+                GuiScreenText[1] = "Ø crops/h " + coolFormat(avragecps * 60 * 60);
+                GuiScreenText[2] = "Ø money/h " + coolFormat(avragecps * 60 * 60 * 4);
+            } else {
+                shouldRender = false;
+                avragecps = 0;
+                cropsPerSecondLast = 0;
+                avrageValueStorecps.clear();
+                counterQueue.clear();
+                counterLast = -1;
+                counter = -1;
+                cropsPerSecondLast = 0;
+                cropsPerSecond = 0;
+            }
+        }
+
+    }
+
+
+    private static final String[] suffix = new String[]{"","k", "m", "b", "t"};
+    private static final int MAX_LENGTH = 4;
+
+    private static String coolFormat(double number) {
+        String r = new DecimalFormat("##0E0").format(number);
+        r = r.replaceAll("E[0-9]", suffix[Character.getNumericValue(r.charAt(r.length() - 1)) / 3]);
+        while(r.length() > MAX_LENGTH || r.matches("[0-9]+\\.[a-z]")){
+            r = r.substring(0, r.length()-2) + r.substring(r.length() - 1);
+        }
+        return r;
     }
 
 
     @Override
     public void onRenderTick(TickEvent.RenderTickEvent e) {
-        if (!this.isToggled() || mc.getCurrentServerData() != null || counter == -1) {
-            return;
+        if (counter == -1 || mc.currentScreen != null) return;
+        if (shouldRender) {
+
+            FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+            int y = 2;
+            for (String s : GuiScreenText) {
+                fr.drawString(s, 1, y, 0xffff00, true);
+
+                y += fr.FONT_HEIGHT;
+            }
         }
-        GuiScreenText[0] = "counter " + counter;
-        GuiScreenText[1] = "Ø crops/h " + avragecps * 60;
-        GuiScreenText[2] = "Ø money/h " + avragecps * 60 * 4;
-
-
-
-        ScaledResolution sr = new ScaledResolution(mc);
-        FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
-        int y = 2;
-        for (String s : GuiScreenText) {
-            //drawCenterString.getdrawCenterString().drawStringWereeverIWant(mc, GuiScreenText[i],0xffff00,50, 50 + (9 * i));
-
-//            main.logger.info("x: "+ (sr.getScaledWidth() - fr.getStringWidth(GuiScreenText[i])));
-//            main.logger.info("y: " + y);
-            fr.drawString(s, 1, y, 0xffff00, true);
-            //fr.drawString(GuiScreenText[i], sr.getScaledWidth() - fr.getStringWidth(GuiScreenText[i]) - 1, y, 0xffff00, true);
-
-            y += fr.FONT_HEIGHT;
-        }
-        super.onRenderTick(e);
     }
 
 

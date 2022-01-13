@@ -6,7 +6,9 @@ buildscript {
             name 'JitPack'
             url 'https://jitpack.io'
         }
-        maven { url = "https://repo.spongepowered.org/maven" }
+        maven {
+            url = "https://repo.spongepowered.org/maven"
+        }
         maven {
             url = "https://repo.sk1er.club/repository/maven-public"
         }
@@ -20,7 +22,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.github.Skytils:ForgeGradle:6f5327'
-        classpath 'com.github.LxGaming:MixinGradle:d75e32e'//0.6-SNAPSHOT'
+        classpath 'com.github.LxGaming:MixinGradle:d75e32e'
         classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
     }
 }
@@ -34,7 +36,7 @@ sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = "kokomod"
 group = 'io.github.kingstefan26'
-version = '0.2.8-ALPHA'
+version = '1.0.0'
 String modid = 'stefan_util'
 
 
@@ -64,7 +66,7 @@ dependencies {
     implementation 'org.java-websocket:Java-WebSocket:1.5.2'
     compile 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
     annotationProcessor 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
-//
+
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
@@ -143,6 +145,7 @@ task syncChanges(type:Exec) {
 
 
 createPremiumJar.dependsOn(build)
+syncChanges.dependsOn(createPremiumJar)
 
 processResources {
     // this will ensure that this task is redone when the versions change.
@@ -162,3 +165,35 @@ processResources {
         exclude "mcmod.info"
     }
 }
+
+
+
+// new
+
+tasks.register('copyPdfReportsForArchiving', Copy) {
+    from layout.buildDirectory.dir("reports")
+    include "*.pdf"
+    into layout.buildDirectory.dir("toArchive")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -47,7 +47,7 @@ public class wartMacroHelpers implements macroHelpers {
             // block 2 = -90 yaw east
             // block 4 =   0 yaw south
             // block 6 =  90 yaw west
-            // add number*8*n to get n layer
+            // add number + (8*n) to get n layer
             Tuple<BlockPos, String>[] blocks = parent.helpers.checkBlocksRoundPlayer();
 
             // legend to this magic piece of math, says what direction we are facing
@@ -447,7 +447,7 @@ public class wartMacroHelpers implements macroHelpers {
             for (int j = 0; j < 4; j++) {
                 for (int k = 0; k < 3; k++) {
                     BlockPos toCheck = util.unRelitaviseCords(feet, new BlockPos(i + xShift, j +yShift , k +zShift));
-                    System.out.println("relative cords " + new BlockPos(i + xShift, j +yShift , k +zShift).toString() + " final cords" + toCheck.toString());
+                    System.out.println("relative cords " + new BlockPos(i + xShift, j +yShift , k +zShift).toString() + " block: " + mc.theWorld.getBlockState(toCheck).getBlock().getRegistryName() );
 
                     blocks[i][j][k] = new Tuple<>(toCheck, mc.theWorld.getBlockState(toCheck).getBlock().getRegistryName());
                 }

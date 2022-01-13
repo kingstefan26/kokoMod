@@ -46,20 +46,25 @@ public class authmenager {
         Gson gson = new Gson();
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpget = new HttpGet(assambledGetReq);
+        String response = null;
         try {
             HttpResponse httpresponse = httpclient.execute(httpget);
-
-            String response = IOUtils.toString(httpresponse.getEntity().getContent(), StandardCharsets.UTF_8);
-
-            temp = gson.fromJson(response, authObject.class);
-
-            main.connectedToKokoCLoud = true;
+            response = IOUtils.toString(httpresponse.getEntity().getContent(), StandardCharsets.UTF_8);
 
         } catch (Exception e) {
             main.connectedToKokoCLoud = false;
             logger.error("there was a error logging to kokocloud", e);
             chatService.queueCleanChatMessage("there was a error logging to kokocloud, note that modules are delivered from kokocloud. trying again in few secs");
         }
+
+        try{
+            if(response != null){
+                temp = gson.fromJson(response, authObject.class);
+                main.connectedToKokoCLoud = true;
+            }
+        }catch(Exception ignored){}
+
+
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
