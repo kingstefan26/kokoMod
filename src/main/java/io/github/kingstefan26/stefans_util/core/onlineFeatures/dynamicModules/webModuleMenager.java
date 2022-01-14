@@ -5,8 +5,13 @@
 package io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules;
 
 import com.google.gson.Gson;
+import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
+import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.file;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +28,10 @@ public class webModuleMenager {
 
     private static webModuleMenager instance;
 
+    public webModuleMenager() {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
     public static webModuleMenager getInstance() {
         return instance == null ? instance = new webModuleMenager() : instance;
     }
@@ -36,6 +45,49 @@ public class webModuleMenager {
 //    }
 //    ]
 
+
+    @SubscribeEvent
+    public void onstefan_utilsconnectedToKokoCloud(stefan_utilEvents.connectedToKokoCloud event) {
+        switch (authmenager.getInstance().getCashedAuthObject().status) {
+            case "dev":
+            case "premium":
+                startWebModules(authmenager.getInstance().getCashedAuthObject().configurl);
+                break;
+            case "base":
+                chatService.queueCleanChatMessage("Looks like you are base, not loading webmodules");
+                break;
+        }
+    }
+
+    public void startWebModules(String configurationUrl) {
+        if (System.getProperty("disablewebJarLoad") != null) {
+            if (Objects.equals(System.getProperty("disablewebJarLoad"), "true")) {
+                return;
+            }
+        }
+
+        try {
+            if (System.getProperty("loadLocalPremiumJar") != null) {
+                if (System.getProperty("loadLocalPremiumJar").equals("true")) {
+
+                    String path = file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar";
+                    if ((new File(path)).exists()) {
+                        jarLoader.loadJar(file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar");
+                    }
+
+                }
+            } else {
+                webModuleMenager.getInstance().init(configurationUrl);
+            }
+
+        } catch (Exception e) {
+            logger.info("something went wrong with webmodules");
+            e.printStackTrace();
+        }
+
+    }
+
+
     static class jarObject {
         public String filename;
         // TODO: integrate web cashing with md5 hashes
@@ -43,29 +95,41 @@ public class webModuleMenager {
         public String fileLocation;
     }
 
-    static class MasterResourceObject {
-        public webModuleMenager.jarObject[] jarObjects;
-        // first string is download url, second is path where the file is placed
-        public HashMap<String, String> resources = new HashMap<>();
-    }
-
-
     public void init(final String repourl) throws IOException {
 
-        //blocking resource downloading bc i need to load the modules on the main thread
-        //BUT i cant signal download finished to the main thread so sad
-
-        Gson gson = new Gson();
+        MasterResourceObject masterResourceObject = downloadAssetIndex(repourl);
 
         long start = System.currentTimeMillis();
 
-        MasterResourceObject masterResourceObject = new MasterResourceObject();
+        logger.info("Downloading assets");
+
+        downloadAsstes(masterResourceObject);
+
+        long stop = System.currentTimeMillis();
+
+
+        logger.info("finished downloading assets in " + (stop - start) + "ms, loaded " + masterResourceObject.resources.size() + " objects");
+
+
+        start = System.currentTimeMillis();
+
+        int counter = loadAssets(masterResourceObject);
+
+        stop = System.currentTimeMillis();
+        logger.info("finished loading jars in " + (stop - start) + "ms, loaded " + counter + " jar/s");
+    }
+
+    public MasterResourceObject downloadAssetIndex(final String url) throws IOException {
+        Gson gson = new Gson();
+
+        final MasterResourceObject masterResourceObject = new MasterResourceObject();
 
         logger.info("Downloading web assets index");
-        logger.info(repourl);
-        masterResourceObject.jarObjects = gson.fromJson(APIHandler.downloadTextFromUrl(repourl), jarObject[].class);
+        masterResourceObject.jarObjects = gson.fromJson(APIHandler.downloadTextFromUrl(url), jarObject[].class);
+        return masterResourceObject;
+    }
 
-        logger.info("Downloading assets");
+    public void downloadAsstes(MasterResourceObject masterResourceObject) throws IOException {
         for (jarObject m : masterResourceObject.jarObjects) {
             // loop tru all the "jar" objects and download them
             logger.info(m.fileLocation + m.filename);
@@ -75,14 +139,11 @@ public class webModuleMenager {
             masterResourceObject.resources.put(m.fileLocation, downloadfile.getAbsolutePath());
             logger.info("Downloaded " + m.filename);
         }
-        long stop = System.currentTimeMillis();
+    }
 
-
-        logger.info("finished downloading assets in " + (stop - start) + "ms, loaded " + masterResourceObject.resources.size() + " objects");
-
-
+    public int loadAssets(MasterResourceObject masterResourceObject) {
         try {
-            start = System.currentTimeMillis();
+
             int counter = 0;
 
             logger.info("Starting jar load");
@@ -90,28 +151,27 @@ public class webModuleMenager {
 
             for (jarObject jar : masterResourceObject.jarObjects) {
                 counter++;
-                jarLoader.loadJar(getResourceFromMasterObject(jar.fileLocation, masterResourceObject));
+                jarLoader.loadJar(MasterResourceObject.getResourceFromMasterObject(jar.fileLocation, masterResourceObject));
             }
-
-
-            stop = System.currentTimeMillis();
-            logger.info("finished loading jars in " + (stop - start) + "ms, loaded " + counter + " jar/s");
-
-
+            return counter;
         } catch (Exception e) {
             logger.error("Something bad happened", e);
         }
-
+        return 0;
     }
 
+    static class MasterResourceObject {
+        public webModuleMenager.jarObject[] jarObjects;
+        // first string is download url, second is path where the file is placed
+        public HashMap<String, String> resources = new HashMap<>();
 
-    private String getResourceFromMasterObject(String resourceUrl, MasterResourceObject master) {
-        for (Map.Entry<String, String> entry : master.resources.entrySet()) {
-            if (Objects.equals(entry.getKey(), resourceUrl)) {
-                return entry.getValue();
+        static public String getResourceFromMasterObject(String resourceUrl, MasterResourceObject master) {
+            for (Map.Entry<String, String> entry : master.resources.entrySet()) {
+                if (Objects.equals(entry.getKey(), resourceUrl)) {
+                    return entry.getValue();
+                }
             }
+            return null;
         }
-        return null;
     }
-
 }

@@ -12,6 +12,8 @@ import io.github.kingstefan26.stefans_util.main;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
 import io.github.kingstefan26.stefans_util.util.handelers.PacketHandler;
+import io.github.kingstefan26.stefans_util.util.renderUtil.updateWidowTitle;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiErrorScreen;
@@ -25,10 +27,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Objects;
-
-import static io.github.kingstefan26.stefans_util.main.connectedToKokoCLoud;
-
 public class kokoMod {
 	Logger logger = LogManager.getLogger("kokoMod-Main");
 	static boolean isAllowedToPlay = true;
@@ -40,27 +38,15 @@ public class kokoMod {
     }
 
 	public void init() {
+		MinecraftForge.EVENT_BUS.register(this);
 		configManagerz.getInstance();
 		cacheManager.getInstance().init();
+
 		moduleManager.getModuleManager();
+		(new serviceMenager()).start();
+//		mainRepoManager.getMainRepoManager().startup(globals.publicRepoURL);
 
 		authmenager.getInstance().start();
-		if(!connectedToKokoCLoud) {
-			recoocnectTimer = System.currentTimeMillis() + 5000;
-			MinecraftForge.EVENT_BUS.register(this);
-		}
-
-		if(connectedToKokoCLoud){
-
-			mainRepoManager.getMainRepoManager().startup(authmenager.getInstance().getCashedAuthObject().configurl);
-
-			if(Objects.equals(authmenager.getInstance().getCashedAuthObject().status, "dev")){
-				main.debug = true;
-			}
-
-		}
-
-		(new serviceMenager()).start();
 
 
 //        (new Thread(() -> {
@@ -75,44 +61,32 @@ public class kokoMod {
 //        ProgressManager.pop(progressBar);
 
 
-
-
-		MinecraftForge.EVENT_BUS.register(this);
-		configMenager.configMenager = configMenager.getConfigManager();
+		configMenager.getConfigManager();
 		SettingsCore.getSettingsCore();
+
 		ClickGui.getClickGui();
 	}
 
-	long recoocnectTimer;
-	int recconectConter = 0;
+
+	@SubscribeEvent
+	public void onstefan_utilsconnectedToKokoCloud(stefan_utilEvents.connectedToKokoCloud event) {
+
+		if (authmenager.getInstance().getCashedAuthObject().status.equals("dev")) {
+			main.debug = true;
+		}
+
+		updateWidowTitle.updateTitle("Kokoclient V69.420 | " + authmenager.getInstance().getCashedAuthObject().status);
+	}
 
 	@SubscribeEvent
 	public void onTick(TickEvent.ClientTickEvent ev) throws Throwable {
-		if(!connectedToKokoCLoud){
-			if(System.currentTimeMillis() >= recoocnectTimer){
-				logger.info("trying to recconect to kokocloud");
-				recconectConter++;
-//				authmenager.getInstance().start();
-				if(!connectedToKokoCLoud) {
-					if(recconectConter == 1){
-						recoocnectTimer = System.currentTimeMillis() + 5000;
-					}else if(recconectConter == 2){
-						recoocnectTimer = System.currentTimeMillis() + 10000;
-					}else if(recconectConter == 3){
-						recoocnectTimer = System.currentTimeMillis() + 15000;
-					}else if(recconectConter > 3){
-						recoocnectTimer = System.currentTimeMillis() + 60000;
-					}
-				}
-			}
-		}
 		try {
 			if (ev.side == Side.SERVER) return;
 			if (ev.phase == TickEvent.Phase.START) {
-				if(!isAllowedToPlay){
+				if (!isAllowedToPlay) {
 					if (Minecraft.getMinecraft().currentScreen instanceof GuiErrorScreen) return;
 
-                    Minecraft.getMinecraft().displayGuiScreen(new GuiErrorScreen("you fool are not allowed to use this mod.",
+					Minecraft.getMinecraft().displayGuiScreen(new GuiErrorScreen("you fool are not allowed to use this mod.",
 							"smh") {
                         @Override
                         public void initGui() {

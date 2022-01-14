@@ -13,15 +13,24 @@ public class stefan_utilEvents {
     }
     public static class leftPrivateIslandEvent extends Event {
     }
-    public static class leftSkyblockEvent extends Event{
+
+    public static class leftSkyblockEvent extends Event {
     }
+
     public static class playerFallEvent extends Event {
     }
+
     public static class playerTeleportEvent extends Event {
     }
+
     public static class receivedKeepAlivePacketEvent extends Event {
     }
-    public static class clickedUnlockKeyEvent extends Event {}
+
+    public static class clickedUnlockKeyEvent extends Event {
+    }
+
+    public static class connectedToKokoCloud extends Event {
+    }
 
 
 }

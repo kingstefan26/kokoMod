@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class configMenager {
 
-    public static configMenager configMenager;
+    private static configMenager configMenager;
 
     public static configMenager getConfigManager() {
         if(configMenager == null) configMenager = new configMenager();

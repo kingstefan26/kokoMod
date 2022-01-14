@@ -1,19 +1,16 @@
+/*
+ * Copyright (c) 2022. All copyright reserved
+ */
+
 package io.github.kingstefan26.stefans_util.core.onlineFeatures.repo;
 
 import com.google.gson.Gson;
-import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
-import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.jarLoader;
-import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.webModuleMenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.objects.mainRepoObject;
-import io.github.kingstefan26.stefans_util.util.file;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.util.Objects;
 
 public class mainRepoManager {
     Logger logger;
@@ -55,29 +52,6 @@ public class mainRepoManager {
         long stop = System.currentTimeMillis();
         logger.info("finished repo startup in " + (stop - start));
 
-        if(Objects.equals(System.getProperty("disablewebJarLoad"), "true")){
-            return;
-        }
-        if(Objects.equals(authmenager.getInstance().getCashedAuthObject().status, "dev") || Objects.equals(authmenager.getInstance().getCashedAuthObject().status, "premium")){
-            try {
-                if (System.getProperty("loadLocalPremiumJar") != null){
-                    if(System.getProperty("loadLocalPremiumJar").equals("true")){
-
-                        String path = file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar";
-                        if((new File(path)).exists()){
-                            jarLoader.loadJar(file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar");
-                        }
-
-                    }
-                } else {
-                    webModuleMenager.getInstance().init(mainrepoobject.webModulesURL.getAsString());
-                }
-
-            } catch (Exception e){
-                logger.info("something went wrong with webmodules");
-                e.printStackTrace();
-            }
-        }
 
     }
 

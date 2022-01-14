@@ -3,12 +3,12 @@
 #
 
 # this part only runs on my pc so be aware
-cp build/libs/premium.jar ~/cockmod-data/webModules/assets/
-cd ~/cockmod-data/
-git add -A
-git commit -m 'update premium.jar'
-git push
-cd -
+#cp build/libs/premium.jar ~/cockmod-data/webModules/assets/
+#cd ~/cockmod-data/
+#git add -A
+#git commit -m 'update premium.jar'
+#git push
+#cd -
 
 # send the build to a discord channel
 curl
