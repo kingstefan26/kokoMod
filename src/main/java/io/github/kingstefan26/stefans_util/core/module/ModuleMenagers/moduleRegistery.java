@@ -44,10 +44,20 @@ public class moduleRegistery {
         loadModules();
     }
 
-    public basicModule getModuleByClassName(String name){
+    public basicModule getModuleByClassName(String name) {
         try {
             for (basicModule module : loadedModules) {
-                if(module.getClass().getName().equals(name)) return module;
+                if (module.getClass().getName().equals(name)) return module;
+            }
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
+    public basicModule getModuleByName(String name) {
+        try {
+            for (basicModule module : loadedModules) {
+                if (module.getName().equals(name)) return module;
             }
         } catch (Exception ignored) {
         }

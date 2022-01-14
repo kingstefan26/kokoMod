@@ -92,7 +92,7 @@ public class kokoMod {
 			if(System.currentTimeMillis() >= recoocnectTimer){
 				logger.info("trying to recconect to kokocloud");
 				recconectConter++;
-				authmenager.getInstance().start();
+//				authmenager.getInstance().start();
 				if(!connectedToKokoCLoud) {
 					if(recconectConter == 1){
 						recoocnectTimer = System.currentTimeMillis() + 5000;
