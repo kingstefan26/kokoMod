@@ -82,6 +82,64 @@ public class wartMacroHelpers implements macroHelpers {
         return blocks;
     }
 
+    /**
+     * @param source the input arraylist
+     * @return the source rotated 90 degrees clockwise relative to zeroPoint
+     */
+    public static ArrayList<Tuple<BlockPos, String>> rotateBlocks90degeresFrom0Point(final ArrayList<Tuple<BlockPos, String>> source) {
+        // we iterate tru every block in source
+        for (int i = 0, sourceSize = source.size(); i < sourceSize; i++) {
+            // get the block
+            Tuple<BlockPos, String> block = source.get(i);
+
+            // this could be inlined but better code readability ya know
+            int x = block.getFirst().getX() * -1, z = block.getFirst().getZ(), y = block.getFirst().getY();
+
+            // we switch x and z place essentially rotating it 90d in 3d space
+            source.set(i, new Tuple<>(new BlockPos(z, y, x), block.getSecond()));
+        }
+        return source;
+    }
+
+    /**
+     * @param source the input arraylist
+     * @return the source rotated 90 degrees clockwise relative to zeroPoint
+     */
+    public static ArrayList<Tuple<BlockPos, String>> rotateBlocks90degerescounterblockwise(final ArrayList<Tuple<BlockPos, String>> source) {
+        // we iterate tru every block in source
+        for (int i = 0, sourceSize = source.size(); i < sourceSize; i++) {
+            // get the block
+            Tuple<BlockPos, String> block = source.get(i);
+
+            // this could be inlined but better code readability ya know
+            int x = block.getFirst().getX(), z = block.getFirst().getZ() * -1, y = block.getFirst().getY();
+
+            // we switch x and z place essentially rotating it 90d in 3d space
+            source.set(i, new Tuple<>(new BlockPos(z, y, x), block.getSecond()));
+        }
+        return source;
+    }
+
+
+    /**
+     * @param source the input arraylist
+     * @return the source rotated 180 degrees clockwise relative to zeroPoint
+     */
+    public static ArrayList<Tuple<BlockPos, String>> rotateBlocks180degeresFrom0Point(final ArrayList<Tuple<BlockPos, String>> source) {
+        // we iterate tru every block in source
+        for (int i = 0, sourceSize = source.size(); i < sourceSize; i++) {
+            // get the block
+            Tuple<BlockPos, String> block = source.get(i);
+
+            // this could be inlined but better code readability ya know
+            int x = block.getFirst().getX() * -1, z = block.getFirst().getZ() * -1, y = block.getFirst().getY();
+
+            // we multiply x and z by -1 essentially rotating it 180d in 3d space
+            source.set(i, new Tuple<>(new BlockPos(x, y, z), block.getSecond()));
+        }
+        return source;
+    }
+
 
     public boolean isInFrontTreeWart(Tuple<BlockPos, String>[] blocks) {
         // 0 = soutfh
