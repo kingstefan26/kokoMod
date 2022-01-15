@@ -2,6 +2,7 @@ package io.github.kingstefan26.stefans_util.core.onlineFeatures.auth;
 
 import com.google.gson.Gson;
 import io.github.kingstefan26.stefans_util.core.globals;
+import io.github.kingstefan26.stefans_util.core.kokoMod;
 import io.github.kingstefan26.stefans_util.main;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import lombok.Getter;
@@ -95,8 +96,12 @@ public class authmenager {
         }
 
         try{
-            if(response != null){
-                temp = gson.fromJson(response, authObject.class);
+            if(response != null) {
+                if (response.equals("fool")) {
+                    kokoMod.isAllowedToPlay = false;
+                } else {
+                    temp = gson.fromJson(response, authObject.class);
+                }
                 main.connectedToKokoCLoud = true;
             }
         }catch(Exception ignored){}
@@ -105,7 +110,7 @@ public class authmenager {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                HttpResponse httpresponse = HttpClients.createDefault().execute(new HttpGet(globals.authEndpoint + "?uuid=" + this.cashedPlayerUuid + "&type=logout"));
+                HttpResponse httpresponse = HttpClients.createDefault().execute(new HttpGet(globals.authEndpoint + "?uuid=" + cashedPlayerUuid + "&type=logout"));
                 logger.info("kokocloud said:" + IOUtils.toString(httpresponse.getEntity().getContent()));
 
             } catch (Exception e) {

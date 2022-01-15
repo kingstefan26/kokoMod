@@ -6,6 +6,7 @@ import io.github.kingstefan26.stefans_util.core.fileCacheing.cacheManager;
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.newConfig.configManagerz;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
+import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.webModuleMenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
 import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
 import io.github.kingstefan26.stefans_util.main;
@@ -29,7 +30,7 @@ import org.apache.logging.log4j.Logger;
 
 public class kokoMod {
 	Logger logger = LogManager.getLogger("kokoMod-Main");
-	static boolean isAllowedToPlay = true;
+	public static boolean isAllowedToPlay = true;
 
 	public static kokoMod instance;
     public static kokoMod getkokoMod(){
@@ -46,6 +47,10 @@ public class kokoMod {
 		(new serviceMenager()).start();
 //		mainRepoManager.getMainRepoManager().startup(globals.publicRepoURL);
 
+		logger.info("starting webmodule manager");
+		webModuleMenager.getInstance();
+
+		logger.info("starting authmanager");
 		authmenager.getInstance().start();
 
 
@@ -70,7 +75,7 @@ public class kokoMod {
 
 	@SubscribeEvent
 	public void onstefan_utilsconnectedToKokoCloud(stefan_utilEvents.connectedToKokoCloud event) {
-
+		if (authmenager.getInstance().getCashedAuthObject() == null) return;
 		if (authmenager.getInstance().getCashedAuthObject().status.equals("dev")) {
 			main.debug = true;
 		}

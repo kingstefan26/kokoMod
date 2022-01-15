@@ -48,6 +48,7 @@ public class webModuleMenager {
 
     @SubscribeEvent
     public void onstefan_utilsconnectedToKokoCloud(stefan_utilEvents.connectedToKokoCloud event) {
+        if (authmenager.getInstance().getCashedAuthObject() == null) return;
         switch (authmenager.getInstance().getCashedAuthObject().status) {
             case "dev":
             case "premium":
@@ -65,7 +66,7 @@ public class webModuleMenager {
                 return;
             }
         }
-
+        // -DdisablewebJarLoad="true"
         try {
             if (System.getProperty("loadLocalPremiumJar") != null) {
                 if (System.getProperty("loadLocalPremiumJar").equals("true")) {
@@ -77,7 +78,7 @@ public class webModuleMenager {
 
                 }
             } else {
-                webModuleMenager.getInstance().init(configurationUrl);
+                init(configurationUrl);
             }
 
         } catch (Exception e) {
