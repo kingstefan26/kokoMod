@@ -31,9 +31,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
-import java.util.ArrayList;
-
 import static io.github.kingstefan26.stefans_util.module.macro.macroStates.*;
+import static io.github.kingstefan26.stefans_util.service.impl.keyControlService.action.walk.right;
 
 public class wartMacroRoutines implements macroRoutines {
     private static wartMacroRoutines instance;
@@ -157,100 +156,7 @@ public class wartMacroRoutines implements macroRoutines {
         GlStateManager.enableCull();
     }
 
-    @Override
-    public void checkMacroConditionsRenderRoutine(float partialTicks) {
-        if(mc.thePlayer == null || mc.theWorld == null) return;
-        // TODO lets break this up into smaller pieces
-        // TODO implement verbose logging support
-        drawCenterString.GuiNotif(mc,
-                "macro will start when you lock your head position on the right angle");
-
-        long start = System.nanoTime();
-
-        // WE GET THE BLOCKS AROUND PLAYER
-
-
-
-        // block 0 = north 180 yaw
-        // block 2 = east -90 yaw
-        // block 4 = south 0 yaw
-        // block 6 = west 90
-        // add number*8*n to get n layer
-        //←↑→↓
-        Tuple<BlockPos, String>[] blocks = parent.helpers.checkBlocksRoundPlayer();
-
-
-
-        // WE MOVE FACE IN FRONT OF FACE
-
-        // make sure that if there are move then one wart crops dont try to face them all
-
-        for (int i = 0; i < 16; i++) {
-
-            Tuple<BlockPos, String> temp = blocks[i];
-
-            ArrayList<BlockPos> wartBlocks = new ArrayList<>();
-
-            if(temp.getSecond().equals("minecraft:nether_wart")){
-
-                if(parent.verboseLogging) logger.info("block " + i + " is wart");
-
-                wartBlocks.add(temp.getFirst());
-            }
-
-
-            // here we select the wart block closest to the player the focus on it
-
-            if(!wartBlocks.isEmpty()){
-                BlockPos selectedPosition = null;
-                // we set smallest to some large value, then we check if the current block is smaller then the current one
-                // if yes replace the selected postion. by nature the smallest postition will win
-
-
-                Entity viewer = Minecraft.getMinecraft().getRenderViewEntity();
-                double viewerX = viewer.lastTickPosX + (viewer.posX - viewer.lastTickPosX) * partialTicks;
-                double viewerY = viewer.lastTickPosY + (viewer.posY - viewer.lastTickPosY) * partialTicks;
-                double viewerZ = viewer.lastTickPosZ + (viewer.posZ - viewer.lastTickPosZ) * partialTicks;
-
-                float smallest = 0F;
-
-                for(BlockPos blockpos: wartBlocks){
-                    float xx = blockpos.getX() -(float) viewerX;
-                    float yy = blockpos.getY() -(float) viewerY;
-                    float zz = blockpos.getZ() -(float) viewerZ;
-
-                    float distSq = xx*xx+ yy*yy + zz*zz;
-                    if(distSq > smallest){
-                        selectedPosition = blockpos;
-                    }
-                }
-
-                if(selectedPosition != null){
-                    float x = (float) ((float) selectedPosition.getX() + 0.5);
-                    float y = ((float) selectedPosition.getY() - 0.75F);
-                    float z = (float) ((float) selectedPosition.getZ() + 0.5);
-
-
-                    Tuple<Float, Float> t = parent.helpers.faceBlock(x, y, z);
-
-                    //TODO: YAW RATE SAFE GUARD
-                    parent.helpers.altsetPlayerYaw(t.getFirst());
-                }
-            }
-
-
-        }
-
-        // WE DISPLAY THE STPUDID STRING
-
-        drawCenterString.drawCenterStringOnScreenLittleToDown(mc,
-                " Current Pitch: " + parent.playerPitch + " / " + parent.wantedPitch +
-                        "Is mouse over wart " + wartMacroHelpers.isPlayerLookingAtBlock("minecraft:nether_wart") + " is facing wart " + parent.helpers.isInFrontTreeWart(blocks),
-                "ff002f");
-
-
-        if(parent.verboseLogging) logger.info("finished raytracing/getting bloksc in " + (System.nanoTime() - start));
-    }
+    public keyControlService.action.walk currentWalkAction = right;
 
     @Override
     public void checkMacroConditionsRoutine() {
@@ -292,14 +198,116 @@ public class wartMacroRoutines implements macroRoutines {
                 " to stop", "ff002f");
     }
 
-    public keyControlService.action.walk currentWalkAction;
+    @Override
+    public void checkMacroConditionsRenderRoutine(float partialTicks) {
+        if (mc.thePlayer == null || mc.theWorld == null) return;
+        // TODO lets break this up into smaller pieces
+        // TODO implement verbose logging support
+        drawCenterString.GuiNotif(mc,
+                "macro will start when you lock your head position on the right angle");
+
+        long start = System.nanoTime();
+
+        // WE GET THE BLOCKS AROUND PLAYER
+
+
+//        // block 0 = north 180 yaw
+//        // block 2 = east -90 yaw
+//        // block 4 = south 0 yaw
+//        // block 6 = west 90
+//        // add number*8*n to get n layer
+//        //←↑→↓
+        Tuple<BlockPos, String>[] blocks = parent.helpers.checkBlocksRoundPlayer();
+//
+//
+//
+//        // WE MOVE FACE IN FRONT OF FACE
+//
+//        // make sure that if there are move then one wart crops dont try to face them all
+//
+//        for (int i = 0; i < 16; i++) {
+//
+//            Tuple<BlockPos, String> temp = blocks[i];
+//
+//            ArrayList<BlockPos> wartBlocks = new ArrayList<>();
+//
+//            if(temp.getSecond().equals("minecraft:nether_wart")){
+//
+//                if(parent.verboseLogging) logger.info("block " + i + " is wart");
+//
+//                wartBlocks.add(temp.getFirst());
+//            }
+//
+//
+//            // here we select the wart block closest to the player the focus on it
+//
+//            if(!wartBlocks.isEmpty()){
+//                BlockPos selectedPosition = null;
+//                // we set smallest to some large value, then we check if the current block is smaller then the current one
+//                // if yes replace the selected postion. by nature the smallest postition will win
+//
+//
+//                Entity viewer = Minecraft.getMinecraft().getRenderViewEntity();
+//                double viewerX = viewer.lastTickPosX + (viewer.posX - viewer.lastTickPosX) * partialTicks;
+//                double viewerY = viewer.lastTickPosY + (viewer.posY - viewer.lastTickPosY) * partialTicks;
+//                double viewerZ = viewer.lastTickPosZ + (viewer.posZ - viewer.lastTickPosZ) * partialTicks;
+//
+//                float smallest = 0F;
+//
+//                for(BlockPos blockpos: wartBlocks){
+//                    float xx = blockpos.getX() -(float) viewerX;
+//                    float yy = blockpos.getY() -(float) viewerY;
+//                    float zz = blockpos.getZ() -(float) viewerZ;
+//
+//                    float distSq = xx*xx+ yy*yy + zz*zz;
+//                    if(distSq > smallest){
+//                        selectedPosition = blockpos;
+//                    }
+//                }
+//
+//                if(selectedPosition != null){
+//                    float x = (float) ((float) selectedPosition.getX() + 0.5);
+//                    float y = ((float) selectedPosition.getY() - 0.75F);
+//                    float z = (float) ((float) selectedPosition.getZ() + 0.5);
+//
+//
+//                    Tuple<Float, Float> t = parent.helpers.faceBlock(x, y, z);
+//
+//                    //TODO: YAW RATE SAFE GUARD
+//                    parent.helpers.altsetPlayerYaw(t.getFirst());
+//                }
+//            }
+//
+//
+//        }
+
+        parent.helpers.turnHeadToWart();
+
+
+        // WE DISPLAY THE STPUDID STRING
+
+        drawCenterString.drawCenterStringOnScreenLittleToDown(mc,
+                " Current Pitch: " + parent.playerPitch + " / " + parent.wantedPitch +
+                        "Is mouse over wart " + wartMacroHelpers.isPlayerLookingAtBlock("minecraft:nether_wart") + " is facing wart " + parent.helpers.isInFrontTreeWart(blocks),
+                "ff002f");
+
+
+        if (parent.verboseLogging) logger.info("finished raytracing/getting bloksc in " + (System.nanoTime() - start));
+    }
+
     boolean dontSpamFlag = true;
+
     @Override
     public void doMacroRoutine() {
-        if(dontSpamFlag){
+        if (dontSpamFlag) {
             dontSpamFlag = false;
             keyControlService.submitCommandASYNC(new keyControlService.command(currentWalkAction, () -> {
-                currentWalkAction = parent.helpers.whichWayToGo(parent, currentWalkAction);
+                final keyControlService.action.walk result = parent.helpers.whichWayToGoMockUp(parent, currentWalkAction);
+                if (result != null) {
+                    currentWalkAction = result;
+                } else {
+                    currentWalkAction = right;
+                }
                 dontSpamFlag = true;
             }));
         }
@@ -399,6 +407,7 @@ public class wartMacroRoutines implements macroRoutines {
     @Override
     public void togglePause() {
         parent.state.setState(PAUSED);
+        this.dontSpamFlag = true;
         parent.routines.macroPauseRoutine();
     }
 
@@ -413,6 +422,7 @@ public class wartMacroRoutines implements macroRoutines {
     @Override
     public void macroPauseRenderRoutine() {
         // TODO create rendering on pause
+        if (mc.currentScreen != null) return;
         drawCenterString.GuiNotif(Minecraft.getMinecraft(), "macro paused");
         drawCenterString.drawCenterStringOnScreenLittleToDown(Minecraft.getMinecraft(), "press key "
                 + Keyboard.getKeyName(parent.localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) +
@@ -443,6 +453,7 @@ public class wartMacroRoutines implements macroRoutines {
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
         parent.macroWalkStage = util.walkStates.BOTTOM;
+        this.dontSpamFlag = true;
 
 
         for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {

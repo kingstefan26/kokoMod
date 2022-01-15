@@ -156,16 +156,17 @@ processResources {
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
+        duplicatesStrategy = 'include'
         include "mcmod.info"
 
         // replace version and mcversion
         expand "version": project.version, "mcversion": project.minecraft.version
     }
 
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "mcmod.info"
-    }
+//    // copy everything else, thats not the mcmod.info
+//    from(sourceSets.main.resources.srcDirs) {
+//        exclude "mcmod.info"
+//    }
 }
 
 
@@ -177,25 +178,3 @@ tasks.register('copyPdfReportsForArchiving', Copy) {
     include "*.pdf"
     into layout.buildDirectory.dir("toArchive")
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

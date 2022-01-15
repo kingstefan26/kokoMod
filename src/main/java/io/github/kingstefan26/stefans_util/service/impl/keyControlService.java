@@ -4,6 +4,7 @@ import io.github.kingstefan26.stefans_util.service.Service;
 import io.github.kingstefan26.stefans_util.util.util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -41,18 +42,20 @@ public class keyControlService extends Service {
     long lastStoopedMovingTimer;
 
     @SubscribeEvent
-    public void clientTick(TickEvent.ClientTickEvent e){
+    public void clientTick(TickEvent.ClientTickEvent e) {
         if (mc == null || mc.theWorld == null || mc.thePlayer == null) return;
-        double playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
-        if (playerSpeed < 0 && lastStoopedMovingTimer == 0) {
-            lastStoopedMovingTimer = System.currentTimeMillis() + 250;
-        }
-        if(playerSpeed != 0 && lastStoopedMovingTimer != 0){
-            lastStoopedMovingTimer = 0;
-        }
-        if(playerSpeed < 0 && System.currentTimeMillis() >= lastStoopedMovingTimer){
-            playerStoppedMoving();
-            lastStoopedMovingTimer = 0;
+        if (CurentlyExecuted != null) {
+            double playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
+            if (playerSpeed == 0 && lastStoopedMovingTimer == 0) {
+                lastStoopedMovingTimer = System.currentTimeMillis() + 50;
+            }
+            if (playerSpeed != 0 && lastStoopedMovingTimer != 0) {
+                lastStoopedMovingTimer = 0;
+            }
+            if (playerSpeed == 0 && System.currentTimeMillis() >= lastStoopedMovingTimer) {
+                playerStoppedMoving();
+                lastStoopedMovingTimer = 0;
+            }
         }
     }
 
@@ -323,6 +326,7 @@ public class keyControlService extends Service {
     @Override
     public void start() {
         recheckVals();
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
