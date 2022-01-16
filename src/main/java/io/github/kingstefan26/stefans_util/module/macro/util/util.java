@@ -1,6 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.macro.util;
 
 import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
+import io.github.kingstefan26.stefans_util.module.macro.wart.helper.diraction;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -26,21 +27,49 @@ public class util {
     }
 
     public static BlockPos getPlayerFeetBlockPos(){
-        return new BlockPos((int)mc.thePlayer.posX,(int)mc.thePlayer.posY,(int)mc.thePlayer.posZ);
+        return new BlockPos((int) mc.thePlayer.posX, (int) mc.thePlayer.posY, (int) mc.thePlayer.posZ);
     }
 
-    public static BlockPos unRelitaviseCords(BlockPos relativeCords, BlockPos playerPos){
+    public static BlockPos unRelitaviseCords(BlockPos relativeCords, BlockPos playerPos) {
         return new BlockPos(
                 playerPos.getX() + relativeCords.getX(),
                 playerPos.getY() + relativeCords.getY(),
                 playerPos.getZ() + relativeCords.getZ());
     }
 
+    public static BlockPos relitaviseCordsWithDications(BlockPos notrelativeCords, BlockPos playerPos, diraction Playerdir) {
+        // the relative cords always have east(real) as north(relative) and we turn it around to have it match
+        switch (Playerdir) {
+            case NORTH:
+                return new BlockPos(
+                        notrelativeCords.getZ() - playerPos.getZ(),
+                        notrelativeCords.getY() - playerPos.getY(),
+                        (notrelativeCords.getX() - playerPos.getX()) * -1);
+            case SOUTH:
+                return new BlockPos(
+                        (notrelativeCords.getZ() - playerPos.getZ()) * -1,
+                        notrelativeCords.getY() - playerPos.getY(),
+                        notrelativeCords.getX() - playerPos.getX());
+            case WEST:
+                return new BlockPos(
+                        (notrelativeCords.getX() - playerPos.getX()) * -1,
+                        notrelativeCords.getY() - playerPos.getY(),
+                        (notrelativeCords.getZ() - playerPos.getZ()) * -1);
+            case EAST:
+                return new BlockPos(
+                        notrelativeCords.getX() - playerPos.getX(),
+                        notrelativeCords.getY() - playerPos.getY(),
+                        notrelativeCords.getZ() - playerPos.getZ());
+        }
+        return null;
+    }
+
 
     public static class checkBlock {
         public int x, y, z;
         public String name;
-        public checkBlock(int x,int y,int z, String blockName){
+
+        public checkBlock(int x, int y, int z, String blockName) {
             this.name = blockName;
             this.x = x;
             this.y = y;

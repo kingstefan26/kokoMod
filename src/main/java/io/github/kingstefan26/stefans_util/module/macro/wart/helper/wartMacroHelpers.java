@@ -77,10 +77,49 @@ public class wartMacroHelpers implements macroHelpers {
                 }
             }
         }
+        return blocks;
+    }
+
+
+    /**
+     * this function makes it easy to gather blocks around the player in a 1d array
+     * for later processing
+     *
+     * @return a 3d array of tuples that contain the position of the block and its registry name
+     */
+    public static ArrayList<Tuple<BlockPos, String>> checkBlocksAroundPlayerFlatRotatedToPlayerDirection(diraction dir) {
+        ArrayList<Tuple<BlockPos, String>> blocks = new ArrayList<>();
+        int xShift = -1, yShift = -1, zShift = -1;
+
+        BlockPos feet = getPlayerFeetBlockPos();
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                for (int k = 0; k < 3; k++) {
+                    BlockPos toCheck = util.unRelitaviseCords(feet, new BlockPos(i + xShift, j + yShift, k + zShift));
+//                    System.out.println("relative cords " + new BlockPos(i + xShift, j +yShift , k +zShift).toString() + " block: " + mc.theWorld.getBlockState(toCheck).getBlock().getRegistryName() );
+
+                    blocks.add(new Tuple<>(toCheck, mc.theWorld.getBlockState(toCheck).getBlock().getRegistryName()));
+                }
+            }
+        }
+
+        switch (dir) {
+            case NORTH:
+                blocks = rotateBlocks90degerescounterblockwise(blocks);
+                break;
+            case SOUTH:
+                blocks = rotateBlocks90degeresFrom0Point(blocks);
+                break;
+            case WEST:
+                blocks = rotateBlocks180degeresFrom0Point(blocks);
+                break;
+        }
 
 
         return blocks;
     }
+
 
     /**
      * @param source the input arraylist

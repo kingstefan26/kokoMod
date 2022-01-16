@@ -99,7 +99,6 @@ public class UniversalWartMacro extends basicModule implements macro {
     @Override
     public void onWorldRender(RenderWorldLastEvent e) {
         routines.continuousRender(e.partialTicks);
-        super.onWorldRender(e);
     }
 
     @Override
@@ -118,7 +117,6 @@ public class UniversalWartMacro extends basicModule implements macro {
                 }
             }
         }
-        super.onKeyInput(event);
     }
 
 
@@ -147,7 +145,6 @@ public class UniversalWartMacro extends basicModule implements macro {
                 break;
         }
 
-        super.onRenderTick(e);
     }
 
     @Override
@@ -182,7 +179,6 @@ public class UniversalWartMacro extends basicModule implements macro {
                 break;
         }
 
-        super.onHighestClientTick(event);
     }
 
 
@@ -212,7 +208,6 @@ public class UniversalWartMacro extends basicModule implements macro {
             tickcounter = 0;
         }
 
-        super.onTick(e);
     }
 
 
@@ -250,6 +245,5 @@ public class UniversalWartMacro extends basicModule implements macro {
         if(state.checkState(MACROING) || state.checkState(RECALIBRATING)){
             e.setCanceled(true);
         }
-        super.onGuiOpen(e);
     }
 }

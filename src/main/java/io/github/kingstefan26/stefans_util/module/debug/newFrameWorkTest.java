@@ -6,10 +6,7 @@ import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.ono
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.visibleDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.core.setting.impl.CheckSetting;
-import io.github.kingstefan26.stefans_util.core.setting.impl.MultichoiseSetting;
-import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
-import io.github.kingstefan26.stefans_util.core.setting.impl.SliderSetting;
+import io.github.kingstefan26.stefans_util.core.setting.impl.*;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -38,16 +35,21 @@ public class newFrameWorkTest extends basicModule {
         new SliderNoDecimalSetting("SliderNoDecimalSetting test", this, 10, 1, 50, (newvalue)->{
 
         });
-        new SliderSetting("SliderSetting test", this, 10.0D, 1, 50, (newvalue)->{
+        new SliderSetting("SliderSetting test", this, 10.0D, 1, 50, (newvalue) -> {
 
         });
         new MultichoiseSetting("MultichoiseSetting test", this, "test1", new ArrayList<String>() {{
             add("test0");
             add("test1");
             add("test2");
-        }}, (newvalue)->{
+        }}, (newvalue) -> {
 
         });
+
+        new ChoseAKeySetting("ChoseAKeySetting test", this, 1, (newvalue) -> {
+        });
+
+
         super.onLoad();
     }
     CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);
@@ -62,6 +64,5 @@ public class newFrameWorkTest extends basicModule {
         if(e.type == RenderGameOverlayEvent.ElementType.TEXT){
             c.drawString("bone", 100, 100, 0xFFFFFFFF, 0.2F);
         }
-        super.onGuiRender(e);
     }
 }

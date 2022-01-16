@@ -20,7 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class basicModule implements baseModuleInterface, moduleMinecraftInterfaceEvents {
+abstract public class basicModule implements baseModuleInterface, moduleMinecraftInterfaceEvents {
     protected static Minecraft mc = Minecraft.getMinecraft();
     protected Logger logger;
     public String name;

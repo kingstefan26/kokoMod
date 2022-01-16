@@ -45,7 +45,6 @@ public class quickFind extends basicModule {
             }
         }
 
-        super.onKeyInput(event);
     }
 
 
