@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.function.BooleanSupplier;
 
 
 public class keyControlService extends Service {
@@ -19,7 +20,7 @@ public class keyControlService extends Service {
 
     static int forwardKeyCode, backKeyCode, rightKeyCode, leftKeyCode, attackKeyCode;
 
-    static Queue<command> taskQueue = new LinkedList<>();
+    static Queue<simpleCommand> taskQueue = new LinkedList<>();
 
     public static boolean verbose = false;
 
@@ -33,10 +34,7 @@ public class keyControlService extends Service {
         }
     }
 
-    public static void submitCommand(command c) {
-        taskQueue.add(c);
-        if(verbose) chatService.queueCleanChatMessage("queued new key control engine command to:" + (c.walkAction != null ? String.valueOf(c.walkAction) : String.valueOf(c.handAction)));
-    }
+    static Queue<simpleCommand> ASYNCQueue = new LinkedList<>();
 
 
     long lastStoopedMovingTimer;
@@ -67,28 +65,31 @@ public class keyControlService extends Service {
         }
     }
 
+    static simpleCommand CurentlyExecuted;
 
-    static Queue<command> ASYNCQueue = new LinkedList<>();
-
-    public static void clearCommandQueue(){
+    public static void clearCommandQueue() {
         ASYNCQueue.clear();
         CurentlyExecuted = null;
     }
 
+    public static void submitCommand(simpleCommand c) {
+        taskQueue.add(c);
+        if (verbose)
+            chatService.queueCleanChatMessage("queued new key control engine command to:" + (c.walkAction != null ? String.valueOf(c.walkAction) : String.valueOf(c.handAction)));
+    }
 
-    public static void submitCommandASYNC(command c) {
+    public static void submitCommandASYNC(simpleCommand c) {
         ASYNCQueue.add(c);
         addedCommand();
         chatService.queueCleanChatMessage("queued new key control engine command to:" + (c.walkAction != null ? String.valueOf(c.walkAction) : String.valueOf(c.handAction)));
     }
 
-    static command CurentlyExecuted;
-    private static void addedCommand(){
-        if(CurentlyExecuted == null){
+    private static void addedCommand() {
+        if (CurentlyExecuted == null) {
 
-            if(verbose) chatService.queueCleanChatMessage("checking if CurentlyExecuted is null: TRUE");
+            if (verbose) chatService.queueCleanChatMessage("checking if CurentlyExecuted is null: TRUE");
             CurentlyExecuted = ASYNCQueue.poll();
-            if(CurentlyExecuted == null) {
+            if (CurentlyExecuted == null) {
 
                 if(verbose) chatService.queueCleanChatMessage("getting head of queue: HEAD IS NULL");
                 return;
@@ -134,56 +135,9 @@ public class keyControlService extends Service {
         if(verbose) chatService.queueCleanChatMessage("FALSE");
     }
 
-
-
-    public static class command {
-        public int totalExecuteTime;
-        public long commandExpireTimeStamp;
-        Runnable asyncCallback = null;
-        Runnable stoppedmovingCallback = null;
-
-        public action.hand handAction;
-
-        public action.walk walkAction;
-
-        public command(int time, action.walk walkAction) {
-            this.totalExecuteTime = time;
-            commandExpireTimeStamp = System.currentTimeMillis() + time;
-            this.walkAction = walkAction;
-        }
-
-        public command(int time, action.walk walkAction, Runnable asyncCallback) {
-            this.totalExecuteTime = time;
-            commandExpireTimeStamp = System.currentTimeMillis() + time;
-            this.asyncCallback = asyncCallback;
-            this.walkAction = walkAction;
-        }
-
-        public command(action.walk walkAction, Runnable stoppedmovingCallback) {
-            this.stoppedmovingCallback = stoppedmovingCallback;
-            this.walkAction = walkAction;
-        }
-
-
-        public command(int time, action.hand handAction) {
-            this.totalExecuteTime = time;
-            commandExpireTimeStamp = System.currentTimeMillis() + time;
-            this.handAction = handAction;
-        }
-
-        public command(int time, action.hand handAction, Runnable asyncCallback) {
-            this.totalExecuteTime = time;
-            commandExpireTimeStamp = System.currentTimeMillis() + time;
-            this.asyncCallback = asyncCallback;
-            this.handAction = handAction;
-        }
-
-    }
-
-
-
-    private static void executeCommand(command command) {
-        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null) return;
+    private static void executeCommand(simpleCommand command) {
+        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
+            return;
         //null safe on thinnna
         if (command == null) return;
 
@@ -260,8 +214,9 @@ public class keyControlService extends Service {
         }
     }
 
-    private static void negateExecution(command command){
-        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null) return;
+    private static void negateExecution(simpleCommand command) {
+        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
+            return;
         //null safe on thinnna
         if (command == null) return;
 
@@ -296,8 +251,128 @@ public class keyControlService extends Service {
         }
     }
 
+    void execute() {
+        // example code
+        new complexCommand(() -> chatService.queueCleanChatMessage("hi"),
+                new walkAction(action.walk.forward),
+                new stopWhen(() -> Minecraft.getMinecraft().thePlayer.getDistance(
+                        Minecraft.getMinecraft().thePlayer.lastTickPosX,
+                        Minecraft.getMinecraft().thePlayer.lastTickPosY,
+                        Minecraft.getMinecraft().thePlayer.lastTickPosZ) == 0),
+                new walkForLimitedTimeAction(action.walk.back, 4000),
+                new walkUntilTrue(action.walk.forward, () -> Minecraft.getMinecraft().thePlayer.getDistance(
+                        Minecraft.getMinecraft().thePlayer.lastTickPosX,
+                        Minecraft.getMinecraft().thePlayer.lastTickPosY,
+                        Minecraft.getMinecraft().thePlayer.lastTickPosZ) == 0)
+        );
+    }
+
+    public interface Action {
+    }
+
+    public static class simpleCommand {
+        public int totalExecuteTime;
+        public long commandExpireTimeStamp;
+        Runnable asyncCallback = null;
+        Runnable stoppedmovingCallback = null;
+
+        public action.hand handAction;
+
+        public action.walk walkAction;
+
+        public simpleCommand(int time, action.walk walkAction) {
+            this.totalExecuteTime = time;
+            commandExpireTimeStamp = System.currentTimeMillis() + time;
+            this.walkAction = walkAction;
+        }
+
+        public simpleCommand(int time, action.walk walkAction, Runnable asyncCallback) {
+            this.totalExecuteTime = time;
+            commandExpireTimeStamp = System.currentTimeMillis() + time;
+            this.asyncCallback = asyncCallback;
+            this.walkAction = walkAction;
+        }
+
+        public simpleCommand(action.walk walkAction, Runnable stoppedmovingCallback) {
+            this.stoppedmovingCallback = stoppedmovingCallback;
+            this.walkAction = walkAction;
+        }
+
+
+        public simpleCommand(int time, action.hand handAction) {
+            this.totalExecuteTime = time;
+            commandExpireTimeStamp = System.currentTimeMillis() + time;
+            this.handAction = handAction;
+        }
+
+        public simpleCommand(int time, action.hand handAction, Runnable asyncCallback) {
+            this.totalExecuteTime = time;
+            commandExpireTimeStamp = System.currentTimeMillis() + time;
+            this.asyncCallback = asyncCallback;
+            this.handAction = handAction;
+        }
+
+    }
+
+    /**
+     * this is complexAction
+     * the first param is the call back when the chain of actions finishes
+     * these are actions they execute until a condition is fulfilled and then the head of the array is removed and the chain moves on
+     * I chose a supplier as I can execute logic in it and it returns a value, perfect for my scenarios like "move until player y is x"
+     * a walkAction is executed until a stopWhen's supplier returns true,
+     * or walkForLimitedTimeAction expires after x milliseconds
+     * or a walkForLimitedTimeAction action executes until its supplier starts returning true
+     */
+    public static class complexCommand {
+        public Action[] actions;
+        public Runnable finishedCallback;
+
+        public complexCommand(Runnable finishedCallback, Action... actions) {
+            this.actions = actions;
+            this.finishedCallback = finishedCallback;
+        }
+    }
+
+    public static class walkAction implements Action {
+        public action.walk walkAction;
+
+        public walkAction(action.walk walkAction) {
+            this.walkAction = walkAction;
+        }
+    }
+
+    public static class walkForLimitedTimeAction implements Action {
+        public action.walk walkAction;
+        public int delay;
+
+        public walkForLimitedTimeAction(action.walk walkAction, int delay) {
+            this.walkAction = walkAction;
+            this.delay = delay;
+        }
+
+    }
+
+    public static class stopWhen implements Action {
+        public BooleanSupplier StopCondition;
+
+        public stopWhen(BooleanSupplier StopCondition) {
+            this.StopCondition = StopCondition;
+        }
+    }
+
+    public static class walkUntilTrue implements Action {
+        public BooleanSupplier StopCondition;
+        public action.walk walkAction;
+
+        public walkUntilTrue(action.walk walkAction, BooleanSupplier StopCondition) {
+            this.walkAction = walkAction;
+            this.StopCondition = StopCondition;
+        }
+    }
+
     private static void clickWalkButtonsAccordingToBoard(boolean[] board) {
-        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null) return;
+        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
+            return;
         if (!board[0]) {
             KeyBinding.setKeyBindState(forwardKeyCode, false);
             KeyBinding.setKeyBindState(rightKeyCode, false);

@@ -30,10 +30,10 @@ public class keyControlServiceTest extends basicModule {
 
             if(shouldLoop){
                 shouldLoop = false;
-                keyControlService.submitCommandASYNC(new keyControlService.command(200,keyControlService.action.walk.left, () -> {
-                    keyControlService.submitCommandASYNC(new keyControlService.command(200,keyControlService.action.walk.back, () -> {
-                        keyControlService.submitCommandASYNC(new keyControlService.command(200,keyControlService.action.walk.right, () -> {
-                            keyControlService.submitCommandASYNC(new keyControlService.command(200,keyControlService.action.walk.forward, () -> {
+                keyControlService.submitCommandASYNC(new keyControlService.simpleCommand(200, keyControlService.action.walk.left, () -> {
+                    keyControlService.submitCommandASYNC(new keyControlService.simpleCommand(200, keyControlService.action.walk.back, () -> {
+                        keyControlService.submitCommandASYNC(new keyControlService.simpleCommand(200, keyControlService.action.walk.right, () -> {
+                            keyControlService.submitCommandASYNC(new keyControlService.simpleCommand(200, keyControlService.action.walk.forward, () -> {
                                 shouldLoop = true;
                             }));
                         }));

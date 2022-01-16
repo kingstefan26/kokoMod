@@ -27,7 +27,7 @@ public class util {
     }
 
     public static BlockPos getPlayerFeetBlockPos(){
-        return new BlockPos((int) mc.thePlayer.posX, (int) mc.thePlayer.posY, (int) mc.thePlayer.posZ);
+        return new BlockPos((int) mc.thePlayer.posX, (int) mc.thePlayer.posY, (int) Math.ceil(mc.thePlayer.posZ));
     }
 
     public static BlockPos unRelitaviseCords(BlockPos relativeCords, BlockPos playerPos) {
@@ -60,6 +60,36 @@ public class util {
                         notrelativeCords.getX() - playerPos.getX(),
                         notrelativeCords.getY() - playerPos.getY(),
                         notrelativeCords.getZ() - playerPos.getZ());
+        }
+        return null;
+    }
+
+    public static BlockPos unlitaviseCordsWithDications(BlockPos relativeCords, BlockPos playerPos, diraction Playerdir) {
+
+        int zOffset = -1;
+        int xOffset = playerPos.getX() < 0 ? -1 : 0;
+        // the relative cords always have east(real) as north(relative) and we turn it around to have it match
+        switch (Playerdir) {
+            case NORTH:
+                return new BlockPos(
+                        ((relativeCords.getZ()) * -1) + playerPos.getX() + xOffset,
+                        playerPos.getY() + relativeCords.getY(),
+                        (relativeCords.getX() * -1) + playerPos.getZ() + zOffset);
+            case SOUTH:
+                return new BlockPos(
+                        ((relativeCords.getZ()) * -1) + playerPos.getX() + xOffset,
+                        playerPos.getY() + relativeCords.getY(),
+                        relativeCords.getX() + zOffset + playerPos.getZ());
+            case WEST:
+                return new BlockPos(
+                        relativeCords.getX() * -1 + playerPos.getX() + xOffset,
+                        playerPos.getY() + relativeCords.getY(),
+                        (relativeCords.getZ() + zOffset) + playerPos.getZ());
+            case EAST:
+                return new BlockPos(
+                        playerPos.getX() + relativeCords.getX(),
+                        playerPos.getY() + relativeCords.getY(),
+                        playerPos.getZ() + zOffset + relativeCords.getZ());
         }
         return null;
     }

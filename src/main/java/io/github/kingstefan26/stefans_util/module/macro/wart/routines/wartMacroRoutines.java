@@ -301,7 +301,7 @@ public class wartMacroRoutines implements macroRoutines {
     public void doMacroRoutine() {
         if (dontSpamFlag) {
             dontSpamFlag = false;
-            keyControlService.submitCommandASYNC(new keyControlService.command(currentWalkAction, () -> {
+            keyControlService.submitCommandASYNC(new keyControlService.simpleCommand(currentWalkAction, () -> {
                 final keyControlService.action.walk result = parent.helpers.whichWayToGoMockUp(parent, currentWalkAction);
                 if (result != null) {
                     currentWalkAction = result;

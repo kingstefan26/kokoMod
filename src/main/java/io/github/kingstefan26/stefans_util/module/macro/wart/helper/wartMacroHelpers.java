@@ -424,7 +424,7 @@ public class wartMacroHelpers implements macroHelpers {
                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), true);
                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
-                keyControlService.submitCommandASYNC(new keyControlService.command(200, left));
+                keyControlService.submitCommandASYNC(new keyControlService.simpleCommand(200, left));
                 break;
             case RIGHT:
                 KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
