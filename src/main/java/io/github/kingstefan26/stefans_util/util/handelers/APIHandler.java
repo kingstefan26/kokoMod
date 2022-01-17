@@ -9,6 +9,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,22 +30,17 @@ public class APIHandler {
     }
 
     public static String downloadTextFromUrl(final String URL) throws IOException {
-        String output;
-        BufferedReader in = null;
-        try {
-            URL myUrl = new URL(URL);
-            in = new BufferedReader(new InputStreamReader(myUrl.openStream(), StandardCharsets.UTF_8));
 
-            output = IOUtils.toString(in);
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpGet httpget = new HttpGet(URL);
+        HttpResponse httpresponse = httpclient.execute(httpget);
+        String response = IOUtils.toString(httpresponse.getEntity().getContent(), StandardCharsets.UTF_8);
+        httpclient.close();
 
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-        }
 
-        return output;
+        return response;
     }
+
 
     public static String donloadAFileAndReturnPath(String urlString, String savePath) throws IOException {
         URL url = new URL(urlString);
