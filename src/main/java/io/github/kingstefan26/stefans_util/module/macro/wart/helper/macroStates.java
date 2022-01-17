@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2021. All copyright reserved
+ * Copyright (c) 2021-2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.module.macro;
+package io.github.kingstefan26.stefans_util.module.macro.wart.helper;
 
 // state machine who
 public enum macroStates {

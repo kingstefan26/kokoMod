@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static io.github.kingstefan26.stefans_util.module.macro.wart.helper.wartMacroHelpers.getYaw;
+import static io.github.kingstefan26.stefans_util.module.macro.wart.helper.wartMacroUtil.getYaw;
 
 
 public class

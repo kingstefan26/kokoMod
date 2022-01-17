@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Mixin(value = FMLHandshakeMessage.ModList.class, remap = false)
 public class MixinModList {
@@ -26,9 +25,18 @@ public class MixinModList {
 
     @Inject(method = "<init>(Ljava/util/List;)V", at = @At("RETURN"))
     private void removeMod(List<ModContainer> modList, CallbackInfo ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning()) {
-            modList.removeIf(modContainer -> Objects.equals(modContainer.getModId(), globals.MODID));
-            System.out.println("removed stefans_util from mod list");
+
+        try {
+            if (Minecraft.getMinecraft().isSingleplayer()) {
+                return;
+            }
+        } catch (Exception ignored) {
+            return;
         }
+
+        this.modTags.entrySet().removeIf((modx) -> {
+            return modx.getKey().equalsIgnoreCase(globals.MODID) || modx.getKey().equalsIgnoreCase("djperspectivemod");
+        });
+
     }
 }

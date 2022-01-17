@@ -23,7 +23,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 
 public class blockThings extends prototypeModule {
-    BlockPos renderingPos = new BlockPos(1, 1, 1);
+    static BlockPos renderingPos = new BlockPos(1, 1, 1);
     String toRenderText = "hi";
 
     public blockThings() {
@@ -106,7 +106,7 @@ public class blockThings extends prototypeModule {
         chatService.queueCleanChatMessage(isWart(back));
     }
 
-    public keyControlService.action.walk whichWayToGoMockUp(keyControlService.action.walk currentWalkAcction) {
+    public static keyControlService.action.walk whichWayToGoMockUp(keyControlService.action.walk currentWalkAcction) {
         keyControlService.action.walk result = null;
 
         // 0 = soutfh
@@ -209,12 +209,12 @@ public class blockThings extends prototypeModule {
     }
 
 
-    Tuple<BlockPos, blocktype> getblahblah(BlockPos relative, diraction dir) {
+    static Tuple<BlockPos, blocktype> getblahblah(BlockPos relative, diraction dir) {
         BlockPos real = util.unlitaviseCordsWithDications(relative, util.getPlayerFeetBlockPos(), dir);
         return new Tuple<>(real, getblockatCords(real));
     }
 
-    private blocktype getblockatCords(BlockPos real) {
+    private static blocktype getblockatCords(BlockPos real) {
         Block block = mc.theWorld.getBlockState(real).getBlock();
         String blockname = block.getRegistryName();
         return blockname.equals("minecraft:nether_wart") ? blocktype.WART : blockname.equals("minecraft:air") ? blocktype.NONE : blockname.equals("minecraft:soul_sand") ? blocktype.SOULSAND : blocktype.SOLID;

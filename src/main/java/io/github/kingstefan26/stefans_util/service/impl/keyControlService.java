@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
 
 
 public class keyControlService extends Service {
@@ -255,7 +256,7 @@ public class keyControlService extends Service {
         // example code
         new complexCommand(() -> chatService.queueCleanChatMessage("hi"),
                 new walkAction(action.walk.forward),
-                new stopWhen(() -> Minecraft.getMinecraft().thePlayer.getDistance(
+                new stopWhenPure(() -> Minecraft.getMinecraft().thePlayer.getDistance(
                         Minecraft.getMinecraft().thePlayer.lastTickPosX,
                         Minecraft.getMinecraft().thePlayer.lastTickPosY,
                         Minecraft.getMinecraft().thePlayer.lastTickPosZ) == 0),
@@ -263,9 +264,18 @@ public class keyControlService extends Service {
                 new walkUntilTrue(action.walk.forward, () -> Minecraft.getMinecraft().thePlayer.getDistance(
                         Minecraft.getMinecraft().thePlayer.lastTickPosX,
                         Minecraft.getMinecraft().thePlayer.lastTickPosY,
-                        Minecraft.getMinecraft().thePlayer.lastTickPosZ) == 0)
+                        Minecraft.getMinecraft().thePlayer.lastTickPosZ) == 0),
+                new stopWhenNonPure((a) -> {
+                    if (a instanceof Integer) {
+                        int x = (int) a;
+                        return x == 1;
+                    } else {
+                        return false;
+                    }
+                })
         );
     }
+
 
     public interface Action {
     }
@@ -352,10 +362,19 @@ public class keyControlService extends Service {
 
     }
 
-    public static class stopWhen implements Action {
+    public static class stopWhenPure implements Action {
         public BooleanSupplier StopCondition;
 
-        public stopWhen(BooleanSupplier StopCondition) {
+        public stopWhenPure(BooleanSupplier StopCondition) {
+            this.StopCondition = StopCondition;
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static class stopWhenNonPure implements Action {
+        public Predicate StopCondition;
+
+        public stopWhenNonPure(Predicate StopCondition) {
             this.StopCondition = StopCondition;
         }
     }
