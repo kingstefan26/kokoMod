@@ -66,6 +66,15 @@ public class kokoMod {
 //        ProgressManager.pop(progressBar);
 
 
+		//        String serverId = UUID.randomUUID().toString().replace("-", "");
+		//
+		//        try {
+		//            mc.getSessionService().joinServer(mc.getSession().getProfile(), mc.getSession().getToken(), serverId);
+		//        } catch (Exception var5) {
+		//            return;
+		//        }
+
+
 		configMenager.getConfigManager();
 		SettingsCore.getSettingsCore();
 

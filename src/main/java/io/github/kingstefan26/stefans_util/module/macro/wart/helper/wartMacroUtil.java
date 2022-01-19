@@ -6,6 +6,7 @@ package io.github.kingstefan26.stefans_util.module.macro.wart.helper;
 
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
 import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
+import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.keyControlService;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -288,6 +289,7 @@ public class wartMacroUtil {
         mc.thePlayer.rotationPitch = lerpAngle(mc.thePlayer.rotationPitch, pitch, parent.rateOfChange);
     }
 
+    public static int spamCounter;
     public static keyControlService.action.walk whichWayToGoMockUp(keyControlService.action.walk currentWalkAcction) {
         keyControlService.action.walk result = null;
 
@@ -361,6 +363,20 @@ public class wartMacroUtil {
                     result = keyControlService.action.walk.forward;
                 }
             }
+        }
+
+        if (result == null) {
+            result = currentWalkAcction;
+        }
+        if (result == currentWalkAcction) {
+            spamCounter++;
+            if (spamCounter > 4) {
+                chatService.queueCleanChatMessage(UniversalWartMacro.chatprefix + "failed to find a walk action, auto recalibrating");
+                parent.macroState.setState(macroStates.AUTONOMOUS_RECALIBRATING);
+                result = keyControlService.action.walk.right;
+            }
+        } else {
+            spamCounter = 0;
         }
 
 
@@ -469,6 +485,22 @@ public class wartMacroUtil {
     }
 
     public static void turnHeadToWart() {
+        int shaneYaw = turnheadtowartCal();
+
+        if (shaneYaw != -1) {
+            parent.helpers.setPlayerYaw(shaneYaw);
+        }
+    }
+
+    public static void turnHeadToWart(int pitch) {
+        int shaneYaw = turnheadtowartCal();
+
+        if (shaneYaw != -1) {
+            parent.helpers.setPlayerRotations(shaneYaw, pitch);
+        }
+    }
+
+    private static int turnheadtowartCal() {
         ArrayList<Tuple<BlockPos, String>> klocks = checkBlocksAroundPlayerFLAT();
 
         int shaneYaw = -1;
@@ -483,13 +515,7 @@ public class wartMacroUtil {
                 if (i == 7) shaneYaw = 90;
             }
         }
-
-        int[] yawValues = new int[]{1, 90, 180, -180, -90};
-
-        if (shaneYaw != -1) {
-            parent.helpers.setPlayerYaw(shaneYaw);
-
-        }
+        return shaneYaw;
     }
 
 

@@ -9,12 +9,14 @@ import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleMana
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.core.setting.impl.CheckSetting;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
+import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Tuple;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
@@ -206,11 +208,13 @@ public class macroSessionTracker extends basicModule {
                     thisUpdate = System.currentTimeMillis() - timeZeroPoint;
                     long timedistance = thisUpdate - lastUpdate;
 
-                    System.out.println(timedistance);
+//                    System.out.println(timedistance);
 
 
                     if (timedistance > 900 && change > 10) {
                         thisSessionFarmingTime += timedistance;
+                    } else {
+                        MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.stoppedCollectingWart());
                     }
 
                     lastUpdate = System.currentTimeMillis() - timeZeroPoint;

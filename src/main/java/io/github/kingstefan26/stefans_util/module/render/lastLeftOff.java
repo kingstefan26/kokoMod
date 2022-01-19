@@ -14,11 +14,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import static io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline.draw3DLine;
 
 
 public class lastLeftOff extends basicModule {
@@ -165,19 +162,22 @@ public class lastLeftOff extends basicModule {
 		GlStateManager.disableTexture2D();
 
 		//stolen from nue :)
-		float xx = LastLeftOff.getX() -(float) viewerX;
-		float yy = LastLeftOff.getY() -(float) viewerY;
+ 		float xx = LastLeftOff.getX() - (float) viewerX;
+		float yy = LastLeftOff.getY() - (float) viewerY;
 		float zz = LastLeftOff.getZ() - (float)viewerZ;
 
 		float distSq = xx*xx+ yy*yy + zz*zz;
 
 		if(LastLeftOff.getTime() != 0){
-			if(distSq > 4*4){
-				hehe.drawTextAtWorld(CalendarUtils.ConvertMilliSecondsToFormattedDate(LastLeftOff.getTime()),
+			if(distSq > 4*4) {
+
+				String text = (LastLeftOff.type == cropType.WART ? "wart" : "deafult") + " " + CalendarUtils.ConvertMilliSecondsToFormattedDate(LastLeftOff.getTime());
+
+				hehe.drawTextAtWorld(text,
 						LastLeftOff.getX() + 0.5F,
 						LastLeftOff.getY() + 1,
 						LastLeftOff.getZ() + 0.5F,
-						rgb, 3F,
+						rgb, 2F,
 						true, true, event.partialTicks);
 			}
 		}
@@ -187,15 +187,16 @@ public class lastLeftOff extends basicModule {
 		double z = LastLeftOff.getZ() - viewerZ;
 		AxisAlignedBB bb = new AxisAlignedBB(x, y, z, x + 1, y + 1, z + 1);
 
-		if(distSq < 4*4){
-			hehe.drawFilledBoundingBox(bb, 1f,textrgb);
-		}else{
-			Vec3 pos3;
-			Vec3 pos4;
-			pos3 = new Vec3(LastLeftOff.getX(),LastLeftOff.getY(),LastLeftOff.getZ());
-			pos4 = new Vec3(viewerX,viewerY + 1,viewerZ);
-			draw3DLine(pos3,pos4, rgb, 5, false, event.partialTicks);
+		if (distSq < 4 * 4) {
+			hehe.drawFilledBoundingBox(bb, 1f, textrgb);
 		}
+//		else{
+//			Vec3 pos3;
+//			Vec3 pos4;
+//			pos3 = new Vec3(LastLeftOff.getX(),LastLeftOff.getY(),LastLeftOff.getZ());
+//			pos4 = new Vec3(viewerX,viewerY + 1,viewerZ);
+////			draw3DLine(pos3,pos4, rgb, 5, false, event.partialTicks);
+//		}
 
 		GlStateManager.disableLighting();
 		GlStateManager.enableDepth();

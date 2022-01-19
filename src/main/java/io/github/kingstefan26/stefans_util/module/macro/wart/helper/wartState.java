@@ -15,7 +15,7 @@ public class wartState {
     UniversalWartMacro parent;
     @Getter
     @Setter
-    boolean sprintStatus, lastLeftOffStaus, stolenFarmOverlayStatus, autorecconectStatus;
+    boolean sprintStatus, lastLeftOffStaus, stolenFarmOverlayStatus, autorecconectStatus, macroSessionTrackerStatus;
     @Getter
     @Setter
     boolean dontSpamFlag = true;

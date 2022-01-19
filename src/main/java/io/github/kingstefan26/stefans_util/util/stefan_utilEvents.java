@@ -32,5 +32,8 @@ public class stefan_utilEvents {
     public static class connectedToKokoCloud extends Event {
     }
 
+    public static class stoppedCollectingWart extends Event {
+    }
+
 
 }

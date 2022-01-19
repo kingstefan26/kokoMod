@@ -5,9 +5,11 @@ import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.frame;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,11 +112,20 @@ public class ClickGui extends GuiScreen {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 
+
+		if (moduleRegistery.getModuleRegistery().loadedModules.size() == 0) {
+			ScaledResolution scaled = new ScaledResolution(mc);
+			int width = scaled.getScaledWidth();
+			int height = scaled.getScaledHeight();
+			String text = "there are no modules loaded, if you bealve this is a issue report it on discord";
+			mc.fontRendererObj.drawStringWithShadow(text, (float) (width / 2 - mc.fontRendererObj.getStringWidth(text) / 2), (float) (height / 2) - 4, 0xFFFFFF);
+		}
+
 		list.clear();
-		for(frame frame : frames) {
+		for (frame frame : frames) {
 			frame.renderFrame();
 			frame.updatePosition(mouseX, mouseY);
-			for(component comp : frame.getComponents()) {
+			for (component comp : frame.getComponents()) {
 				comp.updateComponent(mouseX, mouseY);
 			}
 		}

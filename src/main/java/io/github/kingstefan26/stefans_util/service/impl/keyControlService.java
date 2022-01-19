@@ -30,6 +30,7 @@ public class keyControlService extends Service {
             forward, right, left, back,
             forwardLeft, forwardRight, backLeft, backRight
         }
+
         public enum hand {
             punch, place
         }
@@ -40,27 +41,16 @@ public class keyControlService extends Service {
 
     long lastStoopedMovingTimer;
 
-    @SubscribeEvent
-    public void clientTick(TickEvent.ClientTickEvent e) {
-        if (mc == null || mc.theWorld == null || mc.thePlayer == null) return;
-        if (CurentlyExecuted != null) {
-            double playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
-            if (playerSpeed == 0 && lastStoopedMovingTimer == 0) {
-                lastStoopedMovingTimer = System.currentTimeMillis() + 50;
-            }
-            if (playerSpeed != 0 && lastStoopedMovingTimer != 0) {
-                lastStoopedMovingTimer = 0;
-            }
-            if (playerSpeed == 0 && System.currentTimeMillis() >= lastStoopedMovingTimer) {
-                playerStoppedMoving();
-                lastStoopedMovingTimer = 0;
-            }
-        }
+    public static void submitCommandASYNC(simpleCommand c) {
+        ASYNCQueue.add(c);
+        addedCommand();
+        if (verbose)
+            chatService.queueCleanChatMessage("queued new key control engine command to:" + (c.walkAction != null ? String.valueOf(c.walkAction) : String.valueOf(c.handAction)));
     }
 
 
-    public static void playerStoppedMoving(){
-        if(CurentlyExecuted.stoppedmovingCallback != null){
+    public static void playerStoppedMoving() {
+        if (CurentlyExecuted.stoppedmovingCallback != null) {
             CurentlyExecuted.stoppedmovingCallback.run();
             CurentlyExecuted = null;
         }
@@ -79,10 +69,23 @@ public class keyControlService extends Service {
             chatService.queueCleanChatMessage("queued new key control engine command to:" + (c.walkAction != null ? String.valueOf(c.walkAction) : String.valueOf(c.handAction)));
     }
 
-    public static void submitCommandASYNC(simpleCommand c) {
-        ASYNCQueue.add(c);
-        addedCommand();
-        chatService.queueCleanChatMessage("queued new key control engine command to:" + (c.walkAction != null ? String.valueOf(c.walkAction) : String.valueOf(c.handAction)));
+    @SubscribeEvent
+    public void clientTick(TickEvent.ClientTickEvent e) {
+        if (mc == null || mc.theWorld == null || mc.thePlayer == null) return;
+        if (CurentlyExecuted != null) {
+            double playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
+            //0.001785071101039648
+            if (playerSpeed < 0.002 && lastStoopedMovingTimer == 0) {
+                lastStoopedMovingTimer = System.currentTimeMillis() + 50;
+            }
+            if (playerSpeed != 0 && lastStoopedMovingTimer != 0) {
+                lastStoopedMovingTimer = 0;
+            }
+            if (playerSpeed < 0.002 && System.currentTimeMillis() >= lastStoopedMovingTimer) {
+                playerStoppedMoving();
+                lastStoopedMovingTimer = 0;
+            }
+        }
     }
 
     private static void addedCommand() {
@@ -92,7 +95,7 @@ public class keyControlService extends Service {
             CurentlyExecuted = ASYNCQueue.poll();
             if (CurentlyExecuted == null) {
 
-                if(verbose) chatService.queueCleanChatMessage("getting head of queue: HEAD IS NULL");
+                if (verbose) chatService.queueCleanChatMessage("getting head of queue: HEAD IS NULL");
                 return;
             }else{
 
