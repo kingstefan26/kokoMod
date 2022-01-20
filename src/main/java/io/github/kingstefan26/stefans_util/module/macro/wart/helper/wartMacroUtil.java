@@ -342,7 +342,8 @@ public class wartMacroUtil {
                 if (left.getSecond().equals(blocktype.NONE)) {
                     result = keyControlService.action.walk.left;
                 }
-            } else if (rightfront.getSecond().equals(blocktype.WART)) {
+            }
+            if (rightfront.getSecond().equals(blocktype.WART)) {
                 if (right.getSecond().equals(blocktype.NONE)) {
                     result = keyControlService.action.walk.right;
                 }
@@ -366,19 +367,22 @@ public class wartMacroUtil {
         }
 
         if (result == null) {
-            result = currentWalkAcction;
-        }
-        if (result == currentWalkAcction) {
             spamCounter++;
             if (spamCounter > 4) {
                 chatService.queueCleanChatMessage(UniversalWartMacro.chatprefix + "failed to find a walk action, auto recalibrating");
                 parent.macroState.setState(macroStates.AUTONOMOUS_RECALIBRATING);
-                result = keyControlService.action.walk.right;
+                spamCounter = 0;
+            }
+            if (currentWalkAcction != null) {
+                result = currentWalkAcction;
+            } else {
+                chatService.queueCleanChatMessage(UniversalWartMacro.chatprefix + "current walk is null and result is null somethings wrong recalubrating");
+                parent.macroState.setState(macroStates.AUTONOMOUS_RECALIBRATING);
+                spamCounter = 0;
             }
         } else {
             spamCounter = 0;
         }
-
 
         return result;
     }
@@ -410,7 +414,7 @@ public class wartMacroUtil {
     private static blocktype getblockatCords(BlockPos real) {
         Block block = mc.theWorld.getBlockState(real).getBlock();
         String blockname = block.getRegistryName();
-        return blockname.equals("minecraft:nether_wart") ? blocktype.WART : blockname.equals("minecraft:air") ? blocktype.NONE : blockname.equals("minecraft:soul_sand") ? blocktype.SOULSAND : blocktype.SOLID;
+        return blockname.equals("minecraft:nether_wart") ? blocktype.WART : blockname.equals("minecraft:air") ? blocktype.NONE : blocktype.SOLID;
     }
 
     public static Tuple<BlockPos, String>[] checkBlocksRoundPlayer() {
@@ -508,7 +512,7 @@ public class wartMacroUtil {
         for (int i = 0, klocksSize = klocks.size(); i < klocksSize; i++) {
             Tuple<BlockPos, String> klock = klocks.get(i);
             if (klock.getSecond().equals("minecraft:nether_wart")) {
-                System.out.println("klock " + i + " is wart");
+//                System.out.println("klock " + i + " is wart");
                 if (i == 20) shaneYaw = 0;
                 if (i == 18) shaneYaw = 180;
                 if (i == 31) shaneYaw = -90;

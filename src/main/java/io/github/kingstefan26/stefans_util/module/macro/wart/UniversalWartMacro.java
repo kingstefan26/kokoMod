@@ -25,6 +25,7 @@ import io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import lombok.Value;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
@@ -39,13 +40,17 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static io.github.kingstefan26.stefans_util.module.macro.wart.helper.macroStates.*;
 import static io.github.kingstefan26.stefans_util.service.impl.keyControlService.action.walk.left;
-import static io.github.kingstefan26.stefans_util.service.impl.keyControlService.action.walk.right;
 
 
 public class UniversalWartMacro extends basicModule implements macro {
@@ -57,7 +62,9 @@ public class UniversalWartMacro extends basicModule implements macro {
 
     // values changed by settings
     public int unpauseKey;
+    public static boolean shouldBlockGui = false;
     public boolean experimentalGuiFlag;
+    public int unFocusToggle;
     public boolean verboseLogging;
     public int wantedPitch;
     public boolean perfectHeadRotation;
@@ -66,11 +73,11 @@ public class UniversalWartMacro extends basicModule implements macro {
     // values that change on runtime
     public int playerYaw;
     public int playerPitch;
-    public double playerSpeed;
     public int fallCounter;
     public util.macroMenu macroMenu;
     public util.walkStates macroWalkStage = util.walkStates.DEFAULT; // TODO make a better state model (compatible with last left off)
-
+    public boolean checkForwart;
+    public boolean unFocusStatus;
 
     // runtime routine flags
     public boolean guiCloseGrace;
@@ -92,26 +99,7 @@ public class UniversalWartMacro extends basicModule implements macro {
         BlockPos thisthing;
     }
 
-
-    @Override
-    public void onLoad() {
-        new SliderSetting("rate of change", this, 0.01, 0, 0.5F, (newvalue) -> {
-            double temp = (Double) newvalue;
-            rateOfChange = (float) temp;
-        });
-        new SliderNoDecimalSetting("pitch", this, 9, 0, 90, (newvalue) ->
-                wantedPitch = (int) newvalue);
-        new CheckSetting("perfect head rotation", this, true, (newvalue) ->
-                perfectHeadRotation = (boolean) newvalue);
-        new CheckSetting("experimental gui", this, false, (onUpdateCallbackValue) ->
-                experimentalGuiFlag = (boolean) onUpdateCallbackValue);
-        new CheckSetting("verbose logging", this, false, (onUpdateCallbackValue) ->
-                verboseLogging = (boolean) onUpdateCallbackValue);
-        new ChoseAKeySetting("unpause key", this, 0, (onUpdateCallbackValue) ->
-                unpauseKey = (int) onUpdateCallbackValue);
-
-        super.onLoad();
-    }
+    int longtimer = 0;
 
 
     ArrayList<BlockPos> vertexes = new ArrayList<>();
@@ -153,6 +141,33 @@ public class UniversalWartMacro extends basicModule implements macro {
         GlStateManager.enableCull();
     }
 
+    boolean triedTomove;
+    BlockPos pos10SecondsAgo;
+
+    @Override
+    public void onLoad() {
+        new SliderSetting("rate of change", this, 0.01, 0, 0.5F, (newvalue) -> {
+            double temp = (Double) newvalue;
+            rateOfChange = (float) temp;
+        });
+        new SliderNoDecimalSetting("pitch", this, 9, 0, 90, (newvalue) ->
+                wantedPitch = (int) newvalue);
+        new CheckSetting("perfect head rotation", this, true, (newvalue) ->
+                perfectHeadRotation = (boolean) newvalue);
+        new CheckSetting("experimental gui", this, false, (onUpdateCallbackValue) ->
+                experimentalGuiFlag = (boolean) onUpdateCallbackValue);
+        new CheckSetting("verbose logging", this, false, (onUpdateCallbackValue) ->
+                verboseLogging = (boolean) onUpdateCallbackValue);
+        new ChoseAKeySetting("unpause key", this, 0, (onUpdateCallbackValue) ->
+                unpauseKey = (int) onUpdateCallbackValue);
+        new ChoseAKeySetting("unfocusToggle", this, 0, (onUpdateCallbackValue) ->
+                unFocusToggle = (int) onUpdateCallbackValue);
+        new CheckSetting("check for wart", this, true, (newvalue) ->
+                checkForwart = (boolean) newvalue);
+
+        super.onLoad();
+    }
+
     @Override
     public void onKeyInput(InputEvent.KeyInputEvent event) {
         if (Keyboard.isCreated()) {
@@ -160,6 +175,10 @@ public class UniversalWartMacro extends basicModule implements macro {
                 int keyCode = Keyboard.getEventKey();
                 if (keyCode <= 0)
                     return;
+
+                if (macroState.checkState(MACROING) && keyCode == unFocusToggle) {
+
+                }
 
                 if (macroState.checkState(PAUSED)) {
                     if (keyCode == localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) {
@@ -228,6 +247,14 @@ public class UniversalWartMacro extends basicModule implements macro {
         }
     }
 
+    @SubscribeEvent
+    public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        chatService.queueCleanChatMessage(chatprefix + "you swiched worlds, turning on autonomous recalibration");
+        if (macroState.checkState(MACROING)) {
+            macroState.setState(AUTONOMOUS_RECALIBRATING);
+        }
+    }
+
     @Override
     public void onRenderTick(TickEvent.RenderTickEvent e) {
         switch (macroState.getState()) {
@@ -247,15 +274,16 @@ public class UniversalWartMacro extends basicModule implements macro {
                 drawCenterString.GuiNotif(mc, "Whats good korea");
                 drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key "
                         + Keyboard.getKeyName(localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) +
-                        " to stop", "ff002f");
+                        " to stop. To unfocus the window press " + Keyboard.getKeyName(unFocusToggle) + (unFocusStatus ? " currenty unfocused" : " currently focused"), "ff002f");
                 if (mc.theWorld == null || mc.thePlayer == null) {
                     macroState.setState(AUTONOMOUS_RECALIBRATING);
-                } else {// TODO: update walk routine CHECK IF THE PLAYER IS GETTING CROPS AND IF NOT RECALIBRATE
-                    if (!wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart")) {
-                        macroState.setState(AUTONOMOUS_RECALIBRATING);
-                    }
-                    macroState.setState(MACROING);
                 }
+//                else {// TODO: update walk routine CHECK IF THE PLAYER IS GETTING CROPS AND IF NOT RECALIBRATE
+//                    if (!wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart")) {
+//                        macroState.setState(AUTONOMOUS_RECALIBRATING);
+//                    }
+//                    macroState.setState(MACROING);
+//                }
 
 
                 break;
@@ -299,22 +327,41 @@ public class UniversalWartMacro extends basicModule implements macro {
 
     }
 
+    int tickcounter = 0;
 
     @Override
     public void onHighestClientTick(TickEvent.ClientTickEvent event) {
         if (mc == null || mc.theWorld == null || mc.thePlayer == null) {
+            chatService.queueClientChatMessage("autonomus calibrating beacouse the world was null");
             macroState.setState(AUTONOMOUS_RECALIBRATING);
             return;
         }
 
         switch (macroState.getState()) {
             case IDLE:
+                shouldBlockGui = false;
+                if (unFocusStatus) {
+                    unFocusStatus = false;
+                    if (Display.isActive()) {
+                        ReflectionHelper.setPrivateValue(Minecraft.class, mc, false, "inGameHasFocus", "field_71415_G");
+                        mc.setIngameFocus();
+                    }
+                }
                 if (this.isToggled())
                     macroState.setState(STARTING);
                 break;
             case PAUSED:
+                shouldBlockGui = false;
+                if (unFocusStatus) {
+                    unFocusStatus = false;
+                    if (Display.isActive()) {
+                        ReflectionHelper.setPrivateValue(Minecraft.class, mc, false, "inGameHasFocus", "field_71415_G");
+                        mc.setIngameFocus();
+                    }
+                }
                 break;
             case MACROING:
+                shouldBlockGui = true;
                 vertexes.add(util.getPlayerFeetBlockPos());
 
                 if (event.phase == TickEvent.Phase.START) {
@@ -325,8 +372,8 @@ public class UniversalWartMacro extends basicModule implements macro {
                     keyControlService.submitCommandASYNC(new keyControlService.simpleCommand(macroState.getCurrentWalkAction(), () -> {
                         final keyControlService.action.walk result = wartMacroUtil.whichWayToGoMockUp(macroState.getCurrentWalkAction());
 
-                        macroState.setCurrentWalkAction(result == null ? right : result);
-
+//                        macroState.setCurrentWalkAction(result == null ? right : result);
+                        macroState.setCurrentWalkAction(result);
                         macroState.setDontSpamFlag(true);
                     }));
                 }
@@ -352,31 +399,44 @@ public class UniversalWartMacro extends basicModule implements macro {
                     inputLockerService.lock(localDecoratorManager.keyBindDecorator.keybind.getKeyCode(), () -> {
                         macroState.setState(PAUSED);
 
-
                         macroState.setDontSpamFlag(false);
                         KeyBinding.unPressAllKeys();
                         keyControlService.clearCommandQueue();
-                    });
+                    }, new inputLockerService.exeptionKeybind(unFocusToggle, () -> {
+                        unFocusStatus = !unFocusStatus;
+                        if (unFocusStatus) {
+                            ReflectionHelper.setPrivateValue(Minecraft.class, mc, true, "inGameHasFocus", "field_71415_G");
+                            mc.mouseHelper.ungrabMouseCursor();
+                        } else {
+                            if (Display.isActive()) {
+                                ReflectionHelper.setPrivateValue(Minecraft.class, mc, false, "inGameHasFocus", "field_71415_G");
+                                mc.setIngameFocus();
+                            }
+                        }
+                    }));
                 }
                 break;
             case AUTONOMOUS_RECALIBRATING:
-                if (main.debug) {
-                    if (mc != null && mc.theWorld != null && !mc.isSingleplayer()) {
-                        if (mc.getCurrentServerData() != null) {
-                            chatService.queueCleanChatMessage("in this part we /warp skyblock and shii");
-                            macroState.setState(MACROING);
-                        }
-                    }
-                    // #not debug #not my problem #annoying
-                } else {
-                    if (macroState.getExpireTimeSpamp() != 0) {
-                        if (System.currentTimeMillis() >= macroState.getExpireTimeSpamp()) {
-                            macroState.setExpireTimeSpamp(0);
-                        }
-                    }
 
-                    if (macroState.getExpireTimeSpamp() == 0 && mc != null && mc.theWorld != null && !mc.isSingleplayer() && WorldInfoService.isOnHypixel()) {
-                        if (mc.getCurrentServerData() != null) {
+
+                // #not debug #not my problem #annoying
+
+//                    if (mc != null && mc.theWorld != null && !mc.isSingleplayer()) {
+//                        if (mc.getCurrentServerData() != null) {
+//                            chatService.queueCleanChatMessage("in this part we /warp skyblock and shii");
+//                            macroState.setState(MACROING);
+//                        }
+//                    }
+
+                if (macroState.getExpireTimeSpamp() != 0) {
+                    if (System.currentTimeMillis() >= macroState.getExpireTimeSpamp()) {
+                        macroState.setExpireTimeSpamp(0);
+                    }
+                }
+
+                if (macroState.getExpireTimeSpamp() == 0 && mc != null && mc.theWorld != null && !mc.isSingleplayer() && WorldInfoService.isOnHypixel()) {
+
+                    if (mc.getCurrentServerData() != null) {
 
                             boolean inSB = WorldInfoService.isInSkyblock(), onIS = WorldInfoService.isOnPrivateIsland();
 
@@ -399,18 +459,26 @@ public class UniversalWartMacro extends basicModule implements macro {
                                     chatService.queueCleanChatMessage(chatprefix + "now time to turn our head to the wart smh");
                                 }
 
+                                if (mc.currentScreen != null) {
+                                    mc.thePlayer.closeScreen();
+                                }
+
                                 macroState.setAutonomous_recalibration_moveheadtowartflag(true);
 
-                                if (wartMacroUtil.isInFrontTreeWart(wartMacroUtil.checkBlocksRoundPlayer()) && wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart")) {
+                                if (wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart")) {
                                     chatService.queueCleanChatMessage(chatprefix + "yay we are facing 3 wart and out mouse is over wart time to macro again");
                                     macroState.setAutonomous_recalibration_moveheadtowartflag(false);
+                                    keyControlService.clearCommandQueue();
+                                    macroState.setCurrentWalkAction(wartMacroUtil.whichWayToGoMockUp(null));
+                                    macroState.setDontSpamFlag(true);
                                     macroState.setState(MACROING);
                                 }
+                                macroState.setExpireTimeSpamp(System.currentTimeMillis() + 500);
 
                             }
 
                         }
-                    }
+
                 }
                 // locate urself
 
@@ -454,7 +522,14 @@ public class UniversalWartMacro extends basicModule implements macro {
                                 m.setToggled(true);
                             }
                         }
-                        mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("stefan_util:annoying"), 1.0F));
+
+                        Random rand = new Random();
+                        float f = rand.nextFloat();
+                        BigDecimal bd = new BigDecimal(Float.toString(f));
+                        bd = bd.setScale(2, RoundingMode.HALF_UP);
+                        f = bd.floatValue();
+
+                        mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("stefan_util:annoying"), f));
                         fallCounter = 0;
 
                         if (experimentalGuiFlag) {
@@ -528,44 +603,59 @@ public class UniversalWartMacro extends basicModule implements macro {
 
     }
 
-
     @SubscribeEvent
     public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
         logger.info("player dissconected from server turning on AUTONOMOUS_RECALIBRATING");
+        chatService.queueClientChatMessage("player dissconected from server turning on AUTONOMOUS_RECALIBRATING", chatService.chatEnum.DEBUG);
         macroState.setState(AUTONOMOUS_RECALIBRATING);
     }
 
     @SubscribeEvent
-    public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        chatService.queueCleanChatMessage(chatprefix + "you swiched worlds, turning on autonomous recalibration");
-        if (macroState.checkState(MACROING)) {
-            macroState.setState(AUTONOMOUS_RECALIBRATING);
-        }
-    }
-
-
-    @SubscribeEvent
     public void onstefan_utilsstoppedCollectingWart(stefan_utilEvents.stoppedCollectingWart event) {
-        if (macroState.checkState(MACROING)) {
+        logger.info("stopped reciving wart turing on AUTONOMOUS_RECALIBRATING");
+        if (macroState.checkState(MACROING) && !wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart") && checkForwart) {
             macroState.setState(AUTONOMOUS_RECALIBRATING);
         }
     }
-
-    int tickcounter = 0;
 
     @SubscribeEvent
     public void onTickClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) {
-            tickcounter++;
-        }
+        if (event.phase != TickEvent.Phase.START) return;
+        tickcounter++;
+        longtimer++;
+        if (!macroState.checkState(MACROING)) pos10SecondsAgo = null;
         if (tickcounter % 20 == 0) {
             if (mc != null && mc.theWorld != null && mc.thePlayer != null) {
-                playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
-                if (mc.thePlayer.posY - mc.thePlayer.lastTickPosY < 0) {
+//                playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
+//                if (mc.thePlayer.posY - mc.thePlayer.lastTickPosY < 0) {
+//                    playerFallCallBack();
+//                }
+                if (mc.thePlayer.fallDistance > 2) {
                     playerFallCallBack();
                 }
             }
             tickcounter = 0;
+        }
+        if (longtimer % 40 == 0) {
+            longtimer = 0;
+            if (pos10SecondsAgo == null) {
+                pos10SecondsAgo = util.getPlayerFeetBlockPos();
+            } else {
+                BlockPos current = util.getPlayerFeetBlockPos();
+                if (current.distanceSq(pos10SecondsAgo) < 1) {
+                    chatService.queueCleanChatMessage(chatprefix + "not detecting movement recalibrating");
+                    if (!triedTomove) {
+                        macroState.setCurrentWalkAction(wartMacroUtil.whichWayToGoMockUp(null));
+                        macroState.setDontSpamFlag(true);
+                        triedTomove = true;
+                    } else {
+                        triedTomove = false;
+                        macroState.setState(AUTONOMOUS_RECALIBRATING);
+                    }
+                }
+                pos10SecondsAgo = current;
+            }
+
         }
     }
 

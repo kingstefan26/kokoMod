@@ -25,10 +25,29 @@
   },
   "annoying": {
     "category": "player",
-    "sounds": [{
-      "name": "stefan_util:annoying",
-      "stream": false
-    }
+    "sounds": [
+      {
+        "name": "stefan_util:annoying",
+        "stream": false
+      }
+    ]
+  },
+  "annoying-demon": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "stefan_util:annoying-demonic",
+        "stream": false
+      }
+    ]
+  },
+  "annoying-imp": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "stefan_util:annoying-imp",
+        "stream": false
+      }
     ]
   }
 }

@@ -4,6 +4,7 @@ import io.github.kingstefan26.stefans_util.service.Service;
 import io.github.kingstefan26.stefans_util.util.util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -49,12 +50,7 @@ public class keyControlService extends Service {
     }
 
 
-    public static void playerStoppedMoving() {
-        if (CurentlyExecuted.stoppedmovingCallback != null) {
-            CurentlyExecuted.stoppedmovingCallback.run();
-            CurentlyExecuted = null;
-        }
-    }
+    static double threashold = 0.01D;
 
     static simpleCommand CurentlyExecuted;
 
@@ -69,22 +65,51 @@ public class keyControlService extends Service {
             chatService.queueCleanChatMessage("queued new key control engine command to:" + (c.walkAction != null ? String.valueOf(c.walkAction) : String.valueOf(c.handAction)));
     }
 
+    static int timeaddition = 300;
+    BlockPos secondAgoPos;
+    int tickcounter;
+
+    public static void playerStoppedMoving() {
+        if (CurentlyExecuted.stoppedmovingCallback != null) {
+            CurentlyExecuted.stoppedmovingCallback.run();
+        }
+        CurentlyExecuted = null;
+    }
+
     @SubscribeEvent
     public void clientTick(TickEvent.ClientTickEvent e) {
         if (mc == null || mc.theWorld == null || mc.thePlayer == null) return;
+//        if (e.phase == TickEvent.Phase.START) {
+//            tickcounter++;
+//        }
+//        if (tickcounter % 20 == 0) {
+//            tickcounter = 0;
+//        }
+        tick();
+
+    }
+
+    void tick() {
         if (CurentlyExecuted != null) {
-            double playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
-            //0.001785071101039648
-            if (playerSpeed < 0.002 && lastStoopedMovingTimer == 0) {
-                lastStoopedMovingTimer = System.currentTimeMillis() + 50;
+
+            if (secondAgoPos != null) {
+                double playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
+//                int playerSpeed = (int) io.github.kingstefan26.stefans_util.module.macro.util.util.getPlayerFeetBlockPos().distanceSq(secondAgoPos);
+
+                if (playerSpeed < threashold && lastStoopedMovingTimer == 0) {
+                    lastStoopedMovingTimer = System.currentTimeMillis() + timeaddition;
+                }
+//                if (playerSpeed != 0 && lastStoopedMovingTimer != 0) {
+//                    lastStoopedMovingTimer = 0;
+//                }
+                if (playerSpeed < threashold && System.currentTimeMillis() >= lastStoopedMovingTimer) {
+                    playerStoppedMoving();
+                    lastStoopedMovingTimer = 0;
+                }
             }
-            if (playerSpeed != 0 && lastStoopedMovingTimer != 0) {
-                lastStoopedMovingTimer = 0;
-            }
-            if (playerSpeed < 0.002 && System.currentTimeMillis() >= lastStoopedMovingTimer) {
-                playerStoppedMoving();
-                lastStoopedMovingTimer = 0;
-            }
+            secondAgoPos = io.github.kingstefan26.stefans_util.module.macro.util.util.getPlayerFeetBlockPos();
+
+
         }
     }
 

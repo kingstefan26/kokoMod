@@ -21,6 +21,7 @@ public class inputLockerService extends Service {
     }
     private static int unlockkey;
     private static Runnable callback;
+    static exeptionKeybind[] exeptionKeybinds;
 
 
     public static void unlock() {
@@ -33,20 +34,12 @@ public class inputLockerService extends Service {
         locked = true;
     }
 
-    public static void lock(int unLockKey,Runnable callback) {
+    public static void lock(int unLockKey, Runnable callback, exeptionKeybind... exeptions) {
         KeyBinding.unPressAllKeys();
         inputLockerService.callback = callback;
+        exeptionKeybinds = exeptions;
         unlockkey = unLockKey;
         locked = true;
-    }
-
-    @SubscribeEvent
-    public void onClientTick(TickEvent.RenderTickEvent event) {
-        if (locked) {
-            Mouse.getDX();
-            Mouse.getDY();
-            mc.mouseHelper.deltaX = mc.mouseHelper.deltaY = 0;
-        }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -58,13 +51,42 @@ public class inputLockerService extends Service {
                         locked = false;
                         if (callback == null) {
                             MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.clickedUnlockKeyEvent());
-                        }else{
+                        } else {
                             callback.run();
                         }
                     }
+                    if (exeptionKeybinds != null) {
+                        for (exeptionKeybind exeption : exeptionKeybinds) {
+                            if (exeption != null) {
+                                if (Keyboard.isKeyDown(exeption.keycode)) {
+                                    exeption.action.run();
+                                }
+                            }
+                        }
+                    }
                 }
-                while (Mouse.next()) {}
+                while (Mouse.next()) {
+                }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onClientTick(TickEvent.RenderTickEvent event) {
+        if (locked) {
+            Mouse.getDX();
+            Mouse.getDY();
+            mc.mouseHelper.deltaX = mc.mouseHelper.deltaY = 0;
+        }
+    }
+
+    public static class exeptionKeybind {
+        private int keycode;
+        private Runnable action;
+
+        public exeptionKeybind(int keycode, Runnable action) {
+            this.keycode = keycode;
+            this.action = action;
         }
     }
 
@@ -74,5 +96,6 @@ public class inputLockerService extends Service {
     }
 
     @Override
-    public void stop() {}
+    public void stop() {
+    }
 }

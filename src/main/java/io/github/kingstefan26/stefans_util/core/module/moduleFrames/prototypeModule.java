@@ -17,6 +17,10 @@ abstract public class prototypeModule extends basicModule {
         super(name, "debug class", moduleManager.Category.DEBUG, decorators);
     }
 
+    public prototypeModule(String name) {
+        super(name, "debug class", moduleManager.Category.DEBUG);
+    }
+
     @Override
     public void onLoad() {
         new ChoseAKeySetting("doActionKey", this, Keyboard.KEY_0, (newvalue) -> keyKey = (int) newvalue);

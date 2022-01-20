@@ -5,6 +5,7 @@
 package io.github.kingstefan26.stefans_util.module.macro.wart.helper;
 
 import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
+import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.keyControlService;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,8 +30,17 @@ public class wartState {
     @Setter
     keyControlService.action.walk currentWalkAction = right;
     @Getter
-    @Setter
     private macroStates state;
+
+    long throddle = 0;
+
+    public void setState(macroStates state) {
+        if (this.state != state && System.currentTimeMillis() >= throddle) {
+            throddle = System.currentTimeMillis() + 250;
+            this.state = state;
+            chatService.queueCleanChatMessage("changed state to " + state);
+        }
+    }
 
     public wartState(UniversalWartMacro parent) {
         this.parent = parent;

@@ -9,14 +9,12 @@ import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleMana
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.core.setting.impl.CheckSetting;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Tuple;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
@@ -32,7 +30,7 @@ public class macroSessionTracker extends basicModule {
         super("macroSessionTracker", "traks ur macro session, aka crops money etc", moduleManager.Category.RENDER);
     }
 
-    static final long timeZeroPoint = System.currentTimeMillis();
+    static long timeZeroPoint = 0;
     private static final String[] suffix = new String[]{"", "k", "m", "b", "t"};
     private static final int PADDING_X = 5;
 
@@ -162,6 +160,8 @@ public class macroSessionTracker extends basicModule {
         return null;
     }
 
+    boolean isFirstUpdate;
+
     @Override
     public void onTick(TickEvent.ClientTickEvent e) {
         if (e.phase != TickEvent.Phase.START) return;
@@ -201,7 +201,7 @@ public class macroSessionTracker extends basicModule {
 
                     int change = currentTotal - lastUpdateCounter;
                     cropsMinedThisSession += change;
-                    logger.info("mined since last update " + change);
+//                    logger.info("mined since last update " + change);
                     lastUpdateCounter = currentTotal;
 
 
@@ -212,9 +212,13 @@ public class macroSessionTracker extends basicModule {
 
 
                     if (timedistance > 900 && change > 10) {
+                        if (isFirstUpdate) {
+                            isFirstUpdate = false;
+                            timeZeroPoint = System.currentTimeMillis();
+                        }
                         thisSessionFarmingTime += timedistance;
                     } else {
-                        MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.stoppedCollectingWart());
+//                        MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.stoppedCollectingWart());
                     }
 
                     lastUpdate = System.currentTimeMillis() - timeZeroPoint;
