@@ -61,15 +61,15 @@ public class blurClickGui extends basicModule {
     }
 
     @Override
-    public void onDisable(){
+    public void onDisable() {
         super.onDisable();
         EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
         er.stopUseShader();
     }
 
     private Field _listShaders;
-    private long start;
-    private int fadeTime = 150;
+    private static long start;
+    private static int fadeTime = 150;
 
     public static int radius = 12;
 
@@ -95,9 +95,7 @@ public class blurClickGui extends basicModule {
         }
     }
 
-    private float getProgress() {
-        return Math.min((System.currentTimeMillis() - start) / (float) fadeTime, 1);
-    }
+    private static int colorFirst = 75000000;
 
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event) {
@@ -118,13 +116,19 @@ public class blurClickGui extends basicModule {
         }
     }
 
+    private static int colorSecond = 75000000;
+
+    private static float getProgress() {
+        return Math.min((System.currentTimeMillis() - start) / (float) fadeTime, 1);
+    }
+
     public static int getBackgroundColor(boolean second) {
-        int color = 0x75000000;
+        int color = second ? colorSecond : colorFirst;
         int a = color >>> 24;
         int r = (color >> 16) & 0xFF;
         int b = (color >> 8) & 0xFF;
         int g = color & 0xFF;
-        float prog = getBlurClickGui().getProgress();
+        float prog = getProgress();
         a *= prog;
         r *= prog;
         g *= prog;

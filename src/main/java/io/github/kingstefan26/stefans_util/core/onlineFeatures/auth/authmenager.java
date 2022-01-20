@@ -18,7 +18,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static io.github.kingstefan26.stefans_util.main.connectedToKokoCLoud;
 
@@ -65,17 +68,31 @@ public class authmenager {
     }
 
     public void start() {
-        cashedAuthObject = getAuth(Minecraft.getMinecraft().getSession().getProfile().getId().toString());
+//        cashedAuthObject = getAuth(Minecraft.getMinecraft().getSession().getProfile().getId().toString());
+        // this is a hacky way to execute things on a separate thread and then get the results on the main
+        CompletableFuture<authObject> future = CompletableFuture.supplyAsync(() -> getAuth(Minecraft.getMinecraft().getSession().getProfile().getId().toString()));
 
-        if (connectedToKokoCLoud) {
-            MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.connectedToKokoCloud());
-        } else {
-            recoocnectTimer = System.currentTimeMillis() + 5000;
-        }
+        future.thenApply(result -> {
+            if (connectedToKokoCLoud) {
+                cashedAuthObject = result;
+                MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.connectedToKokoCloud());
+            } else {
+                recoocnectTimer = System.currentTimeMillis() + 5000;
+            }
+            return result;
+        });
     }
 
-    //https://auth.kingstefan26.workers.dev/?uuid=fe347f57-f382-40db-9b17-a8aa23736f88&type=login
-    public authObject getAuth(String userUuid){
+
+    public authObject getAuth(String userUuid) {
+        // here we check if the minecraft session is valid
+        String serverId = UUID.randomUUID().toString().replace("-", "");
+        try {
+            Minecraft.getMinecraft().getSessionService().joinServer(Minecraft.getMinecraft().getSession().getProfile(), Minecraft.getMinecraft().getSession().getToken(), serverId);
+        } catch (Exception var5) {
+            return null;
+        }
+
         authObject temp = null;
         cashedPlayerUuid = userUuid;
 
@@ -104,20 +121,15 @@ public class authmenager {
                 }
                 main.connectedToKokoCLoud = true;
             }
-        }catch(Exception ignored){}
+        } catch (Exception ignored) {
+        }
 
-
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                HttpResponse httpresponse = HttpClients.createDefault().execute(new HttpGet(globals.authEndpoint + "?uuid=" + cashedPlayerUuid + "&type=logout"));
-                logger.info("kokocloud said:" + IOUtils.toString(httpresponse.getEntity().getContent()));
-
-            } catch (Exception e) {
-                logger.error("there was a error sending the logout request", e);
-            }
-        }));
 
         return temp;
+    }
+
+    public void saybey() throws IOException {
+        HttpResponse httpresponse = HttpClients.createDefault().execute(new HttpGet(globals.authEndpoint + "?uuid=" + Minecraft.getMinecraft().getSession().getProfile().getId().toString() + "&type=logout"));
+        logger.info("kokocloud said:" + IOUtils.toString(httpresponse.getEntity().getContent()));
     }
 }

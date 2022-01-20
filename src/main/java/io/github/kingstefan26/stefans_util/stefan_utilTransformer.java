@@ -1,23 +1,17 @@
 package io.github.kingstefan26.stefans_util;
 
 
+import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-
-import net.minecraft.launchwrapper.IClassTransformer;
+import org.objectweb.asm.tree.*;
 
 
 
 public class stefan_utilTransformer implements IClassTransformer {
 
     private static final String GUI_SCREEN_CLASS_NAME = "net.minecraft.client.gui.GuiScreen";
-    private static final String NetHandlerPlayClient_CLASS_NAME = "net.minecraft.client.network.NetHandlerPlayClient";
 
     private static final String DRAW_WORLD_BAGKGROUND_METHOD = "drawWorldBackground";
     private static final String DRAW_WORLD_BAGKGROUND_METHOD_OBF = "func_146270_b";

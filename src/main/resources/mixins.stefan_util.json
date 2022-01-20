@@ -6,5 +6,6 @@
     "MixinSplashProgress"
   ],
   "client": [
+    "MixinGuiScreen"
   ]
 }
