@@ -155,6 +155,8 @@ public class wartMacroUtil {
     }
 
 
+    public static keyControlService.action.walk lastnotnullaction;
+
     public static boolean isInFrontTreeWart(Tuple<BlockPos, String>[] blocks) {
         // 0 = soutfh
         // 1 = west
@@ -186,8 +188,28 @@ public class wartMacroUtil {
             if (blocks[blocktoCheck].getSecond().equals("minecraft:nether_wart")) threeWartInFrontOfFaceCounter++;
         }
 
-        return threeWartInFrontOfFaceCounter == 3;
+        return threeWartInFrontOfFaceCounter > 1;
     }
+
+    public static boolean isInFrontOf3Wart() {
+
+        // 0 = soutfh
+        // 1 = west
+        // 2 = noth
+        // 3 = east
+        diraction diractionZERO = getDiraction();
+
+        BlockPos leftFrontRELATIVEBLOCK = new BlockPos(1, 1, -1);
+        BlockPos frontRELATIVEBLOCK = new BlockPos(1, 1, 0);
+        BlockPos rightFrontRELATIVEBLOCK = new BlockPos(1, 1, 1);
+
+        return getblahblah(frontRELATIVEBLOCK, diractionZERO).getSecond().equals(blocktype.WART) && getblahblah(rightFrontRELATIVEBLOCK, diractionZERO).getSecond().equals(blocktype.WART) && getblahblah(leftFrontRELATIVEBLOCK, diractionZERO).getSecond().equals(blocktype.WART);
+    }
+
+    public static boolean isInFrontOfWart() {
+        return getblahblah(new BlockPos(1, 1, 0), getDiraction()).getSecond().equals(blocktype.WART);
+    }
+
 
     public static synchronized Tuple<Float, Float> faceBlock(float x, float y, float z) {
         double var4 = x - mc.thePlayer.posX + 0.5;
@@ -290,9 +312,8 @@ public class wartMacroUtil {
     }
 
     public static int spamCounter;
-    public static keyControlService.action.walk whichWayToGoMockUp(keyControlService.action.walk currentWalkAcction) {
-        keyControlService.action.walk result = null;
 
+    private static diraction getDiraction() {
         // 0 = soutfh
         // 1 = west
         // 2 = noth
@@ -311,6 +332,17 @@ public class wartMacroUtil {
                 diractionZERO = diraction.EAST;
                 break;
         }
+        return diractionZERO;
+    }
+
+    public static keyControlService.action.walk whichWayToGoMockUp(keyControlService.action.walk currentWalkAcction) {
+        keyControlService.action.walk result = null;
+
+        // 0 = soutfh
+        // 1 = west
+        // 2 = noth
+        // 3 = east
+        diraction diractionZERO = getDiraction();
 
         BlockPos leftFrontRELATIVEBLOCK = new BlockPos(1, 1, -1);
         BlockPos frontRELATIVEBLOCK = new BlockPos(1, 1, 0);
@@ -376,35 +408,22 @@ public class wartMacroUtil {
             if (currentWalkAcction != null) {
                 result = currentWalkAcction;
             } else {
-                chatService.queueCleanChatMessage(UniversalWartMacro.chatprefix + "current walk is null and result is null somethings wrong recalubrating");
-                parent.macroState.setState(macroStates.AUTONOMOUS_RECALIBRATING);
+                if (lastnotnullaction != null) {
+                    result = lastnotnullaction;
+                } else {
+                    chatService.queueCleanChatMessage(UniversalWartMacro.chatprefix + "current walk is null and result is null somethings wrong recalubrating");
+                    parent.macroState.setState(macroStates.AUTONOMOUS_RECALIBRATING);
+                }
                 spamCounter = 0;
             }
         } else {
+            lastnotnullaction = result;
             spamCounter = 0;
         }
 
         return result;
     }
 
-
-    private static diraction getCurrentDirection() {
-        int dir = MathHelper.floor_double((double) (mc.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        diraction diractionZERO = diraction.NORTH;
-
-        switch (dir) {
-            case 0:
-                diractionZERO = diraction.SOUTH;
-                break;
-            case 1:
-                diractionZERO = diraction.WEST;
-                break;
-            case 3:
-                diractionZERO = diraction.EAST;
-                break;
-        }
-        return diractionZERO;
-    }
 
     static Tuple<BlockPos, blocktype> getblahblah(BlockPos relative, diraction dir) {
         BlockPos real = util.unlitaviseCordsWithDications(relative, util.getPlayerFeetBlockPos(), dir);

@@ -27,6 +27,6 @@ public class CheckSetting extends AbstractSetting {
 
     public void setValue(boolean value){
         this.ConfigObject.setBooleanValue(value);
-        this.callback.accept(value);
+        if (this.callback != null) this.callback.accept(value);
     }
 }

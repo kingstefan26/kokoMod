@@ -9,6 +9,8 @@ import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.pre
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
+import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -37,23 +39,23 @@ public class iWillcancelYouOnTwitter extends basicModule {
         if(System.currentTimeMillis() - lastSpam > speed * 1000){
             randomText = cancelTexts[ThreadLocalRandom.current().nextInt(0, cancelTexts.length - 1)];
             chatService.queueClientChatMessage("§4[WATCHDOG ANNOUNCEMENT]" + "\n"
-                    + "§fWatchdog has cannceled §l§c100§r players in the last 7 days." + "\n"
-                    + "§fStaff have cannceled an additional §l§c100§r in the last 7 days." + "\n"
+                    + "§fWatchdog has cannceled §l§c" + ThreadLocalRandom.current().nextInt(10000, 50000) + "§r players in the last 7 days." + "\n"
+                    + "§fStaff have cannceled an additional §l§c" + ThreadLocalRandom.current().nextInt(5000, 20000) + "§r in the last 7 days." + "\n"
                     + "§r§l§c" + randomText, chatService.chatEnum.CHATNOPREFIX);
             lastSpam = System.currentTimeMillis();
         }
     }
 
 
-//    @Override
-//    public void onWorldRender(RenderWorldLastEvent e) {
-//        super.onWorldRender(e);
-//        if(mc == null || mc.thePlayer == null || mc.theWorld == null) return;
-//        hehe.drawTextAtWorld(randomText, (float)mc.thePlayer.posX + 25, (float)mc.thePlayer.posY, (float)mc.thePlayer.posZ, Integer.parseInt("ff0000", 16), 0.10F, false, true, e.partialTicks);
-//    }
+    @Override
+    public void onWorldRender(RenderWorldLastEvent e) {
+        super.onWorldRender(e);
+        if (mc == null || mc.thePlayer == null || mc.theWorld == null) return;
+        hehe.drawTextAtWorld(randomText == null ? cancelTexts[0] : randomText, (float) mc.thePlayer.posX + 25, (float) mc.thePlayer.posY, (float) mc.thePlayer.posZ, Integer.parseInt("ff0000", 16), 0.10F, false, true, e.partialTicks);
+    }
 
     @Override
-    public void onEnable(){
+    public void onEnable() {
         super.onEnable();
         lastSpam = System.currentTimeMillis();
     }

@@ -6,6 +6,7 @@ import io.github.kingstefan26.stefans_util.core.module.interfaces.baseModuleInte
 import io.github.kingstefan26.stefans_util.core.module.interfaces.moduleMinecraftInterfaceEvents;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.decoratorInterface;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.localDecoratorManager;
+import io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.atnotationProcessor;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -105,6 +106,7 @@ abstract public class basicModule implements baseModuleInterface, moduleMinecraf
 
     @Override
     public void onLoad() {
+        atnotationProcessor.init(this);
         for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
             m.onLoad();
         }

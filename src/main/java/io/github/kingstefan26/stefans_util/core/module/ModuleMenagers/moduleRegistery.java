@@ -85,8 +85,8 @@ public class moduleRegistery {
                     if (!exists) {
                         Constructor<?> ctor = clazz.getConstructor();
                         Object object = ctor.newInstance();
-                        ((basicModule) object).onLoad();
                         loadedModules.add((basicModule) object);
+                        ((basicModule) object).onLoad();
                         logger.info("loaded module: " + ((basicModule) object).getName());
                     }
 

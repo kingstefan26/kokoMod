@@ -17,7 +17,7 @@ public class util {
     public static Minecraft mc = Minecraft.getMinecraft();
 
     public static Vec3 getPlayerFeetVec(){
-        return new Vec3((int)mc.thePlayer.posX,(int)mc.thePlayer.posY,(int)mc.thePlayer.posZ);
+        return new Vec3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
     }
     public static Vec3 unRelitaviseCords(Vec3 relativeCords, Vec3 playerPos){
         return new Vec3(
@@ -66,15 +66,42 @@ public class util {
 
     public static BlockPos unlitaviseCordsWithDications(BlockPos relativeCords, BlockPos playerPos, diraction Playerdir) {
 
+        //-x -z x+1 east FAIL
+        //-x +z x+1 east FAIL
+        //+x -z east PASS
+        //+x +z east PASS
+
+        //-x -z west PASS
+        //+x -z west PASS
+        //-x +z west PASS
+        //+x +z west PASS
+
+        //-x -z south PASS
+        //-x +z south PASS
+        //+x -z south PASS
+        //+x +z south PASS
+
+        // left and right are swapped
+        //-x -z north FAIL
+        //-x +z north FAIL
+        //+x -z north FAIL
+        //+x +z north FAIL
+
+
         int zOffset = -1;
         int xOffset = playerPos.getX() < 0 ? -1 : 0;
+
+//        int zOffset = 0;
+//        int xOffset = 0;
+
+
         // the relative cords always have east(real) as north(relative) and we turn it around to have it match
         switch (Playerdir) {
             case NORTH:
                 return new BlockPos(
-                        ((relativeCords.getZ()) * -1) + playerPos.getX() + xOffset,
+                        ((relativeCords.getZ() * -1) * -1) + playerPos.getX() + xOffset,
                         playerPos.getY() + relativeCords.getY(),
-                        (relativeCords.getX() * -1) + playerPos.getZ() + zOffset);
+                        ((relativeCords.getX() * -1) * -1) * -1 + playerPos.getZ() + zOffset);
             case SOUTH:
                 return new BlockPos(
                         ((relativeCords.getZ()) * -1) + playerPos.getX() + xOffset,
@@ -82,12 +109,12 @@ public class util {
                         relativeCords.getX() + zOffset + playerPos.getZ());
             case WEST:
                 return new BlockPos(
-                        relativeCords.getX() * -1 + playerPos.getX() + xOffset,
+                        ((relativeCords.getX() * -1) * -1) * -1 + playerPos.getX() + xOffset,
                         playerPos.getY() + relativeCords.getY(),
-                        (relativeCords.getZ() + zOffset) + playerPos.getZ());
+                        (((relativeCords.getZ() * -1) * -1)) * -1 + playerPos.getZ() + zOffset);
             case EAST:
                 return new BlockPos(
-                        playerPos.getX() + relativeCords.getX(),
+                        playerPos.getX() + xOffset + relativeCords.getX(),
                         playerPos.getY() + relativeCords.getY(),
                         playerPos.getZ() + zOffset + relativeCords.getZ());
         }

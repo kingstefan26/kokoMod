@@ -12,13 +12,6 @@ import java.util.function.Consumer;
 public class MultichoiseSetting extends AbstractSetting {
     private final ArrayList<String> possibleValues;
 
-    public MultichoiseSetting(String name, basicModule parentModule, String deafultValue, ArrayList<String> possibleValues, Consumer<Object> callback) {
-        super(name, parentModule, SettingsCore.type.multiChoise, callback);
-        this.possibleValues = possibleValues;
-        this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
-        setValue(getValue());
-    }
-
     public MultichoiseSetting(String name, basicModule parentModule, String deafultValue, String[] possibleValues, Consumer<Object> callback) {
         super(name, parentModule, SettingsCore.type.multiChoise, callback);
         this.possibleValues = new ArrayList<>(Arrays.asList(possibleValues));
@@ -27,7 +20,22 @@ public class MultichoiseSetting extends AbstractSetting {
         setValue(getValue());
     }
 
-    public MultichoiseSetting(String name, basicModule parentModule, String deafultValue, ArrayList<String> possibleValues,Consumer<Object> callback, String comment) {
+    public MultichoiseSetting(String name, basicModule parentModule, String deafultValue, String[] possibleValues, Consumer<Object> callback, String comment) {
+        super(name, parentModule, SettingsCore.type.multiChoise, callback);
+        this.possibleValues = new ArrayList<>(Arrays.asList(possibleValues));
+        this.comment = comment;
+        this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
+        setValue(getValue());
+    }
+
+    public MultichoiseSetting(String name, basicModule parentModule, String deafultValue, ArrayList<String> possibleValues, Consumer<Object> callback) {
+        super(name, parentModule, SettingsCore.type.multiChoise, callback);
+        this.possibleValues = possibleValues;
+        this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
+        setValue(getValue());
+    }
+
+    public MultichoiseSetting(String name, basicModule parentModule, String deafultValue, ArrayList<String> possibleValues, Consumer<Object> callback, String comment) {
         super(name, parentModule, SettingsCore.type.multiChoise, callback);
         this.possibleValues = possibleValues;
         this.comment = comment;

@@ -234,7 +234,7 @@ public class UniversalWartMacro extends basicModule implements macro {
 
 
                         macroState.setState(IDLE);
-                        onDisable();
+                        this.onDisable();
                     }
                     if (keyCode == unpauseKey) macroState.setState(RECALIBRATING);
                 }
@@ -249,8 +249,8 @@ public class UniversalWartMacro extends basicModule implements macro {
 
     @SubscribeEvent
     public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        chatService.queueCleanChatMessage(chatprefix + "you swiched worlds, turning on autonomous recalibration");
         if (macroState.checkState(MACROING)) {
+            chatService.queueCleanChatMessage(chatprefix + "you swiched worlds, turning on autonomous recalibration");
             macroState.setState(AUTONOMOUS_RECALIBRATING);
         }
     }
@@ -276,10 +276,17 @@ public class UniversalWartMacro extends basicModule implements macro {
                         + Keyboard.getKeyName(localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) +
                         " to stop. To unfocus the window press " + Keyboard.getKeyName(unFocusToggle) + (unFocusStatus ? " currenty unfocused" : " currently focused"), "ff002f");
                 if (mc.theWorld == null || mc.thePlayer == null) {
+                    chatService.queueCleanChatMessage("world or player is null recalibrating");
                     macroState.setState(AUTONOMOUS_RECALIBRATING);
                 }
+
+                if (Math.round(mc.thePlayer.rotationPitch) != wantedPitch) {
+                    macroState.setState(AUTONOMOUS_RECALIBRATING);
+                }
+
 //                else {// TODO: update walk routine CHECK IF THE PLAYER IS GETTING CROPS AND IF NOT RECALIBRATE
 //                    if (!wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart")) {
+//                        chatService.queueCleanChatMessage("player is not looking at wart in render tick recalibrating");
 //                        macroState.setState(AUTONOMOUS_RECALIBRATING);
 //                    }
 //                    macroState.setState(MACROING);
@@ -317,9 +324,6 @@ public class UniversalWartMacro extends basicModule implements macro {
 
                     wartMacroUtil.turnHeadToWart(wantedPitch);
                 }
-                break;
-            case STARTING:
-
                 break;
             case STOPPING:
                 break;
@@ -384,7 +388,9 @@ public class UniversalWartMacro extends basicModule implements macro {
                 playerPitch = Math.round(mc.thePlayer.rotationPitch);
 
 
-                if (playerPitch == wantedPitch) macroState.setState(macroStates.MACROING);
+                if (playerPitch == wantedPitch && wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart")) {
+                    macroState.setState(macroStates.MACROING);
+                }
                 if (macroState.checkState(MACROING)) {
                     //            shouldLoop = true;
 
@@ -417,7 +423,9 @@ public class UniversalWartMacro extends basicModule implements macro {
                 }
                 break;
             case AUTONOMOUS_RECALIBRATING:
-
+                if (keyControlService.isbeginused()) {
+                    keyControlService.clearCommandQueue();
+                }
 
                 // #not debug #not my problem #annoying
 
@@ -465,7 +473,7 @@ public class UniversalWartMacro extends basicModule implements macro {
 
                                 macroState.setAutonomous_recalibration_moveheadtowartflag(true);
 
-                                if (wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart")) {
+                                if (wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart") && wartMacroUtil.isInFrontOfWart()) {
                                     chatService.queueCleanChatMessage(chatprefix + "yay we are facing 3 wart and out mouse is over wart time to macro again");
                                     macroState.setAutonomous_recalibration_moveheadtowartflag(false);
                                     keyControlService.clearCommandQueue();
@@ -484,29 +492,30 @@ public class UniversalWartMacro extends basicModule implements macro {
 
                 break;
             case STARTING:
-                boolean finished = false;
-// TODO this also needs a face lift
+
                 if (localDecoratorManager.keyBindDecorator.keybind.getKeyCode() == 0) {
                     chatService.queueCleanChatMessage(chatprefix + "please set a keybinding!");
-                    toggle();
+
+                    macroState.setState(STOPPING);
+                    this.setToggled(false);
+
+                } else if (!main.debug && !WorldInfoService.isOnPrivateIsland()) {
+                    chatService.queueClientChatMessage("please join a your island!", chatService.chatEnum.CHATPREFIX);
+
+                    macroState.setState(STOPPING);
+                    this.setToggled(false);
+
                 } else {
-                    if (!main.debug) {
-                        if (!WorldInfoService.isOnPrivateIsland()) {
-                            chatService.queueClientChatMessage("please join a your island!", chatService.chatEnum.CHATPREFIX);
-                            setToggled(false);
-                            finished = true;
-                        }
-                    }
-                    if (!finished) {
-                        for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
-                            if ("autorecorrect".equals(m.getName())) {
-                                if (!mc.isSingleplayer()) {
-                                    macroState.setAutorecconectStatus(m.isToggled());
-                                    m.setToggled(true);
-                                }
+
+                    for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+                        if ("autorecorrect".equals(m.getName())) {
+                            if (!mc.isSingleplayer()) {
+                                macroState.setAutorecconectStatus(m.isToggled());
+                                m.setToggled(true);
                             }
-                            if ("Sprint".equals(m.getName())) {
-                                macroState.setSprintStatus(m.isToggled());
+                        }
+                        if ("Sprint".equals(m.getName())) {
+                            macroState.setSprintStatus(m.isToggled());
                                 m.setToggled(true);
                             }
                             if ("lastLeftOff".equals(m.getName())) {
@@ -541,7 +550,7 @@ public class UniversalWartMacro extends basicModule implements macro {
                         chatService.queueCleanChatMessage(chatprefix + "enabled wart macro");
                         chatService.queueCleanChatMessage(chatprefix + "note: please move the the start of your farm");
                         macroState.setState(RECALIBRATING);
-                    }
+
                 }
 
 
@@ -614,6 +623,7 @@ public class UniversalWartMacro extends basicModule implements macro {
     public void onstefan_utilsstoppedCollectingWart(stefan_utilEvents.stoppedCollectingWart event) {
         logger.info("stopped reciving wart turing on AUTONOMOUS_RECALIBRATING");
         if (macroState.checkState(MACROING) && !wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart") && checkForwart) {
+            chatService.queueCleanChatMessage("player is macroing and is not looking at wart and check for wart is enabled");
             macroState.setState(AUTONOMOUS_RECALIBRATING);
         }
     }
@@ -624,16 +634,16 @@ public class UniversalWartMacro extends basicModule implements macro {
         tickcounter++;
         longtimer++;
         if (!macroState.checkState(MACROING)) pos10SecondsAgo = null;
-        if (tickcounter % 20 == 0) {
-            if (mc != null && mc.theWorld != null && mc.thePlayer != null) {
+        if (mc != null && mc.theWorld != null && mc.thePlayer != null) {
 //                playerSpeed = mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ);
 //                if (mc.thePlayer.posY - mc.thePlayer.lastTickPosY < 0) {
 //                    playerFallCallBack();
 //                }
-                if (mc.thePlayer.fallDistance > 2) {
-                    playerFallCallBack();
-                }
+            if (mc.thePlayer.fallDistance > 2) {
+                playerFallCallBack();
             }
+        }
+        if (tickcounter % 20 == 0) {
             tickcounter = 0;
         }
         if (longtimer % 40 == 0) {
@@ -677,8 +687,8 @@ public class UniversalWartMacro extends basicModule implements macro {
 
     @Override
     public void onEnable() {
-        macroState.setState(STARTING);
         super.onEnable();
+        macroState.setState(STARTING);
     }
 
 

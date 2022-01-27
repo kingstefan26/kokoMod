@@ -49,6 +49,10 @@ public class keyControlService extends Service {
             chatService.queueCleanChatMessage("queued new key control engine command to:" + (c.walkAction != null ? String.valueOf(c.walkAction) : String.valueOf(c.handAction)));
     }
 
+    public static boolean isbeginused() {
+        return ASYNCQueue.isEmpty() && CurentlyExecuted == null;
+    }
+
 
     static double threashold = 0.01D;
 
@@ -164,7 +168,7 @@ public class keyControlService extends Service {
         if(verbose) chatService.queueCleanChatMessage("FALSE");
     }
 
-    private static void executeCommand(simpleCommand command) {
+    private synchronized static void executeCommand(simpleCommand command) {
         if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
             return;
         //null safe on thinnna
@@ -238,8 +242,6 @@ public class keyControlService extends Service {
                     break;
             }
             clickHandButtonsAccordingToBoard(executeKeyCodeBoardHand);
-        } else {
-            throw new IllegalStateException("this is not allRIGHT BY THE HAND OF GOD I DECLARE THIS RUNNABLE AS FINISHED");
         }
     }
 
