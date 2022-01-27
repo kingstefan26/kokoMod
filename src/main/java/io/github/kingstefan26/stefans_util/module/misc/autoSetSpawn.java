@@ -16,8 +16,6 @@ public class autoSetSpawn extends basicModule {
         super("autoSetSpawn", "every configurable delay sets spawn on private island", moduleManager.Category.MISC);
     }
 
-
-
     // in minutes
     int ogValue;
     int delay;

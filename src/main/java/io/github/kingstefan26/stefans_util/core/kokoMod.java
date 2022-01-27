@@ -4,7 +4,7 @@ import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.config.configMenager;
 import io.github.kingstefan26.stefans_util.core.fileCacheing.cacheManager;
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.newConfig.configManagerz;
+import io.github.kingstefan26.stefans_util.core.newconfig.ConfigManagerz;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.webModuleMenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
@@ -39,9 +39,9 @@ public class kokoMod {
     }
 
 	public void init() {
-		MinecraftForge.EVENT_BUS.register(this);
-		configManagerz.getInstance();
-		cacheManager.getInstance().init();
+        MinecraftForge.EVENT_BUS.register(this);
+        ConfigManagerz.getInstance();
+        cacheManager.getInstance().init();
 
 		moduleManager.getModuleManager();
 		(new serviceMenager()).start();

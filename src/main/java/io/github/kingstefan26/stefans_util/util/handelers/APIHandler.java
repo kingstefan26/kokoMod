@@ -29,13 +29,17 @@ public class APIHandler {
         logger = LogManager.getLogger("APIHandler");
     }
 
-    public static String downloadTextFromUrl(final String URL) throws IOException {
+    private APIHandler() {
+    }
 
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet httpget = new HttpGet(URL);
-        HttpResponse httpresponse = httpclient.execute(httpget);
-        String response = IOUtils.toString(httpresponse.getEntity().getContent(), StandardCharsets.UTF_8);
-        httpclient.close();
+    public static String downloadTextFromUrl(final String URL) throws IOException {
+        String response;
+
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+            HttpGet httpget = new HttpGet(URL);
+            HttpResponse httpresponse = httpclient.execute(httpget);
+            response = IOUtils.toString(httpresponse.getEntity().getContent(), StandardCharsets.UTF_8);
+        }
 
 
         return response;
@@ -82,7 +86,7 @@ public class APIHandler {
                 } else if (urlString.startsWith("https://api.mojang.com/users/profiles/minecraft/") && conn.getResponseCode() == 204) {
                     logger.warn("Failed with reason: Player does not exist.");
                 } else {
-                    logger.warn("Request " + urlString + " failed. HTTP Error Code: " + conn.getResponseCode());
+                    logger.warn("Request {} failed. HTTP Error Code: {}", urlString, conn.getResponseCode());
                 }
             }
         } catch (IOException ex) {
@@ -131,13 +135,13 @@ public class APIHandler {
         return uuidResponse.get("id").getAsString();
     }
 
-    public static String getLatestProfileID(String UUID, String key) {
+    public static String getLatestProfileID(String uuid, String key) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 
         // Get profiles
-        System.out.println("Fetching profiles...");
+        logger.info("Fetching profiles...");
 
-        JsonObject profilesResponse = getResponse("https://api.hypixel.net/skyblock/profiles?uuid=" + UUID + "&key=" + key);
+        JsonObject profilesResponse = getResponse("https://api.hypixel.net/skyblock/profiles?uuid=" + uuid + "&key=" + key);
         if (!profilesResponse.get("success").getAsBoolean()) {
             String reason = profilesResponse.get("cause").getAsString();
             player.addChatMessage(new ChatComponentText("Failed with reason: " + reason));
@@ -149,7 +153,7 @@ public class APIHandler {
         }
 
         // Loop through profiles to find latest
-        System.out.println("Looping through profiles...");
+        logger.info("Looping through profiles...");
         String latestProfile = "";
         long latestSave = 0;
         JsonArray profilesArray = profilesResponse.get("profiles").getAsJsonArray();
@@ -157,8 +161,8 @@ public class APIHandler {
         for (JsonElement profile : profilesArray) {
             JsonObject profileJSON = profile.getAsJsonObject();
             long profileLastSave = 1;
-            if (profileJSON.get("members").getAsJsonObject().get(UUID).getAsJsonObject().has("last_save")) {
-                profileLastSave = profileJSON.get("members").getAsJsonObject().get(UUID).getAsJsonObject().get("last_save").getAsLong();
+            if (profileJSON.get("members").getAsJsonObject().get(uuid).getAsJsonObject().has("last_save")) {
+                profileLastSave = profileJSON.get("members").getAsJsonObject().get(uuid).getAsJsonObject().get("last_save").getAsLong();
             }
 
             if (profileLastSave > latestSave) {

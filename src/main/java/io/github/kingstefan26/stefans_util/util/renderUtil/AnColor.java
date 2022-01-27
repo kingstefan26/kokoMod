@@ -20,18 +20,33 @@ package io.github.kingstefan26.stefans_util.util.renderUtil;
 
 
 import java.awt.*;
+import java.util.Objects;
 
 
-public class AColor extends Color {
+public class AnColor extends Color {
     private boolean chroma;
     private float chromaSpeed;
 
-    public AColor(int r, int g, int b, int a) {
+    public AnColor(int r, int g, int b, int a) {
         super(r, g, b, a);
     }
 
-    public AColor(int rgba, boolean hasalpha) {
+    public AnColor(int rgba, boolean hasalpha) {
         super(rgba, hasalpha);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        AnColor anColor = (AnColor) o;
+        return chroma == anColor.chroma && Float.compare(anColor.chromaSpeed, chromaSpeed) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), chroma, chromaSpeed);
     }
 
     //Integer.parseInt("hex code", 16)

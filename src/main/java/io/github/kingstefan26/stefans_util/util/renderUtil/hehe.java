@@ -20,7 +20,7 @@ import java.awt.*;
 import java.util.List;
 
 public class hehe {
-    public static int getColorAt(double x, double y, AColor color) {
+    public static int getColorAt(double x, double y, AnColor color) {
         if (!color.isChroma())
             return color.getRGB();
 
@@ -134,7 +134,7 @@ public class hehe {
         GlStateManager.popMatrix();
     }
 
-    public static void drawLines(List<BlockPos> poses, AColor colour, float thickness, float partialTicks, boolean depth) {
+    public static void drawLines(List<BlockPos> poses, AnColor colour, float thickness, float partialTicks, boolean depth) {
         Entity render = Minecraft.getMinecraft().getRenderViewEntity();
         WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
 
