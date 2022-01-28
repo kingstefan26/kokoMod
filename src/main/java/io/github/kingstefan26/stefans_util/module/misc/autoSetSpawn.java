@@ -23,7 +23,7 @@ public class autoSetSpawn extends basicModule {
     @Override
     public void onLoad() {
         new SliderNoDecimalSetting("delay", this, 10, 1, 50, (newvalue)->{
-            ogValue = (int) newvalue;
+            ogValue = Math.toIntExact(Math.round(newvalue));
             delay = updateDelay(ogValue);
         });
         super.onLoad();

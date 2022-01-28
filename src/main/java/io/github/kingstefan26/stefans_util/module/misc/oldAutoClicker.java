@@ -6,15 +6,13 @@ package io.github.kingstefan26.stefans_util.module.misc;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.attnotaions.slidernodecimalsetting;
 import io.github.kingstefan26.stefans_util.core.setting.impl.MultichoiseSetting;
-import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class oldAutoClicker extends basicModule {
@@ -25,10 +23,19 @@ public class oldAutoClicker extends basicModule {
 
     private double speed;
     private double holdLength;
+
+    @slidernodecimalsetting(name = "leftMouseMinCPS", defaultValue = 8, min = 1, max = 20)
     private double min = 10;
+
+    @slidernodecimalsetting(name = "rightMouseMaxCPS", defaultValue = 8, min = 1, max = 20)
     private double max = 12;
+
+    @slidernodecimalsetting(name = "rightMouseMinCPS", defaultValue = 8, min = 1, max = 20)
     private double rmin = 10;
+
+    @slidernodecimalsetting(name = "rightMouseMinCPS", defaultValue = 12, min = 1, max = 20)
     private double rmax = 12;
+
     private long rlastClick;
     private long rhold;
     private double rspeed;
@@ -40,21 +47,8 @@ public class oldAutoClicker extends basicModule {
 
     @Override
     public void onLoad() {
-        new SliderNoDecimalSetting("leftMouseMinCPS", this, 8, 1, 20, (newVal) -> {
-            min = (int) newVal;
-        });
-        new SliderNoDecimalSetting("leftMouseMaxCPS", this, 12, 1, 20, (newVal) -> {
-            max = (int) newVal;
-        });
 
-        new SliderNoDecimalSetting("rightMouseMinCPS", this, 8, 1, 20, (newVal) -> {
-            rmin = (int) newVal;
-        });
-        new SliderNoDecimalSetting("rightMouseMaxCPS", this, 12, 1, 20, (newVal) -> {
-            rmax = (int) newVal;
-        });
-
-        new MultichoiseSetting("ClickMode", this, "lmb", new ArrayList<>(Arrays.asList("lmb", "rmb", "both")), (newVal) -> {
+        new MultichoiseSetting("ClickMode", this, "lmb", new String[]{"lmb", "rmb", "both"}, (newVal) -> {
             mode = (String) newVal;
         });
 

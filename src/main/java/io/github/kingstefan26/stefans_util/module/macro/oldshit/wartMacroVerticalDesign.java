@@ -58,11 +58,11 @@ public class wartMacroVerticalDesign extends basicModule {
 	@Override
 	public void onLoad() {
 		new SliderNoDecimalSetting("yaw", this, 90, 1, 90, (newvalue)->{
-			this.wantedYaw = (int) newvalue;
+			this.wantedYaw = Math.toIntExact(Math.round(newvalue));
 		});
 
 		new SliderNoDecimalSetting("pitch", this, 9, 0, 90, (newvalue)->{
-			this.wantedPitch = (int) newvalue;
+            this.wantedPitch = Math.toIntExact(Math.round(newvalue));
 		});
 
 		new CheckSetting("perfect head rotation", this, false, (newvalue)->{

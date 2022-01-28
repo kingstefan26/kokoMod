@@ -41,11 +41,11 @@ public class blurClickGui extends basicModule {
     @Override
     public void onLoad(){
         new SliderNoDecimalSetting("radius", this ,12, 0, 50, (newval) -> {
-            radius = (int) newval;
+            radius = Math.toIntExact(Math.round(newval));
         });
 
         new SliderNoDecimalSetting("fadetime", this, 150, 0, 1000, (newval) -> {
-            fadeTime = (int) newval;
+            fadeTime = Math.toIntExact(Math.round(newval));
         });
 
         ((List<IResourcePack>) ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "field_110449_ao", "defaultResourcePacks")).add(dummyPack);

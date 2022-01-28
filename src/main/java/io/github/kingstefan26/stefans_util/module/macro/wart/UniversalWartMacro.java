@@ -151,7 +151,7 @@ public class UniversalWartMacro extends basicModule implements macro {
             rateOfChange = (float) temp;
         });
         new SliderNoDecimalSetting("pitch", this, 9, 0, 90, (newvalue) ->
-                wantedPitch = (int) newvalue);
+                wantedPitch = Math.toIntExact(Math.round(newvalue)));
         new CheckSetting("perfect head rotation", this, true, (newvalue) ->
                 perfectHeadRotation = (boolean) newvalue);
         new CheckSetting("experimental gui", this, false, (onUpdateCallbackValue) ->

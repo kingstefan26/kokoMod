@@ -58,14 +58,17 @@ public class sliderNoDecimal extends subComponent {
         double min = set.getMin();
         double max = set.getMax();
 
-        renderWidth = (88) * (set.getValue() - min) / (max - min);
+        double temp = set.getValue();
+
+        renderWidth = 88D * (temp - min) / (max - min);
+
 
         if (dragging) {
             if (diff == 0) {
                 set.setValue(set.getMin());
             } else {
                 double newValue = roundToPlace(((diff / 88) * (max - min) + min));
-                set.setValue((int) newValue);
+                set.setValue(newValue);
             }
         }
     }

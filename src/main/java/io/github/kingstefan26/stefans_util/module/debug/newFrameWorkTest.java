@@ -16,7 +16,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class newFrameWorkTest extends basicModule {
     public newFrameWorkTest() {
@@ -35,7 +34,7 @@ public class newFrameWorkTest extends basicModule {
     double floatsetting;
 
     @slidernodecimalsetting(name = "example float setting", min = 0, max = 2, defaultValue = 1)
-    int intsettnig;
+    double intsettnig;
 
     @choseakeysetting(name = "example key setting", defaultValue = Keyboard.KEY_UP)
     int keysetting;
@@ -54,11 +53,7 @@ public class newFrameWorkTest extends basicModule {
         new SliderSetting("SliderSetting test", this, 10.0D, 1, 50, (newvalue) -> {
 
         });
-        new MultichoiseSetting("MultichoiseSetting test", this, "test1", new ArrayList<String>() {{
-            add("test0");
-            add("test1");
-            add("test2");
-        }}, (newvalue) -> {
+        new MultichoiseSetting("MultichoiseSetting test", this, "test1", new String[]{"test1", "test2", "test3"}, (newvalue) -> {
 
         });
 

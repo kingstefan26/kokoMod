@@ -29,8 +29,8 @@ public class autoEmptyMinions extends basicModule {
 
     @Override
     public void onLoad() {
-        new SliderNoDecimalSetting("closeGuiDelay", this, 500, 1, 1000, (newvalue)-> closeDelay = (int) newvalue);
-        new SliderNoDecimalSetting("clickDelay", this, 500, 1, 1000, (newvalue)-> clickDelay = (int) newvalue);
+        new SliderNoDecimalSetting("closeGuiDelay", this, 500, 1, 1000, (newvalue) -> closeDelay = Math.toIntExact(Math.round(newvalue)));
+        new SliderNoDecimalSetting("clickDelay", this, 500, 1, 1000, (newvalue) -> clickDelay = Math.toIntExact(Math.round(newvalue)));
         super.onLoad();
     }
 

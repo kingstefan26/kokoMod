@@ -7,7 +7,7 @@ package io.github.kingstefan26.stefans_util.module.misc;
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
+import io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.attnotaions.slidernodecimalsetting;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -18,21 +18,19 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class iWillcancelYouOnTwitter extends basicModule {
     private long lastSpam;
+
+    @slidernodecimalsetting(name = "cancel speed", defaultValue = 12, min = 1, max = 100)
     private double speed;
+
     String[] cancelTexts = {"Breathing oxygen is a cannceble offence!",
             "Party finder is a cancerous offence!",
             "Shady addons are actually gray!"};
     String randomText;
-    public iWillcancelYouOnTwitter(){
+
+    public iWillcancelYouOnTwitter() {
         super("twitterWhiteGirls", "white twitter girls are the downfall on society", moduleManager.Category.MISC, new presistanceDecorator());
     }
-    @Override
-    public void onLoad(){
-        new SliderNoDecimalSetting("cancel speed", this, 12, 1, 100, (newval) -> {
-            speed = (int) newval;
-        });
-        super.onLoad();
-    }
+
 
     @SubscribeEvent
     public void onTick(TickEvent.RenderTickEvent e){

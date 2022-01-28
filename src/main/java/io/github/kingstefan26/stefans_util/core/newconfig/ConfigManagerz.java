@@ -115,6 +115,7 @@ public class ConfigManagerz {
         if (masterObj.getProps() != null) {
             for (Iproperty c : masterObj.getProps()) {
                 if (Objects.equals(c.getName(), name)) {
+                    logger.info("property {} already existis under the name of {}", c.getName(), name);
                     return c;
                 }
             }
@@ -127,10 +128,28 @@ public class ConfigManagerz {
         return conf;
     }
 
-    private void createConfigObject(Iproperty obj){
-        if(masterObj.getProps() != null){
-            for(Iproperty c : masterObj.getProps()){
-                if(Objects.equals(c.getName(), obj.getName())){
+    public Iproperty getConfigObjectSpetial(String name, Double deafultValue) {
+        // we check if this object already exists
+        if (masterObj.getProps() != null) {
+            for (Iproperty c : masterObj.getProps()) {
+                if (Objects.equals(c.getName(), name)) {
+                    logger.info("property {} already existis under the name of {}", c.getName(), name);
+                    return c;
+                }
+            }
+        }
+
+        final Iproperty conf = new doubleProp(name, deafultValue);
+        createConfigObject(conf);
+
+        return conf;
+    }
+
+
+    private void createConfigObject(Iproperty obj) {
+        if (masterObj.getProps() != null) {
+            for (Iproperty c : masterObj.getProps()) {
+                if (Objects.equals(c.getName(), obj.getName())) {
                     logger.info("config Already exists");
                     return;
                 }

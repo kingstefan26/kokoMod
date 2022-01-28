@@ -46,10 +46,10 @@ public class wartMacro extends basicModule {
     public wartMacro() {
         super("wart macro", "macros wart!", moduleManager.Category.MACRO);
         new SliderNoDecimalSetting("yaw", this, 90, 0, 90, (newvalue)->{
-            this.wantedYaw = (int) newvalue;
+            this.wantedYaw = Math.toIntExact(Math.round(newvalue));
         });
         new SliderNoDecimalSetting("pitch", this, 9, 0, 90, (newvalue)->{
-            this.wantedPitch = (int) newvalue;
+            this.wantedPitch = Math.toIntExact(Math.round(newvalue));
         });
     }
 

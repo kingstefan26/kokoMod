@@ -35,6 +35,7 @@ abstract public class basicModule implements baseModuleInterface, moduleMinecraf
     public basicModule(String name, String description, moduleManager.Category category, decoratorInterface... decorators) {
         localDecoratorManager = new localDecoratorManager(this, decorators);
         this.name = name;
+        if (name.length() > 15) logger.warn("lenght limit execied {}", name);
         this.description = description;
         this.category = category;
         this.logger = LogManager.getLogger(name);

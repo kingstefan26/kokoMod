@@ -1,47 +1,72 @@
 package io.github.kingstefan26.stefans_util.core.setting.impl;
 
-import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.newconfig.ConfigManagerz;
 import io.github.kingstefan26.stefans_util.core.setting.general.AbstractSetting;
 import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
 
 import java.util.function.Consumer;
 
-public class SliderNoDecimalSetting extends AbstractSetting {
-    int min;
+public class SliderNoDecimalSetting extends AbstractSetting<Double> {
+    double min;
 
-    int max;
+    double max;
 
-    public SliderNoDecimalSetting(String name, basicModule parentModule, int deafultValue, int min, int max, Consumer<Object> callback) {
+    public SliderNoDecimalSetting(String name, basicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback) {
         super(name, parentModule, SettingsCore.type.sliderNoDecimal, callback);
         this.min = min;
         this.max = max;
-        this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
-        setValue(getValue());
+
+        this.prop = ConfigManagerz.getInstance().getConfigObjectSpetial(parentModule.getName() + "." + name, deafultValue);
+
+        this.callback.accept(getValue());
     }
-    public SliderNoDecimalSetting(String name, basicModule parentModule, int deafultValue, int min, int max,Consumer<Object> callback, String comment) {
+
+    public SliderNoDecimalSetting(String name, basicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback, String comment) {
         super(name, parentModule, SettingsCore.type.sliderNoDecimal, callback);
         this.min = min;
         this.max = max;
         this.comment = comment;
-        this.ConfigObject = new configObject(name, parentModule.getName(), deafultValue);
-    }
-    public int getValue(){
-        return this.ConfigObject.getIntValue();
+
+
+        this.prop = ConfigManagerz.getInstance().getConfigObjectSpetial(parentModule.getName() + "." + name, deafultValue);
     }
 
-    public void setValue(int value){
-        if (!(value >= max)) {
-            this.ConfigObject.setIntValue(value);
-            this.callback.accept(value);
+    @Override
+    public Double getValue() {
+        Object a = this.prop.getProperty();
+
+
+        if (a instanceof Double) {
+            int t = Math.toIntExact(Math.round((Double) a));
+
+            return Double.valueOf(t);
+
+        } else if (a instanceof Integer) {
+            int t = Math.toIntExact(Math.round((Integer) a));
+
+            return Double.valueOf(t);
         }
+
+        throw new IllegalArgumentException("FUCK THIS SHIT IM OUT");
     }
 
-    public int getMin() {
+    @Override
+    public void setValue(Double value) {
+        if (value >= max) {
+            return;
+        }
+//        this.ConfigObject.setIntValue(value);
+
+        this.prop.setProperty(value);
+        this.callback.accept(value);
+    }
+
+    public double getMin() {
         return min;
     }
 
-    public int getMax() {
+    public double getMax() {
         return max;
     }
 }

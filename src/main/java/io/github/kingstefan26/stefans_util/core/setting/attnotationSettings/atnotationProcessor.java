@@ -32,7 +32,34 @@ public class atnotationProcessor {
             field.setAccessible(true);
             if (parent instanceof basicModule) {
 
-                Consumer<Object> settingconsumer = (val) -> {
+                Consumer<Integer> intconsumer = val -> {
+                    try {
+                        field.setAccessible(true);
+                        field.set(parent, val);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                };
+
+                final Consumer<Double> dobuleconsumer = val -> {
+                    try {
+                        field.setAccessible(true);
+                        field.set(parent, val);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                };
+
+                final Consumer<String> stringconsumer = val -> {
+                    try {
+                        field.setAccessible(true);
+                        field.set(parent, val);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                };
+
+                final Consumer<Boolean> boolconsumer = val -> {
                     try {
                         field.setAccessible(true);
                         field.set(parent, val);
@@ -44,18 +71,19 @@ public class atnotationProcessor {
 
                 if (field.isAnnotationPresent(boolenSetting.class)) {
                     boolenSetting optionAnnotation = field.getAnnotation(boolenSetting.class);
+
                     if (!optionAnnotation.description().equals("null")) {
-                        new CheckSetting(optionAnnotation.name(), (basicModule) parent, optionAnnotation.defaultValue(), settingconsumer, optionAnnotation.description());
+                        new CheckSetting(optionAnnotation.name(), (basicModule) parent, optionAnnotation.defaultValue(), boolconsumer, optionAnnotation.description());
                     } else {
-                        new CheckSetting(optionAnnotation.name(), (basicModule) parent, optionAnnotation.defaultValue(), settingconsumer);
+                        new CheckSetting(optionAnnotation.name(), (basicModule) parent, optionAnnotation.defaultValue(), boolconsumer);
                     }
                 }
                 if (field.isAnnotationPresent(choseakeysetting.class)) {
                     choseakeysetting optionAnnotation = field.getAnnotation(choseakeysetting.class);
                     if (!optionAnnotation.description().equals("null")) {
-                        new ChoseAKeySetting(optionAnnotation.name(), (basicModule) parent, optionAnnotation.defaultValue(), settingconsumer, optionAnnotation.description());
+                        new ChoseAKeySetting(optionAnnotation.name(), (basicModule) parent, optionAnnotation.defaultValue(), intconsumer, optionAnnotation.description());
                     } else {
-                        new ChoseAKeySetting(optionAnnotation.name(), (basicModule) parent, optionAnnotation.defaultValue(), settingconsumer);
+                        new ChoseAKeySetting(optionAnnotation.name(), (basicModule) parent, optionAnnotation.defaultValue(), intconsumer);
                     }
                 }
 
@@ -66,7 +94,7 @@ public class atnotationProcessor {
                                 (basicModule) parent,
                                 optionAnnotation.defaultValue(),
                                 optionAnnotation.options(),
-                                settingconsumer,
+                                stringconsumer,
                                 optionAnnotation.description());
 
                     } else {
@@ -74,7 +102,7 @@ public class atnotationProcessor {
                                 (basicModule) parent,
                                 optionAnnotation.defaultValue(),
                                 optionAnnotation.options(),
-                                settingconsumer);
+                                stringconsumer);
                     }
                 }
 
@@ -83,19 +111,19 @@ public class atnotationProcessor {
                     if (!optionAnnotation.description().equals("null")) {
                         new SliderSetting(optionAnnotation.name(),
                                 (basicModule) parent,
-                                (double) optionAnnotation.defaultValue(),
+                                optionAnnotation.defaultValue(),
                                 optionAnnotation.min(),
                                 optionAnnotation.max(),
-                                settingconsumer,
+                                dobuleconsumer,
                                 optionAnnotation.description());
 
                     } else {
                         new SliderSetting(optionAnnotation.name(),
                                 (basicModule) parent,
-                                (double) optionAnnotation.defaultValue(),
+                                optionAnnotation.defaultValue(),
                                 optionAnnotation.min(),
                                 optionAnnotation.max(),
-                                settingconsumer);
+                                dobuleconsumer);
                     }
                 }
                 if (field.isAnnotationPresent(slidernodecimalsetting.class)) {
@@ -106,7 +134,7 @@ public class atnotationProcessor {
                                 optionAnnotation.defaultValue(),
                                 optionAnnotation.min(),
                                 optionAnnotation.max(),
-                                settingconsumer,
+                                dobuleconsumer,
                                 optionAnnotation.description());
 
                     } else {
@@ -115,7 +143,7 @@ public class atnotationProcessor {
                                 optionAnnotation.defaultValue(),
                                 optionAnnotation.min(),
                                 optionAnnotation.max(),
-                                settingconsumer);
+                                dobuleconsumer);
                     }
                 }
 

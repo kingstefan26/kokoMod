@@ -25,13 +25,13 @@ public class HUD extends basicModule {
     @Override
     public void onLoad() {
         new SliderNoDecimalSetting("R", this, 10, 1, 50, (newvalue) -> {
-            this.r = (int) newvalue;
+            this.r = Math.toIntExact(Math.round(newvalue));
         });
         new SliderNoDecimalSetting("G", this, 10, 1, 50, (newvalue) -> {
-            this.g = (int) newvalue;
+            this.g = Math.toIntExact(Math.round(newvalue));
         });
         new SliderNoDecimalSetting("B", this, 10, 1, 50, (newvalue) -> {
-            this.b = (int) newvalue;
+            this.b = Math.toIntExact(Math.round(newvalue));
         });
         super.onLoad();
     }
