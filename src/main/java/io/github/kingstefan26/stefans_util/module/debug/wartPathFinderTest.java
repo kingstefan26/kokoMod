@@ -8,7 +8,7 @@ import io.github.kingstefan26.stefans_util.core.module.moduleFrames.prototypeMod
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.keyControlService;
 
-import static io.github.kingstefan26.stefans_util.module.macro.wart.helper.wartMacroUtil.whichWayToGoMockUp;
+import static io.github.kingstefan26.stefans_util.module.wip.wart.helper.wartMacroUtil.whichWayToGoMockUp;
 
 public class wartPathFinderTest extends prototypeModule {
 

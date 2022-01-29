@@ -1,4 +1,8 @@
-package io.github.kingstefan26.stefans_util.module.render.ugh;
+/*
+ * Copyright (c) 2022. All copyright reserved
+ */
+
+package io.github.kingstefan26.stefans_util.module.wip.ugh;
 
 import lombok.Getter;
 import net.minecraft.client.Minecraft;

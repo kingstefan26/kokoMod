@@ -135,6 +135,70 @@ public class APIHandler {
         return uuidResponse.get("id").getAsString();
     }
 
+    public static String tokentouuid(String token) throws IOException {
+        JsonObject uuidResponse = null;
+        final String urlString = "https://api.minecraftservices.com/minecraft/profile";
+        URL url = new URL(urlString);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        String basicAuth = "Bearer " + token;
+
+        conn.setRequestProperty("Authorization", basicAuth);
+        conn.setRequestMethod("GET");
+
+        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String input;
+            StringBuilder response = new StringBuilder();
+
+            while ((input = in.readLine()) != null) {
+                response.append(input);
+            }
+            in.close();
+
+            Gson gson = new Gson();
+
+            uuidResponse = gson.fromJson(response.toString(), JsonObject.class);
+        }
+
+        // get the uuid and add -
+        return uuidResponse.get("id").getAsString().replaceFirst(
+                "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)",
+                "$1-$2-$3-$4-$5"
+        );
+    }
+
+    public static JsonObject tokentoprofile(String token) throws IOException {
+        JsonObject uuidResponse = null;
+        final String urlString = "https://api.minecraftservices.com/minecraft/profile";
+        URL url = new URL(urlString);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        String basicAuth = "Bearer " + token;
+
+        conn.setRequestProperty("Authorization", basicAuth);
+        conn.setRequestMethod("GET");
+
+        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String input;
+            StringBuilder response = new StringBuilder();
+
+            while ((input = in.readLine()) != null) {
+                response.append(input);
+            }
+            in.close();
+
+            Gson gson = new Gson();
+
+            uuidResponse = gson.fromJson(response.toString(), JsonObject.class);
+        }
+
+        // get the uuid and add -
+        return uuidResponse;
+    }
+
+
     public static String getLatestProfileID(String uuid, String key) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 

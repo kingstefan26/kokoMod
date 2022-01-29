@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.macro.util;
 
-import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
-import io.github.kingstefan26.stefans_util.module.macro.wart.helper.diraction;
+import io.github.kingstefan26.stefans_util.module.wip.wart.UniversalWartMacro;
+import io.github.kingstefan26.stefans_util.module.wip.wart.helper.diraction;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;

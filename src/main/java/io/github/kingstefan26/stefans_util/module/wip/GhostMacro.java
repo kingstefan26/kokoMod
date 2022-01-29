@@ -2,7 +2,7 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.module.experimental;
+package io.github.kingstefan26.stefans_util.module.wip;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
@@ -22,7 +22,7 @@ public class GhostMacro extends basicModule {
     int tick;
 
     public GhostMacro() {
-        super("GhostMacro", "lol", moduleManager.Category.DEBUG, new keyBindDecorator("GhostMacro"));
+        super("GhostMacro", "lol", moduleManager.Category.WIP, new keyBindDecorator("GhostMacro"));
     }
 
     @Override

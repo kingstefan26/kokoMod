@@ -1,4 +1,8 @@
-package io.github.kingstefan26.stefans_util.module.misc;
+/*
+ * Copyright (c) 2022. All copyright reserved
+ */
+
+package io.github.kingstefan26.stefans_util.module.wip;
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.onoffMessageDecorator;
@@ -13,7 +17,7 @@ public class tpsDispay extends basicModule {
     private long tps = 0;
 
     public tpsDispay() {
-        super("tpsMeter", "displays the tsp", moduleManager.Category.MISC, new onoffMessageDecorator());
+        super("tpsMeter", "displays the tsp", moduleManager.Category.WIP, new onoffMessageDecorator());
     }
 
     @SubscribeEvent

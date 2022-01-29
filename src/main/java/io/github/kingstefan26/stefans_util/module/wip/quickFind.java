@@ -2,7 +2,7 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.module.render;
+package io.github.kingstefan26.stefans_util.module.wip;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -24,7 +24,7 @@ import java.util.TreeMap;
 
 public class quickFind extends basicModule {
     public quickFind() {
-        super("quickFind", "click the keybind and start typing to enable modules", moduleManager.Category.RENDER, new keyBindDecorator("quickFind"), new presistanceDecorator());
+        super("quickFind", "click the keybind and start typing to enable modules", moduleManager.Category.WIP, new keyBindDecorator("quickFind"), new presistanceDecorator());
     }
 
 

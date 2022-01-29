@@ -4,7 +4,7 @@
 
 package io.github.kingstefan26.stefans_util.mixins;
 
-import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
+import io.github.kingstefan26.stefans_util.module.wip.wart.UniversalWartMacro;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -6,8 +6,8 @@ package io.github.kingstefan26.stefans_util.module.debug;
 
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.prototypeModule;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
-import io.github.kingstefan26.stefans_util.module.macro.wart.helper.blocktype;
-import io.github.kingstefan26.stefans_util.module.macro.wart.helper.diraction;
+import io.github.kingstefan26.stefans_util.module.wip.wart.helper.blocktype;
+import io.github.kingstefan26.stefans_util.module.wip.wart.helper.diraction;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.keyControlService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;

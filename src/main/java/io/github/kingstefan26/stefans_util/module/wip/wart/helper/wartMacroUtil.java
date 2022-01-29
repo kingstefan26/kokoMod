@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2021. All copyright reserved
+ * Copyright (c) 2021-2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.module.macro.wart.helper;
+package io.github.kingstefan26.stefans_util.module.wip.wart.helper;
 
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
-import io.github.kingstefan26.stefans_util.module.macro.wart.UniversalWartMacro;
+import io.github.kingstefan26.stefans_util.module.wip.wart.UniversalWartMacro;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.keyControlService;
 import net.minecraft.block.Block;

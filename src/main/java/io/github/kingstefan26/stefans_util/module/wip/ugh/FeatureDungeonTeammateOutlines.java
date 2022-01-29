@@ -1,4 +1,8 @@
-package io.github.kingstefan26.stefans_util.module.render.ugh;
+/*
+ * Copyright (c) 2022. All copyright reserved
+ */
+
+package io.github.kingstefan26.stefans_util.module.wip.ugh;
 
 
 import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
@@ -44,7 +48,7 @@ public class FeatureDungeonTeammateOutlines extends basicModule {
     };
 
     public FeatureDungeonTeammateOutlines() {
-        super("FeatureDungeonTeammateOutlines", "huh", moduleManager.Category.RENDER);
+        super("FeatureDungeonTeammateOutlines", "huh", moduleManager.Category.WIP);
     }
 
     /**

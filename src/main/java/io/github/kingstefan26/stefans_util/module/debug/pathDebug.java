@@ -5,7 +5,7 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.prototypeModule;
-import io.github.kingstefan26.stefans_util.module.macro.wart.helper.pathCrumsHelper;
+import io.github.kingstefan26.stefans_util.module.wip.wart.helper.pathCrumsHelper;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline;
 import net.minecraft.util.Vec3;

@@ -22,8 +22,8 @@ import org.lwjgl.input.Keyboard;
 public class moduleManager {
 
 	public enum Category {
-		MOVEMENT, RENDER, MISC, MACRO, UtilModule, DEBUG
-	}
+        MOVEMENT, RENDER, MISC, MACRO, UtilModule, DEBUG, WIP
+    }
 
 
 	public static moduleManager ModuleManager;

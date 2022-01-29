@@ -1,4 +1,8 @@
-package io.github.kingstefan26.stefans_util.module.render.ugh;
+/*
+ * Copyright (c) 2022. All copyright reserved
+ */
+
+package io.github.kingstefan26.stefans_util.module.wip.ugh;
 
 
 import io.github.kingstefan26.stefans_util.mixins.MixinRenderGlobal;
@@ -30,9 +34,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-
-import static io.github.kingstefan26.stefans_util.module.render.ugh.RenderEntityOutlineEvent.Type.NO_XRAY;
-import static io.github.kingstefan26.stefans_util.module.render.ugh.RenderEntityOutlineEvent.Type.XRAY;
 
 // # stealing is fun!
 public class EntityOutlineRenderer {
@@ -352,10 +353,10 @@ public class EntityOutlineRenderer {
             if (mc.theWorld != null && shouldRenderEntityOutlines()) {
                 // These events need to be called in this specific order for the xray to have priority over the no xray
                 // Get all entities to render xray outlines
-                RenderEntityOutlineEvent xrayOutlineEvent = new RenderEntityOutlineEvent(XRAY, null);
+                RenderEntityOutlineEvent xrayOutlineEvent = new RenderEntityOutlineEvent(RenderEntityOutlineEvent.Type.XRAY, null);
                 MinecraftForge.EVENT_BUS.post(xrayOutlineEvent);
                 // Get all entities to render no xray outlines, using pre-filtered entities (no need to test xray outlined entities)
-                RenderEntityOutlineEvent noxrayOutlineEvent = new RenderEntityOutlineEvent(NO_XRAY, xrayOutlineEvent.getEntitiesToChooseFrom());
+                RenderEntityOutlineEvent noxrayOutlineEvent = new RenderEntityOutlineEvent(RenderEntityOutlineEvent.Type.NO_XRAY, xrayOutlineEvent.getEntitiesToChooseFrom());
                 MinecraftForge.EVENT_BUS.post(noxrayOutlineEvent);
                 // Cache the entities for future use
                 entityRenderCache.setXrayCache(xrayOutlineEvent.getEntitiesToOutline());
