@@ -97,7 +97,7 @@ jar {
             'ForceLoadAsMod': true,
             'MixinConfigs': 'mixins.stefan_util.json',
             'FMLCorePluginContainsFMLMod': true
-            //'FMLAT': 'stefans_util_at.cfg'
+//            'FMLAT': 'stefans_util_at.cfg'
     )
 }
 

@@ -6,6 +6,8 @@
     "MixinSplashProgress"
   ],
   "client": [
-    "MixinGuiScreen"
+    "MixinGuiScreen",
+    "MixinRenderGlobal",
+    "MixinrenderGlobal2"
   ]
 }
