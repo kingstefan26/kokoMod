@@ -24,5 +24,6 @@ public class ApiDebug extends prototypeModule {
             chatService.queueCleanChatMessage("Fail: " + Throwables.getRootCause(e).getMessage());
             e.printStackTrace();
         }
+
     }
 }

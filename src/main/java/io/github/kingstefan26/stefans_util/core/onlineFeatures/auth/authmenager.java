@@ -2,7 +2,6 @@ package io.github.kingstefan26.stefans_util.core.onlineFeatures.auth;
 
 import com.google.gson.Gson;
 import io.github.kingstefan26.stefans_util.core.globals;
-import io.github.kingstefan26.stefans_util.core.kokoMod;
 import io.github.kingstefan26.stefans_util.main;
 import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import lombok.Getter;
@@ -115,7 +114,7 @@ public class authmenager {
         try{
             if(response != null) {
                 if (response.equals("fool")) {
-                    kokoMod.isAllowedToPlay = false;
+//                    kokoMod.isAllowedToPlay = false;
                 } else {
                     temp = gson.fromJson(response, authObject.class);
                 }

@@ -1,11 +1,11 @@
 package io.github.kingstefan26.stefans_util.util.handelers;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -20,29 +20,177 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Scanner;
 
-public class APIHandler {
-    static Logger logger;
+import static io.github.kingstefan26.stefans_util.util.bin.getInternalnameFromNBT;
+import static io.github.kingstefan26.stefans_util.util.bin.getLoreFromNBT;
 
-    static {
-        logger = LogManager.getLogger("APIHandler");
-    }
+public class APIHandler {
+    public static final Gson gson = new Gson();
+    public static final String HYPIXEL_API = "https://api.hypixel.net";
+    static final Logger logger = LogManager.getLogger("APIHandler");
+
 
     private APIHandler() {
+        throw new SecurityException("This class shouldn't be instantiated");
     }
 
     public static String downloadTextFromUrl(final String URL) throws IOException {
-        String response;
-
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
             HttpGet httpget = new HttpGet(URL);
             HttpResponse httpresponse = httpclient.execute(httpget);
-            response = IOUtils.toString(httpresponse.getEntity().getContent(), StandardCharsets.UTF_8);
+            return IOUtils.toString(httpresponse.getEntity().getContent(), StandardCharsets.UTF_8);
+        }
+    }
+
+    public static JsonObject getautionpage(int page) {
+        if (page >= 11 || page < 0) return null;
+
+        final String api = HYPIXEL_API + "/skyblock/auctions" + (page == 0 ? "" : "?page=" + page);
+
+        try {
+            URL url = new URL(api);
+
+            return gson.fromJson(getgetresponse(url), JsonObject.class);
+        } catch (IOException e) {
+            logger.error("getautionpage failed ", e);
         }
 
+        return null;
+    }
 
-        return response;
+
+    public static JsonObject getendedautions() {
+        final String api = HYPIXEL_API + "/skyblock/auctions_ended";
+
+        try {
+            URL url = new URL(api);
+
+            return gson.fromJson(getgetresponse(url), JsonObject.class);
+
+        } catch (IOException e) {
+            logger.error("failed ", e);
+        }
+
+        return null;
+    }
+
+
+    public static String getgetresponse(URL url) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String input;
+            StringBuilder response = new StringBuilder();
+
+            while ((input = in.readLine()) != null) {
+                response.append(input);
+            }
+            in.close();
+
+            return response.toString();
+        }
+
+        return null;
+    }
+
+
+    public static JsonObject getJsonFromItemBytes(String itemBytes) {
+        try {
+            NBTTagCompound tag = CompressedStreamTools.readCompressed(new ByteArrayInputStream(Base64.getDecoder().decode(itemBytes)));
+            return getJsonFromNBT(tag);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static String getINTERNAMEfromitembytes(String itemBytes) {
+        String json = String.valueOf(APIHandler.getJsonFromItemBytes(itemBytes));
+        JsonObject itemlore = gson.fromJson(json, JsonObject.class);
+
+        String name = itemlore.get("internalname").getAsString().replaceAll(";[0-9]+", "");
+
+
+        return name;
+    }
+
+    public static NBTTagCompound getNBTTagCompoundFromItemBytses(String itemBytes) {
+        try {
+            NBTTagCompound tag = CompressedStreamTools.readCompressed(new ByteArrayInputStream(Base64.getDecoder().decode(itemBytes)));
+            return tag;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static JsonObject getJsonFromNBT(NBTTagCompound tag) {
+        return getJsonFromNBTEntry(tag.getTagList("i", 10).getCompoundTagAt(0));
+    }
+
+    public static JsonObject getJsonFromNBTEntry(NBTTagCompound tag) {
+        if (tag.getKeySet().isEmpty()) return null;
+
+        int id = tag.getShort("id");
+        int damage = tag.getShort("Damage");
+        int count = tag.getShort("Count");
+        tag = tag.getCompoundTag("tag");
+
+        if (id == 141) id = 391; //for some reason hypixel thinks carrots have id 141
+
+        String internalname = getInternalnameFromNBT(tag);
+        if (internalname == null) return null;
+
+        NBTTagCompound display = tag.getCompoundTag("display");
+        String[] lore = getLoreFromNBT(tag);
+
+        Item itemMc = Item.getItemById(id);
+        String itemid = "null";
+        if (itemMc != null) {
+            itemid = itemMc.getRegistryName();
+        }
+        String displayname = display.getString("Name");
+
+        JsonObject item = new JsonObject();
+        item.addProperty("internalname", internalname);
+        item.addProperty("itemid", itemid);
+        item.addProperty("displayname", displayname);
+
+        if (tag.hasKey("ExtraAttributes", 10)) {
+            NBTTagCompound ea = tag.getCompoundTag("ExtraAttributes");
+
+            byte[] bytes = null;
+            for (String key : ea.getKeySet()) {
+                if (key.endsWith("backpack_data") || key.equals("new_year_cake_bag_data")) {
+                    bytes = ea.getByteArray(key);
+                    break;
+                }
+            }
+            if (bytes != null) {
+                JsonArray bytesArr = new JsonArray();
+                for (byte b : bytes) {
+                    bytesArr.add(new JsonPrimitive(b));
+                }
+                item.add("item_contents", bytesArr);
+            }
+            if (ea.hasKey("dungeon_item_level")) {
+                item.addProperty("dungeon_item_level", ea.getInteger("dungeon_item_level"));
+            }
+        }
+
+        if (lore != null && lore.length > 0) {
+            JsonArray jsonLore = new JsonArray();
+            for (String line : lore) {
+                jsonLore.add(new JsonPrimitive(line));
+            }
+            item.add("lore", jsonLore);
+        }
+
+        item.addProperty("damage", damage);
+        if (count > 1) item.addProperty("count", count);
+        item.addProperty("nbttag", tag.toString());
+
+        return item;
     }
 
 
@@ -97,10 +245,7 @@ public class APIHandler {
         return new JsonObject();
     }
 
-    // Only used for UUID => Username
     public static JsonArray getArrayResponse(String urlString) {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-
         try {
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -120,11 +265,10 @@ public class APIHandler {
 
                 return gson.fromJson(response.toString(), JsonArray.class);
             } else {
-                player.addChatMessage(new ChatComponentText("Request failed. HTTP Error Code: " + conn.getResponseCode()));
+                logger.error("Request failed. HTTP Error Code: {}", conn.getResponseCode());
             }
         } catch (IOException ex) {
-            player.addChatMessage(new ChatComponentText("An error has occured. See logs for more details."));
-            ex.printStackTrace();
+            logger.error("An error has occured. See logs for more details.", ex);
         }
 
         return new JsonArray();
@@ -136,30 +280,20 @@ public class APIHandler {
     }
 
     public static String tokentouuid(String token) throws IOException {
-        JsonObject uuidResponse = null;
         final String urlString = "https://api.minecraftservices.com/minecraft/profile";
-        URL url = new URL(urlString);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
         String basicAuth = "Bearer " + token;
 
-        conn.setRequestProperty("Authorization", basicAuth);
-        conn.setRequestMethod("GET");
+        String response;
 
-        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String input;
-            StringBuilder response = new StringBuilder();
-
-            while ((input = in.readLine()) != null) {
-                response.append(input);
-            }
-            in.close();
-
-            Gson gson = new Gson();
-
-            uuidResponse = gson.fromJson(response.toString(), JsonObject.class);
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+            HttpGet httpget = new HttpGet(urlString);
+            httpget.setHeader("Authorization", basicAuth);
+            HttpResponse httpresponse = httpclient.execute(httpget);
+            response = IOUtils.toString(httpresponse.getEntity().getContent(), StandardCharsets.UTF_8);
         }
+
+        JsonObject uuidResponse = gson.fromJson(response, JsonObject.class);
 
         // get the uuid and add -
         return uuidResponse.get("id").getAsString().replaceFirst(
