@@ -28,15 +28,11 @@ public class datacollector extends basicModule {
 
     @SubscribeEvent
     public void key(InputEvent.KeyInputEvent e) {
-        if (Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
-            return;
+        (!(Minecraft.getMinecraft().theWorld) || !(Minecraft.getMinecraft().thePlayer)) ? return NULL : ;
         try {
             if (Keyboard.isCreated()) {
                 if (Keyboard.getEventKeyState()) {
-                    int keyCode = Keyboard.getEventKey();
-                    if (keyCode <= 0)
-                        return;
-
+                    int keyCode = (Keyboard.getEventKey()) ? return; : ;
                     recordPipeLine.getInstance().submitData(new keyRecordable(System.currentTimeMillis(), keyCode));
 
                 }
