@@ -90,17 +90,18 @@ public class kokoMod {
 		try {
 			if (ev.side == Side.SERVER) return;
 			if (ev.phase == TickEvent.Phase.START) {
-				if (!isAllowedToPlay) {
+//				if (!isAllowedToPlay) {
+				if (false) {
 					if (Minecraft.getMinecraft().currentScreen instanceof GuiErrorScreen) return;
 
 					Minecraft.getMinecraft().displayGuiScreen(new GuiErrorScreen("you fool are not allowed to use this mod.",
 							"smh") {
-                        @Override
-                        public void initGui() {
-                            super.initGui();
-                            this.buttonList.clear();
-                            this.buttonList.add(new GuiButton(0, width / 2 - 50, height - 50, 100, 20, "close"));
-                        }
+						@Override
+						public void initGui() {
+							super.initGui();
+							this.buttonList.clear();
+							this.buttonList.add(new GuiButton(0, width / 2 - 50, height - 50, 100, 20, "close"));
+						}
 
                         @Override
                         protected void actionPerformed(GuiButton button){

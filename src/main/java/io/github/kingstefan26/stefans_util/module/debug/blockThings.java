@@ -4,6 +4,7 @@
 
 package io.github.kingstefan26.stefans_util.module.debug;
 
+import io.github.kingstefan26.stefans_util.core.commands.SimpleCommand;
 import io.github.kingstefan26.stefans_util.core.module.moduleFrames.prototypeModule;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
 import io.github.kingstefan26.stefans_util.module.wip.wart.helper.blocktype;
@@ -14,11 +15,13 @@ import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Tuple;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 
@@ -28,6 +31,18 @@ public class blockThings extends prototypeModule {
 
     public blockThings() {
         super("test of block thigns");
+    }
+
+
+    @Override
+    public void onLoad() {
+        ClientCommandHandler.instance.registerCommand(new SimpleCommand("getSpeed", new SimpleCommand.ProcessCommandRunnable() {
+            @Override
+            public void processCommand(ICommandSender sender, String[] args) {
+                chatService.queueCleanChatMessage(String.valueOf(mc.thePlayer.fallDistance));
+            }
+        }));
+        super.onLoad();
     }
 
     @Override

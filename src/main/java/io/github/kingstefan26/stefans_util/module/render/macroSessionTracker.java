@@ -32,6 +32,7 @@ public class macroSessionTracker extends basicModule {
 
     static long timeZeroPoint = 0;
     private static final String[] suffix = new String[]{"", "k", "m", "b", "t"};
+
     private static final int PADDING_X = 5;
 
     Tuple<Integer, String> originalCropValue;
@@ -118,7 +119,7 @@ public class macroSessionTracker extends basicModule {
 
     }
 
-    private static String coolFormat(double number) {
+    public static String coolFormat(double number) {
         String r = new DecimalFormat("##0E0").format(number);
         r = r.replaceAll("E[0-9]", suffix[Character.getNumericValue(r.charAt(r.length() - 1)) / 3]);
         while (r.length() > MAX_LENGTH || r.matches("[0-9]+\\.[a-z]")) {
