@@ -26,11 +26,13 @@ import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SessionLogIn extends basicModule {
-    public static Session lastsession;
     static LinkedList<String> histroy = new LinkedList<>();
     static long lastLoginClick;
+    private static Session lastsession;
 
     public SessionLogIn() {
         super("SessionLogIn", "login using tokens", moduleManager.Category.WIP, new presistanceDecorator());
@@ -66,58 +68,33 @@ public class SessionLogIn extends basicModule {
 
 
         // create session
-        final Session t = new Session(name, UUIDTypeAdapter.fromUUID(UUID.fromString(uuid)), token, "mojang");
+        final Session s = new Session(name, UUIDTypeAdapter.fromUUID(UUID.fromString(uuid)), token, "mojang");
 
         lastLoginClick = System.currentTimeMillis();
 
-        return t;
-    }
-
-    public static Session generateValidSession(String nick, String uuid, String token) throws NoSuchFieldException, IllegalAccessException, IOException {
-        // check rate limit
-        if (System.currentTimeMillis() - lastLoginClick <= 1000)
-            throw new RuntimeException("Rate limit, wait a second");
-
-        // validate credentials
-
-        // validate uuid
-        UUID u = UUID.fromString(uuid);
-        // validate nick
-        if (!APIHandler.getUUID(nick).equalsIgnoreCase(uuid.replaceAll("-", ""))) {
-            throw new IllegalArgumentException("Uuid does not belong to nickname");
-        }
-        // check token valididty
-        if (!APIHandler.tokentouuid(token).equals(uuid)) {
-            throw new IllegalArgumentException("Uuid does not belong to token");
-        }
-
-        // create session
-        final Session t = new Session(nick, UUIDTypeAdapter.fromUUID(u), token, "mojang");
-
-        lastLoginClick = System.currentTimeMillis();
-
-        return t;
+        return s;
     }
 
     @SubscribeEvent
-    public void DaDSAdisint(GuiScreenEvent.InitGuiEvent.Post event) {
+    public void OnMainGuiOpen(GuiScreenEvent.InitGuiEvent.Post event) {
         if (!(event.gui instanceof GuiMainMenu)) return;
 
+        String buttonText = "kokomod fake login";
+        int buttonTextWidth = mc.fontRendererObj.getStringWidth(buttonText);
+
         event.buttonList.add(new GuiButton(1000,
-                mc.currentScreen.width - (mc.fontRendererObj.getStringWidth("kokomod fake login") + 5),
+                mc.currentScreen.width - (buttonTextWidth + 5),
                 mc.currentScreen.height - 14 - mc.fontRendererObj.FONT_HEIGHT,
-                mc.fontRendererObj.getStringWidth("kokomod fake login") + 5,
+                buttonTextWidth + 5,
                 12,
-                "kokomod fake login"));
+                buttonText));
 
     }
 
     @SubscribeEvent
     public void GuiOpenEvent(GuiScreenEvent.ActionPerformedEvent.Pre event) {
-        if (mc.currentScreen instanceof GuiMainMenu) {
-            if (event.button.id == 1000) {
-                mc.displayGuiScreen(new SessionLogInGui(event.gui));
-            }
+        if (mc.currentScreen instanceof GuiMainMenu && event.button.id == 1000) {
+            mc.displayGuiScreen(new SessionLogInGui(event.gui));
         }
     }
 
@@ -125,10 +102,7 @@ public class SessionLogIn extends basicModule {
 
         private final GuiScreen parent;
 
-        private GuiTextField uuid;
         private GuiTextField token;
-        private GuiTextField nickname;
-
         private String rendertext = " ";
 
         public SessionLogInGui(GuiScreen parent) {
@@ -137,27 +111,35 @@ public class SessionLogIn extends basicModule {
 
         @Override
         public void initGui() {
-            this.buttonList.add(new GuiButton(106, this.width / 2 - 155, this.height / 6 + 72 - 6, this.fontRendererObj.getStringWidth("login") + 5, this.fontRendererObj.FONT_HEIGHT + 2, "login"));
-            this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
-            this.buttonList.add(new GuiButton(201, this.width / 2 - 155 - (this.fontRendererObj.getStringWidth("login to last accout") / 2), this.height / 6 + 72 + 7, this.fontRendererObj.getStringWidth("login to last accout") + 8, this.fontRendererObj.FONT_HEIGHT + 2, "login to last accout"));
+            this.buttonList.add(
+                    new GuiButton(
+                            106,
+                            this.width / 2 - 155,
+                            this.height / 6 + 72 - 6,
+                            this.fontRendererObj.getStringWidth("login") + 5,
+                            this.fontRendererObj.FONT_HEIGHT + 2,
+                            "login"));
+            this.buttonList.add(
+                    new GuiButton(
+                            200,
+                            this.width / 2 - 100,
+                            this.height / 6 + 168,
+                            I18n.format("gui.done")));
+            this.buttonList.add(
+                    new GuiButton(
+                            201,
+                            this.width / 2 - 155 - (this.fontRendererObj.getStringWidth("login to last accout") / 2),
+                            this.height / 6 + 72 + 7,
+                            this.fontRendererObj.getStringWidth("login to last accout") + 8,
+                            this.fontRendererObj.FONT_HEIGHT + 2,
+                            "login to last accout"));
 
-            this.uuid = new GuiTextField(1, this.fontRendererObj, this.width / 2 - 68, this.height / 2 - 30, 137, 20);
-            uuid.setMaxStringLength(36);
-            uuid.setCanLoseFocus(true);
-            uuid.setText("uuid (optional)");
-            uuid.setEnabled(false);
 
             this.token = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 68, this.height / 2 - 50, 137, 20);
             token.setMaxStringLength(500);
             token.setCanLoseFocus(true);
             token.setText("token");
             token.setEnabled(false);
-
-            this.nickname = new GuiTextField(3, this.fontRendererObj, this.width / 2 - 68, this.height / 2 - 70, 137, 20);
-            nickname.setMaxStringLength(16);
-            nickname.setCanLoseFocus(true);
-            nickname.setText("nickname (optional)");
-            nickname.setEnabled(false);
 
 
             super.initGui();
@@ -181,50 +163,60 @@ public class SessionLogIn extends basicModule {
                 lastsession = s;
             }
 
+            // Called when user clicks on "login"
             if (button.id == 106) {
-                String nicknames = this.nickname.getText(), tokens = this.token.getText(), uuids = this.uuid.getText();
-                if (nicknames != null && tokens != null && uuids != null) {
-                    try {
-                        final Session a = generateValidSession(nicknames, uuids, tokens);
-                        lastsession = mc.getSession();
-                        // set the session
-                        setSesion(a);
-                        rendertext = "Succes: current nick " + mc.getSession().getUsername();
-                        addHistory(mc.getSession().getUsername());
-                    } catch (Exception e) {
-                        rendertext = "Fail: " + Throwables.getRootCause(e).getMessage();
-                        e.printStackTrace();
-                    }
-                }
-                if (nicknames != null && tokens != null && uuids != null) {
-                    if (nicknames.contains("(") && !tokens.contains(" ") && uuids.contains("(")) {
-                        try {
-                            final Session a = generateValidSession(tokens);
-                            lastsession = mc.getSession();
-                            // set the session
-                            setSesion(a);
-                            rendertext = "Succes: current nick " + mc.getSession().getUsername();
-                            addHistory(mc.getSession().getUsername());
-                        } catch (Exception e) {
-                            rendertext = "Fail: " + Throwables.getRootCause(e).getMessage();
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
+                handleLoginButton();
             }
             super.actionPerformed(button);
+        }
+
+
+        void handleLoginButton() {
+            String tokenz = this.token.getText();
+
+            if (tokenz == null) {
+                rendertext = "Fail: Please enter a token";
+                return;
+            }
+
+            // JWT regex
+            final String regex = "(^[\\w-]*\\.[\\w-]*\\.[\\w-]*$)";
+
+            final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+            final Matcher matcher = pattern.matcher(tokenz);
+
+            String match = null;
+
+            while (matcher.find()) {
+                for (int i = 1; i <= matcher.groupCount(); i++) {
+                    match = matcher.group(i);
+                }
+            }
+
+            if (match == null) {
+                rendertext = "Fail: Please enter a Valid token";
+                return;
+            }
+
+            try {
+                final Session sesz = generateValidSession(match);
+                lastsession = mc.getSession();
+                // set the session
+                setSesion(sesz);
+                rendertext = "Succes: current nick " + mc.getSession().getUsername();
+                addHistory(mc.getSession().getUsername());
+            } catch (Exception e) {
+                rendertext = "Fail: " + Throwables.getRootCause(e).getMessage();
+                e.printStackTrace();
+            }
+
         }
 
         @Override
         protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 
-            this.uuid.mouseClicked(mouseX, mouseY, mouseButton);
-            this.nickname.mouseClicked(mouseX, mouseY, mouseButton);
             this.token.mouseClicked(mouseX, mouseY, mouseButton);
 
-            uuid.setEnabled(uuid.isFocused());
-            nickname.setEnabled(nickname.isFocused());
             token.setEnabled(token.isFocused());
 
 
@@ -235,11 +227,7 @@ public class SessionLogIn extends basicModule {
         protected void keyTyped(char typedChar, int keyCode) throws IOException {
 
             this.token.textboxKeyTyped(typedChar, keyCode);
-            this.uuid.textboxKeyTyped(typedChar, keyCode);
-            this.nickname.textboxKeyTyped(typedChar, keyCode);
 
-            uuid.setEnabled(uuid.isFocused());
-            nickname.setEnabled(nickname.isFocused());
             token.setEnabled(token.isFocused());
 
             super.keyTyped(typedChar, keyCode);
@@ -249,23 +237,45 @@ public class SessionLogIn extends basicModule {
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
             this.drawDefaultBackground();
 
-            this.drawCenteredString(this.fontRendererObj, "History", this.width / 2 + (this.width / 4) + fontRendererObj.getStringWidth("History"), 16, 16777215);
+            this.drawCenteredString(this.fontRendererObj,
+                    "History",
+                    this.width / 2 + (this.width / 4) + fontRendererObj.getStringWidth("History"),
+                    16,
+                    0xFFFFFF);
+
             int offset = 4 + fontRendererObj.FONT_HEIGHT;
             for (String s : histroy) {
-                this.drawCenteredString(this.fontRendererObj, s, this.width / 2 + (this.width / 4) + fontRendererObj.getStringWidth("History"), 16 + offset, 16777215);
+                this.drawCenteredString(this.fontRendererObj,
+                        s,
+                        this.width / 2 + (this.width / 4) + fontRendererObj.getStringWidth("History"),
+                        16 + offset,
+                        0xFFFFFF);
                 offset += this.fontRendererObj.FONT_HEIGHT + 1;
             }
 
-            this.uuid.drawTextBox();
             this.token.drawTextBox();
-            this.nickname.drawTextBox();
-            this.drawCenteredString(this.fontRendererObj, "fake log in to the moon", this.width / 2, 15, 16777215);
-            this.drawCenteredString(this.fontRendererObj, rendertext, this.width / 2, (this.height / 2) + this.fontRendererObj.FONT_HEIGHT - 70 - 20, Objects.equals(rendertext, " ") ? 16777215 : rendertext.startsWith("S") ? 0x32a852 : 0xff8c8c);
-            super.drawScreen(mouseX, mouseY, partialTicks);
-        }
 
-        public boolean isWithinHeader(int x, int y, int myx, int myy) {
-            return x >= myx && x <= myx + this.width && y >= myy && y <= myy + this.height;
+            this.drawCenteredString(this.fontRendererObj,
+                    "fake log in to the moon",
+                    this.width / 2, 15,
+                    0xFFFFFF);
+
+            int textColor;
+            if (Objects.equals(rendertext, " ")) {
+                textColor = 0xFFFFFF;
+            } else if (rendertext.startsWith("S")) {
+                textColor = 0x32A852;
+            } else {
+                textColor = 0xFF8C8C;
+            }
+
+            this.drawCenteredString(this.fontRendererObj,
+                    rendertext,
+                    this.width / 2,
+                    (this.height / 2) + this.fontRendererObj.FONT_HEIGHT - 70 - 20,
+                    textColor);
+
+            super.drawScreen(mouseX, mouseY, partialTicks);
         }
 
     }

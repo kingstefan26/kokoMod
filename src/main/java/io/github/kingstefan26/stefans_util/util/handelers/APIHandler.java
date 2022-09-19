@@ -80,16 +80,8 @@ public class APIHandler {
     public static String getgetresponse(URL url) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String input;
-            StringBuilder response = new StringBuilder();
 
-            while ((input = in.readLine()) != null) {
-                response.append(input);
-            }
-            in.close();
-
-            return response.toString();
+            return readConnection(conn);
         }
 
         return null;
@@ -109,16 +101,12 @@ public class APIHandler {
         String json = String.valueOf(APIHandler.getJsonFromItemBytes(itemBytes));
         JsonObject itemlore = gson.fromJson(json, JsonObject.class);
 
-        String name = itemlore.get("internalname").getAsString().replaceAll(";[0-9]+", "");
-
-
-        return name;
+        return itemlore.get("internalname").getAsString().replaceAll(";[0-9]+", "");
     }
 
     public static NBTTagCompound getNBTTagCompoundFromItemBytses(String itemBytes) {
         try {
-            NBTTagCompound tag = CompressedStreamTools.readCompressed(new ByteArrayInputStream(Base64.getDecoder().decode(itemBytes)));
-            return tag;
+            return CompressedStreamTools.readCompressed(new ByteArrayInputStream(Base64.getDecoder().decode(itemBytes)));
         } catch (IOException e) {
             return null;
         }
@@ -202,6 +190,20 @@ public class APIHandler {
     }
 
 
+    private static String readConnection(HttpURLConnection connection) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String input;
+        StringBuilder response = new StringBuilder();
+
+        while ((input = in.readLine()) != null) {
+            response.append(input);
+        }
+        in.close();
+
+        return response.toString();
+    }
+
+
     public static JsonObject getResponse(String urlString) {
         try {
             URL url = new URL(urlString);
@@ -209,18 +211,11 @@ public class APIHandler {
             conn.setRequestMethod("GET");
 
             if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String input;
-                StringBuilder response = new StringBuilder();
 
-                while ((input = in.readLine()) != null) {
-                    response.append(input);
-                }
-                in.close();
 
                 Gson gson = new Gson();
 
-                return gson.fromJson(response.toString(), JsonObject.class);
+                return gson.fromJson(readConnection(conn), JsonObject.class);
             } else {
                 if (urlString.startsWith("https://api.hypixel.net/")) {
                     InputStream errorStream = conn.getErrorStream();
@@ -314,18 +309,10 @@ public class APIHandler {
         conn.setRequestMethod("GET");
 
         if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String input;
-            StringBuilder response = new StringBuilder();
-
-            while ((input = in.readLine()) != null) {
-                response.append(input);
-            }
-            in.close();
 
             Gson gson = new Gson();
 
-            uuidResponse = gson.fromJson(response.toString(), JsonObject.class);
+            uuidResponse = gson.fromJson(readConnection(conn), JsonObject.class);
         }
 
         // get the uuid and add -
