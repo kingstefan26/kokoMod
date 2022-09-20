@@ -9,10 +9,10 @@ public class onoffMessageDecorator extends Idecorator {
     }
     @Override
     public void onEnable(){
-        if(!chatService.lockEnableMessages) chatService.queueClientChatMessage("Enabled " + this.parentModule.getName(), chatService.chatEnum.CHATPREFIX);
+        if(!chatService.lockEnableMessages) chatService.queueClientChatMessage("Enabled " + this.parentModule.getName(), chatService.chatEnum.PREFIX);
     }
     @Override
     public void onDisable(){
-        chatService.queueClientChatMessage("Disabled " + this.parentModule.getName(), chatService.chatEnum.CHATPREFIX);
+        chatService.queueClientChatMessage("Disabled " + this.parentModule.getName(), chatService.chatEnum.PREFIX);
     }
 }

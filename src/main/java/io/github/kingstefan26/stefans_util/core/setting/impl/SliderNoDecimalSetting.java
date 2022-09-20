@@ -12,6 +12,14 @@ public class SliderNoDecimalSetting extends AbstractSetting<Double> {
 
     double max;
 
+    /**
+     * @param name Name of setting
+     * @param parentModule name of parrent module
+     * @param deafultValue default value of said setting
+     * @param min minimum value of setting
+     * @param max max value of setting
+     * @param callback this is callback with Dobule whenever a user changes it
+     */
     public SliderNoDecimalSetting(String name, basicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback) {
         super(name, parentModule, SettingsCore.type.sliderNoDecimal, callback);
         this.min = min;

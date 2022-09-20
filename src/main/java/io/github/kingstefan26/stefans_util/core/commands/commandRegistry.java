@@ -110,7 +110,7 @@ commandRegistry {
 
                 new SimpleCommand("kokomod", new SimpleCommand.ProcessCommandRunnable() {
                     public void processCommand(ICommandSender sender, String[] args) {
-                        chatService.queueClientChatMessage("funny that you ask", chatService.chatEnum.CHATPREFIX);
+                        chatService.queueClientChatMessage("funny that you ask", chatService.chatEnum.PREFIX);
                     }
                 }),
                 new SimpleCommand("lastleftoffdebug", new SimpleCommand.ProcessCommandRunnable() {
@@ -248,9 +248,9 @@ commandRegistry {
                 }),
                 new SimpleCommand("purgeCache", new SimpleCommand.ProcessCommandRunnable() {
                     public void processCommand(ICommandSender sender, String[] args) {
-                        chatService.queueClientChatMessage("purging cache ", chatService.chatEnum.CHATPREFIX);
+                        chatService.queueClientChatMessage("purging cache ", chatService.chatEnum.PREFIX);
                         int a = cacheManager.getInstance().clearCache();
-                        chatService.queueClientChatMessage("cleaned " + a + " objects from cache", chatService.chatEnum.CHATPREFIX);
+                        chatService.queueClientChatMessage("cleaned " + a + " objects from cache", chatService.chatEnum.PREFIX);
                     }
                 }),
                 new SimpleCommand("manualloadthejar", new SimpleCommand.ProcessCommandRunnable() {

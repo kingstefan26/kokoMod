@@ -1,5 +1,8 @@
 package io.github.kingstefan26.stefans_util.util;
 
+import net.minecraft.client.gui.inventory.GuiChest;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -137,6 +140,18 @@ public class util {
             callback.accept(callable.call());
         } catch (Throwable t) {
             // log the Throwable
+        }
+    }
+
+
+
+    public static void every20Ticks(TickEvent.ClientTickEvent e, int counter, Runnable callbalback){
+        if(e.phase != TickEvent.Phase.START)
+            return;
+        counter++;
+        if (counter % 20 == 0) {
+            counter = 0;
+            callbalback.run();
         }
     }
 }
