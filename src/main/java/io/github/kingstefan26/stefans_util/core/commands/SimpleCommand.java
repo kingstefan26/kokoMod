@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Author Moulberry
- * source: https://github.com/Moulberry/NotEnoughUpdates/blob/master/src/main/java/io/github/moulberry/notenoughupdates/commands/SimpleCommand.java
+ * source: <a href="https://github.com/Moulberry/NotEnoughUpdates/blob/master/src/main/java/io/github/moulberry/notenoughupdates/commands/SimpleCommand.java">sourse</a>
  */
 public class SimpleCommand extends CommandBase {
     private String commandName;

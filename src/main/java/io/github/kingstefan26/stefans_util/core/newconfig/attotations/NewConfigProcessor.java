@@ -35,7 +35,7 @@ public class NewConfigProcessor extends AttotaionProcessor {
         if (field.isAnnotationPresent(BooleanConfigValue.class)) {
             BooleanConfigValue optionAnnotation = field.getAnnotation(BooleanConfigValue.class);
 
-            String propname = optionAnnotation.category().equals("null") ? optionAnnotation.name() : optionAnnotation.category() + "." + optionAnnotation.name();
+            String propname = !optionAnnotation.category().equals("null") ? optionAnnotation.name() : optionAnnotation.category() + "." + optionAnnotation.name();
 
             createdproperty = ConfigManagerz.getInstance().getConfigObject(propname, optionAnnotation.defaultValue());
         }
@@ -43,7 +43,7 @@ public class NewConfigProcessor extends AttotaionProcessor {
         if (field.isAnnotationPresent(DoubleConfigValue.class)) {
             DoubleConfigValue optionAnnotation = field.getAnnotation(DoubleConfigValue.class);
 
-            String propname = optionAnnotation.category().equals("null") ? optionAnnotation.name() : optionAnnotation.category() + "." + optionAnnotation.name();
+            String propname = !optionAnnotation.category().equals("null") ? optionAnnotation.name() : optionAnnotation.category() + "." + optionAnnotation.name();
 
             createdproperty = ConfigManagerz.getInstance().getConfigObject(propname, optionAnnotation.defaultValue());
         }
@@ -51,7 +51,7 @@ public class NewConfigProcessor extends AttotaionProcessor {
         if (field.isAnnotationPresent(StringConfigValue.class)) {
             StringConfigValue optionAnnotation = field.getAnnotation(StringConfigValue.class);
 
-            String propname = optionAnnotation.category().equals("null") ? optionAnnotation.name() : optionAnnotation.category() + "." + optionAnnotation.name();
+            String propname = !optionAnnotation.category().equals("null") ? optionAnnotation.name() : optionAnnotation.category() + "." + optionAnnotation.name();
 
             createdproperty = ConfigManagerz.getInstance().getConfigObject(propname, optionAnnotation.defaultValue());
         }
@@ -59,7 +59,7 @@ public class NewConfigProcessor extends AttotaionProcessor {
         if (field.isAnnotationPresent(IntegerConfigValue.class)) {
             IntegerConfigValue optionAnnotation = field.getAnnotation(IntegerConfigValue.class);
 
-            String propname = optionAnnotation.category().equals("null") ? optionAnnotation.name() : optionAnnotation.category() + "." + optionAnnotation.name();
+            String propname = !optionAnnotation.category().equals("null") ? optionAnnotation.name() : optionAnnotation.category() + "." + optionAnnotation.name();
 
             createdproperty = ConfigManagerz.getInstance().getConfigObject(propname, optionAnnotation.defaultValue());
         }

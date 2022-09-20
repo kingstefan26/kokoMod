@@ -2,6 +2,7 @@ package io.github.kingstefan26.stefans_util.service.impl;
 
 import io.github.kingstefan26.stefans_util.service.Service;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,9 +31,10 @@ public class chatService extends Service {
     }
     public enum chatEnum {
         DEBUG,
-        CHATPREFIX,
-        CHATNOPREFIX,
-        CHATCOMPONENT
+        PREFIX,
+        NOPREFIX,
+        CHATCOMPONENT,
+        I18N
     }
     static class message {
         public Object text = null;
@@ -45,8 +47,8 @@ public class chatService extends Service {
 
     }
 
-    static Queue<String> sendQueue = new LinkedList<>();
-    static Queue<message> messageQueue = new LinkedList<>();
+    private static final Queue<String> sendQueue = new LinkedList<>();
+    private static final Queue<message> reciveQueue = new LinkedList<>();
 
     public static boolean lockEnableMessages = true;
 
@@ -57,27 +59,27 @@ public class chatService extends Service {
 
 
     public static void queueClientChatMessage(Object message, chatEnum type) {
-        messageQueue.add(new message(message, type));
+        reciveQueue.add(new message(message, type));
     }
 
     public static void queueClientChatMessage(String message) {
-        messageQueue.add(new message(message, chatEnum.CHATPREFIX));
+        reciveQueue.add(new message(message, chatEnum.PREFIX));
     }
 
     public static void queueCleanChatMessage(String message) {
         if (message == null) return;
-        messageQueue.add(new message(message, chatEnum.CHATNOPREFIX));
+        reciveQueue.add(new message(message, chatEnum.NOPREFIX));
     }
 
     public static void queueClientChatMessage(ChatComponentText message) {
-        messageQueue.add(new message(message, chatEnum.CHATNOPREFIX));
+        reciveQueue.add(new message(message, chatEnum.NOPREFIX));
     }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
         if (Minecraft.getMinecraft().theWorld != null || Minecraft.getMinecraft().thePlayer != null) {
-            if (messageQueue.peek() != null) {
-                message temp = messageQueue.remove();
+            if (reciveQueue.peek() != null) {
+                message temp = reciveQueue.remove();
                 sendClientMessage(temp);
             }
             if (sendQueue.peek() != null) {
@@ -93,14 +95,17 @@ public class chatService extends Service {
             case DEBUG:
                 event = new ClientChatReceivedEvent((byte) 1, new ChatComponentText(DEBUG_PREFIX + message.text));
                 break;
-            case CHATPREFIX:
+            case PREFIX:
                 event = new ClientChatReceivedEvent((byte) 1, new ChatComponentText(MESSAGE_PREFIX + message.text));
                 break;
-            case CHATNOPREFIX:
+            case NOPREFIX:
                 event = new ClientChatReceivedEvent((byte) 1, new ChatComponentText((String) message.text));
                 break;
             case CHATCOMPONENT:
                 event = new ClientChatReceivedEvent((byte) 1, (ChatComponentText) message.text);
+                break;
+            case I18N:
+                event = new ClientChatReceivedEvent((byte) 1, new ChatComponentText(I18n.format((String) message.text)));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + message.type);

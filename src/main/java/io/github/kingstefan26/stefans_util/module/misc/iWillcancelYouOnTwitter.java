@@ -39,7 +39,7 @@ public class iWillcancelYouOnTwitter extends basicModule {
             chatService.queueClientChatMessage("§4[WATCHDOG ANNOUNCEMENT]" + "\n"
                     + "§fWatchdog has cannceled §l§c" + ThreadLocalRandom.current().nextInt(10000, 50000) + "§r players in the last 7 days." + "\n"
                     + "§fStaff have cannceled an additional §l§c" + ThreadLocalRandom.current().nextInt(5000, 20000) + "§r in the last 7 days." + "\n"
-                    + "§r§l§c" + randomText, chatService.chatEnum.CHATNOPREFIX);
+                    + "§r§l§c" + randomText, chatService.chatEnum.NOPREFIX);
             lastSpam = System.currentTimeMillis();
         }
     }

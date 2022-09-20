@@ -229,7 +229,7 @@ public class caneMacro extends basicModule {
     @SubscribeEvent
     public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
         if(ismacroingReady){
-            chatService.queueClientChatMessage("teleport detected, changing walk stage to right!", chatService.chatEnum.CHATPREFIX);
+            chatService.queueClientChatMessage("teleport detected, changing walk stage to right!", chatService.chatEnum.PREFIX);
             playerTeleported = true;
         }
     }
@@ -250,6 +250,6 @@ public class caneMacro extends basicModule {
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
         super.setToggled(false);
-        chatService.queueClientChatMessage("cane macro was unloaded because you switched worlds", chatService.chatEnum.CHATPREFIX);
+        chatService.queueClientChatMessage("cane macro was unloaded because you switched worlds", chatService.chatEnum.PREFIX);
     }
 }

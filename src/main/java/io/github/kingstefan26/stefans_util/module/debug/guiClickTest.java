@@ -102,22 +102,22 @@ public class guiClickTest extends basicModule {
 
             switch (event.button.id) {
                 case (1000):
-                    chatService.queueClientChatMessage("added +10 to delay", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("added +10 to delay", chatService.chatEnum.PREFIX);
                     break;
                 case (1001):
-                    chatService.queueClientChatMessage("added -10 to delay", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("added -10 to delay", chatService.chatEnum.PREFIX);
                     break;
                 case (1002):
-                    chatService.queueClientChatMessage("delay was reset", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("delay was reset", chatService.chatEnum.PREFIX);
                     break;
                 case (1003):
-                    chatService.queueClientChatMessage("set delay to 200ms", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("set delay to 200ms", chatService.chatEnum.PREFIX);
                     break;
                 case (1004):
-                    chatService.queueClientChatMessage("set delay to 312ms", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("set delay to 312ms", chatService.chatEnum.PREFIX);
                     break;
                 case (1005):
-                    chatService.queueClientChatMessage("set delay to 100ms", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("set delay to 100ms", chatService.chatEnum.PREFIX);
                     break;
             }
         }

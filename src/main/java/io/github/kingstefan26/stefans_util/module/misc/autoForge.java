@@ -33,7 +33,7 @@ public class autoForge extends basicModule {
     @Override
     public void onEnable()
     {
-        chatService.queueClientChatMessage("enabled AutoForager lmao", chatService.chatEnum.CHATNOPREFIX);
+        chatService.queueClientChatMessage("enabled AutoForager lmao", chatService.chatEnum.NOPREFIX);
         this.CheckBlocks(Radius);
 //        this.oldAutoJumpValue = this.mc.gameSettings.autoJump;
 //        this.mc.gameSettings.autoJump = true;
@@ -133,7 +133,7 @@ public class autoForge extends basicModule {
                 if (block instanceof BlockLog)
                 {
                     this.cutBlocks.add(this.getSearchPos(j1, k1));
-                    chatService.queueClientChatMessage(String.format("Block in %s , %s is a wood block", j1, k1), chatService.chatEnum.CHATNOPREFIX);
+                    chatService.queueClientChatMessage(String.format("Block in %s , %s is a wood block", j1, k1), chatService.chatEnum.NOPREFIX);
                 }
                 else
                 {
@@ -146,7 +146,7 @@ public class autoForge extends basicModule {
 
         for (BlockPos blockpos : this.cutBlocks)
         {
-            chatService.queueClientChatMessage(blockpos.getX() + " , " + blockpos.getZ(), chatService.chatEnum.CHATNOPREFIX);
+            chatService.queueClientChatMessage(blockpos.getX() + " , " + blockpos.getZ(), chatService.chatEnum.NOPREFIX);
         }
     }
 

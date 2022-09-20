@@ -503,7 +503,7 @@ public class UniversalWartMacro extends basicModule implements macro {
                     this.setToggled(false);
 
                 } else if (!main.debug && !WorldInfoService.isOnPrivateIsland()) {
-                    chatService.queueClientChatMessage("please join a your island!", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("please join a your island!", chatService.chatEnum.PREFIX);
 
                     macroState.setState(macroStates.STOPPING);
                     this.setToggled(false);

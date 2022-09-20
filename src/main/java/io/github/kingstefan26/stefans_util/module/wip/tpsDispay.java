@@ -35,7 +35,7 @@ public class tpsDispay extends basicModule {
         if(tps < 20){
             //drawCenterString.GuiNotif(mc, "the server tick rate is: " + tps);
 //            kokoMod.instance.renderEngine.drawCenterString.GuiNotif(mc, "the server tick rate is: " + tps);
-            chatService.queueClientChatMessage("current tick rate: " + tps, chatService.chatEnum.CHATNOPREFIX);
+            chatService.queueClientChatMessage("current tick rate: " + tps, chatService.chatEnum.NOPREFIX);
             //sendChatMessage.sendClientMessage("server tick is late for: " + tps + " miliseconds", false);
         }
         if(System.currentTimeMillis() - this.lastTick >= 1000){

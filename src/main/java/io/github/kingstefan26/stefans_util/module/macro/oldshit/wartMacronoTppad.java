@@ -234,20 +234,20 @@ public class wartMacronoTppad extends basicModule {
     public void onEnable() {
         super.onEnable();
         if (this.localDecoratorManager.keyBindDecorator.keybind.getKeyCode() == 0) {
-            chatService.queueClientChatMessage("please set a keybind!", chatService.chatEnum.CHATPREFIX);
+            chatService.queueClientChatMessage("please set a keybind!", chatService.chatEnum.PREFIX);
             this.setToggled(false);
             return;
         }
         if (!debug) {
             if (!WorldInfoService.isOnPrivateIsland()) {
-                chatService.queueClientChatMessage("please join a your island!", chatService.chatEnum.CHATPREFIX);
+                chatService.queueClientChatMessage("please join a your island!", chatService.chatEnum.PREFIX);
                 this.setToggled(false);
                 return;
             }
         }
         if(macroWalkStage == DEFAULT) macroWalkStage = RIGHT;
 
-        chatService.queueClientChatMessage("enabled wart macro", chatService.chatEnum.CHATPREFIX);
+        chatService.queueClientChatMessage("enabled wart macro", chatService.chatEnum.PREFIX);
 
         //reset the timer on enable
         this.playerSpeedCheckTimer = System.currentTimeMillis();
@@ -261,7 +261,7 @@ public class wartMacronoTppad extends basicModule {
     public void onDisable() {
         super.onDisable();
 
-        chatService.queueClientChatMessage("disabled wart macro", chatService.chatEnum.CHATPREFIX);
+        chatService.queueClientChatMessage("disabled wart macro", chatService.chatEnum.PREFIX);
         /*
         reset every variable & unpress every key on disable
          */
@@ -284,7 +284,7 @@ public class wartMacronoTppad extends basicModule {
     @SubscribeEvent
     public void onPlayerFallEvent(stefan_utilEvents.playerFallEvent e){
         if(ismacroingReady && !playerTeleported){
-            chatService.queueClientChatMessage("daddy cum harder!", chatService.chatEnum.CHATPREFIX);
+            chatService.queueClientChatMessage("daddy cum harder!", chatService.chatEnum.PREFIX);
             playerFallen = true;
         }
     }
@@ -293,7 +293,7 @@ public class wartMacronoTppad extends basicModule {
     @SubscribeEvent
     public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
         if (ismacroingReady) {
-            chatService.queueClientChatMessage("teleport detected!", chatService.chatEnum.CHATPREFIX);
+            chatService.queueClientChatMessage("teleport detected!", chatService.chatEnum.PREFIX);
             playerTeleported = true;
         }
     }
@@ -314,6 +314,6 @@ public class wartMacronoTppad extends basicModule {
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
         super.setToggled(false);
-        chatService.queueClientChatMessage("wart macro was unloaded because you switched worlds", chatService.chatEnum.CHATPREFIX);
+        chatService.queueClientChatMessage("wart macro was unloaded because you switched worlds", chatService.chatEnum.PREFIX);
     }
 }

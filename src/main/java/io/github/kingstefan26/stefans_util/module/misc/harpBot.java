@@ -23,6 +23,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static io.github.kingstefan26.stefans_util.util.util.every20Ticks;
+
 
 public class harpBot extends basicModule {
     public harpBot() {
@@ -44,17 +46,13 @@ public class harpBot extends basicModule {
 
     @Override
     public void onTick(TickEvent.ClientTickEvent e) {
-        if (e.phase == TickEvent.Phase.START) {
-            TickCounter++;
-            if (TickCounter % 20 == 0) {
-                TickCounter = 0;
-                if (mc.theWorld != null && mc.currentScreen instanceof GuiChest) {
-                    GuiChest chest = (GuiChest) mc.currentScreen;
-                    slots.clear();
-                    slots.addAll(chest.inventorySlots.inventorySlots);
-                }
+        every20Ticks(e,TickCounter,() -> {
+            if (mc.theWorld != null && mc.currentScreen instanceof GuiChest) {
+                GuiChest chest = (GuiChest) mc.currentScreen;
+                slots.clear();
+                slots.addAll(chest.inventorySlots.inventorySlots);
             }
-        }
+        });
     }
 
     ScheduledExecutorService scheduledExecutorService;
@@ -71,7 +69,7 @@ public class harpBot extends basicModule {
                     logger.info(stack.getItem().getUnlocalizedName());
                     if (slot6.getStack().getItem() == Item.getItemById(155)) {
                         logger.info("Slot " + i + " is quartz block");
-                        chatService.queueClientChatMessage("Slot " + i + " is quartz block", chatService.chatEnum.CHATNOPREFIX);
+                        chatService.queueClientChatMessage("Slot " + i + " is quartz block", chatService.chatEnum.NOPREFIX);
                         //TODO: click the slot in GuiChest
                     }
                 }
@@ -82,6 +80,7 @@ public class harpBot extends basicModule {
     @Override
     public void onEnable() {
         super.onEnable();
+
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
         scheduledExecutorService.scheduleAtFixedRate(command, 0, 2, TimeUnit.SECONDS);
@@ -127,7 +126,7 @@ public class harpBot extends basicModule {
     }
 
     @SubscribeEvent
-    public void DaDSAdisint(GuiScreenEvent.InitGuiEvent.Post event) {
+    public void addOurGuiToChestGui(GuiScreenEvent.InitGuiEvent.Post event) {
         if (!(event.gui instanceof GuiChest)) return;
         if (!ChestNameContainsReflect("Harp", (GuiChest) mc.currentScreen)) return;
 
@@ -170,22 +169,22 @@ public class harpBot extends basicModule {
         if (mc.currentScreen instanceof GuiChest) {
             switch (event.button.id) {
                 case (1000):
-                    chatService.queueClientChatMessage("added +10 to delay", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("added +10 to delay", chatService.chatEnum.PREFIX);
                     break;
                 case (1001):
-                    chatService.queueClientChatMessage("added -10 to delay", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("added -10 to delay", chatService.chatEnum.PREFIX);
                     break;
                 case (1002):
-                    chatService.queueClientChatMessage("delay was reset", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("delay was reset", chatService.chatEnum.PREFIX);
                     break;
                 case (1003):
-                    chatService.queueClientChatMessage("set delay to 200ms", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("set delay to 200ms", chatService.chatEnum.PREFIX);
                     break;
                 case (1004):
-                    chatService.queueClientChatMessage("set delay to 312ms", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("set delay to 312ms", chatService.chatEnum.PREFIX);
                     break;
                 case (1005):
-                    chatService.queueClientChatMessage("set delay to 100ms", chatService.chatEnum.CHATPREFIX);
+                    chatService.queueClientChatMessage("set delay to 100ms", chatService.chatEnum.PREFIX);
                     break;
             }
         }
