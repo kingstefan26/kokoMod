@@ -249,7 +249,7 @@ public class UniversalWartMacro extends basicModule implements macro {
                         }
 
 
-
+                        // using the all-knowing lastleftoff framework
                         lastLeftOff.getLastLeftOff().registerLastLeftOff(
                                 new lastLeftOff.lastleftoffObject(
                                         (float) mc.thePlayer.posX,
