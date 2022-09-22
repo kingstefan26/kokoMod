@@ -251,18 +251,18 @@ public class wartMacroVerticalDesign extends BasicModule {
         isMacroingReady = false;
         playerFallen = false;
 
-        playerYaw = 0;
-        playerPitch = 0;
-        playerSpeed = 0;
+		playerYaw = 0;
+		playerPitch = 0;
+		playerSpeed = 0;
 
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
-        LastLeftOff.getLastLeftOff().registerLastLeftOff(new LastLeftOff.lastleftoffObject((float) mc.thePlayer.posX, (float) mc.thePlayer.posY, (float) mc.thePlayer.posZ,
-                cropType.WART, macroWalkStage, System.currentTimeMillis()));
-    }
+		KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
+		KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
+		KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
+		KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
+		KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
+		LastLeftOff.getLastLeftOff().registerLastLeftOff(new LastLeftOff.LastleftoffObject((float) mc.thePlayer.posX, (float) mc.thePlayer.posY, (float) mc.thePlayer.posZ,
+				cropType.WART, macroWalkStage, System.currentTimeMillis()));
+	}
 
     @SubscribeEvent
     public void onPlayerFallEvent(StefanutilEvents.playerFallEvent e) {

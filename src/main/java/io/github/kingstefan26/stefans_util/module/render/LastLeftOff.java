@@ -1,10 +1,11 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
 import io.github.kingstefan26.stefans_util.Main;
-import io.github.kingstefan26.stefans_util.core.config.configObject;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.newconfig.attotations.impl.DoubleConfigValue;
+import io.github.kingstefan26.stefans_util.core.newconfig.attotations.impl.StringConfigValue;
 import io.github.kingstefan26.stefans_util.module.macro.util.cropType;
 import io.github.kingstefan26.stefans_util.module.macro.util.macroStages;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
@@ -18,59 +19,66 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 
 public class LastLeftOff extends BasicModule {
-	public static LastLeftOff lastLeftOffinstance;
-	private static lastleftoffObject lastLeftOff;
+	private static LastLeftOff lastLeftOffinstance;
+	@DoubleConfigValue(name = "lastleftoffx", defaultValue = 0)
+	double lastleftoffx;
+	@DoubleConfigValue(name = "lastleftoffy", defaultValue = 0)
+	double lastleftoffy;
+	@DoubleConfigValue(name = "lastleftoffz", defaultValue = 0)
+	double lastleftoffz;
+	@StringConfigValue(name = "lastleftoffcroptype", defaultValue = "DEFAULT")
+	String lastleftoffcroptype;
+	@StringConfigValue(name = "lastleftoffmacrostage", defaultValue = "DEFAULT")
+	String lastleftoffmacrostage;
+	@DoubleConfigValue(name = "lastleftofftime", defaultValue = 0)
+	double lastleftofftime;
+	private LastleftoffObject obj;
 
 	public LastLeftOff() {
 		super("lastLeftOff",
 				"shows where you last left a macro in current session",
 				ModuleManager.Category.MISC,
 				new presistanceDecorator());
-		lastLeftOffinstance = this;
+		setLastLeftOffinstance(this);
 	}
 
 	public static LastLeftOff getLastLeftOff() {
-		if (lastLeftOffinstance == null) lastLeftOffinstance = new LastLeftOff();
+		if (getLastLeftOffinstance() == null) setLastLeftOffinstance(new LastLeftOff());
+		return getLastLeftOffinstance();
+	}
+
+	public static void nullLastLeftOff() {
+		getLastLeftOffinstance().obj = null;
+	}
+
+	public static LastLeftOff getLastLeftOffinstance() {
 		return lastLeftOffinstance;
 	}
 
-	configObject x;
-	configObject y;
-	configObject z;
-	configObject croptype;
-	configObject macrostage;
-	configObject time;
-
-	public static void nullLastLeftOff() {
-		lastLeftOff = null;
+	public static void setLastLeftOffinstance(LastLeftOff lastLeftOffinstance) {
+		LastLeftOff.lastLeftOffinstance = lastLeftOffinstance;
 	}
 
 	@Override
 	public void onLoad() {
-		x = new configObject("x", this.getName(), 0.0F);
-		y = new configObject("y", this.getName(), 0.5F);
-		z = new configObject("z", this.getName(), 0.5F);
-		croptype = new configObject("cropType", this.getName(), "DEFAULT");
-		macrostage = new configObject("macrostage", this.getName(), "DEFAULT");
-		time = new configObject("time", this.getName(), 0.5F);
 
-		if (x.getDoubleValue() != 0.0F) {
-			if (time.getDoubleValue() != 0.5F) {
-				final lastleftoffObject temp = new lastleftoffObject(
-						(float) x.getDoubleValue(),
-						(float) y.getDoubleValue(),
-						(float) z.getDoubleValue(),
-						cropType.valueOf(croptype.getStringValue()),
-						macroStages.valueOf(macrostage.getStringValue()),
-						(long) time.getDoubleValue());
+		if (lastleftoffx != 0.0F) {
+			if (lastleftofftime != 0.5F) {
+				final LastleftoffObject temp = new LastleftoffObject(
+						(float) lastleftoffx,
+						(float) lastleftoffy,
+						(float) lastleftoffz,
+						cropType.valueOf(lastleftoffcroptype),
+						macroStages.valueOf(lastleftoffmacrostage),
+						(long) lastleftofftime);
 				registerLastLeftOff(temp);
 			} else {
-				final lastleftoffObject temp2 = new lastleftoffObject(
-						(float) x.getDoubleValue(),
-						(float) y.getDoubleValue(),
-						(float) z.getDoubleValue(),
-						cropType.valueOf(croptype.getStringValue()),
-						macroStages.valueOf(macrostage.getStringValue()));
+				final LastleftoffObject temp2 = new LastleftoffObject(
+						(float) lastleftoffx,
+						(float) lastleftoffy,
+						(float) lastleftoffz,
+						cropType.valueOf(lastleftoffcroptype),
+						macroStages.valueOf(lastleftoffmacrostage));
 				registerLastLeftOff(temp2);
 			}
 
@@ -78,28 +86,28 @@ public class LastLeftOff extends BasicModule {
 		super.onLoad();
 	}
 
-	public void registerLastLeftOff(lastleftoffObject in) {
-		lastLeftOff = in;
-		x.setDoubleValue(in.x);
-		y.setDoubleValue(in.y);
-		z.setDoubleValue(in.z);
-		croptype.setStringValue(in.getCropType().toString());
-		macrostage.setStringValue(in.getMacroStage().toString());
+	public void registerLastLeftOff(LastleftoffObject in) {
+		obj = in;
+		lastleftoffx = in.x;
+		lastleftoffy = in.y;
+		lastleftoffz = in.z;
+		lastleftoffcroptype = in.getCropType().toString();
+		lastleftoffmacrostage = in.getMacroStage().toString();
 		if (in.time != 0) {
-			time.setDoubleValue(in.time);
+			lastleftofftime = in.time;
 		}
 		//float x,float y,float z,cropType type, macroStages macroStage, long time
 	}
 
-	public lastleftoffObject getLastleftoffObject(){
-		return lastLeftOff;
+	public LastleftoffObject getLastleftoffObject() {
+		return obj;
 	}
 
 	@SubscribeEvent
 	public void onRenderLast(RenderWorldLastEvent event) {
-		if (lastLeftOff == null) return;
-		if (!Main.isDebug()) {
-			if (!WorldInfoService.isOnPrivateIsland()) return;
+		if (obj == null) return;
+		if (!Main.isDebug() && !WorldInfoService.isOnPrivateIsland()) {
+			return;
 		}
 
 
@@ -110,7 +118,7 @@ public class LastLeftOff extends BasicModule {
 
 		int rgb;
 		int textrgb;
-		switch (io.github.kingstefan26.stefans_util.module.render.LastLeftOff.lastLeftOff.getCropType()) {
+		switch (obj.getCropType()) {
 			case WART:
 				rgb = 0xa02427;
 				textrgb = 0x3b0c0d;
@@ -124,7 +132,7 @@ public class LastLeftOff extends BasicModule {
 				textrgb = 0x41184f;
 				break;
 			default:
-				throw new IllegalStateException("Unexpected value: " + io.github.kingstefan26.stefans_util.module.render.LastLeftOff.lastLeftOff.getCropType());
+				throw new IllegalStateException("Unexpected value: " + obj.getCropType());
 		}
 
 		GlStateManager.disableDepth();
@@ -132,48 +140,41 @@ public class LastLeftOff extends BasicModule {
 		GlStateManager.disableTexture2D();
 
 		//stolen from nue :)
-		float xx = lastLeftOff.getX() - (float) viewerX;
-		float yy = lastLeftOff.getY() - (float) viewerY;
-		float zz = lastLeftOff.getZ() - (float) viewerZ;
+		float xx = obj.getX() - (float) viewerX;
+		float yy = obj.getY() - (float) viewerY;
+		float zz = obj.getZ() - (float) viewerZ;
 
 		float distSq = xx * xx + yy * yy + zz * zz;
 
-		if (lastLeftOff.getTime() != 0) {
-			if (distSq > 4 * 4) {
+		if (obj.getTime() != 0 && distSq > 4 * 4) {
 
-				String text = (lastLeftOff.type == cropType.WART ? "wart" : "deafult") + " " + StefanutilUtil.ConvertMilliSecondsToFormattedDate(lastLeftOff.getTime());
 
-				hehe.drawTextAtWorld(text,
-						lastLeftOff.getX() + 0.5F,
-						lastLeftOff.getY() + 1,
-						lastLeftOff.getZ() + 0.5F,
-						rgb, 2F,
-						true, true, event.partialTicks);
-			}
+			String text = (obj.type == cropType.WART ? "wart" : "deafult") + " " + StefanutilUtil.ConvertMilliSecondsToFormattedDate(obj.getTime());
+
+			hehe.drawTextAtWorld(text,
+					obj.getX() + 0.5F,
+					obj.getY() + 1,
+					obj.getZ() + 0.5F,
+					rgb, 2F,
+					true, true, event.partialTicks);
+
 		}
 
-		double x = lastLeftOff.getX() - viewerX;
-		double y = lastLeftOff.getY() - viewerY;
-		double z = lastLeftOff.getZ() - viewerZ;
+		double x = obj.getX() - viewerX;
+		double y = obj.getY() - viewerY;
+		double z = obj.getZ() - viewerZ;
 		AxisAlignedBB bb = new AxisAlignedBB(x, y, z, x + 1, y + 1, z + 1);
 
 		if (distSq < 4 * 4) {
 			hehe.drawFilledBoundingBox(bb, 1f, textrgb);
 		}
-//		else{
-//			Vec3 pos3;
-//			Vec3 pos4;
-//			pos3 = new Vec3(LastLeftOff.getX(),LastLeftOff.getY(),LastLeftOff.getZ());
-//			pos4 = new Vec3(viewerX,viewerY + 1,viewerZ);
-////			draw3DLine(pos3,pos4, rgb, 5, false, event.partialTicks);
-//		}
 
 		GlStateManager.disableLighting();
 		GlStateManager.enableDepth();
 		GlStateManager.enableTexture2D();
 	}
 
-	public static class lastleftoffObject {
+	public static class LastleftoffObject {
 		float x;
 		float y;
 		float z;
@@ -181,7 +182,7 @@ public class LastLeftOff extends BasicModule {
 		macroStages lastStage;
 		cropType type;
 
-		public lastleftoffObject(float x, float y, float z, cropType type, macroStages macroStage) {
+		public LastleftoffObject(float x, float y, float z, cropType type, macroStages macroStage) {
 			this.x = x;
 			this.y = y;
 			this.z = z;
@@ -189,7 +190,7 @@ public class LastLeftOff extends BasicModule {
 			this.lastStage = macroStage;
 		}
 
-		public lastleftoffObject(float x, float y, float z, cropType type, macroStages macroStage, long time) {
+		public LastleftoffObject(float x, float y, float z, cropType type, macroStages macroStage, long time) {
 			this.x = x;
 			this.y = y;
 			this.z = z;

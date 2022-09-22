@@ -251,7 +251,7 @@ public class UniversalWartMacro extends BasicModule implements macro {
 
                         // using the all-knowing lastleftoff framework
                         LastLeftOff.getLastLeftOff().registerLastLeftOff(
-                                new LastLeftOff.lastleftoffObject(
+                                new LastLeftOff.LastleftoffObject(
                                         (float) mc.thePlayer.posX,
                                         (float) mc.thePlayer.posY,
                                         (float) mc.thePlayer.posZ,
@@ -627,7 +627,7 @@ public class UniversalWartMacro extends BasicModule implements macro {
 //                        System.currentTimeMillis()));
 
                 macroState.setState(macroStates.IDLE);
-                LastLeftOff.getLastLeftOff().registerLastLeftOff(new LastLeftOff.lastleftoffObject((float) mc.thePlayer.posX, (float) mc.thePlayer.posY, (float) mc.thePlayer.posZ, cropType.WART, macroStages.DEFAULT, System.currentTimeMillis()));
+                LastLeftOff.getLastLeftOff().registerLastLeftOff(new LastLeftOff.LastleftoffObject((float) mc.thePlayer.posX, (float) mc.thePlayer.posY, (float) mc.thePlayer.posZ, cropType.WART, macroStages.DEFAULT, System.currentTimeMillis()));
                 onDisable();
                 break;
         }
