@@ -82,7 +82,7 @@ public class UniversalWartMacro extends basicModule implements macro {
     public boolean checkForwart;
     public boolean unFocusStatus;
 
-    // runtime routine flags
+    // runtime behavior flags
     public boolean guiCloseGrace;
     public boolean playerTeleported;
     public boolean playerFallen;
@@ -110,6 +110,9 @@ public class UniversalWartMacro extends basicModule implements macro {
     @Override
     public void onWorldRender(RenderWorldLastEvent e) {
         // TODO just dont do useless things please
+
+
+        // rendering prequel
         Entity viewer = mc.getRenderViewEntity();
         double viewerX = viewer.lastTickPosX + (viewer.posX - viewer.lastTickPosX) * e.partialTicks;
         double viewerY = viewer.lastTickPosY + (viewer.posY - viewer.lastTickPosY) * e.partialTicks;
@@ -117,6 +120,7 @@ public class UniversalWartMacro extends basicModule implements macro {
 
         GlStateManager.disableCull();
 
+        // if macro is on or paused show crumtrails
         if (macroState.checkState(macroStates.PAUSED) || macroState.checkState(macroStates.MACROING)) {
             for (int i = 0; i < (vertexes.size() - 1); i++) {
                 BlockPos vertex = vertexes.get(i);
@@ -134,6 +138,7 @@ public class UniversalWartMacro extends basicModule implements macro {
 
         }
 
+        // draw a line inside the player model
         draw3Dline.draw3DLine(new Vec3(viewerX, viewerY, viewerZ),
                 new Vec3(viewerX, viewerY + 1, viewerZ),
                 0xffffff,
@@ -183,27 +188,46 @@ public class UniversalWartMacro extends basicModule implements macro {
 
                 }
 
+                // if the macro was RECALIBRATING and user presses the toggle key shutdown
+                if (macroState.checkState(macroStates.RECALIBRATING)) {
+                    if (keyCode == localDecoratorManager.keyBindDecorator.keybind.getKeyCode())
+                        macroState.setState(macroStates.STOPPING);
+
+                }
+
+                // when paused and
                 if (macroState.checkState(macroStates.PAUSED)) {
+
+                    // user presses unpause recalibrate
+                    if (keyCode == unpauseKey) macroState.setState(macroStates.RECALIBRATING);
+
+                    // user presses the toggle key
                     if (keyCode == localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) {
+
+
                         macroState.setState(macroStates.STOPPING);
                         // TODO this needs major a face lift
+                        // close guis
                         mc.displayGuiScreen(null);
 
+                        // announce to the user
                         chatService.queueCleanChatMessage(chatprefix + "disabled wart macro");
 
+                        // reset variables, so we have a clean slate when starting again
                         playerYaw = 0;
                         playerPitch = 0;
+                        macroWalkStage = util.walkStates.BOTTOM;
+                        macroState.setDontSpamFlag(false);
+                        macroState.setCurrentWalkAction(left);
 
+                        // unpress all the keybindings
                         KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
                         KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
                         KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
                         KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
                         KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
-                        macroWalkStage = util.walkStates.BOTTOM;
 
-                        macroState.setDontSpamFlag(false);
-
-
+                        // untoggle module that we have toggled
                         for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
                             if ("autorecorrect".equals(m.getName())) {
                                 if (!mc.isSingleplayer()) {
@@ -224,7 +248,7 @@ public class UniversalWartMacro extends basicModule implements macro {
                             }
                         }
 
-                        macroState.setCurrentWalkAction(left);
+
 
                         lastLeftOff.getLastLeftOff().registerLastLeftOff(
                                 new lastLeftOff.lastleftoffObject(
@@ -235,15 +259,10 @@ public class UniversalWartMacro extends basicModule implements macro {
                                         macroStages.DEFAULT,
                                         System.currentTimeMillis()));
 
-
+                        // set flag to IDLE and unhook hooks via module onDisable()
                         macroState.setState(macroStates.IDLE);
                         this.onDisable();
                     }
-                    if (keyCode == unpauseKey) macroState.setState(macroStates.RECALIBRATING);
-                }
-                if (macroState.checkState(macroStates.RECALIBRATING)) {
-                    if (keyCode == localDecoratorManager.keyBindDecorator.keybind.getKeyCode())
-                        macroState.setState(macroStates.STOPPING);
 
                 }
             }
