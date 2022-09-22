@@ -4,11 +4,11 @@
 
 package io.github.kingstefan26.stefans_util.core.clickGui.components.impl;
 
+import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
 import io.github.kingstefan26.stefans_util.core.config.configObject;
-import io.github.kingstefan26.stefans_util.core.globals;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import lombok.Getter;
@@ -23,7 +23,7 @@ public class frame {
     @Getter
     public ArrayList<component> components;
 
-    public moduleManager.Category category;
+    public ModuleManager.Category category;
 
     @Setter
     @Getter
@@ -48,7 +48,7 @@ public class frame {
 
     int totalY = this.height;
 
-    public frame(moduleManager.Category cat) {
+    public frame(ModuleManager.Category cat) {
         this.components = new ArrayList<>();
         this.category = cat;
 
@@ -60,10 +60,10 @@ public class frame {
     }
 
 
-    public void registerComponent(basicModule m) {
-        for(component modButtons : this.components){
+    public void registerComponent(BasicModule m) {
+        for (component modButtons : this.components) {
             moduleComponent t = (moduleComponent) modButtons;
-            if(t.getClass().getName().equals(m.getClass().getName())) return;
+            if (t.getClass().getName().equals(m.getClass().getName())) return;
         }
         final moduleComponent component = new moduleComponent(m, this);
 
@@ -74,13 +74,13 @@ public class frame {
         totalY += 12;
     }
 
-    public void removeComponent(basicModule m) {
+    public void removeComponent(BasicModule m) {
         Iterator<component> iter = this.components.iterator();
 
         while (iter.hasNext()) {
             component a = iter.next();
             moduleComponent t = (moduleComponent) a;
-            if(m.getName().equals(t.mod.getName())) {
+            if (m.getName().equals(t.mod.getName())) {
                 iter.remove();
                 t.destroy();
             }
@@ -105,7 +105,7 @@ public class frame {
 
         hehe.drawRect(this.x, this.y, this.x + this.width, this.y + this.height, 0xFF00010a);
 
-        if(globals.usestandartfontrendering){
+        if (Globals.usestandartfontrendering) {
             Minecraft.getMinecraft().fontRendererObj.drawString(this.category.name(),
                     this.x,
                     this.y - (this.height / 2) + 10,
@@ -115,7 +115,7 @@ public class frame {
                     (this.x + this.width - 10) + 3,
                     this.y - (this.height / 2) + 10,
                     -1);
-        }else{
+        } else {
             c.drawString(this.category.name(),
                     this.x * 2,
                     this.y * 2 - (this.height / 2),

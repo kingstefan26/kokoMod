@@ -5,7 +5,7 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -17,9 +17,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.RENDER;
+import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.RENDER;
 
-public class stolenFarmOverlay extends basicModule {
+public class stolenFarmOverlay extends BasicModule {
 
     public stolenFarmOverlay() {
         super("stolenoverlay!", "shows tha crops when you have a hoe", RENDER, new presistanceDecorator());

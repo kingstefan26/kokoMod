@@ -4,16 +4,16 @@
 
 package io.github.kingstefan26.stefans_util.module.wip;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class AutoFlip extends basicModule {
+public class AutoFlip extends BasicModule {
     int counter;
 
 
     public AutoFlip() {
-        super("AutoFlip", "its like magic", moduleManager.Category.MACRO);
+        super("AutoFlip", "its like magic", ModuleManager.Category.MACRO);
     }
 
     @Override

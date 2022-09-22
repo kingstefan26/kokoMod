@@ -2,12 +2,12 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.newconfig;
+package io.github.kingstefan26.stefans_util.core.newconfig.prop;
 
-import io.github.kingstefan26.stefans_util.core.newconfig.impl.*;
+import io.github.kingstefan26.stefans_util.core.newconfig.prop.impl.*;
 
-public class ConfigFactory {
-    private ConfigFactory() {
+public class PropFactory {
+    private PropFactory() {
     }
 
     public static Iproperty getProperty(String name, Object deafult) {

@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.setting.impl.CheckSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -10,9 +10,9 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
-import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.DEBUG;
+import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.DEBUG;
 
-public class testTracer extends basicModule {
+public class testTracer extends BasicModule {
     public testTracer() {
         super("test tracer", "yazz", DEBUG);
     }
@@ -20,9 +20,9 @@ public class testTracer extends basicModule {
     boolean a;
 
     @Override
-    public void onEnable(){
+    public void onEnable() {
         super.onEnable();
-        new CheckSetting("boxes", this, false, (newvalue)->{
+        new CheckSetting("boxes", this, false, (newvalue) -> {
             a = (boolean) newvalue;
         });
     }

@@ -4,9 +4,9 @@ import com.google.common.collect.Lists;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.frame;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleRegistery;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -14,7 +14,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.kingstefan26.stefans_util.util.file.getFileFromResourceAsStream;
+import static io.github.kingstefan26.stefans_util.util.FileUtils.getFileFromResourceAsStream;
 
 
 public class ClickGui extends GuiScreen {
@@ -36,13 +36,7 @@ public class ClickGui extends GuiScreen {
 		resetFramePositions();
 	}
 
-	void registerFrames(){
-		for(moduleManager.Category c : moduleManager.Category.values()) {
-//			if(moduleRegistery.getModuleRegistery().getModulesInCategory(c).isEmpty()) continue;
-			if(c == moduleManager.Category.UtilModule) continue;
-			frames.add(new frame(c));
-		}
-	}
+    public List<String> list = Lists.newArrayList();
 
 
 	/**
@@ -69,57 +63,60 @@ public class ClickGui extends GuiScreen {
 		}
 
 		// resetting every subcomponent in every component
-		for(frame frame: frames){
-			for(component component: frame.components){
-				moduleComponent com = (moduleComponent) component;
-				com.resetSubComponentsPositions(com.offset);
-			}
-		}
+        for (frame frame : frames) {
+            for (component component : frame.components) {
+                moduleComponent com = (moduleComponent) component;
+                com.resetSubComponentsPositions(com.offset);
+            }
+        }
 
 
-	}
+    }
+
+    void registerFrames() {
+        for (ModuleManager.Category c : ModuleManager.Category.values()) {
+//			if(moduleRegistery.getModuleRegistery().getModulesInCategory(c).isEmpty()) continue;
+            if (c == ModuleManager.Category.UTIL_MODULE) continue;
+            frames.add(new frame(c));
+        }
+    }
+
+    void resetFramePositions() {
+        int frameX = 0;
+        for (frame frame : frames) {
+            frame.setX(frameX);
+            frameX += frame.getWidth() + 1;
+        }
+    }
+
+    public void registerComponent(BasicModule m) {
+        for (frame f : frames) {
+            if (f.category == m.getCategory()) {
+                f.registerComponent(m);
+            }
+        }
+    }
+
+    public void removeComponent(BasicModule m) {
+        for (frame f : frames) {
+            if (f.category == m.getCategory()) {
+                f.removeComponent(m);
+            }
+        }
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
 
 
-	void resetFramePositions(){
-		int frameX = 0;
-		for(frame frame: frames){
-			frame.setX(frameX);
-			frameX += frame.getWidth() + 1;
-		}
-	}
-
-
-	public void registerComponent(basicModule m){
-		for(frame f : frames){
-			if(f.category == m.getCategory()){
-				f.registerComponent(m);
-			}
-		}
-	}
-
-	public void removeComponent(basicModule m){
-		for(frame f : frames){
-			if(f.category == m.getCategory()){
-				f.removeComponent(m);
-			}
-		}
-	}
-
-
-	public List<String> list = Lists.newArrayList();
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-
-
-		if (moduleRegistery.getModuleRegistery().loadedModules.size() == 0) {
-			ScaledResolution scaled = new ScaledResolution(mc);
-			int width = scaled.getScaledWidth();
-			int height = scaled.getScaledHeight();
-			String text = "there are no modules loaded, if you bealve this is a issue report it on discord";
-			mc.fontRendererObj.drawStringWithShadow(text, (float) (width / 2 - mc.fontRendererObj.getStringWidth(text) / 2), (float) (height / 2) - 4, 0xFFFFFF);
-		}
+        if (moduleRegistery.getModuleRegistery().loadedModules.size() == 0) {
+            ScaledResolution scaled = new ScaledResolution(mc);
+            int width = scaled.getScaledWidth();
+            int height = scaled.getScaledHeight();
+            String text = "there are no modules loaded, if you bealve this is a issue report it on discord";
+            mc.fontRendererObj.drawStringWithShadow(text, (float) (width / 2 - mc.fontRendererObj.getStringWidth(text) / 2), (float) (height / 2) - 4, 0xFFFFFF);
+        }
 
 		list.clear();
 		for (frame frame : frames) {

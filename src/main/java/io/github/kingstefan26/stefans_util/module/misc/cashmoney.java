@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("unused")
-public class cashmoney extends basicModule {
+public class cashmoney extends BasicModule {
     final static String regex = "§6\\[Auction\\] §7[a-zA-Z0-9_]{3,16} §ebought .+ §efor §[0-9,]+ coins §lCLICK";
     final static String sellRegex = "You sold .+ x[0-9]+ for [0-9,]+ Coins!";
     final static Pattern BinPattern = Pattern.compile(regex, Pattern.UNICODE_CASE);
@@ -18,7 +18,7 @@ public class cashmoney extends basicModule {
     private String Match;
 
     public cashmoney() {
-        super("cash money", "plays money sound on auction receive", moduleManager.Category.MISC);
+        super("cash money", "plays money sound on auction receive", ModuleManager.Category.MISC);
     }
     @Override
     public void onTick(TickEvent.ClientTickEvent e){

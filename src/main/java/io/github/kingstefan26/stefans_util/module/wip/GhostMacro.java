@@ -4,9 +4,9 @@
 
 package io.github.kingstefan26.stefans_util.module.wip;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
@@ -15,14 +15,14 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.List;
 
-public class GhostMacro extends basicModule {
+public class GhostMacro extends BasicModule {
     EntityPlayerSP theWatcher;
     Entity closestEntity;
     List<EntityCreeper> clpier;
     int tick;
 
     public GhostMacro() {
-        super("GhostMacro", "lol", moduleManager.Category.WIP, new keyBindDecorator("GhostMacro"));
+        super("GhostMacro", "lol", ModuleManager.Category.WIP, new keyBindDecorator("GhostMacro"));
     }
 
     @Override

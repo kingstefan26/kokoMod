@@ -4,8 +4,8 @@
 
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiChest;
@@ -17,9 +17,9 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class guiClickTest extends basicModule {
+public class guiClickTest extends BasicModule {
     public guiClickTest() {
-        super("testingGui", "test", moduleManager.Category.DEBUG);
+        super("testingGui", "test", ModuleManager.Category.DEBUG);
     }
 
     boolean close;

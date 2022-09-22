@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.setting.impl;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.newconfig.ConfigManagerz;
 import io.github.kingstefan26.stefans_util.core.setting.general.AbstractSetting;
 import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
@@ -12,7 +12,7 @@ public class SliderSetting extends AbstractSetting<Double> {
 
     double max;
 
-    public SliderSetting(String name, basicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback) {
+    public SliderSetting(String name, BasicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback) {
         super(name, parentModule, SettingsCore.type.slider, callback);
         this.min = min;
         this.max = max;
@@ -23,7 +23,7 @@ public class SliderSetting extends AbstractSetting<Double> {
         setValue(getValue());
     }
 
-    public SliderSetting(String name, basicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback, String comment) {
+    public SliderSetting(String name, BasicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback, String comment) {
         super(name, parentModule, SettingsCore.type.slider, callback);
         this.min = min;
         this.max = max;

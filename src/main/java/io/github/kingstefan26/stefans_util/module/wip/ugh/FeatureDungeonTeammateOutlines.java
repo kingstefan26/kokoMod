@@ -5,8 +5,8 @@
 package io.github.kingstefan26.stefans_util.module.wip.ugh;
 
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.util.function.Function;
 
 
-public class FeatureDungeonTeammateOutlines extends basicModule {
+public class FeatureDungeonTeammateOutlines extends BasicModule {
 
 
     /**
@@ -48,7 +48,7 @@ public class FeatureDungeonTeammateOutlines extends basicModule {
     };
 
     public FeatureDungeonTeammateOutlines() {
-        super("FeatureDungeonTeammateOutlines", "huh", moduleManager.Category.WIP);
+        super("FeatureDungeonTeammateOutlines", "huh", ModuleManager.Category.WIP);
     }
 
     /**

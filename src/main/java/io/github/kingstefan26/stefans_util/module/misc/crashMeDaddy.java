@@ -4,16 +4,16 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 
 
-public class crashMeDaddy extends basicModule {
+public class crashMeDaddy extends BasicModule {
     public crashMeDaddy() {
-        super("crash me daddy", "crashes you cutely", moduleManager.Category.MISC);
+        super("crash me daddy", "crashes you cutely", ModuleManager.Category.MISC);
     }
 
     private static Unsafe getUnsafe() throws NoSuchFieldException, IllegalAccessException {

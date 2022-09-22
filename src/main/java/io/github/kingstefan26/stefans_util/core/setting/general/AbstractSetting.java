@@ -1,13 +1,13 @@
 package io.github.kingstefan26.stefans_util.core.setting.general;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.core.newconfig.Iproperty;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.newconfig.prop.Iproperty;
 
 import java.util.function.Consumer;
 
 public abstract class AbstractSetting<T> {
     protected String name;
-    protected basicModule parent;
+    protected BasicModule parent;
 //    protected configObject ConfigObject;
 
     protected final Consumer<T> callback;
@@ -16,7 +16,7 @@ public abstract class AbstractSetting<T> {
     protected String comment;
     protected Iproperty<T> prop;
 
-    protected AbstractSetting(String name, basicModule parentModule, SettingsCore.type type, Consumer<T> callback) {
+    protected AbstractSetting(String name, BasicModule parentModule, SettingsCore.type type, Consumer<T> callback) {
         this.name = name;
         this.parent = parentModule;
         this.type = type;
@@ -40,7 +40,7 @@ public abstract class AbstractSetting<T> {
         return this.type;
     }
 
-    public basicModule getParent() {
+    public BasicModule getParent() {
         return this.parent;
     }
 

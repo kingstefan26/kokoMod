@@ -4,7 +4,7 @@
 
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.prototypeModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.prototypeModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;

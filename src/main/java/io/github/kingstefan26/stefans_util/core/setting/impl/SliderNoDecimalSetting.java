@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.setting.impl;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.newconfig.ConfigManagerz;
 import io.github.kingstefan26.stefans_util.core.setting.general.AbstractSetting;
 import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
@@ -13,32 +13,27 @@ public class SliderNoDecimalSetting extends AbstractSetting<Double> {
     double max;
 
     /**
-     * @param name Name of setting
+     * @param name         Name of setting
      * @param parentModule name of parrent module
      * @param deafultValue default value of said setting
-     * @param min minimum value of setting
-     * @param max max value of setting
-     * @param callback this is callback with Dobule whenever a user changes it
+     * @param min          minimum value of setting
+     * @param max          max value of setting
+     * @param callback     this is callback with Dobule whenever a user changes it
      */
-    public SliderNoDecimalSetting(String name, basicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback) {
+    public SliderNoDecimalSetting(String name, BasicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback, String... comment) {
         super(name, parentModule, SettingsCore.type.sliderNoDecimal, callback);
         this.min = min;
         this.max = max;
+
+        if (comment != null && comment.length > 0) {
+            this.comment = comment[0];
+        }
 
         this.prop = ConfigManagerz.getInstance().getConfigObjectSpetial(parentModule.getName() + "." + name, deafultValue);
 
         this.callback.accept(getValue());
     }
 
-    public SliderNoDecimalSetting(String name, basicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback, String comment) {
-        super(name, parentModule, SettingsCore.type.sliderNoDecimal, callback);
-        this.min = min;
-        this.max = max;
-        this.comment = comment;
-
-
-        this.prop = ConfigManagerz.getInstance().getConfigObjectSpetial(parentModule.getName() + "." + name, deafultValue);
-    }
 
     @Override
     public Double getValue() {

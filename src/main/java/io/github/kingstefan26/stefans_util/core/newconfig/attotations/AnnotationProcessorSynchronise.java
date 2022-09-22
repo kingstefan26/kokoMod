@@ -4,7 +4,7 @@
 
 package io.github.kingstefan26.stefans_util.core.newconfig.attotations;
 
-import io.github.kingstefan26.stefans_util.core.newconfig.Iproperty;
+import io.github.kingstefan26.stefans_util.core.newconfig.prop.Iproperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,17 +13,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ConfigProcessorEngine {
-    private static ConfigProcessorEngine instance;
+public class AnnotationProcessorSynchronise {
+    private static AnnotationProcessorSynchronise instance;
     Logger logger = LogManager.getLogger("ConfigProcessorEngine");
     private HashMap<Iproperty, ProcessedFiled> fields;
 
-    private ConfigProcessorEngine() {
+    private AnnotationProcessorSynchronise() {
         fields = new HashMap<>();
     }
 
-    public static ConfigProcessorEngine getInstance() {
-        if (instance == null) instance = new ConfigProcessorEngine();
+    public static AnnotationProcessorSynchronise getInstance() {
+        if (instance == null) instance = new AnnotationProcessorSynchronise();
         return instance;
     }
 

@@ -1,8 +1,8 @@
 package io.github.kingstefan26.stefans_util.module.debug.test;
 
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.module.render.lastLeftOff;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.module.render.LastLeftOff;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
@@ -10,11 +10,11 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.DEBUG;
+import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.DEBUG;
 import static io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline.draw3DLine;
 
 
-public class test extends basicModule {
+public class test extends BasicModule {
 
     public test() {
         super("test", "test", DEBUG, new keyBindDecorator("test123"));
@@ -171,7 +171,7 @@ public class test extends basicModule {
     @Override
     public void onDisable() {
         super.onDisable();
-        lastLeftOff.nullLastLeftOff();
+        LastLeftOff.nullLastLeftOff();
 //        currentStep = 1;
     }
 

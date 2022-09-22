@@ -1,9 +1,9 @@
 package io.github.kingstefan26.stefans_util.core.clickGui.components.impl.subComponents;
 
+import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.subComponent;
-import io.github.kingstefan26.stefans_util.core.globals;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -19,15 +19,15 @@ public class newKeybind extends subComponent {
     @Override
     public void renderComponent() {
         super.renderComponent();
-        if (globals.usestandartfontrendering) {
+        if (Globals.usestandartfontrendering) {
             Minecraft.getMinecraft().fontRendererObj.drawString(
-                    binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.localDecoratorManager.keyBindDecorator.keybind.getKeyCode())),
+                    binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode())),
                     (parent.parent.getX() + 7),
                     (parent.parent.getY() + offset + 3),
                     -1);
         } else {
             ClickGui.p1.drawString(
-                    binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.localDecoratorManager.keyBindDecorator.keybind.getKeyCode())),
+                    binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode())),
                     (parent.parent.getX() + 7) * 2,
                     (parent.parent.getY() + offset - 3) * 2,
                     -1);
@@ -54,7 +54,7 @@ public class newKeybind extends subComponent {
             if (key == 1) {
                 this.binding = false;
             }
-            this.parent.mod.localDecoratorManager.keyBindDecorator.keybind.setKeyCode(key);
+            this.parent.mod.getLocalDecoratorManager().keyBindDecorator.keybind.setKeyCode(key);
             this.binding = false;
         }
     }

@@ -5,17 +5,17 @@
 package io.github.kingstefan26.stefans_util.core.clickGui.components.impl;
 
 
+import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.IsubComponent;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.subComponents.*;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.subComponent;
-import io.github.kingstefan26.stefans_util.core.globals;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.decoratorInterface;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.visibleDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.setting.general.AbstractSetting;
 import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
 import io.github.kingstefan26.stefans_util.core.setting.impl.*;
@@ -31,9 +31,9 @@ import java.util.ArrayList;
 public class moduleComponent extends component {
 
     /**
-     * reference to the {@link basicModule} this component is representing
+     * reference to the {@link BasicModule} this component is representing
      */
-    public basicModule mod;
+    public BasicModule mod;
 
     /**
      * reference to its parent {@link frame}
@@ -72,7 +72,7 @@ public class moduleComponent extends component {
      * @param mod    reference to parent module
      * @param parent reference to parent frame
      */
-    public moduleComponent(basicModule mod, frame parent) {
+    public moduleComponent(BasicModule mod, frame parent) {
         this.mod = mod;
         this.parent = parent;
         this.subcomponents = new ArrayList<>();
@@ -101,7 +101,7 @@ public class moduleComponent extends component {
             }
         }
 
-        for (decoratorInterface decorator : mod.localDecoratorManager.decoratorArrayList) {
+        for (decoratorInterface decorator : mod.getLocalDecoratorManager().decoratorArrayList) {
 
             if (decorator.getClass().getName().equals(keyBindDecorator.class.getName())) {
                 this.subcomponents.add(new newKeybind(this));
@@ -157,7 +157,7 @@ public class moduleComponent extends component {
                 this.isHovered ? (this.mod.isToggled() ? new Color(0, 200, 20, 150).getRGB() : 0xFF222222) :
                         (this.mod.isToggled() ? new Color(14, 14, 14).getRGB() : 0xFF111111));
 
-        if (globals.usestandartfontrendering) {
+        if (Globals.usestandartfontrendering) {
             Minecraft.getMinecraft().fontRendererObj.drawString(this.mod.getName(),
                     (parent.getX() + 2),
                     (parent.getY() + offset) + 3,
@@ -174,7 +174,7 @@ public class moduleComponent extends component {
 
         if (this.subcomponents.size() != 0) {
 
-            if (globals.usestandartfontrendering) {
+            if (Globals.usestandartfontrendering) {
                 Minecraft.getMinecraft().fontRendererObj.drawString(this.open ? "-" : "+",
                         (parent.getX() + parent.getWidth() - 10),
                         (parent.getY() + offset) + 3,
@@ -194,13 +194,13 @@ public class moduleComponent extends component {
                 for (IsubComponent comp : this.subcomponents) {
                     comp.renderComponent();
                 }
-                hehe.drawRect(parent.getX() + 2, parent.getY() + this.offset + 12, parent.getX() + 3, parent.getY() + this.offset + ((this.subcomponents.size() + 1) * 12), globals.mainColor);
+                hehe.drawRect(parent.getX() + 2, parent.getY() + this.offset + 12, parent.getX() + 3, parent.getY() + this.offset + ((this.subcomponents.size() + 1) * 12), Globals.mainColor);
             }
         }
 
-        if(isHovered){
-            if(mod.description != null){
-                ClickGui.getClickGui().list.add(EnumChatFormatting.WHITE + mod.description);
+        if (isHovered) {
+            if (mod.getDescription() != null) {
+                ClickGui.getClickGui().list.add(EnumChatFormatting.WHITE + mod.getDescription());
             }
         }
 

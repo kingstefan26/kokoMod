@@ -4,7 +4,7 @@
 
 package io.github.kingstefan26.stefans_util.module.experimental.dataHarvest;
 
-import io.github.kingstefan26.stefans_util.util.fileUtils;
+import io.github.kingstefan26.stefans_util.util.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static io.github.kingstefan26.stefans_util.util.file.configDirectoryPath;
+import static io.github.kingstefan26.stefans_util.util.FileUtils.configDirectoryPath;
 
 public class recordableDataSaver {
 
@@ -28,8 +28,8 @@ public class recordableDataSaver {
 
     static {
         try {
-            fileUtils.makeSureDiractoriesExist(configDirectoryPath + File.separator + "stefanUtil" + File.separator + "dataCollector");
-            saveFile = fileUtils.getFileAtPath(configDirectoryPath + File.separator + "stefanUtil" + File.separator + "dataCollector" + File.separator + "recorder.txt");
+            FileUtils.makeSureDiractoriesExist(configDirectoryPath + File.separator + "stefanUtil" + File.separator + "dataCollector");
+            saveFile = FileUtils.getFileAtPath(configDirectoryPath + File.separator + "stefanUtil" + File.separator + "dataCollector" + File.separator + "recorder.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,8 +1,8 @@
 package io.github.kingstefan26.stefans_util.service.impl;
 
 import io.github.kingstefan26.stefans_util.service.Service;
+import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import io.github.kingstefan26.stefans_util.util.handelers.ScoreboardHandler;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraftforge.common.MinecraftForge;
@@ -52,7 +52,7 @@ public class WorldInfoService extends Service {
 
 
             if (temp0 && !inSkyblock) {
-                MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.joinedSkyblockEvent());
+                MinecraftForge.EVENT_BUS.post(new StefanutilEvents.joinedSkyblockEvent());
                 //if(main.debug) chat.queueClientChatMessage("joined Skyblock", chat.chatEnum.DEBUG);
 
                 inSkyblock = true;
@@ -60,11 +60,11 @@ public class WorldInfoService extends Service {
                 inSkyblock = false;
                 //if(main.debug) chat.queueClientChatMessage("left Skyblock", chat.chatEnum.DEBUG);
 
-                MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.leftSkyblockEvent());
+                MinecraftForge.EVENT_BUS.post(new StefanutilEvents.leftSkyblockEvent());
             }
 
             if (temp1 && !inDungeons) {
-                MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.joinedDungeonEvent());
+                MinecraftForge.EVENT_BUS.post(new StefanutilEvents.joinedDungeonEvent());
                 //if(main.debug) chat.queueClientChatMessage("joined dungeons", chat.chatEnum.DEBUG);
 
                 inDungeons = true;
@@ -72,11 +72,11 @@ public class WorldInfoService extends Service {
                 inDungeons = false;
                 //if(main.debug) chat.queueClientChatMessage("left dungeons", chat.chatEnum.DEBUG);
 
-                MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.leftDungeonEvent());
+                MinecraftForge.EVENT_BUS.post(new StefanutilEvents.leftDungeonEvent());
             }
 
             if (temp2 && !inPrivateIsland) {
-                MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.joinedPrivateIslandEvent());
+                MinecraftForge.EVENT_BUS.post(new StefanutilEvents.joinedPrivateIslandEvent());
 
                 //if(main.debug) chat.queueClientChatMessage("joined players private island", chat.chatEnum.DEBUG);
                 inPrivateIsland = true;
@@ -84,7 +84,7 @@ public class WorldInfoService extends Service {
                 inPrivateIsland = false;
                 // if(main.debug) chat.queueClientChatMessage("left players private island", chat.chatEnum.DEBUG);
 
-                MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.leftPrivateIslandEvent());
+                MinecraftForge.EVENT_BUS.post(new StefanutilEvents.leftPrivateIslandEvent());
             }
 
 

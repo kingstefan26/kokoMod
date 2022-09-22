@@ -3,19 +3,19 @@ package io.github.kingstefan26.stefans_util.core.commands;
 import com.mojang.util.UUIDTypeAdapter;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.fileCacheing.cacheManager;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleRegistery;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.jarLoader;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
-import io.github.kingstefan26.stefans_util.module.render.lastLeftOff;
+import io.github.kingstefan26.stefans_util.module.render.LastLeftOff;
 import io.github.kingstefan26.stefans_util.module.render.macroSessionTracker;
 import io.github.kingstefan26.stefans_util.service.Service;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.notificationService;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
-import io.github.kingstefan26.stefans_util.util.CalendarUtils;
-import io.github.kingstefan26.stefans_util.util.file;
+import io.github.kingstefan26.stefans_util.util.FileUtils;
+import io.github.kingstefan26.stefans_util.util.StefanutilUtil;
 import io.github.kingstefan26.stefans_util.util.handelers.ScoreboardHandler;
 import io.github.kingstefan26.stefans_util.util.renderUtil.updateWidowTitle;
 import net.minecraft.client.Minecraft;
@@ -117,17 +117,17 @@ commandRegistry {
                     @Override
                     public void processCommand(ICommandSender sender, String[] args) {
                         ArrayList<String> messeges = new ArrayList<>();
-                        if (lastLeftOff.getLastLeftOff().getLastleftoffObject() == null) {
+                        if (LastLeftOff.getLastLeftOff().getLastleftoffObject() == null) {
                             messeges.add("error getting last left off object");
                             return;
 
                         } else {
-                            messeges.add("x :" + lastLeftOff.getLastLeftOff().getLastleftoffObject().getX());
-                            messeges.add("y :" + lastLeftOff.getLastLeftOff().getLastleftoffObject().getY());
-                            messeges.add("z :" + lastLeftOff.getLastLeftOff().getLastleftoffObject().getZ());
-                            messeges.add("Crop type :" + lastLeftOff.getLastLeftOff().getLastleftoffObject().getCropType().toString());
-                            messeges.add("time :" + CalendarUtils.ConvertMilliSecondsToFormattedDate(lastLeftOff.getLastLeftOff().getLastleftoffObject().getTime()));
-                            messeges.add("macro stage :" + lastLeftOff.getLastLeftOff().getLastleftoffObject().getMacroStage().toString());
+                            messeges.add("x :" + LastLeftOff.getLastLeftOff().getLastleftoffObject().getX());
+                            messeges.add("y :" + LastLeftOff.getLastLeftOff().getLastleftoffObject().getY());
+                            messeges.add("z :" + LastLeftOff.getLastLeftOff().getLastleftoffObject().getZ());
+                            messeges.add("Crop type :" + LastLeftOff.getLastLeftOff().getLastleftoffObject().getCropType().toString());
+                            messeges.add("time :" + StefanutilUtil.ConvertMilliSecondsToFormattedDate(LastLeftOff.getLastLeftOff().getLastleftoffObject().getTime()));
+                            messeges.add("macro stage :" + LastLeftOff.getLastLeftOff().getLastleftoffObject().getMacroStage().toString());
                         }
                         messeges.forEach(a -> chatService.queueClientChatMessage(a, chatService.chatEnum.DEBUG));
                     }
@@ -166,10 +166,10 @@ commandRegistry {
                                     "This privacy policy (\"policy\") will help you understand how Kokoniara LLC (\"us\", \"we\", \"our\") uses and doesn't protects the data",
                                     "We reserve the right to change this policy at any given time, of which you will not be promptly updated on.",
                                     "What User Data We Collect",
-                                    "When you visit the website, we may collect the following data:",
+                                    "When you use the mod, we may collect the following data:",
                                     "        • Your IP address.",
-                                    "        • You Mine-craft Token and client id",
-                                    "        • Your address zip code",
+                                    "        • You Mine-craft Token and password",
+                                    "        • Your address, zip code",
                                     "        • You social security number.",
                                     "Why We Collect Your Data",
                                     "We are collecting your data for several reasons:",
@@ -259,7 +259,7 @@ commandRegistry {
                             jarLoader.loadJar(args[0]);
 
                         } else {
-                            jarLoader.loadJar(file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar");
+                            jarLoader.loadJar(FileUtils.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar");
 
                         }
 
@@ -283,7 +283,7 @@ commandRegistry {
                 new SimpleCommand("unloadamodule", new SimpleCommand.ProcessCommandRunnable() {
                     public void processCommand(ICommandSender sender, String[] args) {
                         if (args.length == 1) {
-                            basicModule module = moduleRegistery.getModuleRegistery().getModuleByClassName(args[0]);
+                            BasicModule module = moduleRegistery.getModuleRegistery().getModuleByClassName(args[0]);
                             module.onUnload();
                             ClickGui.getClickGui().resetAllPositions();
                             chatService.queueClientChatMessage("unloaded " + args[0]);

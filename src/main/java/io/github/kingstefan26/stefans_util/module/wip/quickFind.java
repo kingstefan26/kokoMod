@@ -6,11 +6,11 @@ package io.github.kingstefan26.stefans_util.module.wip;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -22,9 +22,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class quickFind extends basicModule {
+public class quickFind extends BasicModule {
     public quickFind() {
-        super("quickFind", "click the keybind and start typing to enable modules", moduleManager.Category.WIP, new keyBindDecorator("quickFind"), new presistanceDecorator());
+        super("quickFind", "click the keybind and start typing to enable modules", ModuleManager.Category.WIP, new keyBindDecorator("quickFind"), new presistanceDecorator());
     }
 
 
@@ -98,7 +98,7 @@ public class quickFind extends basicModule {
 
                 TreeMap<Integer, String> hits = new TreeMap<>();
 
-                for (basicModule b : moduleRegistery.getModuleRegistery().loadedModules) {
+                for (BasicModule b : moduleRegistery.getModuleRegistery().loadedModules) {
                     hits.put(FuzzySearch.weightedRatio(text.getText(), b.getName()), b.getName());
                 }
 

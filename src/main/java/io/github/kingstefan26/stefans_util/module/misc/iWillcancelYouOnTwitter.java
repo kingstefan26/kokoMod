@@ -4,9 +4,9 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.attnotaions.slidernodecimalsetting;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class iWillcancelYouOnTwitter extends basicModule {
+public class iWillcancelYouOnTwitter extends BasicModule {
     private long lastSpam;
 
     @slidernodecimalsetting(name = "cancel speed", defaultValue = 12, min = 1, max = 100)
@@ -28,7 +28,7 @@ public class iWillcancelYouOnTwitter extends basicModule {
     String randomText;
 
     public iWillcancelYouOnTwitter() {
-        super("twitterWhiteGirls", "white twitter girls are the downfall on society", moduleManager.Category.MISC, new presistanceDecorator());
+        super("twitterWhiteGirls", "white twitter girls are the downfall on society", ModuleManager.Category.MISC, new presistanceDecorator());
     }
 
 

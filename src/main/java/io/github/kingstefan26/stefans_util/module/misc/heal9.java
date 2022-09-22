@@ -4,7 +4,7 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.inventory.Container;
@@ -16,9 +16,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Arrays;
 
-import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.MISC;
+import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.MISC;
 
-public class heal9 extends basicModule {
+public class heal9 extends BasicModule {
     public heal9() {
         super("heal9", "the true challenger of simon hypixel, some will call this a harp bot but i refuse", MISC);
     }

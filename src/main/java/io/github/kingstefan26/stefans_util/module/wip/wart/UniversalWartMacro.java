@@ -4,20 +4,20 @@
 
 package io.github.kingstefan26.stefans_util.module.wip.wart;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleRegistery;
+import io.github.kingstefan26.stefans_util.Main;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.setting.impl.CheckSetting;
 import io.github.kingstefan26.stefans_util.core.setting.impl.ChoseAKeySetting;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderSetting;
-import io.github.kingstefan26.stefans_util.main;
 import io.github.kingstefan26.stefans_util.module.macro.macro;
 import io.github.kingstefan26.stefans_util.module.macro.util.cropType;
 import io.github.kingstefan26.stefans_util.module.macro.util.macroStages;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
-import io.github.kingstefan26.stefans_util.module.render.lastLeftOff;
+import io.github.kingstefan26.stefans_util.module.render.LastLeftOff;
 import io.github.kingstefan26.stefans_util.module.wip.wart.helper.macroStates;
 import io.github.kingstefan26.stefans_util.module.wip.wart.helper.wartMacroUtil;
 import io.github.kingstefan26.stefans_util.module.wip.wart.helper.wartState;
@@ -25,9 +25,9 @@ import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.impl.inputLockerService;
 import io.github.kingstefan26.stefans_util.service.impl.keyControlService;
+import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import lombok.Value;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -56,7 +56,7 @@ import java.util.Random;
 import static io.github.kingstefan26.stefans_util.service.impl.keyControlService.action.walk.left;
 
 
-public class UniversalWartMacro extends basicModule implements macro {
+public class UniversalWartMacro extends BasicModule implements macro {
     public static final String chatprefix = "§d[Wart-Macro]§r ";
 
     public final wartMacroUtil helpers = wartMacroUtil.getHelper(this);
@@ -89,7 +89,7 @@ public class UniversalWartMacro extends basicModule implements macro {
 
 
     public UniversalWartMacro() {
-        super("UniversalWartMacro", "macros wart", moduleManager.Category.WIP,
+        super("UniversalWartMacro", "macros wart", ModuleManager.Category.WIP,
                 new keyBindDecorator("wartMacro")
         );
     }
@@ -190,7 +190,7 @@ public class UniversalWartMacro extends basicModule implements macro {
 
                 // if the macro was RECALIBRATING and user presses the toggle key shutdown
                 if (macroState.checkState(macroStates.RECALIBRATING)) {
-                    if (keyCode == localDecoratorManager.keyBindDecorator.keybind.getKeyCode())
+                    if (keyCode == getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode())
                         macroState.setState(macroStates.STOPPING);
 
                 }
@@ -202,7 +202,7 @@ public class UniversalWartMacro extends basicModule implements macro {
                     if (keyCode == unpauseKey) macroState.setState(macroStates.RECALIBRATING);
 
                     // user presses the toggle key
-                    if (keyCode == localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) {
+                    if (keyCode == getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode()) {
 
 
                         macroState.setState(macroStates.STOPPING);
@@ -228,7 +228,7 @@ public class UniversalWartMacro extends basicModule implements macro {
                         KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
 
                         // untoggle module that we have toggled
-                        for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+                        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
                             if ("autorecorrect".equals(m.getName())) {
                                 if (!mc.isSingleplayer()) {
                                     m.setToggled(macroState.isAutorecconectStatus());
@@ -250,8 +250,8 @@ public class UniversalWartMacro extends basicModule implements macro {
 
 
                         // using the all-knowing lastleftoff framework
-                        lastLeftOff.getLastLeftOff().registerLastLeftOff(
-                                new lastLeftOff.lastleftoffObject(
+                        LastLeftOff.getLastLeftOff().registerLastLeftOff(
+                                new LastLeftOff.lastleftoffObject(
                                         (float) mc.thePlayer.posX,
                                         (float) mc.thePlayer.posY,
                                         (float) mc.thePlayer.posZ,
@@ -287,7 +287,7 @@ public class UniversalWartMacro extends basicModule implements macro {
                 if (mc.currentScreen == null) {
                     drawCenterString.GuiNotif(mc, "macro paused");
                     drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key "
-                            + Keyboard.getKeyName(localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) +
+                            + Keyboard.getKeyName(getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode()) +
                             " again to disable the macro, press " + Keyboard.getKeyName(unpauseKey) + " to start again", "ff002f");
                 }
                 break;
@@ -295,7 +295,7 @@ public class UniversalWartMacro extends basicModule implements macro {
                 // TODO: draw "pathfind" to find urself a way tru the farm (very far fetched)
                 drawCenterString.GuiNotif(mc, "Whats good korea");
                 drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key "
-                        + Keyboard.getKeyName(localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) +
+                        + Keyboard.getKeyName(getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode()) +
                         " to stop. To unfocus the window press " + Keyboard.getKeyName(unFocusToggle) + (unFocusStatus ? " currenty unfocused" : " currently focused"), "ff002f");
                 if (mc.theWorld == null || mc.thePlayer == null) {
                     chatService.queueCleanChatMessage("world or player is null recalibrating");
@@ -424,7 +424,7 @@ public class UniversalWartMacro extends basicModule implements macro {
                         mc.displayGuiScreen(macroMenu); // TODO fix the macro menu not clicking things
                     }
                     // TODO make so this thing pauses the game
-                    inputLockerService.lock(localDecoratorManager.keyBindDecorator.keybind.getKeyCode(), () -> {
+                    inputLockerService.lock(getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode(), () -> {
                         macroState.setState(macroStates.PAUSED);
 
                         macroState.setDontSpamFlag(false);
@@ -515,13 +515,13 @@ public class UniversalWartMacro extends basicModule implements macro {
                 break;
             case STARTING:
 
-                if (localDecoratorManager.keyBindDecorator.keybind.getKeyCode() == 0) {
+                if (getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode() == 0) {
                     chatService.queueCleanChatMessage(chatprefix + "please set a keybinding!");
 
                     macroState.setState(macroStates.STOPPING);
                     this.setToggled(false);
 
-                } else if (!main.debug && !WorldInfoService.isOnPrivateIsland()) {
+                } else if (!Main.isDebug() && !WorldInfoService.isOnPrivateIsland()) {
                     chatService.queueClientChatMessage("please join a your island!", chatService.chatEnum.PREFIX);
 
                     macroState.setState(macroStates.STOPPING);
@@ -529,7 +529,7 @@ public class UniversalWartMacro extends basicModule implements macro {
 
                 } else {
 
-                    for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+                    for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
                         if ("autorecorrect".equals(m.getName())) {
                             if (!mc.isSingleplayer()) {
                                 macroState.setAutorecconectStatus(m.isToggled());
@@ -538,8 +538,8 @@ public class UniversalWartMacro extends basicModule implements macro {
                         }
                         if ("Sprint".equals(m.getName())) {
                             macroState.setSprintStatus(m.isToggled());
-                                m.setToggled(true);
-                            }
+                            m.setToggled(true);
+                        }
                             if ("lastLeftOff".equals(m.getName())) {
                                 macroState.setLastLeftOffStaus(m.isToggled());
                                 m.setToggled(true);
@@ -597,7 +597,7 @@ public class UniversalWartMacro extends basicModule implements macro {
                 macroState.setDontSpamFlag(false);
 
 
-                for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+                for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
                     if ("autorecorrect".equals(m.getName())) {
                         if (!mc.isSingleplayer()) {
                             m.setToggled(macroState.isAutorecconectStatus());
@@ -627,7 +627,7 @@ public class UniversalWartMacro extends basicModule implements macro {
 //                        System.currentTimeMillis()));
 
                 macroState.setState(macroStates.IDLE);
-                lastLeftOff.getLastLeftOff().registerLastLeftOff(new lastLeftOff.lastleftoffObject((float) mc.thePlayer.posX, (float) mc.thePlayer.posY, (float) mc.thePlayer.posZ, cropType.WART, macroStages.DEFAULT, System.currentTimeMillis()));
+                LastLeftOff.getLastLeftOff().registerLastLeftOff(new LastLeftOff.lastleftoffObject((float) mc.thePlayer.posX, (float) mc.thePlayer.posY, (float) mc.thePlayer.posZ, cropType.WART, macroStages.DEFAULT, System.currentTimeMillis()));
                 onDisable();
                 break;
         }
@@ -642,7 +642,7 @@ public class UniversalWartMacro extends basicModule implements macro {
     }
 
     @SubscribeEvent
-    public void onstefan_utilsstoppedCollectingWart(stefan_utilEvents.stoppedCollectingWart event) {
+    public void onstefan_utilsstoppedCollectingWart(StefanutilEvents.stoppedCollectingWart event) {
         logger.info("stopped reciving wart turing on AUTONOMOUS_RECALIBRATING");
         if (macroState.checkState(macroStates.MACROING) && !wartMacroUtil.isPlayerLookingAtBlock("minecraft:nether_wart") && checkForwart) {
             chatService.queueCleanChatMessage("player is macroing and is not looking at wart and check for wart is enabled");
@@ -723,7 +723,7 @@ public class UniversalWartMacro extends basicModule implements macro {
     }
 
     @Override
-    public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
+    public void onPlayerTeleportEvent(StefanutilEvents.playerTeleportEvent event) {
         if (macroState.checkState(macroStates.MACROING)) {
             chatService.queueCleanChatMessage(chatprefix + "teleport detected!");
             playerTeleported = true;

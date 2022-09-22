@@ -4,18 +4,18 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderSetting;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.Objects;
 
-public class headPosLock extends basicModule {
+public class headPosLock extends BasicModule {
     public headPosLock() {
-        super("headPosLock", "you can chose a angle to lock ur head at", moduleManager.Category.MISC, new keyBindDecorator("headLockPos"));
+        super("headPosLock", "you can chose a angle to lock ur head at", ModuleManager.Category.MISC, new keyBindDecorator("headLockPos"));
     }
 
     static String yaw, pitch;

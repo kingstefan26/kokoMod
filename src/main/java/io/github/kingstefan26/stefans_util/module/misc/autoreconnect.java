@@ -4,9 +4,9 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
@@ -27,7 +27,7 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
-public class autoreconnect extends basicModule {
+public class autoreconnect extends BasicModule {
     private GuiScreen guiCache;
 
     public static boolean onGuiDisconnected = false;
@@ -42,7 +42,7 @@ public class autoreconnect extends basicModule {
     Minecraft mc = Minecraft.getMinecraft();
 
     public autoreconnect() {
-        super("autorecorrect", "automagically reconnects", moduleManager.Category.MISC, new presistanceDecorator());
+        super("autorecorrect", "automagically reconnects", ModuleManager.Category.MISC, new presistanceDecorator());
     }
 
     boolean preventSpam;

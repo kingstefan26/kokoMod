@@ -12,7 +12,9 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
-// from https://github.com/google/gson/blob/master/extras/src/main/java/com/google/gson/typeadapters/RuntimeTypeAdapterFactory.java
+// from https://github.com/google/gson/blob/2154e468b490c8a6576db13eca31c9d1afe6bf78/extras/src/main/java/com/google/gson/typeadapters/RuntimeTypeAdapterFactory.java
+// cuz for some reason its not in mojang gson
+
 /**
  * Adapts values whose runtime type may differ from their declaration type. This
  * is necessary when a field's type is not the same type that GSON should create

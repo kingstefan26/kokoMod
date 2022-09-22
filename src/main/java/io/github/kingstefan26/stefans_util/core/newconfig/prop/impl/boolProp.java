@@ -2,10 +2,10 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.newconfig.impl;
+package io.github.kingstefan26.stefans_util.core.newconfig.prop.impl;
 
 import com.google.gson.annotations.Expose;
-import io.github.kingstefan26.stefans_util.core.newconfig.Property;
+import io.github.kingstefan26.stefans_util.core.newconfig.prop.Property;
 
 public class boolProp extends Property<Boolean> {
     @Expose

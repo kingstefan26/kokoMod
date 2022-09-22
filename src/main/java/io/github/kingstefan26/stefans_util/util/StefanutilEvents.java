@@ -2,15 +2,19 @@ package io.github.kingstefan26.stefans_util.util;
 
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-public class stefan_utilEvents {
+public class StefanutilEvents {
     public static class joinedDungeonEvent extends Event {
     }
+
     public static class joinedPrivateIslandEvent extends Event {
     }
+
     public static class joinedSkyblockEvent extends Event {
     }
-    public static class leftDungeonEvent extends Event{
+
+    public static class leftDungeonEvent extends Event {
     }
+
     public static class leftPrivateIslandEvent extends Event {
     }
 

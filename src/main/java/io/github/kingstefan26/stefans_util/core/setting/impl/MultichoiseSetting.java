@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.setting.impl;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.newconfig.ConfigManagerz;
 import io.github.kingstefan26.stefans_util.core.setting.general.AbstractSetting;
 import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 public class MultichoiseSetting extends AbstractSetting<String> {
     private final ArrayList<String> possibleValues;
 
-    public MultichoiseSetting(String name, basicModule parentModule, String deafultValue, String[] possibleValues, Consumer<String> callback) {
+    public MultichoiseSetting(String name, BasicModule parentModule, String deafultValue, String[] possibleValues, Consumer<String> callback) {
         super(name, parentModule, SettingsCore.type.multiChoise, callback);
         this.possibleValues = new ArrayList<>(Arrays.asList(possibleValues));
         this.comment = comment;
@@ -23,7 +23,7 @@ public class MultichoiseSetting extends AbstractSetting<String> {
         setValue(getValue());
     }
 
-    public MultichoiseSetting(String name, basicModule parentModule, String deafultValue, String[] possibleValues, Consumer<String> callback, String comment) {
+    public MultichoiseSetting(String name, BasicModule parentModule, String deafultValue, String[] possibleValues, Consumer<String> callback, String comment) {
         super(name, parentModule, SettingsCore.type.multiChoise, callback);
         this.possibleValues = new ArrayList<>(Arrays.asList(possibleValues));
         this.comment = comment;

@@ -4,11 +4,10 @@
 
 package io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
-import io.github.kingstefan26.stefans_util.main;
+import io.github.kingstefan26.stefans_util.Main;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
-import io.github.kingstefan26.stefans_util.util.file;
-import io.github.kingstefan26.stefans_util.util.fileUtils;
+import io.github.kingstefan26.stefans_util.util.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,7 +37,7 @@ public class jarLoader {
     public static void loadJar(String jarPath) {
         if(!didroutine) {
             try {
-                fileUtils.makeSureDiractoriesExist(file.configDirectoryPath + File.separator + "assets");
+                FileUtils.makeSureDiractoriesExist(FileUtils.configDirectoryPath + File.separator + "assets");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -92,7 +91,7 @@ public class jarLoader {
             File file = new File(jarPath);
             URL url = file.toURI().toURL();
 
-            URLClassLoader classLoader = (URLClassLoader) main.class.getClassLoader();
+            URLClassLoader classLoader = (URLClassLoader) Main.class.getClassLoader();
 
             Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
             method.setAccessible(true);
@@ -100,15 +99,15 @@ public class jarLoader {
 
             ArrayList<Class<?>> classes = new ArrayList<>();
 
-            for(String className : classNames){
-                classes.add(main.class.getClassLoader().loadClass(className));
+            for (String className : classNames) {
+                classes.add(Main.class.getClassLoader().loadClass(className));
             }
 
             // now we try to make a object out of that class
 
-            for(Class<?> clazz : classes){
-                if(basicModule.class.isAssignableFrom(clazz)){
-                    final basicModule module = (basicModule) clazz.getConstructor().newInstance();
+            for (Class<?> clazz : classes) {
+                if (BasicModule.class.isAssignableFrom(clazz)) {
+                    final BasicModule module = (BasicModule) clazz.getConstructor().newInstance();
 
                     logger.info(module.getName());
 

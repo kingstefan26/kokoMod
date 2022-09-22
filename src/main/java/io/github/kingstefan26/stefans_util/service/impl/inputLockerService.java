@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.service.impl;
 
 import io.github.kingstefan26.stefans_util.service.Service;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
+import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -50,7 +50,7 @@ public class inputLockerService extends Service {
                     if (Keyboard.isKeyDown(unlockkey)) {
                         locked = false;
                         if (callback == null) {
-                            MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.clickedUnlockKeyEvent());
+                            MinecraftForge.EVENT_BUS.post(new StefanutilEvents.clickedUnlockKeyEvent());
                         } else {
                             callback.run();
                         }

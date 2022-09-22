@@ -1,14 +1,15 @@
 package io.github.kingstefan26.stefans_util.module.macro.oldshit;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
+import io.github.kingstefan26.stefans_util.Main;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.module.macro.util.macroStages;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
+import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -19,10 +20,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import static io.github.kingstefan26.stefans_util.main.debug;
 import static io.github.kingstefan26.stefans_util.module.macro.util.macroStages.*;
 
-public class wartMacronoTppad extends basicModule {
+public class wartMacronoTppad extends BasicModule {
 
     private EntityPlayerSP player;
 
@@ -51,7 +51,7 @@ public class wartMacronoTppad extends basicModule {
 
 
     public wartMacronoTppad() {
-        super("wart macro noTp", "no tp pad wart macro!", moduleManager.Category.MACRO, new keyBindDecorator("wartmacroTppad"));
+        super("wart macro noTp", "no tp pad wart macro!", ModuleManager.Category.MACRO, new keyBindDecorator("wartmacroTppad"));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class wartMacronoTppad extends basicModule {
         if(System.currentTimeMillis() - YSpeedTimer > 400){
             YSpeedTimer = System.currentTimeMillis();
             if(player.posY - player.lastTickPosY < 0){
-                MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.playerFallEvent());
+                MinecraftForge.EVENT_BUS.post(new StefanutilEvents.playerFallEvent());
             }
         }
 
@@ -87,7 +87,7 @@ public class wartMacronoTppad extends basicModule {
         if (!ismacroingReady) {
             //notify the user what we want them to do
             drawCenterString.GuiNotif(mc, "macro will start when you lock your head postion on the right angle");
-            drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) + " to stop", "ff002f");
+            drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode()) + " to stop", "ff002f");
 
 
             //update player pitch and yaw with up to date info
@@ -107,13 +107,13 @@ public class wartMacronoTppad extends basicModule {
 
             mc.setIngameNotInFocus();
 
-            if(debug) Mouse.setGrabbed(false);
+            if (Main.isDebug()) Mouse.setGrabbed(false);
 
             //the text :)
             drawCenterString.GuiNotif(mc, "macroing ur life away!");
 
             //show the release message
-            drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) + " to stop", "ff002f");
+            drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(this.getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode()) + " to stop", "ff002f");
 
 
 
@@ -233,19 +233,19 @@ public class wartMacronoTppad extends basicModule {
     @Override
     public void onEnable() {
         super.onEnable();
-        if (this.localDecoratorManager.keyBindDecorator.keybind.getKeyCode() == 0) {
+        if (this.getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode() == 0) {
             chatService.queueClientChatMessage("please set a keybind!", chatService.chatEnum.PREFIX);
             this.setToggled(false);
             return;
         }
-        if (!debug) {
+        if (!Main.isDebug()) {
             if (!WorldInfoService.isOnPrivateIsland()) {
                 chatService.queueClientChatMessage("please join a your island!", chatService.chatEnum.PREFIX);
                 this.setToggled(false);
                 return;
             }
         }
-        if(macroWalkStage == DEFAULT) macroWalkStage = RIGHT;
+        if (macroWalkStage == DEFAULT) macroWalkStage = RIGHT;
 
         chatService.queueClientChatMessage("enabled wart macro", chatService.chatEnum.PREFIX);
 
@@ -282,8 +282,8 @@ public class wartMacronoTppad extends basicModule {
     }
 
     @SubscribeEvent
-    public void onPlayerFallEvent(stefan_utilEvents.playerFallEvent e){
-        if(ismacroingReady && !playerTeleported){
+    public void onPlayerFallEvent(StefanutilEvents.playerFallEvent e) {
+        if (ismacroingReady && !playerTeleported) {
             chatService.queueClientChatMessage("daddy cum harder!", chatService.chatEnum.PREFIX);
             playerFallen = true;
         }
@@ -291,7 +291,7 @@ public class wartMacronoTppad extends basicModule {
 
 
     @SubscribeEvent
-    public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
+    public void onPlayerTeleportEvent(StefanutilEvents.playerTeleportEvent event) {
         if (ismacroingReady) {
             chatService.queueClientChatMessage("teleport detected!", chatService.chatEnum.PREFIX);
             playerTeleported = true;

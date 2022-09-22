@@ -6,7 +6,7 @@ package io.github.kingstefan26.stefans_util.module.macro.oldshit;
 
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.onoffMessageDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import net.minecraftforge.event.world.WorldEvent;
@@ -14,9 +14,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
 
-import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.MISC;
+import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.MISC;
 
-public class farmReadycane extends basicModule {
+public class farmReadycane extends BasicModule {
 
     public farmReadycane() {
         super("farmReady", "gets you ready to farm cane", MISC, new keyBindDecorator("farmReadyCane"),

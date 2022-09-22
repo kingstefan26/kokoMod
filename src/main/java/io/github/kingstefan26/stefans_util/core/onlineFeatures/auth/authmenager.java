@@ -1,9 +1,9 @@
 package io.github.kingstefan26.stefans_util.core.onlineFeatures.auth;
 
 import com.google.gson.Gson;
-import io.github.kingstefan26.stefans_util.core.globals;
-import io.github.kingstefan26.stefans_util.main;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
+import io.github.kingstefan26.stefans_util.core.Globals;
+import io.github.kingstefan26.stefans_util.core.Kokomod;
+import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,8 +21,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-
-import static io.github.kingstefan26.stefans_util.main.connectedToKokoCLoud;
 
 public class authmenager {
 
@@ -44,14 +42,14 @@ public class authmenager {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent ev) throws Throwable {
-        if (!connectedToKokoCLoud) {
+        if (!Kokomod.isConnectedToKokoCLoud()) {
             if (System.currentTimeMillis() >= recoocnectTimer) {
                 logger.info("trying to recconect to kokocloud");
                 recconectConter++;
 
                 cashedAuthObject = getAuth(Minecraft.getMinecraft().getSession().getProfile().getId().toString());
 
-                if (!connectedToKokoCLoud) {
+                if (!Kokomod.isConnectedToKokoCLoud()) {
                     if (recconectConter == 1) {
                         recoocnectTimer = System.currentTimeMillis() + deleyDurations[0];
                     } else if (recconectConter == 2) {
@@ -72,9 +70,9 @@ public class authmenager {
         CompletableFuture<authObject> future = CompletableFuture.supplyAsync(() -> getAuth(Minecraft.getMinecraft().getSession().getProfile().getId().toString()));
 
         future.thenApply(result -> {
-            if (connectedToKokoCLoud) {
+            if (Kokomod.isConnectedToKokoCLoud()) {
                 cashedAuthObject = result;
-                MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.connectedToKokoCloud());
+                MinecraftForge.EVENT_BUS.post(new StefanutilEvents.connectedToKokoCloud());
             } else {
                 recoocnectTimer = System.currentTimeMillis() + 5000;
             }
@@ -95,7 +93,7 @@ public class authmenager {
         authObject temp = null;
         cashedPlayerUuid = userUuid;
 
-        String assambledGetReq = globals.authEndpoint + "?uuid=" + userUuid + "&type=login";
+        String assambledGetReq = Globals.AUTHENDPOINT + "?uuid=" + userUuid + "&type=login";
 
         Gson gson = new Gson();
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -106,7 +104,7 @@ public class authmenager {
             response = IOUtils.toString(httpresponse.getEntity().getContent(), StandardCharsets.UTF_8);
 
         } catch (Exception e) {
-            main.connectedToKokoCLoud = false;
+            Kokomod.setConnectedToKokoCLoud(false);
             logger.error("there was a error logging to kokocloud", e);
             logger.info("there was a error logging to kokocloud, note that modules are delivered from kokocloud. trying again in few secs");
         }
@@ -118,7 +116,7 @@ public class authmenager {
                 } else {
                     temp = gson.fromJson(response, authObject.class);
                 }
-                main.connectedToKokoCLoud = true;
+                Kokomod.setConnectedToKokoCLoud(true);
             }
         } catch (Exception ignored) {
         }
@@ -128,7 +126,7 @@ public class authmenager {
     }
 
     public void saybey() throws IOException {
-        HttpResponse httpresponse = HttpClients.createDefault().execute(new HttpGet(globals.authEndpoint + "?uuid=" + Minecraft.getMinecraft().getSession().getProfile().getId().toString() + "&type=logout"));
+        HttpResponse httpresponse = HttpClients.createDefault().execute(new HttpGet(Globals.AUTHENDPOINT + "?uuid=" + Minecraft.getMinecraft().getSession().getProfile().getId().toString() + "&type=logout"));
         logger.info("kokocloud said:" + IOUtils.toString(httpresponse.getEntity().getContent()));
     }
 }

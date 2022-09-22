@@ -5,7 +5,7 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
 import io.github.kingstefan26.stefans_util.core.commands.SimpleCommand;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.prototypeModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.prototypeModule;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
 import io.github.kingstefan26.stefans_util.module.wip.wart.helper.blocktype;
 import io.github.kingstefan26.stefans_util.module.wip.wart.helper.diraction;

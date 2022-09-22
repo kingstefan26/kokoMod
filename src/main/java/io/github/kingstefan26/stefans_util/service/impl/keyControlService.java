@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.service.impl;
 
 import io.github.kingstefan26.stefans_util.service.Service;
-import io.github.kingstefan26.stefans_util.util.util;
+import io.github.kingstefan26.stefans_util.util.StefanutilUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.BlockPos;
@@ -126,26 +126,27 @@ public class keyControlService extends Service {
 
                 if (verbose) chatService.queueCleanChatMessage("getting head of queue: HEAD IS NULL");
                 return;
-            }else{
+            }else {
 
-                if(verbose) chatService.queueCleanChatMessage("getting head of queue: HEAD IS NOT NULL");
+                if (verbose) chatService.queueCleanChatMessage("getting head of queue: HEAD IS NOT NULL");
                 executeCommand(CurentlyExecuted);
 
-                if(verbose) chatService.queueCleanChatMessage("executing command: DONE");
+                if (verbose) chatService.queueCleanChatMessage("executing command: DONE");
 
-                if(CurentlyExecuted.totalExecuteTime != 0){
-                    util.setTimeout(() -> {
-                        if(verbose) chatService.queueCleanChatMessage("finished command:" + (CurentlyExecuted.walkAction != null ? String.valueOf(CurentlyExecuted.walkAction) : String.valueOf(CurentlyExecuted.handAction)));
+                if (CurentlyExecuted.totalExecuteTime != 0) {
+                    StefanutilUtil.setTimeout(() -> {
+                        if (verbose)
+                            chatService.queueCleanChatMessage("finished command:" + (CurentlyExecuted.walkAction != null ? String.valueOf(CurentlyExecuted.walkAction) : String.valueOf(CurentlyExecuted.handAction)));
                         negateExecution(CurentlyExecuted);
 
-                        if(verbose) chatService.queueCleanChatMessage("negating keypresses: DONE");
+                        if (verbose) chatService.queueCleanChatMessage("negating keypresses: DONE");
 
 
-                        if(CurentlyExecuted.asyncCallback != null){
+                        if (CurentlyExecuted.asyncCallback != null) {
                             CurentlyExecuted.asyncCallback.run();
-                            if(verbose) chatService.queueCleanChatMessage("executing callback: DONE");
-                        }else{
-                            if(verbose) chatService.queueCleanChatMessage("did not find call back CONTINUE");
+                            if (verbose) chatService.queueCleanChatMessage("executing callback: DONE");
+                        } else {
+                            if (verbose) chatService.queueCleanChatMessage("did not find call back CONTINUE");
                         }
 
                         CurentlyExecuted = null;

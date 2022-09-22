@@ -2,9 +2,9 @@ package io.github.kingstefan26.stefans_util.module.render;
 
 import com.google.common.base.Throwables;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.util.ShaderResourcePack;
 import net.minecraft.client.Minecraft;
@@ -26,11 +26,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class blurClickGui extends basicModule {
+public class blurClickGui extends BasicModule {
     public static blurClickGui blurClickGui_;
-    public static blurClickGui getBlurClickGui(){
-        if(blurClickGui_ == null) blurClickGui_ = new blurClickGui();
-        return blurClickGui_;
+
+    public blurClickGui() {
+        super("blurClickGui", "adds nice blur to click gui", ModuleManager.Category.RENDER, new presistanceDecorator());
+        blurClickGui_ = this;
     }
 
     ArrayList<String> alowedGuiClasses = new ArrayList<>(Arrays.asList(ClickGui.class.getName()));
@@ -38,9 +39,14 @@ public class blurClickGui extends basicModule {
     @Nonnull
     private final ShaderResourcePack dummyPack = new ShaderResourcePack();
 
+    public static blurClickGui getBlurClickGui() {
+        if (blurClickGui_ == null) blurClickGui_ = new blurClickGui();
+        return blurClickGui_;
+    }
+
     @Override
-    public void onLoad(){
-        new SliderNoDecimalSetting("radius", this ,12, 0, 50, (newval) -> {
+    public void onLoad() {
+        new SliderNoDecimalSetting("radius", this, 12, 0, 50, (newval) -> {
             radius = Math.toIntExact(Math.round(newval));
         });
 
@@ -52,12 +58,6 @@ public class blurClickGui extends basicModule {
         ((SimpleReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(dummyPack);
 
         super.onLoad();
-    }
-
-
-    public blurClickGui(){
-        super("blurClickGui", "adds nice blur to click gui", moduleManager.Category.RENDER, new presistanceDecorator());
-        blurClickGui_ = this;
     }
 
     @Override

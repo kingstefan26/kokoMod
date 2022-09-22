@@ -23,8 +23,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Scanner;
 
-import static io.github.kingstefan26.stefans_util.util.bin.getInternalnameFromNBT;
-import static io.github.kingstefan26.stefans_util.util.bin.getLoreFromNBT;
+import static io.github.kingstefan26.stefans_util.util.BinUtil.getInternalnameFromNBT;
+import static io.github.kingstefan26.stefans_util.util.BinUtil.getLoreFromNBT;
 
 public class APIHandler {
     public static final Gson gson = new Gson();

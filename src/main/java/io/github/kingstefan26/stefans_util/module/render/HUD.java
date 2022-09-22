@@ -1,9 +1,9 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.visibleDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.gui.ScaledResolution;
@@ -12,14 +12,14 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class HUD extends basicModule {
+public class HUD extends BasicModule {
 
     int rgb, r, g, b;
     CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.PLAIN, 15), 15);
     public static ArrayList<visibleDecorator> visibleDecorators = new ArrayList<>();
 
     public HUD() {
-        super("HUD", "Draws the module list on your screen", moduleManager.Category.RENDER);
+        super("HUD", "Draws the module list on your screen", ModuleManager.Category.RENDER);
     }
 
     @Override
@@ -51,15 +51,15 @@ public class HUD extends basicModule {
 
     @Override
     public void onGuiRender(RenderGameOverlayEvent e) {
-        if (this.closed || !this.isToggled()) return;
+        if (this.isClosed() || !this.isToggled()) return;
         if (e.type == RenderGameOverlayEvent.ElementType.TEXT) {
             ScaledResolution sraka = new ScaledResolution(mc);
             int temp = 2;
-            for (basicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+            for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
                 if (!m.isToggled()) continue;
                 if (m.getName().equals("HUD")) continue;
-                if (m.localDecoratorManager.visibleDecorator != null) {
-                    if (m.localDecoratorManager.visibleDecorator.isVisibilityEnabled()) {
+                if (m.getLocalDecoratorManager().visibleDecorator != null) {
+                    if (m.getLocalDecoratorManager().visibleDecorator.isVisibilityEnabled()) {
                         c.drawString(m.getName(), (sraka.getScaledWidth() * 2) - c.getStringWidth(m.getName()) - 1, temp, -1);
                         temp += c.getStringHeight(m.getName()) + 1;
                     }

@@ -1,8 +1,7 @@
 package io.github.kingstefan26.stefans_util.core.fileCacheing;
 
-import io.github.kingstefan26.stefans_util.util.cryptography;
-import io.github.kingstefan26.stefans_util.util.file;
-import io.github.kingstefan26.stefans_util.util.fileUtils;
+import io.github.kingstefan26.stefans_util.util.FileUtils;
+import io.github.kingstefan26.stefans_util.util.StefanutilUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,7 +50,7 @@ public class cacheManager {
         final ArrayList<CacheObject.cacheObject> temp = new ArrayList<>();
 
         int counter = 0;
-        for (String a : fileUtils.mapFolder(cacheManager.cacheFolderDriactory, false)) {
+        for (String a : FileUtils.mapFolder(cacheManager.cacheFolderDriactory, false)) {
 
             try {
                 File filez = new File(a);
@@ -59,12 +58,12 @@ public class cacheManager {
 //                    FileInputStream inputStream = new FileInputStream(filez);
 //                    String everything = IOUtils.toString(inputStream);
 //                    inputStream.close();
-                    String everything = fileUtils.getFileTextContents(filez);
+                    String everything = FileUtils.getFileTextContents(filez);
 
                     CacheObject.cacheObject tempporary = new CacheObject.cacheObject();
 
                     tempporary.setContent(everything);
-                    tempporary.setMetaData(new CacheObject.metaData(filez.getName(), cryptography.getStringHash(everything, "MD5")));
+                    tempporary.setMetaData(new CacheObject.metaData(filez.getName(), StefanutilUtil.getStringHash(everything, "MD5")));
                     counter++;
                     temp.add(tempporary);
                 }
@@ -92,7 +91,7 @@ public class cacheManager {
     private void dumpToFile(CacheObject.cacheObject e) {
         try {
 
-            fileUtils.writeTextToFile(fileUtils.getFileAtPath(cacheFolderDriactory + File.separator + e.getMetaData().name),
+            FileUtils.writeTextToFile(FileUtils.getFileAtPath(cacheFolderDriactory + File.separator + e.getMetaData().name),
                     e.getContent(),
                     false);
 
@@ -111,7 +110,7 @@ public class cacheManager {
         try {
             CacheObject.cacheObject tempporary = new CacheObject.cacheObject();
             tempporary.setContent(contents);
-            tempporary.setMetaData(new CacheObject.metaData(fileName, cryptography.getStringHash(contents, "MD5")));
+            tempporary.setMetaData(new CacheObject.metaData(fileName, StefanutilUtil.getStringHash(contents, "MD5")));
 
             cacheObjects.add(tempporary);
         } catch (NoSuchAlgorithmException e) {
@@ -125,7 +124,7 @@ public class cacheManager {
         try {
             CacheObject.cacheObject tempporary = new CacheObject.cacheObject();
             tempporary.setContent(contents);
-            tempporary.setMetaData(new CacheObject.metaData(fileName, cryptography.getStringHash(contents, "MD5")));
+            tempporary.setMetaData(new CacheObject.metaData(fileName, StefanutilUtil.getStringHash(contents, "MD5")));
             cacheObjects.add(tempporary);
 
             dumpToFile(tempporary);
@@ -173,7 +172,7 @@ public class cacheManager {
     public int clearCache() {
         int ammout = cacheObjects.size();
         cacheObjects.clear();
-        file.emptyFolder(new File(cacheFolderDriactory));
+        FileUtils.emptyFolder(new File(cacheFolderDriactory));
         return ammout;
     }
 }

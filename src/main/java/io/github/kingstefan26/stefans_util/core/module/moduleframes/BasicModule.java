@@ -1,13 +1,12 @@
-package io.github.kingstefan26.stefans_util.core.module.moduleFrames;
+package io.github.kingstefan26.stefans_util.core.module.moduleframes;
 
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.interfaces.baseModuleInterface;
 import io.github.kingstefan26.stefans_util.core.module.interfaces.moduleMinecraftInterfaceEvents;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.decoratorInterface;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.localDecoratorManager;
-import io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.atnotationProcessor;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
+import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -21,25 +20,28 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-abstract public class basicModule implements baseModuleInterface, moduleMinecraftInterfaceEvents {
+public abstract class BasicModule implements baseModuleInterface, moduleMinecraftInterfaceEvents {
     protected static Minecraft mc = Minecraft.getMinecraft();
     protected Logger logger;
-    public String name;
-    public String description;
-    private final moduleManager.Category category;
-    public boolean closed, loaded;
+    private final ModuleManager.Category category;
+    String name;
+    String description;
+    private boolean closed;
     private boolean toggled;
 
-    public localDecoratorManager localDecoratorManager;
+    private localDecoratorManager localDecoratorManager;
 
-    public basicModule(String name, String description, moduleManager.Category category, decoratorInterface... decorators) {
-        localDecoratorManager = new localDecoratorManager(this, decorators);
+    protected BasicModule(String name,
+                          String description,
+                          ModuleManager.Category category,
+                          decoratorInterface... decorators) {
+        setLocalDecoratorManager(new localDecoratorManager(this, decorators));
         this.name = name;
         this.description = description;
         this.category = category;
         this.logger = LogManager.getLogger(name);
         if (name.length() > 15) logger.warn("lenght limit execied {}", name);
-        for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
+        for (decoratorInterface m : getLocalDecoratorManager().decoratorArrayList) {
             m.onInit(this);
         }
     }
@@ -49,9 +51,9 @@ abstract public class basicModule implements baseModuleInterface, moduleMinecraf
     }
 
     public void setToggled(boolean toggled) {
-        if(closed) return;
-        if(this.toggled && toggled) return;
-        if(!this.toggled && !toggled) return;
+        if (isClosed()) return;
+        if (this.toggled && toggled) return;
+        if (!this.toggled && !toggled) return;
         this.toggled = toggled;
 
         if (this.toggled) {
@@ -62,7 +64,7 @@ abstract public class basicModule implements baseModuleInterface, moduleMinecraf
     }
 
     public void toggle() {
-        if(closed) return;
+        if (isClosed()) return;
         this.toggled = !this.toggled;
 
         if (this.toggled) {
@@ -72,7 +74,7 @@ abstract public class basicModule implements baseModuleInterface, moduleMinecraf
         }
     }
 
-    public moduleManager.Category getCategory() {
+    public ModuleManager.Category getCategory() {
         return this.category;
     }
 
@@ -85,13 +87,11 @@ abstract public class basicModule implements baseModuleInterface, moduleMinecraf
     }
 
 
-//    final String uuid = UUID.randomUUID().toString().replace("-", "");
-
 
     @Override
     public void onEnable() {
-        if(closed) return;
-        for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
+        if (isClosed()) return;
+        for (decoratorInterface m : getLocalDecoratorManager().decoratorArrayList) {
             m.onEnable();
         }
         MinecraftForge.EVENT_BUS.register(this);
@@ -100,30 +100,28 @@ abstract public class basicModule implements baseModuleInterface, moduleMinecraf
     @Override
     public void onDisable() {
         MinecraftForge.EVENT_BUS.unregister(this);
-        for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
+        for (decoratorInterface m : getLocalDecoratorManager().decoratorArrayList) {
             m.onDisable();
         }
     }
 
     @Override
     public void onLoad() {
-        atnotationProcessor.init(this);
-        for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
+
+        for (decoratorInterface m : getLocalDecoratorManager().decoratorArrayList) {
             m.onLoad();
         }
         ClickGui.getClickGui().registerComponent(this);
-        loaded = true;
     }
 
     @Override
     public void onUnload() {
-        for(decoratorInterface m : localDecoratorManager.decoratorArrayList){
+        for (decoratorInterface m : getLocalDecoratorManager().decoratorArrayList) {
             m.onDisable();
         }
         ClickGui.getClickGui().removeComponent(this);
         if(this.toggled) this.onDisable();
-        this.closed = true;
-        loaded = false;
+        this.setClosed(true);
     }
 
     @Override
@@ -167,7 +165,7 @@ abstract public class basicModule implements baseModuleInterface, moduleMinecraf
     }
 
     @Override
-    public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent e) {
+    public void onPlayerTeleportEvent(StefanutilEvents.playerTeleportEvent e) {
 
     }
 
@@ -184,5 +182,21 @@ abstract public class basicModule implements baseModuleInterface, moduleMinecraf
     @Override
     public void onKeyInput(InputEvent.KeyInputEvent event) {
 
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
+    }
+
+    public localDecoratorManager getLocalDecoratorManager() {
+        return localDecoratorManager;
+    }
+
+    public void setLocalDecoratorManager(localDecoratorManager localDecoratorManager) {
+        this.localDecoratorManager = localDecoratorManager;
     }
 }

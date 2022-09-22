@@ -5,7 +5,7 @@
 package io.github.kingstefan26.stefans_util.mixins;
 
 
-import io.github.kingstefan26.stefans_util.core.globals;
+import io.github.kingstefan26.stefans_util.core.Globals;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.network.handshake.FMLHandshakeMessage;
@@ -35,7 +35,7 @@ public class MixinModList {
         }
 
         this.modTags.entrySet().removeIf((modx) -> {
-            return modx.getKey().equalsIgnoreCase(globals.MODID) || modx.getKey().equalsIgnoreCase("djperspectivemod");
+            return modx.getKey().equalsIgnoreCase(Globals.MODID) || modx.getKey().equalsIgnoreCase("djperspectivemod");
         });
 
     }

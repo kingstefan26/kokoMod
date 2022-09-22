@@ -5,17 +5,17 @@
 package io.github.kingstefan26.stefans_util.core.newconfig.attotations;
 
 import io.github.kingstefan26.stefans_util.core.newconfig.ConfigManagerz;
-import io.github.kingstefan26.stefans_util.core.newconfig.Iproperty;
 import io.github.kingstefan26.stefans_util.core.newconfig.attotations.impl.BooleanConfigValue;
 import io.github.kingstefan26.stefans_util.core.newconfig.attotations.impl.DoubleConfigValue;
 import io.github.kingstefan26.stefans_util.core.newconfig.attotations.impl.IntegerConfigValue;
 import io.github.kingstefan26.stefans_util.core.newconfig.attotations.impl.StringConfigValue;
-import io.github.kingstefan26.stefans_util.util.AttotaionProcessor;
+import io.github.kingstefan26.stefans_util.core.newconfig.prop.Iproperty;
+import io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.IannotationProcessor;
 
 import java.lang.reflect.Field;
 import java.util.function.Consumer;
 
-public class NewConfigProcessor extends AttotaionProcessor {
+public class AnnotationProcessor implements IannotationProcessor {
 
     @Override
     public void processField(Field field, Object parent) {
@@ -66,7 +66,7 @@ public class NewConfigProcessor extends AttotaionProcessor {
 
         if (createdproperty != null) {
             createdproperty.setCallBack(ungenericConsumer);
-            ConfigProcessorEngine.getInstance().addEntry(createdproperty, new ProcessedFiled(field, parent));
+            AnnotationProcessorSynchronise.getInstance().addEntry(createdproperty, new ProcessedFiled(field, parent));
         }
 
     }

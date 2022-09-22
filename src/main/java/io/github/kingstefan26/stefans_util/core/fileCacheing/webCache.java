@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.fileCacheing;
 
-import io.github.kingstefan26.stefans_util.util.cryptography;
+import io.github.kingstefan26.stefans_util.util.StefanutilUtil;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +23,7 @@ public class webCache {
             try {
                 System.out.println("Resource " + url+ " was not cashed downloading and cashing");
                 String queryResult = APIHandler.downloadTextFromUrl(url);
-                cacheManager.getInstance().cache(cryptography.getMD5Hash(queryResult), queryResult);
+                cacheManager.getInstance().cache(StefanutilUtil.getMD5Hash(queryResult), queryResult);
                 return queryResult;
             } catch (IOException | NoSuchAlgorithmException e) {
                 e.printStackTrace();

@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.util.handelers;
 
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
+import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
@@ -18,7 +18,7 @@ public class PacketHandler extends ChannelDuplexHandler {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (WorldInfoService.isOnHypixel() && msg instanceof Packet && msg.getClass().getName().endsWith("S00PacketKeepAlive")) {
-            MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.receivedKeepAlivePacketEvent());
+            MinecraftForge.EVENT_BUS.post(new StefanutilEvents.receivedKeepAlivePacketEvent());
             lastpong = System.nanoTime();
         }
 

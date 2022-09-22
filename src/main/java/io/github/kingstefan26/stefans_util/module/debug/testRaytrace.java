@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -25,7 +25,7 @@ import static io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline.dra
 /**
  * Stolen from Quantizr
  */
-public class testRaytrace extends basicModule {
+public class testRaytrace extends BasicModule {
 
     public static final Logger logger = LogManager.getLogger("testRaytrace");
 
@@ -33,7 +33,7 @@ public class testRaytrace extends basicModule {
     public static final double RAD_TO_DEG = 180.0 / Math.PI;
 
     public testRaytrace() {
-        super("looking at", "test", moduleManager.Category.DEBUG);
+        super("looking at", "test", ModuleManager.Category.DEBUG);
     }
 
     @Override

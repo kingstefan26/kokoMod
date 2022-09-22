@@ -1,9 +1,9 @@
 package io.github.kingstefan26.stefans_util.core.clickGui.components.impl.subComponents;
 
+import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.subComponent;
-import io.github.kingstefan26.stefans_util.core.globals;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import net.minecraft.client.Minecraft;
@@ -30,7 +30,7 @@ public class sliderNoDecimal extends subComponent {
         hehe.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 12, hovered ? 0xFF555555 : 0xFF444444);
         hehe.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
 
-        if (globals.usestandartfontrendering) {
+        if (Globals.usestandartfontrendering) {
             Minecraft.getMinecraft().fontRendererObj.drawString(
                     this.set.getName() + ": " + this.set.getValue(),
                     (parent.parent.getX() + 7),

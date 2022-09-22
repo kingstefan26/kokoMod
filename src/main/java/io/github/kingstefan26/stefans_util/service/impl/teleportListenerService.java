@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.service.impl;
 
 import io.github.kingstefan26.stefans_util.service.Service;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
+import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -20,7 +20,7 @@ public class teleportListenerService extends Service {
         EntityPlayerSP p = mc.thePlayer;
         double playerSpeed = p.getDistance(p.lastTickPosX, p.lastTickPosY, p.lastTickPosZ);
         if (playerSpeed > 5) {
-            MinecraftForge.EVENT_BUS.post(new stefan_utilEvents.playerTeleportEvent());
+            MinecraftForge.EVENT_BUS.post(new StefanutilEvents.playerTeleportEvent());
         }
     }
 

@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.client.gui.GuiButton;
@@ -23,17 +23,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static io.github.kingstefan26.stefans_util.util.util.every20Ticks;
+import static io.github.kingstefan26.stefans_util.util.StefanutilUtil.every20Ticks;
 
 
-public class harpBot extends basicModule {
+public class harpBot extends BasicModule {
     public harpBot() {
-        super("harpbot", "a bot that bots harp", moduleManager.Category.MISC);
+        super("harpbot", "a bot that bots harp", ModuleManager.Category.MISC);
     }
 
     @Override
     public void onLoad() {
-        new SliderNoDecimalSetting("delay", this, 0, 100, 1000, (newvalue)->{
+        new SliderNoDecimalSetting("delay", this, 0, 100, 1000, (newvalue) -> {
 
         });
         super.onLoad();
@@ -46,7 +46,7 @@ public class harpBot extends basicModule {
 
     @Override
     public void onTick(TickEvent.ClientTickEvent e) {
-        every20Ticks(e,TickCounter,() -> {
+        TickCounter = every20Ticks(e, TickCounter, () -> {
             if (mc.theWorld != null && mc.currentScreen instanceof GuiChest) {
                 GuiChest chest = (GuiChest) mc.currentScreen;
                 slots.clear();

@@ -7,12 +7,11 @@ package io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules;
 import com.google.gson.Gson;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
-import io.github.kingstefan26.stefans_util.util.file;
+import io.github.kingstefan26.stefans_util.util.FileUtils;
+import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,7 +46,7 @@ public class webModuleMenager {
 
 
     @SubscribeEvent
-    public void onstefan_utilsconnectedToKokoCloud(stefan_utilEvents.connectedToKokoCloud event) {
+    public void onstefan_utilsconnectedToKokoCloud(StefanutilEvents.connectedToKokoCloud event) {
         if (authmenager.getInstance().getCashedAuthObject() == null) return;
         switch (authmenager.getInstance().getCashedAuthObject().status) {
             case "dev":
@@ -71,9 +70,9 @@ public class webModuleMenager {
             if (System.getProperty("loadLocalPremiumJar") != null) {
                 if (System.getProperty("loadLocalPremiumJar").equals("true")) {
 
-                    String path = file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar";
+                    String path = FileUtils.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar";
                     if ((new File(path)).exists()) {
-                        jarLoader.loadJar(file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar");
+                        jarLoader.loadJar(FileUtils.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + "premium.jar");
                     }
 
                 }
@@ -134,9 +133,9 @@ public class webModuleMenager {
         for (jarObject m : masterResourceObject.jarObjects) {
             // loop tru all the "jar" objects and download them
             logger.info(m.fileLocation + m.filename);
-            File downloadfile = new File(file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + m.filename);
-            logger.info(file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + m.filename);
-            FileUtils.copyURLToFile(new URL(m.fileLocation), downloadfile);
+            File downloadfile = new File(FileUtils.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + m.filename);
+            logger.info(FileUtils.configDirectoryPath + File.separator + "stefanUtil" + File.separator + "assets" + File.separator + m.filename);
+            org.apache.commons.io.FileUtils.copyURLToFile(new URL(m.fileLocation), downloadfile);
             masterResourceObject.resources.put(m.fileLocation, downloadfile.getAbsolutePath());
             logger.info("Downloaded " + m.filename);
         }

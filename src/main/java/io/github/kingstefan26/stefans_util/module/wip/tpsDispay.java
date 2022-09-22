@@ -4,20 +4,20 @@
 
 package io.github.kingstefan26.stefans_util.module.wip;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.onoffMessageDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class tpsDispay extends basicModule {
+public class tpsDispay extends BasicModule {
     private long lastTick;
     private long tps = 0;
 
     public tpsDispay() {
-        super("tpsMeter", "displays the tsp", moduleManager.Category.WIP, new onoffMessageDecorator());
+        super("tpsMeter", "displays the tsp", ModuleManager.Category.WIP, new onoffMessageDecorator());
     }
 
     @SubscribeEvent

@@ -4,8 +4,8 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.attnotaions.slidernodecimalsetting;
 import io.github.kingstefan26.stefans_util.core.setting.impl.MultichoiseSetting;
 import net.minecraft.client.settings.KeyBinding;
@@ -15,7 +15,7 @@ import org.lwjgl.input.Mouse;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class oldAutoClicker extends basicModule {
+public class oldAutoClicker extends BasicModule {
     String mode = "both";
     long guiTimeOut;
     private long lastClick;
@@ -42,7 +42,7 @@ public class oldAutoClicker extends basicModule {
     private double rholdLength;
 
     public oldAutoClicker() {
-        super("AutoClicker", "auto clicker lmao", moduleManager.Category.MISC);
+        super("AutoClicker", "auto clicker lmao", ModuleManager.Category.MISC);
     }
 
     @Override

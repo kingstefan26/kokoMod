@@ -4,9 +4,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 
 public class configMenager {
@@ -18,8 +15,6 @@ public class configMenager {
         return configMenager;
     }
 
-    List<configObject> configObjects;
-
     public Configuration config;
 
     public configMenager(){
@@ -27,34 +22,6 @@ public class configMenager {
         config = new Configuration(configFile);
         config.load();
 
-        this.configObjects = new ArrayList<>();
-    }
-
-    public void createConfigObject(configObject in){
-        configObjects.add(in);
-    }
-
-
-    public configObject getConfigObjectByNameAndType(String name, confgValueType type){
-        for(configObject i: configObjects){
-            if(i.getName() == name && i.getType() == type){
-                int index  = configObjects.indexOf(i);
-                return configObjects.get(index);
-            }
-        }
-        System.out.println("failed to find config object :(");
-        return null;
-    }
-
-    public configObject getConfigObjectByNameAndTypeAndParent(String name,String parentModuleName ,confgValueType type){
-        for(configObject i: configObjects){
-            if(Objects.equals(i.getName(), name) && i.getType() == type && Objects.equals(i.getParentModuleName(), parentModuleName)){
-                int index  = configObjects.indexOf(i);
-                return configObjects.get(index);
-            }
-        }
-        System.out.println("failed to find config object :(");
-        return null;
     }
 
 

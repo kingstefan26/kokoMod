@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import java.util.ArrayList;
 
 
-public class autoForge extends basicModule {
+public class autoForge extends BasicModule {
     public WorldClient currentWorld = null;
     public Chunk currentChunk = null;
     boolean oldAutoJumpValue;
@@ -27,7 +27,7 @@ public class autoForge extends basicModule {
     ArrayList<BlockPos> cutBlocks = new ArrayList<BlockPos>();
 
     public autoForge() {
-        super("AutoForager", "Auto Forager Bot", moduleManager.Category.MISC);
+        super("AutoForager", "Auto Forager Bot", ModuleManager.Category.MISC);
     }
 
     @Override

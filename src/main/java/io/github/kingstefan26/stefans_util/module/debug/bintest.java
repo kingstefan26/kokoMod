@@ -9,7 +9,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.github.kingstefan26.stefans_util.core.commands.SimpleCommand;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.prototypeModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.prototypeModule;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;
 import net.minecraft.command.ICommandSender;

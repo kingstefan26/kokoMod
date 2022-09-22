@@ -4,7 +4,7 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.inventory.Container;
@@ -17,9 +17,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.concurrent.TimeUnit;
 
-import static io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager.Category.MISC;
+import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.MISC;
 
-public class autoEmptyMinions extends basicModule {
+public class autoEmptyMinions extends BasicModule {
     public autoEmptyMinions() {
         super("autoEmptyMinions", "empties the minion when you open its gui", MISC);
     }

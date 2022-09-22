@@ -3,9 +3,12 @@ package io.github.kingstefan26.stefans_util.core.newconfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
-import io.github.kingstefan26.stefans_util.core.newconfig.attotations.ConfigProcessorEngine;
-import io.github.kingstefan26.stefans_util.core.newconfig.impl.*;
-import io.github.kingstefan26.stefans_util.util.file;
+import io.github.kingstefan26.stefans_util.core.newconfig.attotations.AnnotationProcessorSynchronise;
+import io.github.kingstefan26.stefans_util.core.newconfig.prop.Iproperty;
+import io.github.kingstefan26.stefans_util.core.newconfig.prop.PropFactory;
+import io.github.kingstefan26.stefans_util.core.newconfig.prop.impl.*;
+import io.github.kingstefan26.stefans_util.util.FileUtils;
+import io.github.kingstefan26.stefans_util.util.StefanutilUtil;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,7 +29,7 @@ import java.util.Objects;
 
 public class ConfigManagerz {
     public static final String CONFIG_FILE_NAME = "stefan_util.json";
-    public static final String CONFIG_FULL_PATH = file.configDirectoryPath + File.separator + "stefanUtil" + File.separator + CONFIG_FILE_NAME;
+    public static final String CONFIG_FULL_PATH = FileUtils.configDirectoryPath + File.separator + "stefanUtil" + File.separator + CONFIG_FILE_NAME;
     /**
      * Custom gson that can deserialize our props
      */
@@ -55,7 +58,7 @@ public class ConfigManagerz {
 
         try {
             if (!f.exists()) {
-                Path path = Paths.get(file.configDirectoryPath + File.separator + "stefanUtil");
+                Path path = Paths.get(FileUtils.configDirectoryPath + File.separator + "stefanUtil");
                 logger.info("Creating config directories.");
                 Files.createDirectories(path);
             }
@@ -97,16 +100,12 @@ public class ConfigManagerz {
 
     @SubscribeEvent
     public void tick(TickEvent.ClientTickEvent e) {
-        if (e.phase != TickEvent.Phase.START) return;
 
-        tickcounter++;
-        // this happenes every 100 ticks aka 5 seconds
-        if (tickcounter >= 100) {
-            tickcounter = 0;
+        tickcounter = StefanutilUtil.everyXTicks(100, e, tickcounter, () -> {
             if (masterObj.isChanged()) {
                 saveMasterObjectToThaFile(masterObj);
             }
-        }
+        });
 
     }
 
@@ -121,8 +120,8 @@ public class ConfigManagerz {
             }
         }
 
-        // if it dont we create it yay
-        final Iproperty conf = ConfigFactory.getProperty(name, deafultValue);
+        // if it doesn't we create it yay
+        final Iproperty conf = PropFactory.getProperty(name, deafultValue);
         createConfigObject(conf);
 
         return conf;
@@ -161,7 +160,7 @@ public class ConfigManagerz {
 
     private void saveMasterObjectToThaFile(MasterConfigObj master) {
         try {
-            ConfigProcessorEngine.getInstance().reloadAllProperties();
+            AnnotationProcessorSynchronise.getInstance().reloadAllProperties();
         } catch (IllegalAccessException e) {
             logger.error("Error while syncing fileds with config objects", e);
         }

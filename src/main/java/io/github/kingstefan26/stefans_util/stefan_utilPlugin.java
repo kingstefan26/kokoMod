@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util;
 
 import com.google.common.collect.Sets;
-import io.github.kingstefan26.stefans_util.core.globals;
+import io.github.kingstefan26.stefans_util.core.Globals;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.FMLSecurityManager;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
@@ -24,7 +24,7 @@ public class stefan_utilPlugin implements IFMLLoadingPlugin {
 
     public stefan_utilPlugin() {
         MixinBootstrap.init();
-        Mixins.addConfiguration("mixins." + globals.MODID+ ".json");
+        Mixins.addConfiguration("mixins." + Globals.MODID + ".json");
         MixinEnvironment.getCurrentEnvironment().setObfuscationContext("searge");
         overrideSecurityManager();
     }
@@ -32,7 +32,7 @@ public class stefan_utilPlugin implements IFMLLoadingPlugin {
     @Override
     public String[] getASMTransformerClass() {
 //        return new String[] {"io.github.kingstefan26.stefans_util.stefan_utilTransformer"};
-        return null;
+        return new String[0];
     }
 
     @Override
@@ -102,7 +102,7 @@ public class stefan_utilPlugin implements IFMLLoadingPlugin {
         public void checkPermission(Permission perm) {
             String permName = perm.getName() != null ? perm.getName() : "missing";
             if ("setSecurityManager".equals(permName)) {
-                throw new SecurityException("Cannot replace the FML (Skytils) security manager");
+                throw new SecurityException("Cannot replace the FML (Kokomod) security manager");
             }
         }
 

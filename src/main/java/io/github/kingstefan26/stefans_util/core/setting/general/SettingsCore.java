@@ -1,6 +1,6 @@
 package io.github.kingstefan26.stefans_util.core.setting.general;
 
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -25,10 +25,10 @@ public class SettingsCore {
         settings.remove(a);
     }
 
-    public ArrayList<AbstractSetting> getSettingsByMod(basicModule mod) {
+    public ArrayList<AbstractSetting> getSettingsByMod(BasicModule mod) {
         ArrayList<AbstractSetting> a = new ArrayList<>();
-        for(AbstractSetting s : settings){
-            if(s.getParent() == mod){
+        for (AbstractSetting s : settings) {
+            if (s.getParent() == mod) {
                 a.add(s);
             }
         }

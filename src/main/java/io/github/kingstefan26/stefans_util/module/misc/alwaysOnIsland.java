@@ -4,21 +4,22 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class alwaysOnIsland extends basicModule {
+public class alwaysOnIsland extends BasicModule {
     public alwaysOnIsland() {
-        super("alwaysOnIsland", "warps you to your island whenever you leave", moduleManager.Category.MISC);
+        super("alwaysOnIsland", "warps you to your island whenever you leave", ModuleManager.Category.MISC);
     }
 
     int tickCouter;
+
     @Override
     public void onTick(TickEvent.ClientTickEvent e) {
-        if(e.phase != TickEvent.Phase.START) return;
+        if (e.phase != TickEvent.Phase.START) return;
         tickCouter++;
 
         if(tickCouter % 20 == 0){

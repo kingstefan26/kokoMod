@@ -1,20 +1,95 @@
+/*
+ * Copyright (c) 2021. All copyright reserved
+ */
+
 package io.github.kingstefan26.stefans_util.util;
 
 import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
-public class file {
+public class FileUtils {
     public static final String configFileName = "stefan_util.txt";
-    public static final String configDirectoryPath;
-    public static final String configFullPath;
-    public static final String stefans_utilPath;
+    public static String configDirectoryPath;
+    public static String configFullPath;
+    public static String stefans_utilPath;
 
     static {
-        configDirectoryPath = System.getProperty("user.dir");
-        configFullPath = configDirectoryPath + File.separator + configFileName;
-        stefans_utilPath = configDirectoryPath + File.separator + "stefanUtil" + File.separator;
+        FileUtils.configDirectoryPath = System.getProperty("user.dir");
+        FileUtils.configFullPath = FileUtils.configDirectoryPath + File.separator + FileUtils.configFileName;
+        FileUtils.stefans_utilPath = FileUtils.configDirectoryPath + File.separator + "stefanUtil" + File.separator;
     }
+
+    public static void makeSureDiractoriesExist(String dirpath) throws IOException {
+        Path directoriespath = Paths.get(dirpath);
+        Files.createDirectories(directoriespath);
+    }
+
+
+    public static File getFileAtPath(String path) throws IOException {
+
+//        if(!file.exists()) {
+//            Path directoriespath = Paths.get(path);
+//
+//            //java.nio.file.Files;
+//
+//            Files.createDirectories(directoriespath);
+//
+//            System.out.println("Directory is created!");
+//        }
+
+        return new File(path);
+    }
+
+    public static String getFileTextContents(File file) throws IOException {
+        FileInputStream inputStream = new FileInputStream(file);
+        String everything = IOUtils.toString(inputStream);
+        inputStream.close();
+        return everything;
+    }
+
+    public static void writeTextToFile(File file, String content, boolean append) throws IOException {
+        FileWriter myWriter = new FileWriter(file, append);
+        myWriter.write(content);
+        myWriter.close();
+    }
+
+    public static List<String> mapFolder(String path, boolean includeEmptyFolders) {
+        List<String> map = new ArrayList<String>();
+        List<String> unmappedDirs = new ArrayList<String>();
+        File[] items = new File(path).listFiles();
+
+        if (!path.substring(path.length() - 1).equals("/")) {
+            path += "/";
+        }
+
+        if (items != null) {
+            for (File item : items) {
+                if (item.isFile())
+                    map.add(path + item.getName());
+                else
+                    unmappedDirs.add(path + item.getName());
+            }
+
+            if (!unmappedDirs.isEmpty()) {
+                for (String folder : unmappedDirs) {
+                    List<String> temp = mapFolder(folder, includeEmptyFolders);
+                    if (!temp.isEmpty()) {
+                        map.addAll(temp);
+                    } else if (includeEmptyFolders)
+                        map.add(folder + "/");
+                }
+            }
+        }
+        return map;
+    }
+
 
     public static void writeToFile(String dir, String Text) {
         try {
@@ -99,61 +174,6 @@ public class file {
 
     }
 
-    public void startClient() {
-        System.out.println(configDirectoryPath);
-        String s3 = "";
-
-        try {
-            FileReader filereader = new FileReader(configFullPath);
-            Throwable throwable = null;
-
-            try {
-                char[] achar = new char[100];
-                filereader.read(achar);
-
-                for (char c0 : achar) {
-                    s3 = s3 + c0;
-                }
-            } catch (Throwable throwable2) {
-                throwable = throwable2;
-                throw throwable2;
-            } finally {
-                if (filereader != null) {
-                    if (throwable != null) {
-                        try {
-                            filereader.close();
-                        } catch (Throwable throwable1) {
-                            throwable.addSuppressed(throwable1);
-                        }
-                    } else {
-                        filereader.close();
-                    }
-                }
-            }
-        } catch (FileNotFoundException exception) {
-            this.writeToFile(configFullPath, "");
-        } catch (Exception ignored) {
-        }
-
-        if (!s3.equals("")) {
-            try {
-                //TODO: default values
-//                currentDelay = Integer.parseInt(s3.trim());
-            } catch (Exception ignored) {
-            }
-        }
-    }
-
-    public void stopClient() {
-        System.out.println(configDirectoryPath);
-        String s2 = configDirectoryPath + File.separator + configFileName;
-        //TODO: write config json here
-//        this.writeto(s2, String.valueOf(currentDelay));
-    }
-
-
-
-
     public static void emptyFolder(File folder) {
         File[] files = folder.listFiles();
         if (files != null) { //some JVMs return null for empty dirs
@@ -166,5 +186,4 @@ public class file {
             }
         }
     }
-
 }

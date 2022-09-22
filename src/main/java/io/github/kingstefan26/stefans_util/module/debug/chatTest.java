@@ -1,15 +1,12 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.decoratorInterface;
-import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
-import io.github.kingstefan26.stefans_util.service.impl.chatService.*;
 
-public class chatTest extends basicModule {
+public class chatTest extends BasicModule {
     public chatTest() {
-        super("chatTest", "testing the chat service", moduleManager.Category.DEBUG);
+        super("chatTest", "testing the chat service", ModuleManager.Category.DEBUG);
     }
 
 

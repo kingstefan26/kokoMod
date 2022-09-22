@@ -2,12 +2,12 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.util;
+package io.github.kingstefan26.stefans_util.core.setting.attnotationSettings;
 
 import java.lang.reflect.Field;
 
-public abstract class AttotaionProcessor {
-    public void init(Object parent) {
+public interface IannotationProcessor {
+    default void init(Object parent) {
         try {
             Field[] fields = parent.getClass().getDeclaredFields();
 
@@ -19,6 +19,6 @@ public abstract class AttotaionProcessor {
         }
     }
 
-    public abstract void processField(Field field, Object parent);
+    void processField(Field field, Object parent);
 
 }

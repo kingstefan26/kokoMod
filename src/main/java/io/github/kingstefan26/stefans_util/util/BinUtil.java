@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.zip.GZIPInputStream;
 
-public class bin {
+public class BinUtil {
     private static final int FAILS_BEFORE_SWITCH = 3;
     private final String[] myApiURLs = {"https://moulberry.codes/lowestbin.json.gz"};
     private final Integer[] myApiSuccesses = {0, 0, 0, 0};

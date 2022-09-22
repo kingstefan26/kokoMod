@@ -7,9 +7,9 @@ package io.github.kingstefan26.stefans_util.module.wip;
 import com.google.common.base.Throwables;
 import com.google.gson.JsonObject;
 import com.mojang.util.UUIDTypeAdapter;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.util.handelers.APIHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -29,13 +29,13 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SessionLogIn extends basicModule {
+public class SessionLogIn extends BasicModule {
     static LinkedList<String> histroy = new LinkedList<>();
     static long lastLoginClick;
     private static Session lastsession;
 
     public SessionLogIn() {
-        super("SessionLogIn", "login using tokens", moduleManager.Category.WIP, new presistanceDecorator());
+        super("SessionLogIn", "login using tokens", ModuleManager.Category.WIP, new presistanceDecorator());
     }
 
     static void addHistory(String s) {

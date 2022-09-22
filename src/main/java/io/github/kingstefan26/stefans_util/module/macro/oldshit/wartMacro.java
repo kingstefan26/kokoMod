@@ -1,13 +1,13 @@
 package io.github.kingstefan26.stefans_util.module.macro.oldshit;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.module.macro.util.macroStages;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
+import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import io.github.kingstefan26.stefans_util.util.renderUtil.drawCenterString;
-import io.github.kingstefan26.stefans_util.util.stefan_utilEvents;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.KeyBinding;
@@ -20,7 +20,7 @@ import org.lwjgl.input.Mouse;
 
 import static io.github.kingstefan26.stefans_util.module.macro.util.macroStages.*;
 
-public class wartMacro extends basicModule {
+public class wartMacro extends BasicModule {
 
     private EntityPlayerSP player;
 
@@ -44,11 +44,11 @@ public class wartMacro extends basicModule {
     private final boolean debug = false;
 
     public wartMacro() {
-        super("wart macro", "macros wart!", moduleManager.Category.MACRO);
-        new SliderNoDecimalSetting("yaw", this, 90, 0, 90, (newvalue)->{
+        super("wart macro", "macros wart!", ModuleManager.Category.MACRO);
+        new SliderNoDecimalSetting("yaw", this, 90, 0, 90, (newvalue) -> {
             this.wantedYaw = Math.toIntExact(Math.round(newvalue));
         });
-        new SliderNoDecimalSetting("pitch", this, 9, 0, 90, (newvalue)->{
+        new SliderNoDecimalSetting("pitch", this, 9, 0, 90, (newvalue) -> {
             this.wantedPitch = Math.toIntExact(Math.round(newvalue));
         });
     }
@@ -91,7 +91,7 @@ public class wartMacro extends basicModule {
             ScaledResolution scaled = new ScaledResolution(mc);
             int width = scaled.getScaledWidth();
             int height = scaled.getScaledHeight();
-            drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(localDecoratorManager.keyBindDecorator.keybind.getKeyCode()) + " to stop", "ff002f");
+            drawCenterString.drawCenterStringOnScreenLittleToDown(mc, "press key " + Keyboard.getKeyName(getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode()) + " to stop", "ff002f");
 
             //just holds the attack key down
             KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), true);
@@ -173,7 +173,7 @@ public class wartMacro extends basicModule {
     @Override
     public void onEnable() {
         super.onEnable();
-        if (this.localDecoratorManager.keyBindDecorator.keybind.getKeyCode() == 0) {
+        if (this.getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode() == 0) {
             chatService.queueClientChatMessage("please set a keybind!", chatService.chatEnum.PREFIX);
             this.setToggled(false);
             return;
@@ -219,7 +219,7 @@ public class wartMacro extends basicModule {
     }
 
     @SubscribeEvent
-    public void onPlayerTeleportEvent(stefan_utilEvents.playerTeleportEvent event) {
+    public void onPlayerTeleportEvent(StefanutilEvents.playerTeleportEvent event) {
         if (ismacroingReady) {
             chatService.queueClientChatMessage("teleport detected!", chatService.chatEnum.PREFIX);
             playerTeleported = true;

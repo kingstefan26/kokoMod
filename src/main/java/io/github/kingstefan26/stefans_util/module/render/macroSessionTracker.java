@@ -5,8 +5,9 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
 import io.github.kingstefan26.stefans_util.core.config.configObject;
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
+import io.github.kingstefan26.stefans_util.core.newconfig.attotations.impl.DoubleConfigValue;
 import io.github.kingstefan26.stefans_util.core.setting.impl.CheckSetting;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import net.minecraft.client.Minecraft;
@@ -25,10 +26,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class macroSessionTracker extends basicModule {
-    public macroSessionTracker() {
-        super("macroSessionTracker", "traks ur macro session, aka crops money etc", moduleManager.Category.RENDER);
-    }
+public class macroSessionTracker extends BasicModule {
+    @DoubleConfigValue(name = "totalminedcrops", defaultValue = 0.0)
+    double totalminedcrops;
 
     static long timeZeroPoint = 0;
     private static final String[] suffix = new String[]{"", "k", "m", "b", "t"};
@@ -42,6 +42,10 @@ public class macroSessionTracker extends basicModule {
     private static final int MAX_LENGTH = 4;
     long lastUpdate;
     long thisUpdate;
+
+    public macroSessionTracker() {
+        super("macroSessionTracker", "traks ur macro session, aka crops money etc", ModuleManager.Category.RENDER);
+    }
 
     configObject totalCrops;
     public static int cropsMinedThisSession;

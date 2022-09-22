@@ -4,16 +4,16 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
-import io.github.kingstefan26.stefans_util.core.module.ModuleMenagers.moduleManager;
-import io.github.kingstefan26.stefans_util.core.module.moduleFrames.basicModule;
+import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
+import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class autoSetSpawn extends basicModule {
+public class autoSetSpawn extends BasicModule {
     public autoSetSpawn() {
-        super("autoSetSpawn", "every configurable delay sets spawn on private island", moduleManager.Category.MISC);
+        super("autoSetSpawn", "every configurable delay sets spawn on private island", ModuleManager.Category.MISC);
     }
 
     // in minutes
