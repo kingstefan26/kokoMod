@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Team.EnumVisible;
@@ -79,7 +80,12 @@ public class FeatureDungeonTeammateOutlines extends BasicModule {
             // Test whether we should add any entities at all
             if (GLOBAL_TEST()) {
                 // Queue specific items for outlining
-                e.queueEntityToOutline(mc.thePlayer, 0xffffff);
+                for (Entity entity : mc.theWorld.loadedEntityList) {
+                    if(entity instanceof EntityCreeper){
+                        e.queueEntityToOutline(entity, 0x003366);
+                    }
+                }
+
                 e.queueEntitiesToOutline(OUTLINE_COLOR);
             }
         }
