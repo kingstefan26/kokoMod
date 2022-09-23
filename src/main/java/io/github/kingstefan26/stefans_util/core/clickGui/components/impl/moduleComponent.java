@@ -16,8 +16,8 @@ import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.key
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.visibleDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.setting.general.AbstractSetting;
-import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
+import io.github.kingstefan26.stefans_util.core.setting.AbstractSetting;
+import io.github.kingstefan26.stefans_util.core.setting.SettingsCore;
 import io.github.kingstefan26.stefans_util.core.setting.impl.*;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import lombok.Getter;
@@ -81,19 +81,19 @@ public class moduleComponent extends component {
         if (SettingsCore.getSettingsCore().getSettingsByMod(mod) != null) {
             for (AbstractSetting s : SettingsCore.getSettingsCore().getSettingsByMod(mod)) {
                 switch (s.getType()) {
-                    case check:
+                    case CHECK:
                         this.subcomponents.add(new newCheckbox((CheckSetting) s, this));
                         break;
-                    case multiChoise:
+                    case MULTI_CHOICE:
                         this.subcomponents.add(new newModeButton((MultichoiseSetting) s, this));
                         break;
-                    case sliderNoDecimal:
+                    case SLIDER_NO_DECIMAL:
                         this.subcomponents.add(new sliderNoDecimal((SliderNoDecimalSetting) s, this));
                         break;
-                    case slider:
+                    case SLIDER:
                         this.subcomponents.add(new newSliderDouble((SliderSetting) s, this));
                         break;
-                    case key:
+                    case KEY:
                         this.subcomponents.add(new newDetachedKeybind((ChoseAKeySetting) s, this));
                         break;
                 }

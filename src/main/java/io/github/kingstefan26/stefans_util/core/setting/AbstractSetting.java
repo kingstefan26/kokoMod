@@ -1,4 +1,8 @@
-package io.github.kingstefan26.stefans_util.core.setting.general;
+/*
+ * Copyright (c) 2022. All copyright reserved
+ */
+
+package io.github.kingstefan26.stefans_util.core.setting;
 
 import io.github.kingstefan26.stefans_util.core.config.prop.Iproperty;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
@@ -8,8 +12,6 @@ import java.util.function.Consumer;
 public abstract class AbstractSetting<T> {
     protected String name;
     protected BasicModule parent;
-//    protected configObject ConfigObject;
-
     protected final Consumer<T> callback;
 
     protected SettingsCore.type type;
@@ -49,12 +51,10 @@ public abstract class AbstractSetting<T> {
     }
 
     public T getValue() {
-//        return this.ConfigObject.getBooleanValue();
-        return (T) prop.getProperty();
+        return prop.getProperty();
     }
 
     public void setValue(T value) {
-//        this.ConfigObject.setBooleanValue(value);
         prop.setProperty(value);
 
         if (this.callback != null) this.callback.accept(value);

@@ -2,14 +2,13 @@ package io.github.kingstefan26.stefans_util.core.setting.impl;
 
 import io.github.kingstefan26.stefans_util.core.config.ConfigManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.setting.general.AbstractSetting;
-import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
+import io.github.kingstefan26.stefans_util.core.setting.AbstractSetting;
+import io.github.kingstefan26.stefans_util.core.setting.SettingsCore;
 
 import java.util.function.Consumer;
 
 public class SliderNoDecimalSetting extends AbstractSetting<Double> {
     double min;
-
     double max;
 
     /**
@@ -21,7 +20,7 @@ public class SliderNoDecimalSetting extends AbstractSetting<Double> {
      * @param callback     this is callback with Dobule whenever a user changes it
      */
     public SliderNoDecimalSetting(String name, BasicModule parentModule, double deafultValue, double min, double max, Consumer<Double> callback, String... comment) {
-        super(name, parentModule, SettingsCore.type.sliderNoDecimal, callback);
+        super(name, parentModule, SettingsCore.type.SLIDER_NO_DECIMAL, callback);
         this.min = min;
         this.max = max;
 
@@ -43,12 +42,12 @@ public class SliderNoDecimalSetting extends AbstractSetting<Double> {
         if (a instanceof Double) {
             int t = Math.toIntExact(Math.round((Double) a));
 
-            return Double.valueOf(t);
+            return (double) t;
 
         } else if (a instanceof Integer) {
             int t = Math.toIntExact(Math.round((Integer) a));
 
-            return Double.valueOf(t);
+            return (double) t;
         }
 
         throw new IllegalArgumentException("FUCK THIS SHIT IM OUT");
@@ -59,7 +58,6 @@ public class SliderNoDecimalSetting extends AbstractSetting<Double> {
         if (value >= max) {
             return;
         }
-//        this.ConfigObject.setIntValue(value);
 
         this.prop.setProperty(value);
         this.callback.accept(value);

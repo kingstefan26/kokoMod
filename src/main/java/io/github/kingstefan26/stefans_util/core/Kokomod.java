@@ -9,7 +9,7 @@ import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleMana
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.webModuleMenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
-import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
+import io.github.kingstefan26.stefans_util.core.setting.SettingsCore;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import io.github.kingstefan26.stefans_util.service.serviceMenager;
 import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
