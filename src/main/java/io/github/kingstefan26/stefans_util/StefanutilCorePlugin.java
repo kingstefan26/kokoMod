@@ -20,9 +20,9 @@ import java.util.Set;
 
 @IFMLLoadingPlugin.SortingIndex(Integer.MAX_VALUE)
 @IFMLLoadingPlugin.MCVersion("1.8.9")
-public class stefan_utilPlugin implements IFMLLoadingPlugin {
+public class StefanutilCorePlugin implements IFMLLoadingPlugin {
 
-    public stefan_utilPlugin() {
+    public StefanutilCorePlugin() {
         MixinBootstrap.init();
         Mixins.addConfiguration("mixins." + Globals.MODID + ".json");
         MixinEnvironment.getCurrentEnvironment().setObfuscationContext("searge");
@@ -31,7 +31,6 @@ public class stefan_utilPlugin implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-//        return new String[] {"io.github.kingstefan26.stefans_util.stefan_utilTransformer"};
         return new String[0];
     }
 
@@ -54,6 +53,7 @@ public class stefan_utilPlugin implements IFMLLoadingPlugin {
         return null;
     }
 
+    // awfully distastefully stolen from skytils
     // Bypass the FML security manager in order to set our own
     private void overrideSecurityManager() {
         try {
@@ -83,34 +83,10 @@ public class stefan_utilPlugin implements IFMLLoadingPlugin {
 
 
     public static class noobSkytilsSecurityManager extends FMLSecurityManager {
-        Set<String> badPaths = Sets.newHashSet(".ldb", ".leveldb", "launcher_accounts.json");
-
-        @Override
-        public void checkRead(String file) {
-            for (String p : badPaths) {
-                if (file.contains(p)) quitGame();
-            }
-            super.checkRead(file);
-        }
-
-        @Override
-        public void checkRead(String file, Object context) {
-            checkRead(file);
-            super.checkRead(file, context);
-        }
-
         public void checkPermission(Permission perm) {
             String permName = perm.getName() != null ? perm.getName() : "missing";
             if ("setSecurityManager".equals(permName)) {
                 throw new SecurityException("Cannot replace the FML (Kokomod) security manager");
-            }
-        }
-
-        private void quitGame() {
-            try {
-                Minecraft.getMinecraft().shutdownMinecraftApplet();
-            } catch (Throwable t) {
-                System.exit(0);
             }
         }
     }
