@@ -134,23 +134,6 @@ reobf {
 build.dependsOn(shadowJar)
 runClient.dependsOn(build)
 
-task createPremiumJar(type:Exec) {
-    group 'kokoniara tasks'
-    description 'builds the jar extracts all the module classes and puts them in a separete jar'
-    workingDir '.'
-    commandLine './doThat.sh'
-}
-
-task syncChanges(type:Exec) {
-    group 'kokoniara tasks'
-    description 'sync premium jar to github'
-    workingDir '.'
-    commandLine './syncPremiumJarToGitHub.sh'
-}
-
-
-createPremiumJar.dependsOn(build)
-syncChanges.dependsOn(createPremiumJar)
 
 processResources {
     // this will ensure that this task is redone when the versions change.
