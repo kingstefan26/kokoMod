@@ -3,10 +3,9 @@ package io.github.kingstefan26.stefans_util.core;
 import io.github.kingstefan26.stefans_util.Main;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.commands.commandRegistry;
-import io.github.kingstefan26.stefans_util.core.config.configMenager;
+import io.github.kingstefan26.stefans_util.core.config.ConfigManager;
 import io.github.kingstefan26.stefans_util.core.fileCacheing.cacheManager;
 import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.newconfig.ConfigManagerz;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.webModuleMenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.repo.mainRepoManager;
@@ -63,7 +62,7 @@ public class Kokomod {
         }
 
 
-        ConfigManagerz.getInstance();
+        ConfigManager.getInstance();
         cacheManager.getInstance().init();
 
         ModuleManager.initModuleManager();
@@ -90,7 +89,6 @@ public class Kokomod {
 //		Class<?> caller = Reflection.getCallerClass();
 
 
-        configMenager.getConfigManager();
         SettingsCore.getSettingsCore();
 
         ClickGui.getClickGui();

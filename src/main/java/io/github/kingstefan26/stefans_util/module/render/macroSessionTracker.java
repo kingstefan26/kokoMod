@@ -4,10 +4,10 @@
 
 package io.github.kingstefan26.stefans_util.module.render;
 
-import io.github.kingstefan26.stefans_util.core.config.configObject;
+import io.github.kingstefan26.stefans_util.core.config.attotations.impl.DoubleConfigValue;
+import io.github.kingstefan26.stefans_util.core.config.attotations.impl.IntegerConfigValue;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.newconfig.attotations.impl.DoubleConfigValue;
 import io.github.kingstefan26.stefans_util.core.setting.impl.CheckSetting;
 import io.github.kingstefan26.stefans_util.service.impl.WorldInfoService;
 import net.minecraft.client.Minecraft;
@@ -47,7 +47,8 @@ public class macroSessionTracker extends BasicModule {
         super("macroSessionTracker", "traks ur macro session, aka crops money etc", ModuleManager.Category.RENDER);
     }
 
-    configObject totalCrops;
+    @IntegerConfigValue(name = "macroSessionTracker.totalcrops", defaultValue = 0)
+    int totalcrops;
     public static int cropsMinedThisSession;
     public static int totalMinedCropsWithKokomod;
     public static long totalFarmingTime;
@@ -107,7 +108,9 @@ public class macroSessionTracker extends BasicModule {
     int tickCouter;
     public int overlayHeight = -1;
     Tuple[] GuiScreenText;
-    configObject totalTime;
+
+    @DoubleConfigValue(name = "macroSessionTracker.totaltime", defaultValue = 0)
+    double totaltime;
     boolean showGlobalStats;
 
     public static String timeToDuration(final long timeInMs) {
@@ -134,10 +137,8 @@ public class macroSessionTracker extends BasicModule {
 
     @Override
     public void onLoad() {
-        totalCrops = new configObject("totalCropsByKokomod", this.getName(), 0);
-        totalTime = new configObject("totalTimeByKokomod", this.getName(), 0D);
-        totalFarmingTime = (long) totalTime.getDoubleValue();
-        totalMinedCropsWithKokomod = totalCrops.getIntValue();
+        totalFarmingTime = (long) totaltime;
+        totalMinedCropsWithKokomod = totalcrops;
 
 
         new CheckSetting("showGlobalStats", this, true, (newvalue) -> showGlobalStats = (boolean) newvalue);
@@ -228,9 +229,8 @@ public class macroSessionTracker extends BasicModule {
 
                     lastUpdate = System.currentTimeMillis() - timeZeroPoint;
 
-
-                    totalCrops.setIntValue(totalMinedCropsWithKokomod + cropsMinedThisSession);
-                    totalTime.setDoubleValue(totalFarmingTime + thisSessionFarmingTime);
+                    totalcrops = totalMinedCropsWithKokomod + cropsMinedThisSession;
+                    totaltime = totalFarmingTime + thisSessionFarmingTime;
 
                     shouldRender = true;
 

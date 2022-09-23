@@ -2,7 +2,8 @@ package io.github.kingstefan26.stefans_util;
 
 import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.Kokomod;
-import io.github.kingstefan26.stefans_util.core.config.configObject;
+import io.github.kingstefan26.stefans_util.core.config.ConfigManager;
+import io.github.kingstefan26.stefans_util.core.config.prop.impl.boolProp;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -43,9 +44,9 @@ public class Main {
 
     @EventHandler
     public void postInit(final FMLPostInitializationEvent event) {
-        configObject temp = new configObject("firstStartup", "main", true);
-        setFirstStartup(temp.getBooleanValue());
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> temp.setBooleanValue(false)));
+        boolProp t = (boolProp) ConfigManager.getInstance().getConfigObject("firstStartup", false);
+        setFirstStartup(t.getProperty());
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> t.set(false)));
     }
 
 }

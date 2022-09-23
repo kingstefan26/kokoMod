@@ -2,9 +2,9 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.newconfig.attotations;
+package io.github.kingstefan26.stefans_util.core.config.attotations;
 
-import io.github.kingstefan26.stefans_util.core.newconfig.prop.Iproperty;
+import io.github.kingstefan26.stefans_util.core.config.prop.Iproperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

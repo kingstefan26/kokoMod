@@ -6,7 +6,8 @@ package io.github.kingstefan26.stefans_util.core.clickGui.components.impl;
 
 import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
-import io.github.kingstefan26.stefans_util.core.config.configObject;
+import io.github.kingstefan26.stefans_util.core.config.ConfigManager;
+import io.github.kingstefan26.stefans_util.core.config.prop.impl.intProp;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
@@ -43,8 +44,9 @@ public class frame {
 
     static CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);
 
-    configObject xConfig;
-    configObject yConfig;
+
+    intProp xconf = (intProp) ConfigManager.getInstance().getConfigObject("frame.xConfig", 0);
+    intProp yconf = (intProp) ConfigManager.getInstance().getConfigObject("frame.yConfig", 0);
 
     int totalY = this.height;
 
@@ -52,11 +54,8 @@ public class frame {
         this.components = new ArrayList<>();
         this.category = cat;
 
-        xConfig = new configObject(cat + "newframeX", "new frame x", x);
-        yConfig = new configObject(cat + "newframeY", "new frame y", y);
-
-        this.x = xConfig.getIntValue();
-        this.y = yConfig.getIntValue();
+        this.x = xconf.getProperty();
+        this.y = yconf.getProperty();
     }
 
 
@@ -88,20 +87,18 @@ public class frame {
         totalY -= 12;
     }
 
+    public int getX() {
+        return xconf.getProperty();
+    }
 
     public void setX(int newX) {
         this.x = newX;
-        xConfig.setIntValue(newX);
-    }
-
-    public void setY(int newY) {
-        this.y = newY;
-        yConfig.setIntValue(newY);
+        xconf.setProperty(newX);
     }
 
 
     public void renderFrame() {
-        if(this.getComponents().size() == 0) return;
+        if (this.getComponents().size() == 0) return;
 
         hehe.drawRect(this.x, this.y, this.x + this.width, this.y + this.height, 0xFF00010a);
 
@@ -145,12 +142,13 @@ public class frame {
         }
     }
 
-    public int getX() {
-        return xConfig.getIntValue();
+    public int getY() {
+        return yconf.getProperty();
     }
 
-    public int getY() {
-        return yConfig.getIntValue();
+    public void setY(int newY) {
+        this.y = newY;
+        yconf.setProperty(newY);
     }
 
 

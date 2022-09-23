@@ -2,9 +2,9 @@ package io.github.kingstefan26.stefans_util.core.module.modulemenagers;
 
 
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.config.attotations.AnnotationProcessor;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.newconfig.attotations.AnnotationProcessor;
 import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;

@@ -1,28 +1,31 @@
 package io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl;
 
-import io.github.kingstefan26.stefans_util.core.config.configObject;
+import io.github.kingstefan26.stefans_util.core.config.ConfigManager;
+import io.github.kingstefan26.stefans_util.core.config.prop.impl.boolProp;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.Idecorator;
 import io.github.kingstefan26.stefans_util.module.render.HUD;
 
 public class visibleDecorator extends Idecorator {
-    configObject visibilityenabled;
 
+    boolProp prop;
     @Override
     public void onLoad() {
         super.onLoad();
         HUD.visibleDecorators.add(this);
-        visibilityenabled = new configObject(this.parentModule.getName() + "visibilityDecorator","visibility", false);
+
+        prop = (boolProp) ConfigManager.getInstance().getConfigObject(this.parentModule.getName() + "." + "visibility", false);
+
     }
 
     public boolean isVisibilityEnabled() {
-        return visibilityenabled.getBooleanValue();
+        return prop.getProperty();
     }
 
     public void setVisibilityState(boolean val){
-        visibilityenabled.setBooleanValue(val);
+        prop.set(val);
     }
 
     public void toggleVisibility(){
-        visibilityenabled.setBooleanValue(!visibilityenabled.getBooleanValue());
+        prop.set(!prop.getProperty());
     }
 }

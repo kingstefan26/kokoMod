@@ -2,9 +2,9 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.newconfig.prop;
+package io.github.kingstefan26.stefans_util.core.config.prop;
 
-import io.github.kingstefan26.stefans_util.core.newconfig.prop.impl.*;
+import io.github.kingstefan26.stefans_util.core.config.prop.impl.*;
 
 public class PropFactory {
     private PropFactory() {

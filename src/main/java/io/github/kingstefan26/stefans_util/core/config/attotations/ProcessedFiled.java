@@ -2,7 +2,7 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.newconfig.attotations;
+package io.github.kingstefan26.stefans_util.core.config.attotations;
 
 import java.lang.reflect.Field;
 

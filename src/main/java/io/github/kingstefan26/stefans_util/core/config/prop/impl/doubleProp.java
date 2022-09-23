@@ -2,10 +2,10 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.newconfig.prop.impl;
+package io.github.kingstefan26.stefans_util.core.config.prop.impl;
 
 import com.google.gson.annotations.Expose;
-import io.github.kingstefan26.stefans_util.core.newconfig.prop.Property;
+import io.github.kingstefan26.stefans_util.core.config.prop.Property;
 
 public class doubleProp extends Property<Double> {
     @Expose

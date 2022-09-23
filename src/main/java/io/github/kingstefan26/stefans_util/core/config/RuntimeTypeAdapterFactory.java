@@ -2,7 +2,7 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.newconfig;
+package io.github.kingstefan26.stefans_util.core.config;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;

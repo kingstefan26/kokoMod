@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.core.setting.impl;
 
+import io.github.kingstefan26.stefans_util.core.config.ConfigManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.newconfig.ConfigManagerz;
 import io.github.kingstefan26.stefans_util.core.setting.general.AbstractSetting;
 import io.github.kingstefan26.stefans_util.core.setting.general.SettingsCore;
 
@@ -29,7 +29,7 @@ public class SliderNoDecimalSetting extends AbstractSetting<Double> {
             this.comment = comment[0];
         }
 
-        this.prop = ConfigManagerz.getInstance().getConfigObjectSpetial(parentModule.getName() + "." + name, deafultValue);
+        this.prop = ConfigManager.getInstance().getConfigObjectSpetial(parentModule.getName() + "." + name, deafultValue);
 
         this.callback.accept(getValue());
     }

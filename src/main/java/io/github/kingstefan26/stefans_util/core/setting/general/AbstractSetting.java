@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.core.setting.general;
 
+import io.github.kingstefan26.stefans_util.core.config.prop.Iproperty;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.newconfig.prop.Iproperty;
 
 import java.util.function.Consumer;
 

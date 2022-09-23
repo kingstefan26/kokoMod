@@ -1,32 +1,33 @@
 package io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl;
 
-import io.github.kingstefan26.stefans_util.core.config.configObject;
+import io.github.kingstefan26.stefans_util.core.config.ConfigManager;
+import io.github.kingstefan26.stefans_util.core.config.prop.impl.boolProp;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.Idecorator;
 
 public class presistanceDecorator extends Idecorator {
-    configObject presistanceenabled;
 
+    boolProp prop;
     @Override
     public void onLoad() {
         super.onLoad();
-        presistanceenabled = new configObject(this.parentModule.getName() + "presistanceDecorator","presistance", false);
+        prop = (boolProp) ConfigManager.getInstance().getConfigObject(this.parentModule.getName() + "." + "visibility", false);
         updateParentModState();
     }
 
     public boolean isPresidentaceEnabled() {
-        return presistanceenabled.getBooleanValue();
+        return prop.getProperty();
     }
 
     public void setPresistanceState(boolean val){
-        presistanceenabled.setBooleanValue(val);
+        prop.set(val);
     }
 
     public void updateParentModState(){
-        parentModule.setToggled(presistanceenabled.getBooleanValue());
+        parentModule.setToggled(prop.getProperty());
     }
 
     public void toggleParentModState(){
-        presistanceenabled.setBooleanValue(!presistanceenabled.getBooleanValue());
+        prop.set(!prop.getProperty());
         updateParentModState();
     }
 

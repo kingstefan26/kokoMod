@@ -2,7 +2,7 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.newconfig.prop;
+package io.github.kingstefan26.stefans_util.core.config.prop;
 
 import lombok.Getter;
 
@@ -19,8 +19,8 @@ public abstract class Property<T> implements Iproperty<T> {
     }
 
     @Override
-    public final void setCallBack(Consumer<T> callback) {
-        this.callback = callback;
+    public final void setCallBack(Consumer<?> callback) {
+        this.callback = (Consumer<T>) callback;
     }
 
     @Override

@@ -1,12 +1,12 @@
-package io.github.kingstefan26.stefans_util.core.newconfig;
+package io.github.kingstefan26.stefans_util.core.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
-import io.github.kingstefan26.stefans_util.core.newconfig.attotations.AnnotationProcessorSynchronise;
-import io.github.kingstefan26.stefans_util.core.newconfig.prop.Iproperty;
-import io.github.kingstefan26.stefans_util.core.newconfig.prop.PropFactory;
-import io.github.kingstefan26.stefans_util.core.newconfig.prop.impl.*;
+import io.github.kingstefan26.stefans_util.core.config.attotations.AnnotationProcessorSynchronise;
+import io.github.kingstefan26.stefans_util.core.config.prop.Iproperty;
+import io.github.kingstefan26.stefans_util.core.config.prop.PropFactory;
+import io.github.kingstefan26.stefans_util.core.config.prop.impl.*;
 import io.github.kingstefan26.stefans_util.util.FileUtils;
 import io.github.kingstefan26.stefans_util.util.StefanutilUtil;
 import lombok.Getter;
@@ -27,14 +27,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public class ConfigManagerz {
+public class ConfigManager {
     public static final String CONFIG_FILE_NAME = "stefan_util.json";
     public static final String CONFIG_FULL_PATH = FileUtils.configDirectoryPath + File.separator + "stefanUtil" + File.separator + CONFIG_FILE_NAME;
     /**
      * Custom gson that can deserialize our props
      */
     private static final Gson gson;
-    private static ConfigManagerz instance;
+    private static ConfigManager instance;
     Logger logger = LogManager.getLogger("ConfigManagerz");
     private MasterConfigObj masterObj;
 
@@ -51,7 +51,7 @@ public class ConfigManagerz {
     }
 
 
-    private ConfigManagerz() {
+    private ConfigManager() {
         MinecraftForge.EVENT_BUS.register(this);
         // Get the file
         File f = new File(CONFIG_FULL_PATH);
@@ -90,8 +90,8 @@ public class ConfigManagerz {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> saveMasterObjectToThaFile(masterObj)));
     }
 
-    public static ConfigManagerz getInstance() {
-        if (instance == null) instance = new ConfigManagerz();
+    public static ConfigManager getInstance() {
+        if (instance == null) instance = new ConfigManager();
         return instance;
     }
 
