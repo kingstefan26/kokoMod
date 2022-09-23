@@ -8,6 +8,7 @@ import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.key
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
+import io.github.kingstefan26.stefans_util.util.StefanutilUtil;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -27,20 +28,23 @@ public class GhostMacro extends BasicModule {
 
     @Override
     public void onTick(TickEvent.ClientTickEvent e) {
-        if (e.phase != TickEvent.Phase.START) return;
-        tick++;
-        if (tick % 20 != 0) return;
 
-        tick = 0;
-        if (mc.thePlayer == null) return;
+        tick = StefanutilUtil.every20Ticks(e, tick, () -> {
+            if (mc.thePlayer == null) return;
 
-        if (theWatcher == null) theWatcher = mc.thePlayer;
+            if (theWatcher == null) theWatcher = mc.thePlayer;
 
-        this.closestEntity = this.theWatcher.worldObj.findNearestEntityWithinAABB(EntityCreeper.class, this.theWatcher.getEntityBoundingBox().expand(10, 3.0D, 10), this.theWatcher);
+            this.closestEntity = this.theWatcher.worldObj.findNearestEntityWithinAABB(EntityCreeper.class, this.theWatcher.getEntityBoundingBox().expand(10, 3.0D, 10), this.theWatcher);
 
-        this.clpier = this.theWatcher.worldObj.getEntitiesWithinAABB(EntityCreeper.class, this.theWatcher.getEntityBoundingBox().expand(10, 3.0D, 10));
+            this.clpier = this.theWatcher.worldObj.getEntitiesWithinAABB(EntityCreeper.class, this.theWatcher.getEntityBoundingBox().expand(10, 3.0D, 10));
 
-        chatService.queueCleanChatMessage(closestEntity == null ? "none" : closestEntity.toString());
+
+            if (closestEntity.isInvisible() && closestEntity instanceof EntityCreeper && ((EntityCreeper) closestEntity).getPowered()) {
+                logger.info("YASSS");
+            }
+            chatService.queueCleanChatMessage(closestEntity == null ? "none" : closestEntity.toString());
+        });
+
     }
 
 

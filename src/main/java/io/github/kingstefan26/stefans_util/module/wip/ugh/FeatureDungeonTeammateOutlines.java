@@ -1,9 +1,4 @@
-/*
- * Copyright (c) 2022. All copyright reserved
- */
-
 package io.github.kingstefan26.stefans_util.module.wip.ugh;
-
 
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
@@ -15,13 +10,13 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Team.EnumVisible;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.function.Function;
 
 
 public class FeatureDungeonTeammateOutlines extends BasicModule {
-
 
     /**
      * Entity-level predicate to determine whether a specific entity should be outlined, and if so, what color.
@@ -44,12 +39,27 @@ public class FeatureDungeonTeammateOutlines extends BasicModule {
             // NPCs don't have a color on their team. Don't show them on outlines.
             return null;
         }
-
-        return 0x009e2a;
+        return null;
     };
+    EntityOutlineRenderer e = new EntityOutlineRenderer();
 
     public FeatureDungeonTeammateOutlines() {
-        super("FeatureDungeonTeammateOutlines", "huh", ModuleManager.Category.WIP);
+        super("FeatureDungeonTeammateOutlines", "FeatureDungeonTeammateOutlines", ModuleManager.Category.WIP);
+
+    }
+
+    @Override
+    public void onEnable() {
+        MinecraftForge.EVENT_BUS.register(e);
+
+
+        super.onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        MinecraftForge.EVENT_BUS.unregister(e);
+        super.onDisable();
     }
 
     /**
@@ -60,12 +70,6 @@ public class FeatureDungeonTeammateOutlines extends BasicModule {
      */
     private static boolean GLOBAL_TEST() {
         return true;
-    }
-
-    @Override
-    public void onLoad() {
-//        MinecraftForge.EVENT_BUS.register(new EntityOutlineRenderer());
-        super.onLoad();
     }
 
     /**
@@ -80,13 +84,12 @@ public class FeatureDungeonTeammateOutlines extends BasicModule {
             // Test whether we should add any entities at all
             if (GLOBAL_TEST()) {
                 // Queue specific items for outlining
+                e.queueEntitiesToOutline(OUTLINE_COLOR);
                 for (Entity entity : mc.theWorld.loadedEntityList) {
                     if(entity instanceof EntityCreeper){
-                        e.queueEntityToOutline(entity, 0x003366);
+                        e.queueEntityToOutline(entity, 0xFF0000);
                     }
                 }
-
-                e.queueEntitiesToOutline(OUTLINE_COLOR);
             }
         }
     }

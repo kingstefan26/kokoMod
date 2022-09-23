@@ -1,12 +1,5 @@
-/*
- * Copyright (c) 2022. All copyright reserved
- */
-
 package io.github.kingstefan26.stefans_util.module.wip.ugh;
 
-
-import io.github.kingstefan26.stefans_util.mixins.MixinRenderGlobal;
-import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
@@ -26,26 +19,35 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-// # stealing is fun!
+import static io.github.kingstefan26.stefans_util.module.wip.ugh.RenderEntityOutlineEvent.Type.NO_XRAY;
+import static io.github.kingstefan26.stefans_util.module.wip.ugh.RenderEntityOutlineEvent.Type.XRAY;
+
+/**
+ * Class to handle all entity outlining, including xray and no-xray rendering
+ * Features that include entity outlining should subscribe to the {@link RenderEntityOutlineEvent}.
+ * <p>
+ * See {@link } for an example of how to add specific entities based on predicates
+ */
 public class EntityOutlineRenderer {
 
-    private static final Logger logger = LogManager.getLogger("EntityOutlineRenderer");
+    static final Logger logger = LogManager.getLogger("EntityOutlineRenderer");
     private static final CachedInfo entityRenderCache = new CachedInfo();
     private static boolean stopLookingForOptifine = false;
     private static Method isFastRender = null;
     private static Method isShaders = null;
     private static Method isAntialiasing = null;
     private static Framebuffer swapBuffer = null;
-    private static boolean emptyLastTick = false;
 
     /**
      * @return a new framebuffer with the size of the main framebuffer
@@ -58,6 +60,9 @@ public class EntityOutlineRenderer {
         return framebuffer;
     }
 
+    private static final FloatBuffer BUF_FLOAT_4 = BufferUtils.createFloatBuffer(4);
+    private static boolean emptyLastTick = false;
+
     private static void updateFramebufferSize() {
         if (swapBuffer == null) {
             swapBuffer = initSwapBuffer();
@@ -67,14 +72,32 @@ public class EntityOutlineRenderer {
         if (swapBuffer.framebufferWidth != width || swapBuffer.framebufferHeight != height) {
             swapBuffer.createBindFramebuffer(width, height);
         }
-        MixinRenderGlobal rg = ((MixinRenderGlobal) Minecraft.getMinecraft().renderGlobal);
-
-        Framebuffer outlineBuffer = rg.getentityOutlineFramebuffer();
+        RenderGlobal rg = Minecraft.getMinecraft().renderGlobal;
+        Framebuffer outlineBuffer = rg.entityOutlineFramebuffer;
         if (outlineBuffer.framebufferWidth != width || outlineBuffer.framebufferHeight != height) {
             outlineBuffer.createBindFramebuffer(width, height);
-            rg.getentityOutlineShader().createBindFramebuffers(width, height);
-
+            rg.entityOutlineShader.createBindFramebuffers(width, height);
         }
+    }
+
+    public static void outlineColor(int color) {
+        BUF_FLOAT_4.put(0, (float) (color >> 16 & 255) / 255.0F);
+        BUF_FLOAT_4.put(1, (float) (color >> 8 & 255) / 255.0F);
+        BUF_FLOAT_4.put(2, (float) (color & 255) / 255.0F);
+        BUF_FLOAT_4.put(3, 1);
+
+        GL11.glTexEnv(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_COLOR, BUF_FLOAT_4);
+    }
+
+
+    public static Integer getCustomOutlineColor(EntityLivingBase entity) {
+        if (entityRenderCache.getXrayCache() != null && entityRenderCache.getXrayCache().containsKey(entity)) {
+            return entityRenderCache.getXrayCache().get(entity);
+        }
+        if (entityRenderCache.getNoXrayCache() != null && entityRenderCache.getNoXrayCache().containsKey(entity)) {
+            return entityRenderCache.getNoXrayCache().get(entity);
+        }
+        return null;
     }
 
     /**
@@ -92,14 +115,13 @@ public class EntityOutlineRenderer {
         if (shouldRenderOutlines && !isCacheEmpty() && MinecraftForgeClient.getRenderPass() == 0) {
             Minecraft mc = Minecraft.getMinecraft();
             RenderGlobal renderGlobal = mc.renderGlobal;
-//            MixinRenderGlobal e = ((MixinRenderGlobal) mc.renderGlobal);
             RenderManager renderManager = mc.getRenderManager();
 
             mc.theWorld.theProfiler.endStartSection("entityOutlines");
             updateFramebufferSize();
             // Clear and bind the outline framebuffer
-            ((MixinRenderGlobal) mc.renderGlobal).getentityOutlineFramebuffer().framebufferClear();
-            ((MixinRenderGlobal) mc.renderGlobal).getentityOutlineFramebuffer().bindFramebuffer(false);
+            renderGlobal.entityOutlineFramebuffer.framebufferClear();
+            renderGlobal.entityOutlineFramebuffer.bindFramebuffer(false);
 
             // Vanilla options
             RenderHelper.disableStandardItemLighting();
@@ -107,7 +129,7 @@ public class EntityOutlineRenderer {
             mc.getRenderManager().setRenderOutlines(true);
 
             // SBA options
-            hehe.enableOutlineMode();
+//            DrawUtils.enableOutlineMode();
 
             // Render x-ray outlines first, ignoring the depth buffer bit
             if (!isXrayCacheEmpty()) {
@@ -119,7 +141,7 @@ public class EntityOutlineRenderer {
                     if (shouldRender(camera, entityAndColor.getKey(), x, y, z)) {
                         try {
                             if (!(entityAndColor.getKey() instanceof EntityLivingBase)) {
-                                hehe.outlineColor(entityAndColor.getValue());
+                                outlineColor(entityAndColor.getValue());
                             }
                             renderManager.renderEntityStatic(entityAndColor.getKey(), partialTicks, true);
                         } catch (Exception ignored) {
@@ -150,12 +172,12 @@ public class EntityOutlineRenderer {
                     }
 
                     // Copy the entire depth buffer of everything that might occlude outline to outline framebuffer
-                    copyBuffers(swapBuffer, ((MixinRenderGlobal) mc.renderGlobal).getentityOutlineFramebuffer(), GL11.GL_DEPTH_BUFFER_BIT);
-                    ((MixinRenderGlobal) mc.renderGlobal).getentityOutlineFramebuffer().bindFramebuffer(false);
+                    copyBuffers(swapBuffer, renderGlobal.entityOutlineFramebuffer, GL11.GL_DEPTH_BUFFER_BIT);
+                    renderGlobal.entityOutlineFramebuffer.bindFramebuffer(false);
                 }
                 // If there are no entities that can occlude the outlines, just copy the terrain depth buffer over
                 else {
-                    copyBuffers(mc.getFramebuffer(), ((MixinRenderGlobal) mc.renderGlobal).getentityOutlineFramebuffer(), GL11.GL_DEPTH_BUFFER_BIT);
+                    copyBuffers(mc.getFramebuffer(), renderGlobal.entityOutlineFramebuffer, GL11.GL_DEPTH_BUFFER_BIT);
                 }
 
                 // Xray disabled by re-enabling traditional depth testing
@@ -164,7 +186,7 @@ public class EntityOutlineRenderer {
                     if (shouldRender(camera, entityAndColor.getKey(), x, y, z)) {
                         try {
                             if (!(entityAndColor.getKey() instanceof EntityLivingBase)) {
-                                hehe.outlineColor(entityAndColor.getValue());
+                                outlineColor(entityAndColor.getValue());
                             }
                             renderManager.renderEntityStatic(entityAndColor.getKey(), partialTicks, true);
 
@@ -175,7 +197,7 @@ public class EntityOutlineRenderer {
             }
 
             // SBA options
-            hehe.disableOutlineMode();
+//            DrawUtils.disableOutlineMode();
 
             // Vanilla options
             RenderHelper.enableStandardItemLighting();
@@ -183,7 +205,7 @@ public class EntityOutlineRenderer {
 
             // Load the outline shader
             GlStateManager.depthMask(false);
-            ((MixinRenderGlobal) mc.renderGlobal).getentityOutlineShader().loadShaderGroup(partialTicks);
+            renderGlobal.entityOutlineShader.loadShaderGroup(partialTicks);
             GlStateManager.depthMask(true);
 
             // Reset GL/framebuffers for next render layers
@@ -199,16 +221,6 @@ public class EntityOutlineRenderer {
         return !shouldRenderOutlines;
     }
 
-    public static Integer getCustomOutlineColor(EntityLivingBase entity) {
-        if (entityRenderCache.getXrayCache() != null && entityRenderCache.getXrayCache().containsKey(entity)) {
-            return entityRenderCache.getXrayCache().get(entity);
-        }
-        if (entityRenderCache.getNoXrayCache() != null && entityRenderCache.getNoXrayCache().containsKey(entity)) {
-            return entityRenderCache.getNoXrayCache().get(entity);
-        }
-        return null;
-    }
-
     /**
      * Caches optifine settings and determines whether outlines should be rendered
      *
@@ -217,16 +229,14 @@ public class EntityOutlineRenderer {
     public static boolean shouldRenderEntityOutlines() {
         Minecraft mc = Minecraft.getMinecraft();
         RenderGlobal renderGlobal = mc.renderGlobal;
-
 //        SkyblockAddons main = SkyblockAddons.getInstance();
-//        MixinRenderGlobal e = ((MixinRenderGlobal) mc.renderGlobal);
 
         // Vanilla Conditions
-        if (((MixinRenderGlobal) mc.renderGlobal).getentityOutlineFramebuffer() == null || ((MixinRenderGlobal) mc.renderGlobal).getentityOutlineShader() == null || mc.thePlayer == null)
+        if (renderGlobal.entityOutlineFramebuffer == null || renderGlobal.entityOutlineShader == null || mc.thePlayer == null)
             return false;
 
         // Skyblock Conditions
-//        if (!WorldInfoService.isInSkyblock()) {
+//        if (!main.getUtils().isOnSkyblock()) {
 //            return false;
 //        }
 
@@ -271,31 +281,6 @@ public class EntityOutlineRenderer {
     }
 
     /**
-     * Apply the same rendering standards as in {@link RenderGlobal#renderEntities(Entity, ICamera, float)} lines 659 to 669
-     *
-     * @param camera the current camera
-     * @param entity the entity to render
-     * @param x      the camera x position
-     * @param y      the camera y position
-     * @param z      the camera z position
-     * @return whether the entity should be rendered
-     */
-    private static boolean shouldRender(ICamera camera, Entity entity, double x, double y, double z) {
-        Minecraft mc = Minecraft.getMinecraft();
-        //if (considerPass && !entity.shouldRenderInPass(MinecraftForgeClient.getRenderPass())) {
-        //    return false;
-        //}
-        // Only render the view entity when sleeping or in 3rd person mode mode
-        if (entity == mc.getRenderViewEntity() &&
-                !((mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) mc.getRenderViewEntity()).isPlayerSleeping()) ||
-                        mc.gameSettings.thirdPersonView != 0)) {
-            return false;
-        }
-        // Only render if renderManager would render and the world is loaded at the entity
-        return mc.theWorld.isBlockLoaded(new BlockPos(entity)) && (mc.getRenderManager().shouldRender(entity, camera, x, y, z) || entity.riddenByEntity == mc.thePlayer);
-    }
-
-    /**
      * Function that copies a portion of a framebuffer to another framebuffer.
      * <p>
      * Note that this requires GL3.0 to function properly
@@ -334,6 +319,31 @@ public class EntityOutlineRenderer {
     }
 
     /**
+     * Apply the same rendering standards as in {@link net.minecraft.client.renderer.RenderGlobal#renderEntities(Entity, ICamera, float)} lines 659 to 669
+     *
+     * @param camera the current camera
+     * @param entity the entity to render
+     * @param x      the camera x position
+     * @param y      the camera y position
+     * @param z      the camera z position
+     * @return whether the entity should be rendered
+     */
+    private static boolean shouldRender(ICamera camera, Entity entity, double x, double y, double z) {
+        Minecraft mc = Minecraft.getMinecraft();
+        //if (considerPass && !entity.shouldRenderInPass(MinecraftForgeClient.getRenderPass())) {
+        //    return false;
+        //}
+        // Only render the view entity when sleeping or in 3rd person mode mode
+        if (entity == mc.getRenderViewEntity() &&
+                !((mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) mc.getRenderViewEntity()).isPlayerSleeping()) ||
+                        mc.gameSettings.thirdPersonView != 0)) {
+            return false;
+        }
+        // Only render if renderManager would render and the world is loaded at the entity
+        return mc.theWorld.isBlockLoaded(new BlockPos(entity)) && (mc.getRenderManager().shouldRender(entity, camera, x, y, z) || entity.riddenByEntity == mc.thePlayer);
+    }
+
+    /**
      * Updates the cache at the start of every minecraft tick to improve efficiency.
      * Identifies and caches all entities in the world that should be outlined.
      * <p>
@@ -349,14 +359,13 @@ public class EntityOutlineRenderer {
     public void onTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {
             Minecraft mc = Minecraft.getMinecraft();
-//            MixinRenderGlobal e = ((MixinRenderGlobal) mc.renderGlobal);
             if (mc.theWorld != null && shouldRenderEntityOutlines()) {
                 // These events need to be called in this specific order for the xray to have priority over the no xray
                 // Get all entities to render xray outlines
-                RenderEntityOutlineEvent xrayOutlineEvent = new RenderEntityOutlineEvent(RenderEntityOutlineEvent.Type.XRAY, null);
+                RenderEntityOutlineEvent xrayOutlineEvent = new RenderEntityOutlineEvent(XRAY, null);
                 MinecraftForge.EVENT_BUS.post(xrayOutlineEvent);
                 // Get all entities to render no xray outlines, using pre-filtered entities (no need to test xray outlined entities)
-                RenderEntityOutlineEvent noxrayOutlineEvent = new RenderEntityOutlineEvent(RenderEntityOutlineEvent.Type.NO_XRAY, xrayOutlineEvent.getEntitiesToChooseFrom());
+                RenderEntityOutlineEvent noxrayOutlineEvent = new RenderEntityOutlineEvent(NO_XRAY, xrayOutlineEvent.getEntitiesToChooseFrom());
                 MinecraftForge.EVENT_BUS.post(noxrayOutlineEvent);
                 // Cache the entities for future use
                 entityRenderCache.setXrayCache(xrayOutlineEvent.getEntitiesToOutline());
@@ -365,7 +374,7 @@ public class EntityOutlineRenderer {
 
                 if (isCacheEmpty()) {
                     if (!emptyLastTick) {
-                        ((MixinRenderGlobal) mc.renderGlobal).getentityOutlineFramebuffer().framebufferClear();
+                        mc.renderGlobal.entityOutlineFramebuffer.framebufferClear();
                     }
                     emptyLastTick = true;
                 } else {
@@ -375,20 +384,11 @@ public class EntityOutlineRenderer {
                 entityRenderCache.setXrayCache(null);
                 entityRenderCache.setNoXrayCache(null);
                 entityRenderCache.setNoOutlineCache(null);
-                ((MixinRenderGlobal) mc.renderGlobal).getentityOutlineFramebuffer().framebufferClear();
+                if (mc.renderGlobal.entityOutlineFramebuffer != null)
+                    mc.renderGlobal.entityOutlineFramebuffer.framebufferClear();
                 emptyLastTick = true;
             }
         }
-    }
-
-    /**
-     * The phase of the event.
-     * {@link #XRAY} means that this directly precedes entities whose outlines are rendered through walls (Vanilla 1.9+)
-     * {@link #NO_XRAY} means that this directly precedes entities whose outlines are rendered only when visible to the client
-     */
-    public enum Type {
-        XRAY,
-        NO_XRAY
     }
 
     private static class CachedInfo {
