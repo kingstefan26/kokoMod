@@ -27,8 +27,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class macroSessionTracker extends BasicModule {
-    @DoubleConfigValue(name = "totalminedcrops", defaultValue = 0.0)
-    double totalminedcrops;
+
 
     static long timeZeroPoint = 0;
     private static final String[] suffix = new String[]{"", "k", "m", "b", "t"};
@@ -49,6 +48,8 @@ public class macroSessionTracker extends BasicModule {
 
     @IntegerConfigValue(name = "macroSessionTracker.totalcrops", defaultValue = 0)
     int totalcrops;
+    @DoubleConfigValue(name = "totalminedcrops", defaultValue = 0.0)
+    double totalminedcrops;
     public static int cropsMinedThisSession;
     public static int totalMinedCropsWithKokomod;
     public static long totalFarmingTime;
