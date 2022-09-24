@@ -2,16 +2,13 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.clickGui.components.impl;
+package io.github.kingstefan26.stefans_util.core.clickGui.components;
 
 
 import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.IsubComponent;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.frame;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.subComponents.*;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.subComponent;
+import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.*;
+import io.github.kingstefan26.stefans_util.core.clickGui.frame;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.decoratorInterface;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;

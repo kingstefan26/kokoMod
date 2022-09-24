@@ -1,19 +1,29 @@
-package io.github.kingstefan26.stefans_util.core.clickGui.components.impl.subComponents;
+package io.github.kingstefan26.stefans_util.core.clickGui.components.impl;
 
 import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
+import io.github.kingstefan26.stefans_util.core.clickGui.components.moduleComponent;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.subComponent;
+import io.github.kingstefan26.stefans_util.core.setting.impl.MultichoiseSetting;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Keyboard;
 
-public class newKeybind extends subComponent {
+public class newModeButton extends subComponent {
 
-    private boolean binding;
+    private final MultichoiseSetting set;
 
+    private int modeIndex;
+    private final int maxIndex;
 
-    public newKeybind(moduleComponent button) {
+    public newModeButton(MultichoiseSetting set, moduleComponent button) {
+        this.set = set;
         this.parent = button;
+        modeIndex = set.getAllPossibleValues().indexOf(set.getValue());
+        maxIndex = set.getAllPossibleValues().size() - 1;
+    }
+
+    @Override
+    public void setOff(int newOff) {
+        offset = newOff;
     }
 
     @Override
@@ -21,17 +31,20 @@ public class newKeybind extends subComponent {
         super.renderComponent();
         if (Globals.usestandartfontrendering) {
             Minecraft.getMinecraft().fontRendererObj.drawString(
-                    binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode())),
+                    "Mode: " + set.getValue(),
                     (parent.parent.getX() + 7),
                     (parent.parent.getY() + offset + 3),
                     -1);
+
         } else {
-            ClickGui.p1.drawString(
-                    binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getLocalDecoratorManager().keyBindDecorator.keybind.getKeyCode())),
+
+            ClickGui.c.drawString(
+                    "Mode: " + set.getValue(),
                     (parent.parent.getX() + 7) * 2,
                     (parent.parent.getY() + offset - 3) * 2,
                     -1);
         }
+
     }
 
     @Override
@@ -44,18 +57,13 @@ public class newKeybind extends subComponent {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) {
         if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-            this.binding = !this.binding;
-        }
-    }
-
-    @Override
-    public void keyTyped(char typedChar, int key) {
-        if (this.binding) {
-            if (key == 1) {
-                this.binding = false;
+            if (modeIndex >= maxIndex) {
+                modeIndex = 0;
+            } else {
+                modeIndex++;
             }
-            this.parent.mod.getLocalDecoratorManager().keyBindDecorator.keybind.setKeyCode(key);
-            this.binding = false;
+
+            set.setValue(set.getAllPossibleValues().get(modeIndex));
         }
     }
 

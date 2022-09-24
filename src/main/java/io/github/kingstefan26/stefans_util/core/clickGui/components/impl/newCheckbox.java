@@ -1,8 +1,8 @@
-package io.github.kingstefan26.stefans_util.core.clickGui.components.impl.subComponents;
+package io.github.kingstefan26.stefans_util.core.clickGui.components.impl;
 
 import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
+import io.github.kingstefan26.stefans_util.core.clickGui.components.moduleComponent;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.subComponent;
 import io.github.kingstefan26.stefans_util.core.setting.impl.CheckSetting;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;

@@ -1,46 +1,41 @@
-package io.github.kingstefan26.stefans_util.core.clickGui.components.impl.subComponents;
+package io.github.kingstefan26.stefans_util.core.clickGui.components.impl;
 
 import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
+import io.github.kingstefan26.stefans_util.core.clickGui.components.moduleComponent;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.subComponent;
-import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
+import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.visibleDecorator;
 import net.minecraft.client.Minecraft;
 
-public class newPersistenceButton extends subComponent {
+public class newVisibleButton extends subComponent {
 
-    private final presistanceDecorator decorator;
+    final visibleDecorator decorator;
 
-    public newPersistenceButton(moduleComponent button, presistanceDecorator decorator) {
+    public newVisibleButton(moduleComponent button, visibleDecorator decorator) {
         this.parent = button;
         this.decorator = decorator;
     }
 
-
     @Override
     public void renderComponent() {
         super.renderComponent();
-        String text = "presisnant: " + decorator.isPresidentaceEnabled();
 
         if (Globals.usestandartfontrendering) {
             Minecraft.getMinecraft().fontRendererObj.drawString(
-                    text,
-                    parent.parent.getX() + 7,
-                    parent.parent.getY() + offset + 3,
-                    0xFFFFFFFF
+                    "Visible: " + decorator.isVisibilityEnabled(),
+                    (parent.parent.getX() + 7),
+                    (parent.parent.getY() + offset + 3),
+                    -1
             );
 
         } else {
-            ClickGui.c.drawString(
-                    text,
-                    parent.parent.getX() + 7,
-                    parent.parent.getY() + offset - 3,
-                    0xFFFFFFFF,
-                    0.35F
+            ClickGui.p1.drawString(
+                    "Visible: " + decorator.isVisibilityEnabled(),
+                    (parent.parent.getX() + 7) * 2,
+                    (parent.parent.getY() + offset - 3) * 2,
+                    -1
             );
-
         }
-
     }
 
     @Override
@@ -53,7 +48,7 @@ public class newPersistenceButton extends subComponent {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) {
         if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-            decorator.toggleParentModState();
+            decorator.toggleVisibility();
         }
     }
 

@@ -2,10 +2,11 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.clickGui.components;
+package io.github.kingstefan26.stefans_util.core.clickGui;
 
 import io.github.kingstefan26.stefans_util.core.Globals;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
+import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
+import io.github.kingstefan26.stefans_util.core.clickGui.components.moduleComponent;
 import io.github.kingstefan26.stefans_util.core.config.ConfigManager;
 import io.github.kingstefan26.stefans_util.core.config.prop.impl.intProp;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;

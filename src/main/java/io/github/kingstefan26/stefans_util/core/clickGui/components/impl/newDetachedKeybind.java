@@ -1,24 +1,21 @@
-package io.github.kingstefan26.stefans_util.core.clickGui.components.impl.subComponents;
+package io.github.kingstefan26.stefans_util.core.clickGui.components.impl;
 
 import io.github.kingstefan26.stefans_util.core.Globals;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
+import io.github.kingstefan26.stefans_util.core.clickGui.components.moduleComponent;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.subComponent;
-import io.github.kingstefan26.stefans_util.core.setting.impl.MultichoiseSetting;
+import io.github.kingstefan26.stefans_util.core.setting.impl.ChoseAKeySetting;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
 
-public class newModeButton extends subComponent {
+public class newDetachedKeybind extends subComponent {
 
-    private final MultichoiseSetting set;
+    private boolean binding;
+    private final ChoseAKeySetting set;
 
-    private int modeIndex;
-    private final int maxIndex;
-
-    public newModeButton(MultichoiseSetting set, moduleComponent button) {
-        this.set = set;
+    public newDetachedKeybind(ChoseAKeySetting value, moduleComponent button) {
+        set = value;
         this.parent = button;
-        modeIndex = set.getAllPossibleValues().indexOf(set.getValue());
-        maxIndex = set.getAllPossibleValues().size() - 1;
     }
 
     @Override
@@ -29,22 +26,20 @@ public class newModeButton extends subComponent {
     @Override
     public void renderComponent() {
         super.renderComponent();
+
         if (Globals.usestandartfontrendering) {
             Minecraft.getMinecraft().fontRendererObj.drawString(
-                    "Mode: " + set.getValue(),
+                    binding ? "Press a key..." : (set.getName() + ": " + Keyboard.getKeyName(set.getValue())),
                     (parent.parent.getX() + 7),
                     (parent.parent.getY() + offset + 3),
                     -1);
-
         } else {
-
-            ClickGui.c.drawString(
-                    "Mode: " + set.getValue(),
+            ClickGui.p1.drawString(
+                    binding ? "Press a key..." : (set.getName() + ": " + Keyboard.getKeyName(set.getValue())),
                     (parent.parent.getX() + 7) * 2,
                     (parent.parent.getY() + offset - 3) * 2,
                     -1);
         }
-
     }
 
     @Override
@@ -57,13 +52,18 @@ public class newModeButton extends subComponent {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) {
         if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-            if (modeIndex >= maxIndex) {
-                modeIndex = 0;
-            } else {
-                modeIndex++;
-            }
+            this.binding = !this.binding;
+        }
+    }
 
-            set.setValue(set.getAllPossibleValues().get(modeIndex));
+    @Override
+    public void keyTyped(char typedChar, int key) {
+        if (this.binding) {
+            if (key == 1) {
+                this.binding = false;
+            }
+            set.setValue(key);
+            this.binding = false;
         }
     }
 

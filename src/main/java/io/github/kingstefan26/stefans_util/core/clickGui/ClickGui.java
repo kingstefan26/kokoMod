@@ -2,8 +2,7 @@ package io.github.kingstefan26.stefans_util.core.clickGui;
 
 import com.google.common.collect.Lists;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.frame;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
+import io.github.kingstefan26.stefans_util.core.clickGui.components.moduleComponent;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
 import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
