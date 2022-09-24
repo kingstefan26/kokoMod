@@ -10,7 +10,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.DEBUG;
+import static io.github.kingstefan26.stefans_util.core.module.ModuleManager.Category.DEBUG;
 import static io.github.kingstefan26.stefans_util.util.renderUtil.draw3Dline.draw3DLine;
 
 

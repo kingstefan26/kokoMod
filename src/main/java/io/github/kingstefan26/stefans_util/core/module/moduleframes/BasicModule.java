@@ -1,11 +1,11 @@
 package io.github.kingstefan26.stefans_util.core.module.moduleframes;
 
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.interfaces.baseModuleInterface;
 import io.github.kingstefan26.stefans_util.core.module.interfaces.moduleMinecraftInterfaceEvents;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.decoratorInterface;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.localDecoratorManager;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;

@@ -5,10 +5,9 @@
 package io.github.kingstefan26.stefans_util.module.wip.wart;
 
 import io.github.kingstefan26.stefans_util.Main;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.setting.impl.CheckSetting;
 import io.github.kingstefan26.stefans_util.core.setting.impl.ChoseAKeySetting;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
@@ -228,7 +227,7 @@ public class UniversalWartMacro extends BasicModule implements macro {
                         KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
 
                         // untoggle module that we have toggled
-                        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+                        for (BasicModule m : ModuleManager.getInstance().getLoadedModules()) {
                             if ("autorecorrect".equals(m.getName())) {
                                 if (!mc.isSingleplayer()) {
                                     m.setToggled(macroState.isAutorecconectStatus());
@@ -529,7 +528,7 @@ public class UniversalWartMacro extends BasicModule implements macro {
 
                 } else {
 
-                    for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+                    for (BasicModule m : ModuleManager.getInstance().getLoadedModules()) {
                         if ("autorecorrect".equals(m.getName())) {
                             if (!mc.isSingleplayer()) {
                                 macroState.setAutorecconectStatus(m.isToggled());
@@ -597,7 +596,7 @@ public class UniversalWartMacro extends BasicModule implements macro {
                 macroState.setDontSpamFlag(false);
 
 
-                for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+                for (BasicModule m : ModuleManager.getInstance().getLoadedModules()) {
                     if ("autorecorrect".equals(m.getName())) {
                         if (!mc.isSingleplayer()) {
                             m.setToggled(macroState.isAutorecconectStatus());

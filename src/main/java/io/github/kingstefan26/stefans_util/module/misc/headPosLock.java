@@ -4,9 +4,9 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderSetting;
 import net.minecraftforge.fml.common.gameevent.TickEvent;

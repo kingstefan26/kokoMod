@@ -10,7 +10,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
-import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.DEBUG;
+import static io.github.kingstefan26.stefans_util.core.module.ModuleManager.Category.DEBUG;
 
 public class testTracer extends BasicModule {
     public testTracer() {

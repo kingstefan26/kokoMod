@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.MACRO;
+import static io.github.kingstefan26.stefans_util.core.module.ModuleManager.Category.MACRO;
 
 public class caneMacro extends BasicModule {
 

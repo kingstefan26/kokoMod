@@ -1,11 +1,11 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.onoffMessageDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.visibleDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.attnotaions.*;
 import io.github.kingstefan26.stefans_util.core.setting.impl.*;
 import io.github.kingstefan26.stefans_util.util.CustomFont;

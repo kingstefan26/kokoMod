@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.RENDER;
+import static io.github.kingstefan26.stefans_util.core.module.ModuleManager.Category.RENDER;
 
 public class stolenFarmOverlay extends BasicModule {
 

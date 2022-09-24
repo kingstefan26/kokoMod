@@ -3,8 +3,8 @@ package io.github.kingstefan26.stefans_util.core.commands;
 import com.mojang.util.UUIDTypeAdapter;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
 import io.github.kingstefan26.stefans_util.core.fileCacheing.cacheManager;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.auth.authmenager;
 import io.github.kingstefan26.stefans_util.core.onlineFeatures.dynamicModules.jarLoader;
 import io.github.kingstefan26.stefans_util.module.macro.util.util;
@@ -268,7 +268,7 @@ commandRegistry {
                 }),
                 new SimpleCommand("unloadallkokomodmodules", new SimpleCommand.ProcessCommandRunnable() {
                     public void processCommand(ICommandSender sender, String[] args) {
-                        moduleRegistery.getModuleRegistery().unloadAllModules();
+                        ModuleManager.getInstance().unloadAllModules();
                         ClickGui.getClickGui().resetAllPositions();
                         chatService.queueClientChatMessage("unloaded all modules");
                     }
@@ -276,14 +276,14 @@ commandRegistry {
 
                 new SimpleCommand("rerunModuleDiscovery", new SimpleCommand.ProcessCommandRunnable() {
                     public void processCommand(ICommandSender sender, String[] args) {
-                        moduleRegistery.getModuleRegistery().findAndLoadModuleRegistry();
+                        ModuleManager.getInstance().findAndLoadModuleRegistry();
                     }
                 }),
 
                 new SimpleCommand("unloadamodule", new SimpleCommand.ProcessCommandRunnable() {
                     public void processCommand(ICommandSender sender, String[] args) {
                         if (args.length == 1) {
-                            BasicModule module = moduleRegistery.getModuleRegistery().getModuleByClassName(args[0]);
+                            BasicModule module = ModuleManager.getInstance().getModuleByClassName(args[0]);
                             module.onUnload();
                             ClickGui.getClickGui().resetAllPositions();
                             chatService.queueClientChatMessage("unloaded " + args[0]);

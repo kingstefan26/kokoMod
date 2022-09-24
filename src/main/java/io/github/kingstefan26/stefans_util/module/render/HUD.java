@@ -1,9 +1,8 @@
 package io.github.kingstefan26.stefans_util.module.render;
 
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.visibleDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.gui.ScaledResolution;
@@ -55,7 +54,7 @@ public class HUD extends BasicModule {
         if (e.type == RenderGameOverlayEvent.ElementType.TEXT) {
             ScaledResolution sraka = new ScaledResolution(mc);
             int temp = 2;
-            for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+            for (BasicModule m : ModuleManager.getInstance().getLoadedModules()) {
                 if (!m.isToggled()) continue;
                 if (m.getName().equals("HUD")) continue;
                 if (m.getLocalDecoratorManager().visibleDecorator != null) {

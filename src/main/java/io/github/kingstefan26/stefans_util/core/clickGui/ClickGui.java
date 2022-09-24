@@ -3,9 +3,8 @@ package io.github.kingstefan26.stefans_util.core.clickGui;
 import com.google.common.collect.Lists;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.moduleComponent;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
 import io.github.kingstefan26.stefans_util.util.CustomFont;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -109,7 +108,7 @@ public class ClickGui extends GuiScreen {
         this.drawDefaultBackground();
 
 
-        if (moduleRegistery.getModuleRegistery().loadedModules.size() == 0) {
+        if (ModuleManager.getInstance().getLoadedModules().size() == 0) {
             ScaledResolution scaled = new ScaledResolution(mc);
             int width = scaled.getScaledWidth();
             int height = scaled.getScaledHeight();

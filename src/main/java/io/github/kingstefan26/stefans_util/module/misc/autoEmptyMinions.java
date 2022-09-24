@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.concurrent.TimeUnit;
 
-import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.MISC;
+import static io.github.kingstefan26.stefans_util.core.module.ModuleManager.Category.MISC;
 
 public class autoEmptyMinions extends BasicModule {
     public autoEmptyMinions() {

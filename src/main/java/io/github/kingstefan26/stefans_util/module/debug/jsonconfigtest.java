@@ -4,10 +4,9 @@
 
 package io.github.kingstefan26.stefans_util.module.debug;
 
-import io.github.kingstefan26.stefans_util.core.config.attotations.AnnotationProcessor;
 import io.github.kingstefan26.stefans_util.core.config.attotations.impl.BooleanConfigValue;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
@@ -19,12 +18,6 @@ public class jsonconfigtest extends BasicModule {
     public jsonconfigtest() {
         super("jsonconfigtest", "AAA", ModuleManager.Category.DEBUG);
 
-    }
-
-    @Override
-    public void onLoad() {
-        (new AnnotationProcessor()).init(this);
-        super.onLoad();
     }
 
     @Override

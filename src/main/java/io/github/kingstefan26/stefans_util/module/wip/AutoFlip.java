@@ -4,8 +4,8 @@
 
 package io.github.kingstefan26.stefans_util.module.wip;
 
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class AutoFlip extends BasicModule {

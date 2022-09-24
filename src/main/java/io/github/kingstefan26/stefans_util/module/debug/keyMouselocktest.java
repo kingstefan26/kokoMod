@@ -6,7 +6,7 @@ import io.github.kingstefan26.stefans_util.util.StefanutilEvents;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 
-import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.DEBUG;
+import static io.github.kingstefan26.stefans_util.core.module.ModuleManager.Category.DEBUG;
 
 public class keyMouselocktest extends BasicModule {
     public keyMouselocktest() {

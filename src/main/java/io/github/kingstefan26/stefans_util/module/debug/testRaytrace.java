@@ -1,7 +1,7 @@
 package io.github.kingstefan26.stefans_util.module.debug;
 
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.service.impl.chatService;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

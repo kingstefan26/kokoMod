@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
 
-import static io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager.Category.MISC;
+import static io.github.kingstefan26.stefans_util.core.module.ModuleManager.Category.MISC;
 
 public class farmReadycane extends BasicModule {
 

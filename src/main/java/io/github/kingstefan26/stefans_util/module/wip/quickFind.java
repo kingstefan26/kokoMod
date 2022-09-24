@@ -6,11 +6,10 @@ package io.github.kingstefan26.stefans_util.module.wip;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.keyBindDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.moduleRegistery;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -87,7 +86,7 @@ public class quickFind extends BasicModule {
                 for (String hit : searchHits) {
                     a++;
                     if (a == selectCurssorPostiton) {
-                        moduleRegistery.getModuleRegistery().getModuleByName(hit).toggle();
+                        ModuleManager.getInstance().getModuleByName(hit).toggle();
                     }
                 }
             }
@@ -98,7 +97,7 @@ public class quickFind extends BasicModule {
 
                 TreeMap<Integer, String> hits = new TreeMap<>();
 
-                for (BasicModule b : moduleRegistery.getModuleRegistery().loadedModules) {
+                for (BasicModule b : ModuleManager.getInstance().getLoadedModules()) {
                     hits.put(FuzzySearch.weightedRatio(text.getText(), b.getName()), b.getName());
                 }
 
@@ -124,7 +123,7 @@ public class quickFind extends BasicModule {
             for (String hit : searchHits) {
                 a++;
                 drawRect((sr.getScaledWidth() / 2) - 150, y, (sr.getScaledWidth() / 2) + 150, y + fontRendererObj.FONT_HEIGHT, a == selectCurssorPostiton ? 0xffffff : 0x80000000);
-                mc.fontRendererObj.drawString(hit, (sr.getScaledWidth() / 2) - (mc.fontRendererObj.getStringWidth(hit) / 2), y, moduleRegistery.getModuleRegistery().getModuleByName(hit).isToggled() ? 0xffffff : 0x878787);
+                mc.fontRendererObj.drawString(hit, (sr.getScaledWidth() / 2) - (mc.fontRendererObj.getStringWidth(hit) / 2), y, ModuleManager.getInstance().getModuleByName(hit).isToggled() ? 0xffffff : 0x878787);
                 // top corrner x y, bottom corner x y
                 y += mc.fontRendererObj.FONT_HEIGHT;
             }

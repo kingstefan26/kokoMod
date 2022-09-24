@@ -1,4 +1,8 @@
-package io.github.kingstefan26.stefans_util.core.module.modulemenagers;
+/*
+ * Copyright (c) 2022. All copyright reserved
+ */
+
+package io.github.kingstefan26.stefans_util.core.module;
 
 
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
@@ -17,21 +21,45 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class ModuleManager {
-
-    static ModuleManager moduleManager;
-
+    Logger logger = LogManager.getLogger("ModuleManager");
 
     private ModuleManager() {
-        moduleRegistery.getModuleRegistery().findAndLoadModuleRegistry();
+
+    }
+
+    private static ModuleManager instance;
+
+    public static ModuleManager getInstance() {
+        if(instance == null) instance = new ModuleManager();
+        return instance;
+    }
+
+    private List<String> productionModuleIndex;
+
+    public List<BasicModule> getLoadedModules() {
+        return loadedModules;
+    }
+
+    private List<BasicModule> loadedModules = new ArrayList<>();
+
+
+    public void initModuleManager() {
+        findAndLoadModuleRegistry();
 
         AnnotationProcessor configvalueprocessor = new AnnotationProcessor();
         io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.AnnotationProcessor attotantionsettingprocessor = new io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.AnnotationProcessor();
 
-        for (BasicModule loadedModule : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule loadedModule : loadedModules) {
             configvalueprocessor.init(loadedModule);
             attotantionsettingprocessor.init(loadedModule);
         }
@@ -39,13 +67,61 @@ public class ModuleManager {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public static void initModuleManager() {
-        moduleManager = new ModuleManager();
+    public void unloadAllModules() {
+        Iterator<BasicModule> iter = loadedModules.iterator();
+
+        while (iter.hasNext()) {
+            BasicModule m = iter.next();
+            m.onUnload();
+            iter.remove();
+        }
+
+    }
+
+    public void findAndLoadModuleRegistry() {
+        try{
+            productionModuleIndex = ModuleUtil.findModuleNames();
+        }catch (Exception e){
+            logger.error(e);
+        }
+        try {
+            loadedModules = ModuleUtil.loadModules(productionModuleIndex);
+        }catch (Exception e){
+            logger.error(e);
+        }
+    }
+
+    public BasicModule getModuleByClassName(String name) {
+            for (BasicModule module : loadedModules) {
+                if (module.getClass().getName().equals(name)) return module;
+            }
+        return null;
+    }
+
+    public BasicModule getModuleByName(String name) {
+            for (BasicModule module : loadedModules) {
+                if (module.getName().equals(name)) return module;
+            }
+        return null;
+    }
+
+    public List<BasicModule> getModulesInCategory(ModuleManager.Category c) {
+        ArrayList<BasicModule> a = new ArrayList<>();
+        for (BasicModule m : loadedModules) {
+            if (m.getCategory() == c) {
+                a.add(m);
+            }
+        }
+        return a;
+    }
+
+    public enum Category {
+        MOVEMENT, RENDER, MISC, MACRO, UTIL_MODULE, DEBUG, WIP
     }
 
     @SubscribeEvent
     public void onPlayerTeleportEvent(StefanutilEvents.playerTeleportEvent event) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onPlayerTeleportEvent(event);
             }
@@ -54,7 +130,7 @@ public class ModuleManager {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onHighestClientTick(TickEvent.ClientTickEvent event) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onHighestClientTick(event);
             }
@@ -63,7 +139,7 @@ public class ModuleManager {
 
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onUnloadWorld(event);
             }
@@ -72,7 +148,7 @@ public class ModuleManager {
 
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent e) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onGuiOpen(e);
             }
@@ -81,7 +157,7 @@ public class ModuleManager {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onTick(e);
             }
@@ -90,7 +166,7 @@ public class ModuleManager {
 
     @SubscribeEvent
     public void onTickRenderTick(TickEvent.RenderTickEvent event) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onRenderTick(event);
             }
@@ -100,7 +176,7 @@ public class ModuleManager {
 
     @SubscribeEvent
     public void onWorldRender(RenderWorldLastEvent e) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onWorldRender(e);
             }
@@ -109,7 +185,7 @@ public class ModuleManager {
 
     @SubscribeEvent
     public void onPlayerFall(StefanutilEvents.playerFallEvent e) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onPlayerFall();
             }
@@ -118,7 +194,7 @@ public class ModuleManager {
 
     @SubscribeEvent
     public void onPlayerTeleport(StefanutilEvents.playerTeleportEvent e) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onPlayerTeleport();
             }
@@ -127,7 +203,7 @@ public class ModuleManager {
 
     @SubscribeEvent
     public void onGuiRender(RenderGameOverlayEvent e) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onGuiRender(e);
             }
@@ -136,7 +212,7 @@ public class ModuleManager {
 
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent e) {
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onChat(e);
             }
@@ -154,7 +230,7 @@ public class ModuleManager {
         if (keyCode <= 0)
             return;
 
-        for (BasicModule m : moduleRegistery.getModuleRegistery().loadedModules) {
+        for (BasicModule m : loadedModules) {
             if (m.isToggled()) {
                 m.onKeyInput(e);
             }
@@ -169,9 +245,5 @@ public class ModuleManager {
         }
         if (keyCode == Keyboard.KEY_APOSTROPHE) Minecraft.getMinecraft().displayGuiScreen(ClickGui.getClickGui());
 
-    }
-
-    public enum Category {
-        MOVEMENT, RENDER, MISC, MACRO, UTIL_MODULE, DEBUG, WIP
     }
 }

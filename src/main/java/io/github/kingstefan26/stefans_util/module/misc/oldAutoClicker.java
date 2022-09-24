@@ -4,8 +4,8 @@
 
 package io.github.kingstefan26.stefans_util.module.misc;
 
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.attnotationSettings.attnotaions.slidernodecimalsetting;
 import io.github.kingstefan26.stefans_util.core.setting.impl.MultichoiseSetting;
 import net.minecraft.client.settings.KeyBinding;

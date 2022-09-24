@@ -2,9 +2,9 @@ package io.github.kingstefan26.stefans_util.module.render;
 
 import com.google.common.base.Throwables;
 import io.github.kingstefan26.stefans_util.core.clickGui.ClickGui;
+import io.github.kingstefan26.stefans_util.core.module.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.module.moduleDecorators.impl.presistanceDecorator;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
-import io.github.kingstefan26.stefans_util.core.module.modulemenagers.ModuleManager;
 import io.github.kingstefan26.stefans_util.core.setting.impl.SliderNoDecimalSetting;
 import io.github.kingstefan26.stefans_util.util.ShaderResourcePack;
 import net.minecraft.client.Minecraft;
