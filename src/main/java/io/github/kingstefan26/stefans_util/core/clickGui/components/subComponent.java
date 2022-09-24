@@ -7,7 +7,7 @@ package io.github.kingstefan26.stefans_util.core.clickGui.components;
 import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
 import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 
-public class subComponent implements IsubComponent{
+public abstract class subComponent implements IsubComponent {
     protected boolean hovered;
     public moduleComponent parent;
     protected int offset;

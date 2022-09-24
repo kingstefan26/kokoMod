@@ -159,11 +159,9 @@ public class ConfigManager {
     }
 
     private void saveMasterObjectToThaFile(MasterConfigObj master) {
-        try {
-            AnnotationProcessorSynchronise.getInstance().reloadAllProperties();
-        } catch (IllegalAccessException e) {
-            logger.error("Error while syncing fileds with config objects", e);
-        }
+
+        AnnotationProcessorSynchronise.getInstance().reloadAllProperties();
+
         try (FileWriter myWriter = new FileWriter(CONFIG_FULL_PATH)) {
             myWriter.write(gson.toJson(master));
             master.setChanged(false);

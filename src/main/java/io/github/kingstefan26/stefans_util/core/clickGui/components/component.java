@@ -1,16 +1,19 @@
 package io.github.kingstefan26.stefans_util.core.clickGui.components;
 
-public class component {
+public abstract class component {
 
     public boolean closed;
 
     public boolean open;
 
-    public void renderComponent() {}
+    public void renderComponent() {
+    }
 
-    public void destroy() {}
+    public void destroy() {
+    }
 
-    public void updateComponent(int mouseX, int mouseY) {}
+    public void updateComponent(int mouseX, int mouseY) {
+    }
 
     public void mouseClicked(int mouseX, int mouseY, int button) {}
 

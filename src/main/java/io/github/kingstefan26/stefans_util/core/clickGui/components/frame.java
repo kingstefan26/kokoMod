@@ -2,10 +2,10 @@
  * Copyright (c) 2022. All copyright reserved
  */
 
-package io.github.kingstefan26.stefans_util.core.clickGui.components.impl;
+package io.github.kingstefan26.stefans_util.core.clickGui.components;
 
 import io.github.kingstefan26.stefans_util.core.Globals;
-import io.github.kingstefan26.stefans_util.core.clickGui.components.component;
+import io.github.kingstefan26.stefans_util.core.clickGui.components.impl.moduleComponent;
 import io.github.kingstefan26.stefans_util.core.config.ConfigManager;
 import io.github.kingstefan26.stefans_util.core.config.prop.impl.intProp;
 import io.github.kingstefan26.stefans_util.core.module.moduleframes.BasicModule;
@@ -45,8 +45,8 @@ public class frame {
     static CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);
 
 
-    intProp xconf = (intProp) ConfigManager.getInstance().getConfigObject("frame.xConfig", 0);
-    intProp yconf = (intProp) ConfigManager.getInstance().getConfigObject("frame.yConfig", 0);
+    intProp xconf;
+    intProp yconf;
 
     int totalY = this.height;
 
@@ -54,6 +54,8 @@ public class frame {
         this.components = new ArrayList<>();
         this.category = cat;
 
+        yconf = (intProp) ConfigManager.getInstance().getConfigObject("frame" + cat.name() + ".yConfig", 0);
+        xconf = (intProp) ConfigManager.getInstance().getConfigObject("frame" + cat.name() + ".xConfig", 0);
         this.x = xconf.getProperty();
         this.y = yconf.getProperty();
     }
