@@ -34,9 +34,7 @@ public class MixinModList {
             return;
         }
 
-        this.modTags.entrySet().removeIf((modx) -> {
-            return modx.getKey().equalsIgnoreCase(Globals.MODID) || modx.getKey().equalsIgnoreCase("djperspectivemod");
-        });
+        this.modTags.entrySet().removeIf(modx -> modx.getKey().equalsIgnoreCase(Globals.MODID) || modx.getKey().equalsIgnoreCase("djperspectivemod"));
 
     }
 }
