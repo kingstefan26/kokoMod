@@ -103,6 +103,7 @@ public class SessionLogIn extends BasicModule {
         private final GuiScreen parent;
 
         private GuiTextField token;
+        private GuiTextField offlinename;
         private String rendertext = " ";
 
         public SessionLogInGui(GuiScreen parent) {
@@ -119,6 +120,14 @@ public class SessionLogIn extends BasicModule {
                             this.fontRendererObj.getStringWidth("login") + 5,
                             this.fontRendererObj.FONT_HEIGHT + 2,
                             "login"));
+            this.buttonList.add(
+                    new GuiButton(
+                            107,
+                            this.width / 2 - 155,
+                            this.height / 6 + 72 - 6,
+                            this.fontRendererObj.getStringWidth("loginOffline") + 5,
+                            this.fontRendererObj.FONT_HEIGHT + 2,
+                            "loginOffline"));
             this.buttonList.add(
                     new GuiButton(
                             200,
@@ -139,6 +148,11 @@ public class SessionLogIn extends BasicModule {
             token.setMaxStringLength(500);
             token.setCanLoseFocus(true);
             token.setText("token");
+            token.setEnabled(false);
+            this.offlinename = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 68, this.height / 2 - 40, 137, 20);
+            token.setMaxStringLength(500);
+            token.setCanLoseFocus(true);
+            token.setText("username");
             token.setEnabled(false);
 
 
@@ -167,7 +181,45 @@ public class SessionLogIn extends BasicModule {
             if (button.id == 106) {
                 handleLoginButton();
             }
+            if (button.id == 107) {
+                handleOfflineLoginBtn();
+            }
             super.actionPerformed(button);
+        }
+
+        private void handleOfflineLoginBtn() {
+            String name = this.offlinename.getText();
+
+            if (name == null) {
+                rendertext = "Fail: Please enter a name";
+                return;
+            }
+
+            if (name.length() > 16 || name.length() < 4) {
+                rendertext = "Fail: Enter a valid name";
+            }
+
+            try {
+                String uuid = null;
+                try {
+                    uuid = APIHandler.getUUID(name);
+                } catch (Exception ignored) {
+
+                }
+
+                uuid = uuid == null ? mc.getSession().getPlayerID() : "b876ec32e396476ba1158438d83c67d4";
+                final Session sesz = new Session(name, uuid, mc.getSession().getToken(), "mojang");
+                lastsession = mc.getSession();
+                // set the session
+                setSesion(sesz);
+                rendertext = "Succes: current nick " + mc.getSession().getUsername();
+                addHistory(mc.getSession().getUsername());
+            } catch (Exception e) {
+                rendertext = "Fail: " + Throwables.getRootCause(e).getMessage();
+                e.printStackTrace();
+            }
+
+
         }
 
 
@@ -216,8 +268,10 @@ public class SessionLogIn extends BasicModule {
         protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 
             this.token.mouseClicked(mouseX, mouseY, mouseButton);
+            this.offlinename.mouseClicked(mouseX, mouseY, mouseButton);
 
             token.setEnabled(token.isFocused());
+            offlinename.setEnabled(offlinename.isFocused());
 
 
             super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -227,8 +281,11 @@ public class SessionLogIn extends BasicModule {
         protected void keyTyped(char typedChar, int keyCode) throws IOException {
 
             this.token.textboxKeyTyped(typedChar, keyCode);
+            this.offlinename.textboxKeyTyped(typedChar, keyCode);
 
             token.setEnabled(token.isFocused());
+            offlinename.setCanLoseFocus(offlinename.isFocused());
+
 
             super.keyTyped(typedChar, keyCode);
         }
@@ -254,6 +311,7 @@ public class SessionLogIn extends BasicModule {
             }
 
             this.token.drawTextBox();
+            this.offlinename.drawTextBox();
 
             this.drawCenteredString(this.fontRendererObj,
                     "fake log in to the moon",
