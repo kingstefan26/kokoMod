@@ -10,21 +10,22 @@ import java.util.regex.Pattern;
 
 @SuppressWarnings("unused")
 public class cashmoney extends BasicModule {
-    final static String regex = "§6\\[Auction\\] §7[a-zA-Z0-9_]{3,16} §ebought .+ §efor §[0-9,]+ coins §lCLICK";
-    final static String sellRegex = "You sold .+ x[0-9]+ for [0-9,]+ Coins!";
-    final static Pattern BinPattern = Pattern.compile(regex, Pattern.UNICODE_CASE);
-    final static Pattern SellToNpcPattern = Pattern.compile(sellRegex);
-    final static String[] sounds = {"stefan_util:cash", "stefan_util:win"};
-    private String Match;
+    static final String regex = "§6\\[Auction\\] §7[a-zA-Z0-9_]{3,16} §ebought .+ §efor §[0-9,]+ coins §lCLICK";
+    static final String sellRegex = "You sold .+ x[0-9]+ for [0-9,]+ Coins!";
+    static final Pattern BinPattern = Pattern.compile(regex, Pattern.UNICODE_CASE);
+    static final Pattern SellToNpcPattern = Pattern.compile(sellRegex);
+    static final String[] sounds = {"stefan_util:cash", "stefan_util:win"};
+    private String match;
 
     public cashmoney() {
         super("cash money", "plays money sound on auction receive", ModuleManager.Category.MISC);
     }
+
     @Override
-    public void onTick(TickEvent.ClientTickEvent e){
-        if(this.Match != null){
+    public void onTick(TickEvent.ClientTickEvent e) {
+        if (this.match != null) {
             mc.thePlayer.playSound("stefan_util:cash", 1F, 1F);
-            Match = null;
+            match = null;
         }
     }
 
@@ -38,11 +39,11 @@ public class cashmoney extends BasicModule {
 
             while (matcher.find()) {
                 this.logger.info("Full match: " + matcher.group(0));
-                this.Match = matcher.group(0);
+                this.match = matcher.group(0);
             }
             while (Npcmatcher.find()) {
                 this.logger.info("Full match: " + Npcmatcher.group(0));
-                this.Match = Npcmatcher.group(0);
+                this.match = Npcmatcher.group(0);
             }
         }
     }
