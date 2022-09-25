@@ -16,6 +16,7 @@ import io.github.kingstefan26.stefans_util.util.renderUtil.hehe;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -57,8 +58,9 @@ public class frame {
 
         yconf = (intProp) ConfigManager.getInstance().getConfigObject("frame" + cat.name() + ".yConfig", 0);
         xconf = (intProp) ConfigManager.getInstance().getConfigObject("frame" + cat.name() + ".xConfig", 0);
-        this.x = xconf.getProperty();
-        this.y = yconf.getProperty();
+
+        this.setX(xconf.getProperty());
+        this.setY(yconf.getProperty());
     }
 
 
@@ -95,10 +97,31 @@ public class frame {
     }
 
     public void setX(int newX) {
+        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+        if (newX + this.width > resolution.getScaledWidth()) {
+            this.x = resolution.getScaledWidth() - this.width;
+            xconf.setProperty(resolution.getScaledWidth() - this.width);
+            return;
+        }
         this.x = newX;
         xconf.setProperty(newX);
     }
 
+
+    public int getY() {
+        return yconf.getProperty();
+    }
+
+    public void setY(int newY) {
+        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+        if (newY + this.height > resolution.getScaledHeight()) {
+            this.y = resolution.getScaledHeight() - this.height;
+            yconf.setProperty(resolution.getScaledHeight() - this.height);
+            return;
+        }
+        this.y = newY;
+        yconf.setProperty(newY);
+    }
 
     public void renderFrame() {
         if (this.getComponents().size() == 0) return;
@@ -143,15 +166,6 @@ public class frame {
             comp.setOff(heightOffset);
             heightOffset += comp.getHeight();
         }
-    }
-
-    public int getY() {
-        return yconf.getProperty();
-    }
-
-    public void setY(int newY) {
-        this.y = newY;
-        yconf.setProperty(newY);
     }
 
 
