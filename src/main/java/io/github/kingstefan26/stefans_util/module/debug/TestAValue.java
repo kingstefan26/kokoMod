@@ -11,7 +11,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import java.awt.*;
 
 public class TestAValue extends prototypeModule {
-    public static String[] ToDraw = new String[]{"", "", ""};
+    public static String[] ToDraw = new String[]{"", "", "", "", ""};
     CustomFont c = new CustomFont(new Font("JetBrains Mono", Font.BOLD, 20), 20);
 
 
