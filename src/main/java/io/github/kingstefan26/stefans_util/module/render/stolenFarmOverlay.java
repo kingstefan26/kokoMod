@@ -25,6 +25,8 @@ public class stolenFarmOverlay extends BasicModule {
         super("stolenoverlay!", "shows tha crops when you have a hoe", RENDER, new presistanceDecorator());
     }
 
+    public static final int COINS_PER_WART = 2;
+
 
     final String[] GuiScreenText = new String[]{"null", "null", "null"};
 
@@ -208,7 +210,7 @@ public class stolenFarmOverlay extends BasicModule {
                 updateThaInfo();
                 GuiScreenText[0] = "counter " + coolFormat(counter);
                 GuiScreenText[1] = "Ø crops/h " + coolFormat(avragecps * 60 * 60);
-                GuiScreenText[2] = "Ø money/h " + coolFormat(avragecps * 60 * 60 * 3);
+                GuiScreenText[2] = "Ø money/h " + coolFormat(avragecps * 60 * 60 * COINS_PER_WART);
             } else {
                 shouldRender = false;
                 avragecps = 0;

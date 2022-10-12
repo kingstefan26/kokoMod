@@ -1,0 +1,472 @@
+{
+  "props": [
+    {
+      "type": "int",
+      "value": 11,
+      "name": "ApiDebug.doActionKey"
+    },
+    {
+      "type": "int",
+      "value": 0,
+      "name": "frameMOVEMENT.yConfig"
+    },
+    {
+      "type": "int",
+      "value": 0,
+      "name": "frameMOVEMENT.xConfig"
+    },
+    {
+      "type": "int",
+      "value": 0,
+      "name": "frameRENDER.yConfig"
+    },
+    {
+      "type": "int",
+      "value": 85,
+      "name": "frameRENDER.xConfig"
+    },
+    {
+      "type": "int",
+      "value": 0,
+      "name": "frameMISC.yConfig"
+    },
+    {
+      "type": "int",
+      "value": 170,
+      "name": "frameMISC.xConfig"
+    },
+    {
+      "type": "int",
+      "value": 0,
+      "name": "frameMACRO.yConfig"
+    },
+    {
+      "type": "int",
+      "value": 255,
+      "name": "frameMACRO.xConfig"
+    },
+    {
+      "type": "int",
+      "value": 0,
+      "name": "frameDEBUG.yConfig"
+    },
+    {
+      "type": "int",
+      "value": 340,
+      "name": "frameDEBUG.xConfig"
+    },
+    {
+      "type": "int",
+      "value": 0,
+      "name": "frameWIP.yConfig"
+    },
+    {
+      "type": "int",
+      "value": 343,
+      "name": "frameWIP.xConfig"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "NbtItemTest.doActionKey"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "tabDebug.doActionKey"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "TestAValue.doActionKey"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "bintest.doActionKey"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "test of block thigns.doActionKey"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "hashtaganonoying.doActionKey"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "keyControlServiceTest.visibility"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "newFrameWorkTest.check test"
+    },
+    {
+      "type": "double",
+      "value": 10.0,
+      "name": "newFrameWorkTest.SliderNoDecimalSetting test"
+    },
+    {
+      "type": "double",
+      "value": 10.0,
+      "name": "newFrameWorkTest.SliderSetting test"
+    },
+    {
+      "type": "string",
+      "value": "test1",
+      "name": "newFrameWorkTest.MultichoiseSetting test"
+    },
+    {
+      "type": "int",
+      "value": 1,
+      "name": "newFrameWorkTest.ChoseAKeySetting test"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "newFrameWorkTest.visibility"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "pathDebug.clear path"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "pathDebug.replay"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "pathDebug.doActionKey"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "testing speed.doActionKey"
+    },
+    {
+      "type": "int",
+      "value": 11,
+      "name": "wartPathFinderTest.doActionKey"
+    },
+    {
+      "type": "double",
+      "value": 90.0,
+      "name": "wart macro.yaw"
+    },
+    {
+      "type": "double",
+      "value": 9.0,
+      "name": "wart macro.pitch"
+    },
+    {
+      "type": "double",
+      "value": 90.0,
+      "name": "wart macro my design.yaw"
+    },
+    {
+      "type": "double",
+      "value": 9.0,
+      "name": "wart macro my design.pitch"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "wart macro my design.perfect head rotation"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "wart macro my design.experimental gui"
+    },
+    {
+      "type": "double",
+      "value": 90.0,
+      "name": "wart macro noTp.yaw"
+    },
+    {
+      "type": "double",
+      "value": 9.0,
+      "name": "wart macro noTp.pitch"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "Sprint.visibility"
+    },
+    {
+      "type": "double",
+      "value": 500.0,
+      "name": "autoEmptyMinions.closeGuiDelay"
+    },
+    {
+      "type": "double",
+      "value": 500.0,
+      "name": "autoEmptyMinions.clickDelay"
+    },
+    {
+      "type": "double",
+      "value": 10.0,
+      "name": "autoSetSpawn.delay"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "autorecorrect.visibility"
+    },
+    {
+      "type": "double",
+      "value": 0.0,
+      "name": "harpbot.delay"
+    },
+    {
+      "type": "double",
+      "value": 0.0,
+      "name": "headPosLock.yaw"
+    },
+    {
+      "type": "double",
+      "value": 0.0,
+      "name": "headPosLock.pitch"
+    },
+    {
+      "type": "double",
+      "value": 0.01,
+      "name": "headPosLock.rate of change"
+    },
+    {
+      "type": "bool",
+      "value": true,
+      "name": "heal9.predictive clicking"
+    },
+    {
+      "type": "bool",
+      "value": true,
+      "name": "heal9.Fail fast"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "twitterWhiteGirls.visibility"
+    },
+    {
+      "type": "string",
+      "value": "lmb",
+      "name": "AutoClicker.ClickMode"
+    },
+    {
+      "type": "double",
+      "value": 10.0,
+      "name": "HUD.R"
+    },
+    {
+      "type": "double",
+      "value": 10.0,
+      "name": "HUD.G"
+    },
+    {
+      "type": "double",
+      "value": 10.0,
+      "name": "HUD.B"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "lastLeftOff.visibility"
+    },
+    {
+      "type": "double",
+      "value": 12.0,
+      "name": "blurClickGui.radius"
+    },
+    {
+      "type": "double",
+      "value": 150.0,
+      "name": "blurClickGui.fadetime"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "blurClickGui.visibility"
+    },
+    {
+      "type": "bool",
+      "value": true,
+      "name": "macroSessionTracker.showGlobalStats"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "stolenoverlay!.visibility"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "CapeFix.flag1"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "CapeFix.visibility"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "SessionLogIn.visibility"
+    },
+    {
+      "type": "double",
+      "value": 2.0,
+      "name": "Bhop.Bhop Speed"
+    },
+    {
+      "type": "double",
+      "value": 6.0,
+      "name": "Bhop.range"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "quickFind.visibility"
+    },
+    {
+      "type": "double",
+      "value": 0.01,
+      "name": "UniversalWartMacro.rate of change"
+    },
+    {
+      "type": "double",
+      "value": 9.0,
+      "name": "UniversalWartMacro.pitch"
+    },
+    {
+      "type": "bool",
+      "value": true,
+      "name": "UniversalWartMacro.perfect head rotation"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "UniversalWartMacro.experimental gui"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "UniversalWartMacro.verbose logging"
+    },
+    {
+      "type": "int",
+      "value": 0,
+      "name": "UniversalWartMacro.unpause key"
+    },
+    {
+      "type": "int",
+      "value": 0,
+      "name": "UniversalWartMacro.unfocusToggle"
+    },
+    {
+      "type": "bool",
+      "value": true,
+      "name": "UniversalWartMacro.check for wart"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "null.testvar"
+    },
+    {
+      "type": "bool",
+      "value": true,
+      "name": "newFrameWorkTest.example boolean"
+    },
+    {
+      "type": "double",
+      "value": 0.4,
+      "name": "newFrameWorkTest.example float setting"
+    },
+    {
+      "type": "int",
+      "value": 200,
+      "name": "newFrameWorkTest.example key setting"
+    },
+    {
+      "type": "string",
+      "value": "up",
+      "name": "newFrameWorkTest.example option setting"
+    },
+    {
+      "type": "double",
+      "value": 12.0,
+      "name": "twitterWhiteGirls.cancel speed"
+    },
+    {
+      "type": "double",
+      "value": 8.0,
+      "name": "AutoClicker.leftMouseMinCPS"
+    },
+    {
+      "type": "double",
+      "value": 8.0,
+      "name": "AutoClicker.rightMouseMaxCPS"
+    },
+    {
+      "type": "double",
+      "value": 8.0,
+      "name": "AutoClicker.rightMouseMinCPS"
+    },
+    {
+      "type": "double",
+      "value": 0.0,
+      "name": "null.lastleftoffx"
+    },
+    {
+      "type": "double",
+      "value": 0.0,
+      "name": "null.lastleftoffy"
+    },
+    {
+      "type": "double",
+      "value": 0.0,
+      "name": "null.lastleftoffz"
+    },
+    {
+      "type": "string",
+      "name": "null.lastleftoffcroptype"
+    },
+    {
+      "type": "string",
+      "name": "null.lastleftoffmacrostage"
+    },
+    {
+      "type": "double",
+      "value": 0.0,
+      "name": "null.lastleftofftime"
+    },
+    {
+      "type": "int",
+      "value": 0,
+      "name": "null.macroSessionTracker.totalcrops"
+    },
+    {
+      "type": "double",
+      "value": 0.0,
+      "name": "null.totalminedcrops"
+    },
+    {
+      "type": "double",
+      "value": 0.0,
+      "name": "null.macroSessionTracker.totaltime"
+    },
+    {
+      "type": "bool",
+      "value": false,
+      "name": "firstStartup"
+    }
+  ]
+}

@@ -24,6 +24,10 @@ public class guiClickTest extends BasicModule {
 
     boolean close;
 
+    // 9 x 6 counting from top left to right
+    // 28 - 34 including 34 is just before
+    // 37 - 43 including 43 is the block we should click
+
     @SubscribeEvent
     public void onGuiScreen(GuiScreenEvent.BackgroundDrawnEvent event) {
 

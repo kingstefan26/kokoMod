@@ -66,16 +66,20 @@ dependencies {
     implementation 'org.reflections:reflections:0.10.2'
     implementation 'me.xdrop:fuzzywuzzy:1.4.0'
     implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+    // https://mvnrepository.com/artifact/de.javawi.jstun/jstun
+    implementation 'de.javawi.jstun:jstun:0.7.4'
     compile 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
     annotationProcessor 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
 
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.json:json:20220320'
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
-    compile 'org.jetbrains:annotations:16.0.2'
+    compile 'org.jetbrains:annotations:23.0.0'
 }
 
 mixin {

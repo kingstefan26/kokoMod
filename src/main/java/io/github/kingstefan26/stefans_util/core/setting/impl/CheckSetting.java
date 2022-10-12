@@ -21,6 +21,7 @@ public class CheckSetting extends AbstractSetting<Boolean> {
         super(name, parentModule, SettingsCore.type.CHECK, callback);
         this.comment = comment;
         this.prop = ConfigManager.getInstance().getConfigObject(parentModule.getName() + "." + name, deafultValue);
+        setValue(getValue());
     }
 
     public Boolean getValue() {

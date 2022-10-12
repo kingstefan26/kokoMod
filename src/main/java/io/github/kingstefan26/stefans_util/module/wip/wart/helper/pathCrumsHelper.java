@@ -4,7 +4,6 @@
 
 package io.github.kingstefan26.stefans_util.module.wip.wart.helper;
 
-import io.github.kingstefan26.stefans_util.module.macro.util.util;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Vec3;
@@ -30,7 +29,8 @@ public class pathCrumsHelper {
 
     public void update() {
         if (pathPoints == null) pathPoints = new ArrayList<>();
-        pathPoints.add(util.getPlayerFeetVec().add(new Vec3(0, Minecraft.getMinecraft().thePlayer.height, 0)));
+//        pathPoints.add(util.getPlayerFeetVec().add(new Vec3(0, Minecraft.getMinecraft().thePlayer.height, 0)));
+        pathPoints.add(Minecraft.getMinecraft().thePlayer.getPositionVector());
     }
 
     public void simplify() {
