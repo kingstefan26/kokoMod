@@ -21,7 +21,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.github.Skytils:ForgeGradle:6f5327'
+        classpath 'com.github.Skytils:ForgeGradle:41dfce0'
         classpath 'com.github.LxGaming:MixinGradle:d75e32e'
         classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
     }

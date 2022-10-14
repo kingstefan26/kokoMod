@@ -1,0 +1,19 @@
+{
+  "configurations": [
+    {
+      "name": "Minecraft client",
+      "type": "gradle",
+      "workingDir": "$PROJECT_DIR$/run",
+      "args": [
+        "-Dfml.coreMods.load=io.github.kingstefan26.stefans_util.StefanutilCorePlugin",
+        "-Dfml.earlyprogresswindow=false",
+        "-Dmixin.config=mixins.stefan_util.json",
+        '-Ddevauth.account="badfishe"',
+        '-DdisablewebJarLoad="true"'
+      ],
+      "tasks": [
+        "build"
+      ]
+    }
+  ]
+}

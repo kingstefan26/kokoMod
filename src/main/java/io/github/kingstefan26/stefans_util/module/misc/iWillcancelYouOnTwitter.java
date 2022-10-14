@@ -49,7 +49,10 @@ public class iWillcancelYouOnTwitter extends BasicModule {
     public void onWorldRender(RenderWorldLastEvent e) {
         super.onWorldRender(e);
         if (mc == null || mc.thePlayer == null || mc.theWorld == null) return;
-        hehe.drawTextAtWorld(randomText == null ? cancelTexts[0] : randomText, (float) mc.thePlayer.posX + 25, (float) mc.thePlayer.posY, (float) mc.thePlayer.posZ, Integer.parseInt("ff0000", 16), 0.10F, false, true, e.partialTicks);
+
+        float x = 25;
+
+        hehe.drawTextAtWorld(randomText == null ? cancelTexts[0] : randomText, x, 0, 0, Integer.parseInt("ff0000", 16), 0.10F, false, true, e.partialTicks, false);
     }
 
     @Override
@@ -57,5 +60,10 @@ public class iWillcancelYouOnTwitter extends BasicModule {
         super.onEnable();
         lastSpam = System.currentTimeMillis();
     }
+
+    float lerp(float value2, float value1, float amount) {
+        return value1 + (value2 - value1) * amount;
+    }
+
 
 }

@@ -61,7 +61,7 @@ public class SettingsCore {
     }
 
     public enum type {
-        CHECK, MULTI_CHOICE, SLIDER_NO_DECIMAL, SLIDER, KEY
+        CHECK, MULTI_CHOICE, SLIDER_NO_DECIMAL, SLIDER, ENUM, KEY
     }
 
 }

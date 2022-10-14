@@ -77,12 +77,21 @@ public class hehe {
     }
 
     public static void drawTextAtWorld(String text, float x, float y, float z, int color, float scale, boolean increase, boolean renderBlackBox, float partialTicks) {
+        drawTextAtWorld(text, x, y, z, color, scale, increase, renderBlackBox, partialTicks, true);
+    }
+
+    public static void drawTextAtWorld(String text, float x, float y, float z, int color, float scale, boolean increase, boolean renderBlackBox, float partialTicks, boolean interpolate) {
         float lScale = scale;
 
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 
-        Vector3f renderPos = getRenderPos(x, y, z, partialTicks);
+        Vector3f renderPos = null;
+        if (interpolate) {
+            renderPos = getRenderPos(x, y, z, partialTicks);
+        } else {
+            renderPos = new Vector3f(x, y, z);
+        }
 
         if (increase) {
             double distance = Math.sqrt(renderPos.x * renderPos.x + renderPos.y * renderPos.y + renderPos.z * renderPos.z);

@@ -48,7 +48,7 @@ public class bhop extends BasicModule {
 
     public static float lerpAngle(float fromRadians, float toRadians, float progress) {
         float f = ((toRadians - fromRadians) % 360.0F + 540.0F) % 360.0F - 180.0F;
-        f *= accel;
+//        f *= accel;
         return (fromRadians + f * progress % 360.0F);
     }
 
@@ -220,8 +220,10 @@ public class bhop extends BasicModule {
     public synchronized void faceEntity(Entity entity) {
         double var4 = entity.posX - mc.thePlayer.posX;
         double var8 = entity.posZ - mc.thePlayer.posZ;
-//        double var6 = entity.posY - mc.thePlayer.posY + entity.height / 2;
-        double var6 = entity.posY - mc.thePlayer.posY - (entity instanceof EntityPlayer ? 0 : entity.height / 2);
+        double var6 = (entity.posY - mc.thePlayer.posY) - (entity.height / 2);
+//        double var6 = entity.posY - mc.thePlayer.posY + (entity instanceof EntityPlayer ? 0 : entity.height / 2);
+//        logger.info(entity.height);
+//        logger.info(entity.posY);
 //        entity.getEntityBoundingBox();
         double var14 = (double) MathHelper.sqrt_double(var4 * var4 + var8 * var8);
         float var12 = (float) (Math.atan2(var8, var4) * 180.0D / Math.PI) - 90.0F;

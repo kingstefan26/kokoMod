@@ -22,6 +22,7 @@ public class MultichoiseSetting extends AbstractSetting<String> {
         setValue(getValue());
     }
 
+
     public MultichoiseSetting(String name, BasicModule parentModule, String deafultValue, String[] possibleValues, Consumer<String> callback, String comment) {
         super(name, parentModule, SettingsCore.type.MULTI_CHOICE, callback);
         this.possibleValues = new ArrayList<>(Arrays.asList(possibleValues));

@@ -93,7 +93,7 @@ public class heal9 extends BasicModule {
 
                         ItemStack pussystack = chestInventory.getStackInSlot(25);
                         if (pussystack != null && pussystack.getUnlocalizedName().toLowerCase().contains("cloth")) {
-                            mc.playerController.windowClick(mc.thePlayer.openContainer.windowId, finalI, 2, 0, mc.thePlayer);
+                            mc.playerController.windowClick(mc.thePlayer.openContainer.windowId, finalI, 2, 3, mc.thePlayer);
                         }
 
                     }
@@ -101,7 +101,7 @@ public class heal9 extends BasicModule {
                         try {
                             // wait a tick
                             Thread.sleep(50);
-                            mc.playerController.windowClick(mc.thePlayer.openContainer.windowId, finalI, 2, 0, mc.thePlayer);
+                            mc.playerController.windowClick(mc.thePlayer.openContainer.windowId, finalI, 2, 3, mc.thePlayer);
 //                            chatService.queueCleanChatMessage("clicked");
                             logger.info("clicked");
                         } catch (InterruptedException e) {
@@ -124,7 +124,7 @@ public class heal9 extends BasicModule {
                                 currentInv[j] = name.toString();
                         }
                         if (!Arrays.toString(currentInv).equals(Arrays.toString(harpInv))) {
-                            mc.playerController.windowClick(mc.thePlayer.openContainer.windowId, i, 2, 0, mc.thePlayer);
+                            mc.playerController.windowClick(mc.thePlayer.openContainer.windowId, i, 2, 3, mc.thePlayer);
 //                            chatService.queueCleanChatMessage("clicked");
                             logger.info("clicked");
                             harpInv = currentInv;

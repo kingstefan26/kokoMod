@@ -85,6 +85,9 @@ public class moduleComponent extends component {
                     case MULTI_CHOICE:
                         this.subcomponents.add(new newModeButton((MultichoiseSetting) s, this));
                         break;
+                    case ENUM:
+                        this.subcomponents.add(new EnumChoser((EnumSetting) s, this));
+                        break;
                     case SLIDER_NO_DECIMAL:
                         this.subcomponents.add(new sliderNoDecimal((SliderNoDecimalSetting) s, this));
                         break;

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class serviceMenager {
@@ -16,9 +17,19 @@ public class serviceMenager {
         logger = LogManager.getLogger("kokomod-serviceManager");
     }
 
+
+    public static Service getService(String name) {
+        for (Service service : services) {
+            if (Objects.equals(service.name, name)) {
+                return service;
+            }
+        }
+        return null;
+    }
+
     public void start() {
         loadServices();
-        for(Service s : services){
+        for (Service s : services) {
             s.rootStart();
         }
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

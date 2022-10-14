@@ -63,7 +63,7 @@ public class autoEmptyMinions extends BasicModule {
 
         if(hold != 0 && slotToClick != 0){
             if(System.currentTimeMillis() >= hold){
-                mc.playerController.windowClick(mc.thePlayer.openContainer.windowId, slotToClick, 2, 0, mc.thePlayer);
+                mc.playerController.windowClick(mc.thePlayer.openContainer.windowId, slotToClick, 2, 3, mc.thePlayer);
                 slotToClick = 0;
                 hold = 0;
 
