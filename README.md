@@ -1,3 +1,5 @@
+# Archived
+this was my first shot real at a forge mod, i learnt a lot of java so even if at most 2 ppl used it, it was worth it. Im keeping this here as code refrence/for the nostalgia of it
 # kokoMod
 this is kokomod
 This site was built using [Sticks And Bones](http://x.com/).[![Gradle](https://github.com/kingstefan26/kokoMod/actions/workflows/gradle.yml/badge.svg)](https://github.com/kingstefan26/kokoMod/actions/workflows/gradle.yml)
@@ -21,7 +23,7 @@ PROBLEM: while runClient `Resolving dependency configuration 'runtimeOnly' is no
 SOLUTION: gen IntelliJ runs and run via IntelliJ little drop down saying "Minecraft Client"
 EXPLANATION: haven't figured this one yet, but I assume 2015 projects trying to run in 2022 ide 's
 
-PARABOLA: While build `error: package org.jetbrains.annotations does not exist
+PROBLEM: While build `error: package org.jetbrains.annotations does not exist
 import org.jetbrains.annotations.Nullable;`
 SAlALUTINATO: add `compile 'org.jetbrains:annotations:16.0.2'` dependency to the build.gradle file.
 EXPLANATION: you cant use a library which you don't have
